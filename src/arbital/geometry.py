@@ -52,7 +52,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from .measures import profile, association_matrix
+from .measures import association_matrix
 
 __all__ = ["strength_to_distance", "orbit_parameters", "angular_layout",
            "greedy_selection", "select_target"]

@@ -14,6 +14,13 @@ RNG = np.random.default_rng(42)
 N = 600
 
 
+@pytest.fixture(autouse=True)
+def _reset_rng():
+    """Reseed the shared RNG before every test so results don't depend on
+    what ran before it (tests should be order-independent)."""
+    RNG.bit_generator.state = np.random.default_rng(42).bit_generator.state
+
+
 def _load_or_skip(loader):
     """Load a seaborn-backed dataset, or skip if seaborn or the network
     (seaborn downloads on first use) is unavailable."""

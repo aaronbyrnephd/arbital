@@ -57,6 +57,8 @@ target-version = "py39"
 [tool.ruff.lint.per-file-ignores]
 # matplotlib.use("Agg") must run before pyplot is imported
 "assets/make_figure.py" = ["E402"]
+# imports deliberately follow a conditional sys.path adjustment
+"demo/explore_arbital.ipynb" = ["E402"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
