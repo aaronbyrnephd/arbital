@@ -1,0 +1,55 @@
+# Publishes the docs site to GitHub Pages on every push to main:
+#   /        the usage vignette (demo/arbital_vignette.html, rebuilt fresh
+#            so its figures and numbers can never drift from the code)
+#   /api/    the API reference, generated from docstrings with pdoc
+#
+# One-time setup (cannot be done from a workflow file): repo Settings ->
+# Pages -> Source: "GitHub Actions". No gh-pages branch needed.
+name: docs
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# only one Pages deployment at a time; don't cancel one mid-upload
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -e ".[datasets]" pdoc
+      - name: Rebuild the vignette
+        run: python demo/make_demo.py
+      - name: Assemble the site
+        run: |
+          mkdir -p _site
+          cp demo/arbital_vignette.html _site/index.html
+          # docstrings are Google-style (Args:/Returns:); -d google renders
+          # them as a proper parameter list instead of a wall of text
+          pdoc arbital -d google -o _site/api
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

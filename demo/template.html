@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>arbital vignette</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [{left: '$', right: '$', display: false}],
+    throwOnError: false
+  });"></script>
+<style>
+  :root {
+    --bg: #0b0e1a; --panel: #12172b; --panel2: #171d36;
+    --text: #d6d9e0; --dim: #8b92a8; --gold: #ffd166;
+    --blue: #7aa2ff; --line: rgba(255,255,255,0.08);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.65 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+  h1 { font-size: 40px; margin: 60px 0 6px; letter-spacing: -1px; }
+  h1 .a { color: var(--gold); }
+  h2 { font-size: 23px; margin: 56px 0 12px; color: #fff; }
+  h2 .n { color: var(--gold); font-variant-numeric: tabular-nums; margin-right: 8px; }
+  h3 { font-size: 17px; margin: 30px 0 8px; color: var(--gold); }
+  p { margin: 10px 0; }
+  .lead { font-size: 18px; color: var(--text); }
+  .byline { color: var(--dim); font-size: 14px; margin: 4px 0 0; }
+  a { color: var(--blue); }
+  code, .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13.5px; }
+  code { background: var(--panel2); padding: 2px 6px; border-radius: 4px; }
+  pre { background: var(--panel2); border-radius: 8px; padding: 14px 16px; overflow-x: auto;
+    font-size: 13.5px; line-height: 1.55; border: 1px solid var(--line); }
+  pre .c { color: var(--dim); }
+  .plotwrap { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 8px; margin: 18px 0; }
+  .triple { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .triple .plotwrap { margin: 6px 0; padding: 4px; }
+  @media (max-width: 760px) { .triple { grid-template-columns: 1fr; } }
+  .hint { text-align: center; color: var(--dim); font-size: 13px; margin: 4px 0 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th { text-align: left; color: var(--gold); font-weight: 600; border-bottom: 1px solid var(--line); padding: 7px 9px; }
+  td { border-bottom: 1px solid var(--line); padding: 7px 9px; vertical-align: top; }
+  td:first-child { white-space: nowrap; font-weight: 600; }
+  .num { font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+  .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; margin: 16px 0; }
+  .legend div { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; font-size: 14px; }
+  .legend b { color: var(--gold); }
+  .callout { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--gold);
+    border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 14.5px; }
+  .callout b:first-child { color: var(--gold); }
+  .formula { background: var(--panel2); border-left: 3px solid var(--gold); border-radius: 6px;
+    padding: 12px 16px; margin: 12px 0; font-size: 16px; }
+  .formula .why { display: block; color: var(--dim); font-size: 13.5px; margin-top: 6px; }
+  .caveats { padding-left: 0; margin: 16px 0; list-style: none; counter-reset: caveat; }
+  .caveats li { counter-increment: caveat; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 8px; padding: 12px 16px 12px 44px; margin: 10px 0; font-size: 14.5px;
+    position: relative; }
+  .caveats li::before { content: counter(caveat); position: absolute; left: 14px; top: 12px;
+    color: var(--gold); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .caveats li b:first-child { color: var(--gold); }
+  sub, sup { font-size: 11px; }
+  footer { color: var(--dim); font-size: 13px; margin-top: 64px; border-top: 1px solid var(--line); padding-top: 16px; }
+</style>
+</head>
+<body>
+<main>
+
+<h1><span class="a">a</span>rbital</h1>
+<p class="lead">Every variable in your dataset, drawn as an orbit around the one you care
+about, so that the strength, shape, direction, redundancy, and trustworthiness of each
+association can be read from a single figure.</p>
+<p class="byline"><b>Aaron Byrne</b> &nbsp;&middot;&nbsp;
+<a href="https://aaronbyrnephd.com">aaronbyrnephd.com</a> &nbsp;&middot;&nbsp;
+<a href="https://github.com/aaronbyrnephd/arbital">github.com/aaronbyrnephd/arbital</a>
+&nbsp;&middot;&nbsp; <a href="api/">API reference</a>
+&nbsp;&middot;&nbsp; <a href="mailto:aaron@aaronbyrnephd.com">aaron@aaronbyrnephd.com</a><br>
+<b>arbital</b> = <b>A</b>ssociation <b>R</b>adii <b>B</b>y <b>I</b>nformation-<b>T</b>heoretic
+<b>A</b>ssociation <b>L</b>earning. This page is the usage vignette: a short summary of the
+method, then a worked tour of the package, feature by feature. Every figure and number on this
+page is computed live by <span class="mono">demo/make_demo.py</span>.</p>
+
+<h2>Summary</h2>
+<p>
+The first look at a new dataset is usually a correlation matrix, and a correlation
+matrix can only see straight lines (or, at best, monotone curves). It scores a parabola at
+zero, misses interactions entirely, and can even report the wrong sign when groups are pooled.
+Mutual information detects dependence of <i>any</i> shape, but it arrives in nats, unbounded
+and unreadable in bulk, which is why it has never displaced the correlation matrix as the
+first look.
+</p>
+<p>
+<b>arbital</b> closes that gap by measuring every variable against a chosen target with
+<i>both</i> families of statistics and drawing the comparison as an orbital system. Total
+association sets the radius (closer is stronger, one nat per step). The share of that
+association which correlation cannot see becomes the orbit's eccentricity, with a ghost marker
+showing exactly where correlation alone would have (mis)placed the variable. Mutually
+redundant variables huddle at nearby angles. A built-in mRMR feature selection sizes each
+marker by what the variable adds beyond those already chosen, and a shuffled-target
+calibration marks the boundary beyond which an apparent association is indistinguishable from
+noise at your sample size. The intended use is exploratory: reading the dependence structure
+of a dataset before committing to a model.
+</p>
+
+<h2><span class="n">1</span>Installation and quick start</h2>
+<p>The core package depends only on NumPy. Plotly is optional and used only to render figures.
+The example datasets are optional and load through seaborn, so any seaborn dataset is available;
+they are not part of the core install.</p>
+<pre><span class="c"># from PyPI</span>
+pip install arbital
+<span class="c"># or the latest development version from GitHub</span>
+pip install git+https://github.com/aaronbyrnephd/arbital
+<span class="c"># optional extras: live plotly Figure objects, extra seaborn example data</span>
+pip install "arbital[plotly,datasets]"</pre>
+<pre>import arbital
+from arbital import datasets          <span class="c"># mpg, penguins, titanic, tips are bundled</span>
+
+cars = datasets.load_mpg()            <span class="c"># or datasets.load("&lt;any seaborn dataset&gt;")</span>
+space = arbital.orbits(cars, target="mpg")  <span class="c"># "space" as in feature space</span>
+space.to_html("mpg.html")             <span class="c"># standalone interactive figure</span>
+space.table()                         <span class="c"># per-feature metrics as dicts</span>
+space.to_df()                         <span class="c"># the same as a pandas DataFrame</span></pre>
+<p>Any 2-D NumPy array or object exposing <code>.columns</code> and array semantics (including a
+pandas DataFrame) is accepted as input, so the datasets module is a convenience rather than a
+requirement.</p>
+
+<h2><span class="n">2</span>Reading the figure</h2>
+<div class="legend">
+  <div><b>Radius</b>: total association with the target, on a logarithmic-in-information scale; closer to the centre is stronger.</div>
+  <div><b>Ghost marker and tether</b>: the hollow marker shows where correlation alone would place the variable; the tether measures the association that correlation does not capture.</div>
+  <div><b>Orbit curvature</b>: the eccentricity of the orbit equals the nonlinear share ν; a circle indicates a purely monotone relationship.</div>
+  <div><b>Angle</b>: variables associated with each other are placed at nearby angles, and by default the gaps keep their relative meaning: a tight huddle is a redundant group, and a variable sitting alone carries independent information.</div>
+  <div><b>Marker size</b>: the relative marginal gain from feature selection; larger markers are stronger, less redundant variables.</div>
+  <div><b>Colour</b>: direction from the signed Spearman ρ: red for positive, blue for negative, near-white for none or for a nominal category.</div>
+  <div><b>Arc reach</b>: each variable's arc reaches toward its angular neighbours in proportion to how associated they are: overlapping arcs mean the two variables share information, a clear gap means they do not (qualitative).</div>
+  <div><b>Uncertainty band</b>: with <code>uncertainty=True</code>, a radial segment spanning r_info &plusmn; one bootstrap standard error; a diamond marks where a band crosses the chance boundary (that association could be noise).</div>
+  <div><b>Chance boundary</b>: the dashed circle and shaded outer band: anything beyond it is indistinguishable from noise at this sample size (estimated by re-measuring against shuffled copies of the target).</div>
+  <div><b>Hover</b>: hovering a marker rings it with a halo, traces the variable's complete orbit (clipped where it would leave the plot), and shows its full metric profile.</div>
+</div>
+
+<h3>What the numbers mean</h3>
+<p>The hover box, <code>table()</code>, and <code>to_df()</code> report the same quantities:</p>
+<table>
+  <tr><th>quantity</th><th>meaning</th></tr>
+  <tr><td>r_info</td><td>total association with the target on a 0 to 1 scale: the informational coefficient of correlation (Linfoot, 1957), computed <i>only</i> from mutual information as $r_{\text{info}} = \sqrt{1 - e^{-2I}}$. This is the number that sets the radius, and it is always unadjusted: computed directly from the measured I (see the "MI" row below) via the Linfoot formula, with no chance level subtracted and no contribution from r_pearson or r_spearman. That holds whether or not the result is calibrated for chance uncertainty, so every marker's distance uses one formula and sits on the same coordinate system as the associated chance boundary described below.</td></tr>
+  <tr><td>MI (nats)</td><td>the mutual information $I(X;Y)$ between the feature and the target, in natural-log units (nats). Defined as $I(X;Y) = \iint p(x,y) \log\frac{p(x,y)}{p(x)\,p(y)}\,dx\,dy$ (a sum in place of the integral over any discrete side): the expected reduction in uncertainty about one variable from observing the other. One nat is the information in an event of probability 1/e; each additional nat moves a marker one fixed step closer to the centre. Always unadjusted, matching r_info above through the Linfoot formula.</td></tr>
+  <tr><td>distance</td><td>the variable's distance from the centre, on a 0 to 1 scale: $d = \sqrt{1 - r_{\text{info}}^2}$, which equals $e^{-I}$ (I as defined in the "MI" row above). It is the residual uncertainty about the target after observing the variable: 1 means no association (the rim), 0 would mean a perfect one (the centre).</td></tr>
+  <tr><td>chance boundary</td><td>The dashed circle sits at the r_info level this estimator would report for a truly unrelated <i>continuous</i> variable at this sample size (`chance` in the table: the `confidence`-quantile, 0.95 by default, against shuffled targets, converted to the r_info scale). Every continuous feature shares this exact value, and each feature's own unadjusted r_info is compared against it directly: `below_chance` marks a feature whose r_info sits at or under that value. This comparison never moves the marker itself. The hover names the level (`near chance boundary (0.XX)` / `below chance boundary (0.XX)`) only when a variable sits within 0.2 of it, since well above it the flag adds nothing. Categorical features are calibrated separately (their noise floor scales with cardinality) and are compared against their own level, not this circle: their hover says "its own chance level" instead, and if every feature is categorical no circle is drawn at all. <code>table()</code>/<code>to_df()</code> also carry `chance_nats` (the same level in nats), `mi_adj` and `r_info_adj` (see "pick, gain" below). See "Assumptions and calibration caveats" below for the full list of what this does and does not guarantee statistically.</td></tr>
+  <tr><td>r_pearson, r_spearman</td><td>the classical signed coefficients: straight-line fit and any-monotone-curve fit, reported as measured and never folded into r_info or the radius. Colour is driven by r_spearman. Each is checked against `pearson_chance`/`spearman_chance`, the same `confidence`-quantile from the same shuffled-target draws as the MI chance level above (not a separate analytic formula). A coefficient that does not clear its own level is marked not significant in the hover, independently of what r_info and its associated chance boundary say: the two checks answer different questions, whether there is <i>any</i> dependence versus whether there is a <i>linear or monotone</i> one.</td></tr>
+  <tr><td>nonlinear share</td><td>the fraction of the total association that the best monotone coefficient does not capture: $\nu = 1 - (r_{\text{mono}}/r_{\text{info}})^2$ with $r_{\text{mono}} = \max(|r_{\text{pearson}}|, |r_{\text{spearman}}|)$. Drawn as the tether to the ghost marker. profile() floors r_info at r_mono (mutual information cannot genuinely fall below what a monotone fit already captures, so a kNN estimate that dips under r_mono is treated as estimator noise, not signal), and this ratio never needs clipping as a result.</td></tr>
+  <tr><td>&plusmn; (uncertainty)</td><td>one bootstrap standard error of r_info, drawn as the radial band. It is computed the same way r_info itself is, from the same uncalibrated estimator, so the band's centre and width are always on the same scale.</td></tr>
+  <tr><td>pick, gain</td><td>the greedy mRMR selection, run on r_info_adj (`mi_adj = max(0, I - chance)`, then Linfoot), never on the plotted r_info: pick is the 1-based selection order, and gain is that adjusted relevance minus the mean redundancy to the variables already picked. A gain of zero or below means the variable adds nothing beyond earlier picks. For a below-chance feature, r_info_adj is 0, so it can never win a pick. Its marker is not pulled out to the rim of the orbit system to show this: the visual position still reflects the unadjusted r_info, even though a zero-relevance feature is likely just noise.</td></tr>
+  <tr><td>relative gain</td><td>the marker-size value: this variable's gain relative to the first pick's. This is what the "pick, gain" row above describes, i.e. it reflects r_info_adj, not the plotted r_info.</td></tr>
+</table>
+
+<h2><span class="n">3</span>Tutorial: the basic behaviour on synthetic data</h2>
+<p>
+The clearest way to see what the figure encodes is to construct variables with known
+relationships to the target. The system below contains a linear feature and a near-duplicate of
+it, two non-monotone features (a parabola and a sine wave), a monotone but curved feature, a
+weak linear feature, and pure noise.
+</p>
+<pre>space = arbital.orbits(X, target="target")
+space.to_plotly()</pre>
+<div class="plotwrap" id="fig_synth" style="height:640px"></div>
+<p class="hint">Hover a marker for its full profile; drag to zoom; double-click to reset.</p>
+<p>
+Three behaviours are visible. First, radius tracks strength: the noise feature sits at the rim
+and the informative features sit close in. Second, the two non-monotone features have low
+correlation but high mutual information, so they are placed close to the centre with a ghost
+marker far outside them; the tether is the dependence that a correlation matrix would miss.
+Third, the monotone but curved feature has a Pearson correlation of r = {S2_R}, already fairly
+strong but still measurably lower than its rank correlation (ρ = {S2_RHO}), which agrees with
+mutual information (r_info = {S2_RI}): so it is drawn on a close, nearly circular orbit with no
+ghost, since monotone curvature is captured by rank correlation and is not flagged as
+non-monotone structure.
+</p>
+<p>The underlying relationships, shown directly:</p>
+<div class="plotwrap" id="fig_scatter" style="height:280px"></div>
+<p>The corresponding numbers, in selection order:</p>
+<table>
+  <tr><th>feature</th><th class="num">cat</th><th class="num">r</th><th class="num">ρ</th><th class="num">I (nats)</th><th class="num">r_info</th><th class="num">ν</th><th class="num">pick</th><th class="num">gain</th></tr>
+  {ROWS_SYN}
+</table>
+
+<h2><span class="n">4</span>Tutorial: the angle axis, reading redundancy groups</h2>
+<p>
+The radius answers "how strong?"; the angle answers "strong <i>together with whom</i>?".
+Variables are placed by embedding the feature-to-feature association matrix, so mutually
+redundant variables huddle at nearby angles while unrelated ones sit far apart. The dataset
+below makes the structure explicit: two latent factors each drive a group of observed proxies
+(three for the first factor, two for the second), one further variable is informative on its
+own, and two are pure noise.
+</p>
+<pre>f1, f2, g = <span class="c"># three independent latent factors</span>
+y = f1 + 0.8*f2 + 0.6*g + noise
+cols = {"a1": f1+e, "a2": f1+e, "a3": -f1+e,   <span class="c"># group A: proxies of f1</span>
+        "b1": f2+e, "b2": f2+e,                <span class="c"># group B: proxies of f2</span>
+        "lone": g+e, "noise1": e, "noise2": e}
+arbital.orbits(cols, target="y", selection=True).to_plotly()</pre>
+<div class="plotwrap" id="fig_groups" style="height:640px"></div>
+<p>
+The two groups are visible directly: the three <code>a</code> proxies huddle in one angular
+sector (note that <code>a3</code>, the negated proxy, is placed with its group but coloured
+blue, since direction is carried by colour, not position), the two <code>b</code> proxies
+huddle in another, and <code>lone</code> sits by itself. The selection numbering confirms the
+reading: picks 1&ndash;3 take one variable from each group before any duplicate is considered.
+</p>
+<h3>What the angular gaps mean: the three layouts</h3>
+<p>
+The default layout, <code>angle_layout="spread"</code>, uses the embedding angles but widens
+every gap to a readable minimum, so clusters stay visible without labels piling up. Two
+alternatives are available: <code>"embed"</code> uses the raw embedding angles (gaps are most
+faithful, labels may collide), and <code>"ordered"</code> spaces variables evenly (only the
+order around the circle is meaningful, the conservative choice). The same system under each:
+</p>
+<div class="triple">
+  <div class="plotwrap" id="fig_lay_spread" style="height:340px"></div>
+  <div class="plotwrap" id="fig_lay_embed" style="height:340px"></div>
+  <div class="plotwrap" id="fig_lay_ordered" style="height:340px"></div>
+</div>
+<p class="hint">Left to right: spread (default), embed, ordered.</p>
+
+<h2><span class="n">5</span>Tutorial: transformed variables</h2>
+<p>
+A common situation in practice is to hold several transformations of the same underlying
+quantity: a raw value together with its logarithm, square root, or a capped version. Because
+these are monotone transformations of one another, mutual information does not distinguish
+between them (r_info is a property of the copula alone, see section 13), so they carry almost
+the same information about the target and are largely redundant. The figure below uses a
+target equal to log(raw) plus noise, with the raw variable and three transformations of it.
+</p>
+<pre>cols = {"y": np.log(raw) + noise,
+        "raw": raw, "log": np.log(raw),
+        "sqrt": np.sqrt(raw), "capped": np.minimum(raw, 30)}
+arbital.orbits(cols, target="y").to_plotly()</pre>
+<div class="plotwrap" id="fig_transform" style="height:560px"></div>
+<p>
+All four variables sit at similar radii and are grouped at nearby angles, which identifies them
+as mutually redundant. Their r_info values are so close that which one the feature selection
+retains first is decided by estimator noise rather than a meaningful ranking: here it is
+<code>{TF_WINNER}</code>, which receives the largest marker, while the other three receive
+substantially smaller, often negative, marginal gains once it is selected. The selection
+walkthrough makes this explicit:
+</p>
+<table>
+  <tr><th class="num">pick</th><th>feature</th><th class="num">relevance</th><th class="num">redundancy to selected</th><th class="num">gain</th></tr>
+  {SEL_TRANSFORM}
+</table>
+<p>
+This is the intended reading for feature engineering: when several derived versions of a
+quantity are present, the angular cluster flags them as redundant and the marker sizes show
+that only one is worth keeping. Which specific transformation wins that near-tie is not itself
+meaningful; what matters is that the group collapses to one representative.
+</p>
+
+<h2><span class="n">6</span>Tutorial: lagged variables and time dependence</h2>
+<p>
+The same idea applies to time series. Given a series and several of its own lags as candidate
+predictors, the orbits show which lags carry information about the present value. The example
+below is a first-order autoregressive series, whose present value depends strongly on the
+previous step and progressively less on earlier ones.
+</p>
+<pre>cols = {"series_t": s, "lag_1": np.roll(s, 1),
+        "lag_2": np.roll(s, 2), "lag_3": np.roll(s, 3), "lag_8": np.roll(s, 8)}
+arbital.orbits(cols, target="series_t").to_plotly()</pre>
+<div class="plotwrap" id="fig_lag" style="height:560px"></div>
+<p>
+The lag-1 variable is closest to the centre and is selected first; the more distant lags orbit
+progressively farther out, reflecting the decay of temporal dependence. Reading the radii gives
+a direct, model-free view of the memory in the series, comparable to an autocorrelation plot but
+using mutual information, so that non-linear temporal dependence would be visible in the same
+way.
+</p>
+
+<h2><span class="n">7</span>Tutorial: dependence a correlation scan cannot see at all</h2>
+<p>
+The synthetic tutorial showed non-monotone <i>shapes</i> (a parabola, a sine). A harsher case
+is an interaction: if the target is the <i>product</i> of two variables, each parent is
+individually uncorrelated with it, not just nonlinearly related, but invisible to both
+Pearson and Spearman, because the other parent randomly flips the sign of its effect.
+Screening features with a correlation matrix silently discards both parents.
+</p>
+<pre>y = x1 * x2 + noise
+cols = {"x1": x1, "x2": x2, "product": x1*x2 + e, "noise": e}
+arbital.orbits(cols, target="y").to_plotly()</pre>
+<div class="plotwrap" id="fig_interact" style="height:600px"></div>
+<p>
+Both parents show r &asymp; ρ &asymp; {INT_X1_R} yet r_info = {INT_X1_RI}: mutual
+information detects the dependence through the sign-flipping (knowing x<sub>1</sub> narrows the
+spread of y even though it cannot say which direction y moves). Their orbits are maximally
+eccentric (ν &asymp; {INT_X1_NU}), with ghost markers stranded at the rim where a correlation
+matrix would have left them, near the noise variable. The near-white marker colour makes the
+same point through the colour channel: there is association, but no direction to report.
+</p>
+
+<h2><span class="n">8</span>Tutorial: categorical and mixed data</h2>
+<p>
+When the target or a feature is categorical, arbital selects the appropriate mutual-information
+estimator automatically: a k-nearest-neighbour estimator for continuous pairs, the Ross
+estimator for a continuous variable against a categorical one, and a plug-in estimator for two
+categorical variables. String columns in a bundled Table are detected as categorical; other
+columns can be marked with the <code>categorical</code> argument.
+</p>
+<pre>arbital.orbits(datasets.load_titanic(), target="survived").to_plotly()</pre>
+<div class="plotwrap" id="fig_titanic" style="height:600px"></div>
+<p>
+The target, survival, is binary, and <code>sex</code> and <code>embarked</code> are categorical,
+but the two behave differently. <code>embarked</code> has more than two levels, so its integer
+codes are arbitrary labels with no meaningful sign: it is drawn on a circular orbit with a
+near-white marker, strength only, no direction. <code>sex</code> is binary, so it still gets a
+real point-biserial correlation and keeps both a direction (colour) and orbit curvature, exactly
+like a continuous variable. <code>sex</code> has the strongest association with survival
+(r_info = {TIT_SEX_RI}) and a clear direction (r = {TIT_SEX_R}, women were more likely to
+survive). <code>pclass</code> and
+<code>fare</code> overlap substantially, so once <code>pclass</code> is selected the marginal
+gain of <code>fare</code> falls to {TIT_FARE_GAIN}:
+</p>
+<table>
+  <tr><th class="num">pick</th><th>feature</th><th class="num">relevance</th><th class="num">redundancy to selected</th><th class="num">gain</th></tr>
+  {SEL_TITANIC}
+</table>
+<p class="hint">{TIT_NOTE}</p>
+<h3>A second mixed example: restaurant tips</h3>
+<p>
+The tips dataset asks a plainer question: what does the size of a tip actually depend on? Four
+of the six candidate variables are categorical (sex, smoker, day, time) and two are numeric
+(the bill, the party size).
+</p>
+<pre>arbital.orbits(datasets.load_tips(), target="tip").to_plotly()</pre>
+<div class="plotwrap" id="fig_tips" style="height:600px"></div>
+<p>
+The figure gives the answer at a glance: the bill dominates (r_info = {TIPS_BILL_RI}),
+party size adds a little, and the entire social context, who paid, whether they smoked,
+which day, lunch or dinner, orbits out at the rim, nearly uninformative. Note also that
+<code>size</code> sits at a nearby angle to <code>total_bill</code>: bigger parties run up
+bigger bills, so the two are partly redundant, and the selection charges <code>size</code> for
+that overlap before crediting what remains.
+</p>
+<p class="hint">{TIPS_NOTE}</p>
+
+<h2><span class="n">9</span>Case study: penguins and a correlation that points the wrong way</h2>
+<p>
+The Palmer penguins data with all its categorical fields kept (species, island, sex) shows most
+of the package's behaviours in one figure, including the most treacherous failure mode of a
+correlation matrix: a coefficient whose <i>sign</i> is an artefact of pooling groups
+(Simpson's paradox).
+</p>
+<pre>arbital.orbits(datasets.load("penguins"), target="body_mass_g").to_plotly()</pre>
+<div class="plotwrap" id="fig_penfull" style="height:640px"></div>
+<p>
+Look at <code>bill_depth_mm</code>. Its correlation with body mass is <i>negative</i>
+(r = {PEN_BD_R}): pooled across species, deeper bills seem to mean lighter birds, because the
+heaviest species (Gentoo) happens to have shallow bills. Mutual information is immune to the
+pooling artefact and reports r_info = {PEN_BD_RI}, among the strongest
+associations in the data, so the marker swings in close while its ghost is stranded far
+outside (ν = {PEN_BD_NU}). A correlation matrix would have reported a moderate negative
+relationship; the orbit shows a strong relationship that correlation is misreading, and the
+within-species scatter confirms it: bill depth and body mass rise <i>together</i> inside every
+species.
+</p>
+<div class="plotwrap" id="fig_simpson" style="height:320px"></div>
+<p class="hint">bill_depth_mm against body_mass_g, coloured by species: negative pooled slope, positive within each species.</p>
+<p>
+The categorical fields behave as section 8 described: <code>species</code> is a strong nominal
+predictor (r_info = {PEN_SP_RI}) drawn without direction, and the angular layout places
+it beside <code>island</code>, which is largely a proxy for species. The selection resolves the
+redundancies: flipper length is picked first, and species, despite its high individual
+relevance, is charged for overlapping with the body measurements already selected.
+</p>
+<table>
+  <tr><th>feature</th><th class="num">cat</th><th class="num">r</th><th class="num">ρ</th><th class="num">I (nats)</th><th class="num">r_info</th><th class="num">ν</th><th class="num">pick</th><th class="num">gain</th></tr>
+  {ROWS_PENFULL}
+</table>
+
+<h2><span class="n">10</span>Tutorial: feature selection</h2>
+<p>
+Feature selection underlies the marker sizes and can also be used on its own. The procedure is
+a greedy minimum-redundancy maximum-relevance (mRMR) forward selection: it selects the most
+relevant variable first, then repeatedly selects the variable with the largest relevance minus
+its mean redundancy with the variables already selected. Redundancy is charged only against
+selected variables, so a variable is not penalised for overlapping with others that are never
+chosen.
+</p>
+<div class="formula">
+  pick t = argmax<sub>j</sub> [ relevance(x<sub>j</sub>) &minus; mean<sub>s &isin; selected</sub> r_info(x<sub>j</sub>, x<sub>s</sub>) ]
+  <span class="why">relevance(x<sub>j</sub>) is r_info_adj(x<sub>j</sub>, y), the chance-subtracted quantity from section 13, when <code>calibrate=True</code> (the default), or the plain r_info(x<sub>j</sub>, y) when <code>calibrate=False</code>. The redundancy term, r_info(x<sub>j</sub>, x<sub>s</sub>) between a candidate and an already-selected feature, is always the plain, unadjusted feature-feature r_info: it never has a chance level subtracted, regardless of <code>calibrate</code> (see the caveat below). The marginal gain recorded at each step is the quantity mapped to marker size (relative to the first pick). A gain of zero or below indicates that a variable adds nothing beyond the selected set, which is a natural stopping point.</span>
+</div>
+<p>The ranking is available directly, without producing a figure:</p>
+<pre>for row in arbital.select_features(cars, target="mpg"):
+    print(row["pick"], row["name"], round(row["gain"], 3))</pre>
+<p>Passing <code>selection=True</code> to <code>orbits</code> additionally labels each marker with
+its pick number:</p>
+<div class="plotwrap" id="fig_select" style="height:640px"></div>
+<table>
+  <tr><th class="num">pick</th><th>feature</th><th class="num">relevance</th><th class="num">redundancy to selected</th><th class="num">gain</th></tr>
+  {SEL_MPG}
+</table>
+<p>
+Here the engine-related variables (<code>weight</code>, <code>displacement</code>,
+<code>horsepower</code>, <code>cylinders</code>) are mutually redundant, so after
+<code>weight</code> is selected the others contribute little and <code>model_year</code>, which
+is nearly independent of them, is selected second despite a lower individual association.
+</p>
+<p class="hint">{MPG_NOTE}</p>
+
+<h2><span class="n">11</span>Tutorial: estimation uncertainty</h2>
+<p>
+Setting <code>uncertainty=True</code> computes a bootstrap standard error of r_info for each
+variable and draws it as a <b>radial band</b> through the marker, spanning
+r_info &plusmn; one standard error. The band is radial because that is the direction the
+uncertainty acts in: it shows directly how much closer in or farther out the marker could
+plausibly sit. This makes one question immediately decidable by eye: whenever a band crosses
+the dashed chance boundary, a gold diamond marks the crossing, and that variable's
+association could be noise. Useful on smaller samples, where the k-nearest-neighbour
+mutual-information estimator is itself noisy.
+</p>
+<p>
+A dataset where every variable is strongly associated (Palmer penguins' body measurements,
+say) never shows a crossing, so it is a poor illustration: the bands sit nowhere near the
+boundary. The weak-driver system from the next section is a better one, since several of its
+four genuine drivers start out close to chance. Same process, same target, two sample sizes:
+</p>
+<pre>arbital.orbits(cols, target="outcome", scale="linear",
+               uncertainty=True, n_bootstrap=200)   <span class="c"># n = 250</span></pre>
+<div class="triple" style="grid-template-columns: 1fr 1fr;">
+  <div class="plotwrap" id="fig_unc_lo" style="height:460px"></div>
+  <div class="plotwrap" id="fig_unc_hi" style="height:460px"></div>
+</div>
+<p class="hint">Left: n = 250, bands crossing the boundary (diamonds) on {UNC_LO_CROSSING}. Right: the
+same process at n = 2,000, where {UNC_HI_DESCRIBE}. Either way, this is the pattern the next
+section's boundary-recedes-with-n panels show directly: more data pulls genuine signals clear,
+one at a time, while the boundary itself stays honest about the 5% of independent variables
+that will look borderline purely by chance.</p>
+
+<h2><span class="n">12</span>Tutorial: weak associations and the radial scale</h2>
+<p>
+The default radial scale is logarithmic in mutual information: each nat of shared information
+is one fixed step inward. That deliberately spends the plot's area on the strong end -
+it separates r_info = 0.90 from 0.99 clearly, and the price is paid at the weak
+end, where everything below r_info &asymp; 0.5 is compressed against the rim. In datasets
+where <i>no</i> variable is strongly associated (common in noisy domains: marketing response,
+epidemiology, finance), the default view is honest but unhelpful: every orbit hugs the rim.
+For those datasets, pass <code>scale="linear"</code>, which maps distance to 1 &minus;
+r_info and resolves the weak end instead. The same system of four genuine-but-weak
+drivers and two noise variables, under both scales:
+</p>
+<pre>y = 0.6*u1 + 0.5*u2 + 0.4*u3 + 0.3*u4 + noise   <span class="c"># nothing stronger than r_info &asymp; {WEAK_TOP_RI}</span>
+arbital.orbits(cols, target="outcome")                  <span class="c"># scale="info" (default)</span>
+arbital.orbits(cols, target="outcome", scale="linear")</pre>
+<div class="triple" style="grid-template-columns: 1fr 1fr;">
+  <div class="plotwrap" id="fig_scale_info" style="height:420px"></div>
+  <div class="plotwrap" id="fig_scale_linear" style="height:420px"></div>
+</div>
+<p class="hint">Left: scale="info" (default), the strongest driver reaches only d = {WEAK_TOP_D_INFO}, so all six variables crowd the rim. Right: scale="linear", the same driver sits at d = {WEAK_TOP_D_LIN} and the three real drivers separate cleanly from the noise. Note the guide rings also change: the linear scale draws them at 0.25 / 0.5 / 0.75.</p>
+<p>
+Rule of thumb: keep the default when anything in the data clears r_info &asymp; 0.7
+(the log scale is what stops strong features piling onto the target); switch to
+<code>scale="linear"</code> when the whole system lives below &asymp; 0.5. The weakest of the
+four genuine drivers here, <code>{WEAK_WORST_NAME}</code> (built with coefficient
+{WEAK_WORST_COEF}, measured r = {WEAK_WORST_R}, r_info = {WEAK_WORST_RI}), is barely
+distinguishable from the noise variables under either scale. That gap between the built-in
+coefficient and the measured r is itself the point: at n = 700 with this much noise, sampling
+variation alone can shrink a real but weak driver's measured correlation well below the value
+it was generated with. That is a fact about the sample, not the display: at this noise level
+<code>{WEAK_WORST_NAME}</code>'s association genuinely sits at the estimator's chance level
+(the calibration of section 13 flags it <code>below_chance</code> whenever its mutual
+information does not clear that level), and <code>uncertainty=True</code> will show its radial
+band crossing the chance boundary.
+</p>
+<h3>More data pushes the chance boundary out</h3>
+<p>
+For a continuous feature, the drawn boundary mainly tracks sample size: with more rows the
+estimator's output under independence shrinks toward zero, the dashed circle moves outward
+toward the rim, and genuinely weak signals emerge from the shaded band. Two parameters move it
+independently of sample size. Raising <code>confidence</code> pulls the boundary inward at a
+fixed n (a stricter quantile of the same shuffled draws is a larger chance I, and a larger
+chance r_info sits closer to the centre, since distance is a decreasing function of r_info): a
+more conservative test, only stronger associations clear it. Lowering <code>confidence</code>
+pushes the boundary outward toward the rim, letting weaker associations count as clearing
+chance, at the cost of more false positives (see the multiple-comparisons caveat below).
+<code>n_neighbors</code> moves it by changing the k-NN estimator's own noise floor, in the
+opposite direction from what you might expect at first: fewer neighbours means a noisier,
+higher floor, which by the same r_info-to-distance relationship pulls the boundary inward,
+toward the centre, so more of the plot counts as noise. More neighbours generally lowers the
+floor and pushes the boundary outward toward the rim, letting weaker associations clear
+chance, at the cost of blurring together points that are genuinely close together (the usual
+variance/bias trade-off for k-NN estimators). Categorical features are not
+part of this picture at all; each is compared against its own, separately-computed level (see
+the caveats below), not the drawn circle. The same weak-driver process drawn at three sample
+sizes, the boundary sits at r_info &asymp; {CB_250} with 250 rows, {CB_1000} with 1,000, and
+{CB_2000} with 2,000:
+</p>
+<div class="triple">
+  <div class="plotwrap" id="fig_n250" style="height:380px"></div>
+  <div class="plotwrap" id="fig_n1000" style="height:380px"></div>
+  <div class="plotwrap" id="fig_n2000" style="height:380px"></div>
+</div>
+<p class="hint">Left to right: n = 250, 1,000, 2,000 draws of the same process, drawn on the linear radial scale (these are weak associations, so the linear scale of the previous section is the right lens). Watch <code>{WEAK_WORST_NAME}</code>, the weakest of the four genuine drivers, cross the boundary as the sample grows.</p>
+<p>
+This is the practical answer to "is this weak association real?": collect more rows and the
+boundary will either recede past the marker (real) or follow it (noise). When more data is not
+available, <code>uncertainty=True</code> shows whether the estimate's own spread straddles the
+boundary. Note that <code>max_samples</code> (default 2000) caps the rows actually measured;
+raise it when precision at the weak end matters more than compute time.
+</p>
+
+<h2><span class="n">13</span>How the measures map to the figure</h2>
+<p>
+Mutual information $I(X;Y)$ is estimated for each variable against the target and converted to a
+bounded scale using Linfoot's informational coefficient of correlation,
+$r_{\text{info}} = \sqrt{1 - e^{-2I}}$, which equals $|\rho|$ for a bivariate Gaussian. The
+radius is the residual uncertainty $\sqrt{1 - r_{\text{info}}^2} = e^{-I}$, so the radial axis is
+logarithmic in information: one nat corresponds to a fixed step inward. (A nat is a unit of
+information using the natural logarithm; one nat is the information in an event of probability
+$1/e$.)
+</p>
+<div class="formula">
+  $\nu = 1 - (r_{\text{mono}} / r_{\text{info}})^2, \quad r_{\text{mono}} = \max(|r|, |\rho|), \quad \text{eccentricity} = \nu$
+  <span class="why">The nonlinear share ν is the fraction of the association that the best monotone coefficient does not capture, and it is used directly as the orbit's eccentricity, so shape and statistic are the same quantity. ν is a composite defined for this package rather than a standard named statistic. The solid marker is placed at the closest point of the orbit and the ghost at the farthest, so the tether between them corresponds to ν.</span>
+</div>
+<h3 id="calibration-caveats">Assumptions and calibration caveats</h3>
+<p>
+The core estimators (KSG and Ross's k-NN mutual information, the categorical plug-in
+estimator, Linfoot's identity for the Gaussian case) are standard and are not what this
+section is about. Everything below lives in the calibration and visualization layer: what the
+chance boundary is allowed to mean, what confidence level backs it, and where a design choice
+is a reasonable, explicitly-flagged heuristic rather than something statistically exact. Full
+statistical rigour is not the goal here; usefulness as an exploratory screen is. Every
+assumption below is one you are implicitly relying on when you read the figure, so it is
+listed rather than left to be discovered.
+</p>
+<ol class="caveats">
+<li><b>The Gaussian anchor is a calibration, not an assumption.</b> "r_info equals |&rho;| for
+a bivariate Gaussian" only fixes where the scale's zero and one live. Mutual information is
+defined for any distribution, and r_info = &radic;(1 &minus; e<sup>&minus;2I</sup>) is a fixed
+monotone transform of it, so ranking variables by r_info is ranking them by mutual information
+whatever the true distribution: r_info is 0 exactly under independence and approaches 1 as the
+relationship becomes deterministic, for any margins. What non-Gaussianity changes is only
+whether r_info numerically matches the |&rho;| you would compute directly. For continuous
+variables, r_info is in fact a property of the copula alone: reparametrise either margin
+monotonically and it does not move, since mutual information for a continuous pair is exactly
+the negative entropy of their copula density (Joe, 1989; see references below).</li>
+
+<li><b>One confidence level, applied identically to every channel.</b> A single parameter,
+<code>confidence</code> (default 0.95), is the quantile behind the MI chance level and the
+Pearson/Spearman chance levels (<code>pearson_chance</code>, <code>spearman_chance</code>).
+All three are the same quantile of draws from the same permutation procedure: shuffle the
+target, recompute I, |r|, and |&rho;|, and repeat. Because the three channels share one
+parameter and one set of draws, changing <code>confidence</code> moves every channel together,
+so a marker cannot clear chance on one channel at a looser implicit standard than another.</li>
+
+<li><b>The drawn boundary circle is for continuous features only.</b> Continuous features
+share one pooled chance level (below); categorical features are each calibrated separately,
+because the plug-in estimator's chance value scales with a column's cardinality
+(&asymp;(K<sub>x</sub>&minus;1)(K<sub>y</sub>&minus;1)/(2n), the classic small-sample bias term
+for plug-in entropy estimates: Miller, 1955; see references below), and a 20-level column has a
+materially higher noise floor than a binary one. Drawing one circle at
+the maximum over both groups would mean a marker's <code>below_chance</code> verdict (always
+computed against its own level) could disagree with which side of the circle it visually sits
+on, for every feature except whichever one happened to set that maximum. So the circle is
+drawn at the continuous pooled level only, which every continuous feature's own hover value
+matches exactly; categorical markers are compared against their own (generally different)
+level shown in their hover text instead, worded "its own chance level" rather than "chance
+boundary" precisely so the two are not read as the same line. With an all-categorical feature
+set, no circle is drawn at all, since there is no single honest threshold to draw.</li>
+
+<li><b>Pooling continuous features assumes a near-identical null, and that is asserted, not
+verified on your data.</b> After the KSG estimator's internal standardisation, its null
+distribution is taken to depend on the sample size and k and only weakly on a continuous
+feature's marginal shape, and the same is assumed of a shuffled correlation coefficient. So
+every continuous feature shares one pooled chance level per channel, with shuffle draws
+cycling round-robin across them to average out what little marginal dependence remains. This
+keeps the cost at ~n_shuffles draws total rather than n_shuffles &times; features, but it is
+an approximation: a skewed, heavy-tailed, or near-duplicate-valued column (rounded or
+discretised continuous data) can have a true null that differs from the pooled estimate, and
+arbital does not check for this. If your continuous features have very different marginal
+shapes, treat the shared chance level as approximate.</li>
+
+<li><b>The quantile itself is estimated from a limited number of draws.</b>
+<code>n_shuffles</code> draws (200 by default) give a <code>confidence</code>-quantile
+estimate with only <code>n_shuffles &times; (1 &minus; confidence)</code> draws expected
+beyond it: 10 at the defaults, fewer if you lower <code>n_shuffles</code> or raise
+<code>confidence</code>. That is itself a noisy number with no reported uncertainty of its
+own (unlike marker positions, which do carry a bootstrap SE when <code>uncertainty=True</code>).
+A warning fires when the expected count drops below 10; raise <code>n_shuffles</code> if you
+see it and need a more stable boundary.</li>
+
+<li><b>No correction for testing many features at once.</b> Each feature clears its own chance
+level at a one-sided <code>confidence</code> threshold independently, with no
+Bonferroni (Dunn, 1961) or Benjamini&ndash;Hochberg (1995) adjustment across the p features
+screened together (see references below), which is the package's whole use case. That has a
+direct consequence: screening p genuinely
+unassociated features at a given <code>confidence</code> gives an expected
+$p \times (1 - \text{confidence})$ of them "clears chance" purely by accident. At the default
+confidence of 0.95, screening 20 unrelated features means roughly one is expected to clear
+chance by luck alone; screening 100 means roughly five. The figure does not flag this on its
+own. If you are screening many candidates, raise <code>confidence</code> (there is no automatic
+correction to fall back on).</li>
+
+<li><b>When the target is categorical, the pooled continuous level is doing more work.</b> The
+continuous features' shuffle draws then go through the Ross continuous-discrete estimator,
+whose finite-sample bias depends on the target's class counts and balance, not just n and k.
+So the "depends only on n and k" story is weaker for a skewed or many-class categorical target
+than it is for a continuous one.</li>
+
+<li><b>r_info_adj is a one-sided shrinkage clip, not a bias-corrected estimate.</b>
+<code>mi_adj = max(0, I &minus; chance)</code> subtracts a 95th-percentile (at the default
+confidence) null value, not a null mean. So an honestly-independent feature's r_info_adj is
+pushed to exactly 0 about <code>confidence</code> of the time and to something positive the
+rest, by construction, regardless of the true bias. That is a reasonable, conservative guard
+for a greedy selection, since it errs toward discarding noise rather than keeping it, but it
+should not be read as recovering "the" bias-corrected mutual information. It is a clip, not a
+correction.</li>
+
+<li><b>Feature selection's redundancy term is never chance-adjusted, only its relevance term
+is.</b> The greedy selection in section 10 ranks candidates on relevance minus mean redundancy.
+Relevance is r_info_adj (chance-subtracted, above) when <code>calibrate=True</code>, but
+redundancy, the feature-feature r_info between a candidate and the features already selected,
+always comes from the plain feature-feature association matrix, with no chance level ever
+subtracted from it, regardless of <code>calibrate</code>. Giving every feature pair its own
+chance level would mean shuffling every candidate/selected pair rather than shuffling once
+against the target, multiplying the cost by roughly p/2 for p features. In practice this means
+part of any redundancy charge can be the k-NN estimator's own noise floor (the same
+&asymp;0.1&ndash;0.25 r_info baseline discussed above) rather than real overlap, which very
+slightly inflates the redundancy penalty on later picks. It does not affect which feature is
+picked first, since the first pick is relevance alone with no redundancy term yet, and its
+effect on later picks shrinks as real redundancy grows relative to the noise floor.</li>
+
+<li><b>Population-level mutual information cannot fall below what a monotone fit already
+captures</b> (this one is a genuine floor, not a heuristic). Among all joint distributions
+sharing a given correlation, the Gaussian copula uniquely minimises mutual information, which
+is the reason r_info = |&rho;| exactly for a bivariate Gaussian and r_info &ge; r_mono for
+everything else (Linfoot 1957's original motivation for the coefficient). So a well-estimated
+r_info should never sit below r_mono. When a k-NN estimate does dip under r_mono anyway, it is
+estimator error, not a real data phenomenon: more likely at small n, with too few or too many
+neighbours (n_neighbors trades variance against bias), on heavy-tailed margins that stretch
+neighbour distances unevenly, on data with many repeated or tied values (the estimator assumes
+continuity), or on very strong, near-deterministic relationships where the density concentrates
+onto a thin manifold and local neighbourhoods stop behaving like the estimator's assumptions.
+profile() floors r_info at r_mono for exactly this reason (see "nonlinear share" in the
+glossary above), so the orbit never reports less association than plain correlation already
+demonstrates.</li>
+
+<li><b>Rows are subsampled above max_samples, once, and everything downstream reuses that
+same subsample.</b> The estimator is O(n&sup2;), so above <code>max_samples</code> rows a
+single random subset of exactly that size is drawn (seeded by <code>random_state</code>), and
+every feature's r_info, the boundary circle, the permutation-based chance levels, and the
+bootstrap standard errors are all computed from that one fixed subsample, not from fresh draws
+of the full dataset each time. Two consequences follow: the same <code>random_state</code>
+always picks the same rows, so results are reproducible on a dataset far larger than
+<code>max_samples</code>; and both <code>uncertainty=True</code>'s bootstrap and the chance
+calibration's permutations describe sampling variability at n = <code>max_samples</code>, not
+at the size of your actual dataset, since the excluded rows are never revisited within that
+call. If you have far more rows available and want the estimate to reflect that, raise
+<code>max_samples</code> (or call <code>orbits()</code> again with a different
+<code>random_state</code> to check how much a given result moves across subsamples) rather than
+relying on repeated calls to average it out automatically, since arbital does not do that for
+you.</li>
+
+<li><b>Tuning for large datasets.</b> The cost centres are the k-NN mutual-information estimator
+(O(n&sup2;) per pair) and the shuffle-based calibration (each shuffle re-runs that estimator).
+Four parameters trade precision against runtime: lower <code>max_samples</code> caps the rows
+actually measured (the default, 2000, is already a subsample for most real datasets);
+lower <code>n_shuffles</code> speeds up calibration at the cost of a noisier chance-level
+estimate (watch for the stability warning if you go far below the default); lower
+<code>n_bootstrap</code> speeds up <code>uncertainty=True</code> the same way; and
+<code>n_neighbors</code> mainly trades estimator variance against bias rather than speed, so
+tune it for accuracy, not runtime. For an initial look at a very large dataset, a smaller
+<code>max_samples</code> with the other defaults left alone is usually the fastest way to a
+representative figure.</li>
+</ol>
+<p>
+Two of the items above are unconditional and apply either way: the r_mono floor and
+subsampling above <code>max_samples</code> both happen regardless of <code>calibrate</code>,
+and so does the performance-tuning guidance. Everything else in the list is what
+<code>calibrate=False</code> switches off: no <code>chance</code>, <code>chance_nats</code>,
+<code>below_chance</code>, <code>mi_adj</code>, <code>r_info_adj</code>,
+<code>pearson_chance</code>/<code>spearman_chance</code>,
+<code>pearson_sig</code>/<code>spearman_sig</code>, and no boundary circle in the figure. One
+thing calibration never touches either way: r_info itself and every marker's position stay
+exactly the same whether or not you calibrate (see the "chance boundary" row in the glossary
+above for why).
+</p>
+
+<h2><span class="n">14</span>Every column in table() and to_df()</h2>
+<p>
+<code>table()</code> returns a list of dicts, one per feature; <code>to_df()</code> is the same
+data as a pandas DataFrame indexed by feature name. Every value used anywhere in the figure or
+the hover text lives in one of these columns: nothing the plot reads is hidden from the table.
+</p>
+<pre>space = arbital.orbits(datasets.load_mpg(), target="mpg", selection=True)
+space.to_df()[["r_info", "mi", "chance", "below_chance", "mi_adj",
+               "r_info_adj", "pearson", "pearson_sig", "pick", "gain"]].round(3)</pre>
+<pre>{DF_EXAMPLE}</pre>
+<p class="hint">A subset of columns from the Auto MPG example above, chosen to fit the page width. The full column list on this system is: {DF_ALL_COLUMNS}.</p>
+<table>
+  <tr><th>column</th><th>meaning</th></tr>
+  <tr><td>theta</td><td>angular position in radians; sets where the marker sits around the circle (see section 4).</td></tr>
+  <tr><td>size</td><td>the 0 to 1 value actually plotted as marker size: relative gain, relative r_info, or a constant, depending on the <code>size</code> argument to <code>orbits()</code>.</td></tr>
+  <tr><td>pick</td><td>1-based greedy selection order (see "pick, gain" in the glossary above).</td></tr>
+  <tr><td>gain</td><td>marginal gain at the moment this feature was picked: relevance minus the mean redundancy to the features already selected.</td></tr>
+  <tr><td>pearson, spearman</td><td>the signed coefficients described in the glossary above; 0.0 for a nominal (multi-level) categorical feature.</td></tr>
+  <tr><td>mi</td><td>mutual information in nats: the "nats" row above.</td></tr>
+  <tr><td>r_info</td><td>the estimated total association that sets the radius: the "r_info" row above.</td></tr>
+  <tr><td>r_mono</td><td>max(|pearson|, |spearman|), the best monotone description of the association.</td></tr>
+  <tr><td>nonlinearity</td><td>&nu;, the "nonlinear share" row above.</td></tr>
+  <tr><td>categorical</td><td>True when the feature is discrete, whether binary or nominal.</td></tr>
+  <tr><td>nominal</td><td>True only when a discrete feature has more than two levels, so it has no meaningful sign: pearson and spearman are 0 and the orbit is circular. False for a binary categorical feature (e.g. Titanic's <code>sex</code>), which keeps a real direction, see section 8.</td></tr>
+  <tr><td>r_peri, r_apo</td><td>the orbit's closest and farthest point from the centre (periastron / apastron), on the underlying 0 to 1 distance scale, computed from r_info and r_mono. The plotted marker applies a further small display margin on top of this for legibility; the underlying ranking is unaffected.</td></tr>
+  <tr><td>a</td><td>the orbit's semi-major axis, (r_peri + r_apo) / 2.</td></tr>
+  <tr><td>e</td><td>orbit eccentricity, equal to nonlinearity by construction.</td></tr>
+  <tr><td>chance, chance_nats</td><td>the chance level this feature is compared against, on the r_info scale and in nats: the "chance boundary" row above.</td></tr>
+  <tr><td>mi_adj, r_info_adj</td><td>the chance-subtracted relevance used only for selection, never for the marker's position: the "pick, gain" row above.</td></tr>
+  <tr><td>below_chance</td><td>True when the estimated MI does not clear <code>chance_nats</code>.</td></tr>
+  <tr><td>pearson_chance, spearman_chance</td><td>the chance level each coefficient is compared against, from the same permutation draws as <code>chance</code>.</td></tr>
+  <tr><td>pearson_sig, spearman_sig</td><td>True when the coefficient's absolute value exceeds its own chance level.</td></tr>
+  <tr><td>r_info_se</td><td>bootstrap standard error of r_info; present only when <code>uncertainty=True</code>.</td></tr>
+</table>
+<p>
+Every column above except <code>theta</code>, <code>size</code>, <code>pick</code>, and
+<code>gain</code> comes either from <code>profile()</code>/orbit geometry (always present) or
+from calibration (<code>calibrate=True</code>, the default). Passing <code>calibrate=False</code>
+removes <code>chance</code>, <code>chance_nats</code>, <code>mi_adj</code>, <code>r_info_adj</code>,
+<code>below_chance</code>, <code>pearson_chance</code>, <code>spearman_chance</code>,
+<code>pearson_sig</code>, and <code>spearman_sig</code> from every row.
+</p>
+
+<h2><span class="n">15</span>Parameter reference</h2>
+<p>The main entry point is <code>orbits(X, target=None, ...)</code>. The parameters are explicit
+and have the following defaults:</p>
+<table>
+  <tr><th>parameter</th><th>default</th><th>meaning</th></tr>
+  <tr><td>target</td><td class="num">None</td><td>target column name or index; None selects the column most associated with the others.</td></tr>
+  <tr><td>angle_layout</td><td class="num">"spread"</td><td>"spread" keeps the embedding's gap structure with a minimum separation enforced; "embed" uses the raw embedding angles; "ordered" spaces variables evenly, keeping only the order.</td></tr>
+  <tr><td>scale</td><td class="num">"info"</td><td>"info" makes radius logarithmic in mutual information (resolves the strong end); "linear" uses 1 &minus; r_info (resolves the weak end, see section 12).</td></tr>
+  <tr><td>size</td><td class="num">"gain"</td><td>marker area: "gain" (relative selection gain), "rinfo" (total association), or "uniform".</td></tr>
+  <tr><td>selection</td><td class="num">False</td><td>if True, label each marker with its selection pick number.</td></tr>
+  <tr><td>uncertainty</td><td class="num">False</td><td>if True, draw a bootstrap standard error of r_info as a radial band through each marker; a diamond flags bands that cross the chance boundary.</td></tr>
+  <tr><td>calibrate</td><td class="num">True</td><td>measure each estimator's chance level (its output against shuffled targets) and use it for the boundary circle, the <code>below_chance</code> flag, and a separately chance-subtracted selection relevance (r_info_adj); r_info itself and the marker's position are never adjusted (see section 13).</td></tr>
+  <tr><td>confidence</td><td class="num">0.95</td><td>the quantile behind every chance level (MI, Pearson, and Spearman alike, from the same permutation draws); raise it to be more conservative, especially when screening many features at once (no multiple-comparison correction is applied automatically).</td></tr>
+  <tr><td>n_shuffles</td><td class="num">200</td><td>shuffle draws behind the chance levels (continuous features share one pooled level per channel, so the cost is ~n_shuffles draws total, not n_shuffles &times; features). A warning fires if n_shuffles &times; (1 &minus; confidence) &lt; 10: too few draws beyond the quantile for a stable estimate.</td></tr>
+  <tr><td>n_bootstrap</td><td class="num">100</td><td>bootstrap resamples used when uncertainty is enabled.</td></tr>
+  <tr><td>n_neighbors</td><td class="num">5</td><td>neighbours for the k-NN mutual-information estimators.</td></tr>
+  <tr><td>random_state</td><td class="num">0</td><td>seed for subsampling, calibration shuffles, and the bootstrap; results are deterministic given the same seed.</td></tr>
+  <tr><td>categorical</td><td class="num">None</td><td>additional column names or indices to treat as categorical.</td></tr>
+</table>
+
+<h2><span class="n">16</span>Reproducing this page</h2>
+<pre>import arbital
+from arbital import datasets   <span class="c"># mpg, penguins, titanic, tips are bundled (offline)</span>
+
+<span class="c"># association view</span>
+arbital.orbits(datasets.load_mpg(), target="mpg").to_html("mpg.html")
+
+<span class="c"># selection ranking, without a figure</span>
+arbital.select_features(datasets.load_mpg(), target="mpg")
+
+<span class="c"># categorical target, and the uncertainty arcs</span>
+arbital.orbits(datasets.load_titanic(), target="survived",
+               selection=True, uncertainty=True)
+
+<span class="c"># mixed types, and the full categorical penguins table</span>
+arbital.orbits(datasets.load_tips(), target="tip")
+arbital.orbits(datasets.load("penguins"), target="body_mass_g")</pre>
+
+<h2><span class="n">17</span>References</h2>
+<p>The estimators and procedures implement published methods:</p>
+<p style="font-size:14px; color:var(--dim)">
+Pearson, K. (1895). Notes on regression and inheritance in the case of two parents. <i>Proceedings of the Royal Society of London</i>, 58, 240&ndash;242.<br>
+Spearman, C. (1904). The proof and measurement of association between two things. <i>American Journal of Psychology</i>, 15(1), 72&ndash;101.<br>
+Shannon, C. E. (1948). A mathematical theory of communication. <i>Bell System Technical Journal</i>, 27, 379&ndash;423.<br>
+Torgerson, W. S. (1952). Multidimensional scaling: I. Theory and method. <i>Psychometrika</i>, 17(4), 401&ndash;419.<br>
+Miller, G. A. (1955). Note on the bias of information estimates. In <i>Information Theory in Psychology: Problems and Methods</i>, 95&ndash;100.<br>
+Linfoot, E. H. (1957). An informational measure of correlation. <i>Information and Control</i>, 1(1), 85&ndash;89.<br>
+Dunn, O. J. (1961). Multiple comparisons among means. <i>Journal of the American Statistical Association</i>, 56(293), 52&ndash;64.<br>
+Efron, B. (1979). Bootstrap methods: another look at the jackknife. <i>The Annals of Statistics</i>, 7(1), 1&ndash;26.<br>
+Joe, H. (1989). Relative entropy measures of multivariate dependence. <i>Journal of the American Statistical Association</i>, 84(405), 157&ndash;164.<br>
+Benjamini, Y., &amp; Hochberg, Y. (1995). Controlling the false discovery rate: a practical and powerful approach to multiple testing. <i>Journal of the Royal Statistical Society: Series B</i>, 57(1), 289&ndash;300.<br>
+Kraskov, A., St&ouml;gbauer, H., &amp; Grassberger, P. (2004). Estimating mutual information. <i>Physical Review E</i>, 69(6), 066138.<br>
+Peng, H., Long, F., &amp; Ding, C. (2005). Feature selection based on mutual information: criteria of max-dependency, max-relevance, and min-redundancy. <i>IEEE TPAMI</i>, 27(8), 1226&ndash;1238.<br>
+Ross, B. C. (2014). Mutual information between discrete and continuous data sets. <i>PLoS ONE</i>, 9(2), e87357.
+</p>
+
+<footer>
+arbital v{VERSION}. &copy; Aaron Byrne, MIT license. Estimators implemented in NumPy: Kraskov and Ross k-nearest-neighbour
+mutual information, a plug-in estimator for categorical pairs, Linfoot's r_info, and greedy mRMR
+selection (see the references above). Figures rendered with plotly.js. Example datasets: Auto MPG,
+Palmer penguins, Titanic, restaurant tips.
+Page generated by <span class="mono">demo/make_demo.py</span>.
+</footer>
+
+</main>
+<script>
+  var FIGS = {
+    fig_synth: {FIG_SYNTH}, fig_scatter: {FIG_SCATTER},
+    fig_groups: {FIG_GROUPS},
+    fig_lay_spread: {FIG_LAY_SPREAD}, fig_lay_embed: {FIG_LAY_EMBED},
+    fig_lay_ordered: {FIG_LAY_ORDERED},
+    fig_transform: {FIG_TRANSFORM}, fig_lag: {FIG_LAG},
+    fig_interact: {FIG_INTERACT},
+    fig_titanic: {FIG_TITANIC}, fig_tips: {FIG_TIPS},
+    fig_penfull: {FIG_PENFULL}, fig_simpson: {FIG_SIMPSON},
+    fig_select: {FIG_SELECT},
+    fig_unc_lo: {FIG_UNC_LO}, fig_unc_hi: {FIG_UNC_HI},
+    fig_scale_info: {FIG_SCALE_INFO}, fig_scale_linear: {FIG_SCALE_LINEAR},
+    fig_n250: {FIG_N250}, fig_n1000: {FIG_N1000}, fig_n2000: {FIG_N2000}
+  };
+  // hovering a feature marker reveals its full orbit and rings it with a
+  // halo (kept in sync with HOVER_JS in arbital.plot)
+  function featurePoint(ev) {
+    var p = ev.points && ev.points[0];
+    return (p && p.data.meta === "features" &&
+            typeof p.customdata === "number") ? p : null;
+  }
+  Object.keys(FIGS).forEach(function(id) {
+    Plotly.newPlot(id, FIGS[id].data, FIGS[id].layout,
+                   {responsive: true, displaylogo: false}).then(function(gd) {
+      gd.on("plotly_hover", function(ev) {
+        var p = featurePoint(ev);
+        if (!p) return;
+        Plotly.restyle(gd, {opacity: 0.55}, [p.customdata]);
+        var halo = gd.layout.meta && gd.layout.meta.halo;
+        if (typeof halo === "number")
+          Plotly.restyle(gd, {x: [[p.x]], y: [[p.y]], opacity: 0.9,
+                              "marker.size": (p["marker.size"] || 13) + 12},
+                         [halo]);
+      });
+      gd.on("plotly_unhover", function(ev) {
+        var p = featurePoint(ev);
+        if (!p) return;
+        Plotly.restyle(gd, {opacity: 0.0}, [p.customdata]);
+        var halo = gd.layout.meta && gd.layout.meta.halo;
+        if (typeof halo === "number")
+          Plotly.restyle(gd, {opacity: 0.0}, [halo]);
+      });
+    });
+  });
+</script>
+</body>
+</html>

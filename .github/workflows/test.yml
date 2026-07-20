@@ -1,0 +1,63 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[test]"
+      - run: pytest -q
+
+  # oldest supported NumPy on the oldest supported Python, so the
+  # "numpy>=1.22" floor in pyproject.toml stays honest
+  test-minimum:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - run: pip install "numpy==1.22.*" pytest && pip install -e . --no-deps
+      - run: pytest -q tests/
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install ruff
+      - run: ruff check src/ tests/ demo/ assets/
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install build twine
+      - run: python -m build
+      - run: twine check dist/*
+      # the bundled datasets must ship in the wheel
+      - run: |
+          python - <<'EOF'
+          import glob, zipfile
+          csvs = [n for n in zipfile.ZipFile(glob.glob("dist/*.whl")[0]).namelist()
+                  if n.endswith(".csv")]
+          assert len(csvs) >= 4, f"bundled datasets missing from wheel: {csvs}"
+          print("wheel data ok:", csvs)
+          EOF

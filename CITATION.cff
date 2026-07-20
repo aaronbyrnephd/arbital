@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use arbital, please cite it as below."
+title: "arbital: Association Radii By Information-Theoretic Association Learning"
+abstract: >-
+  A visual method and Python package for exploring general association
+  between variables. For a chosen target, each other variable is measured
+  with both a correlation-based statistic and mutual information and drawn
+  as an orbit around the target, so that non-monotone dependence invisible
+  to correlation becomes visible.
+type: software
+authors:
+  - family-names: Byrne
+    given-names: Aaron
+    email: aaron@aaronbyrnephd.com
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/aaronbyrnephd/arbital"
+keywords:
+  - association
+  - mutual information
+  - feature selection
+  - exploratory data analysis
+  - data visualization

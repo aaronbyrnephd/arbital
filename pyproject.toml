@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arbital"
+# the version is single-sourced from src/arbital/__init__.py:__version__
+dynamic = ["version"]
+description = "Orbit plots of general (information-theoretic) association between variables, for exploratory data analysis and feature selection."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "Aaron Byrne", email = "aaron@aaronbyrnephd.com" }]
+keywords = ["association", "mutual information", "EDA", "feature selection", "visualization"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Programming Language :: Python :: 3",
+]
+# Core is deliberately pure NumPy: every estimator is implemented in
+# readable code in this package rather than delegated to a black box.
+dependencies = ["numpy>=1.22"]
+
+[project.urls]
+Homepage = "https://github.com/aaronbyrnephd/arbital"
+Repository = "https://github.com/aaronbyrnephd/arbital"
+Issues = "https://github.com/aaronbyrnephd/arbital/issues"
+Changelog = "https://github.com/aaronbyrnephd/arbital/blob/main/CHANGELOG.md"
+Documentation = "https://aaronbyrnephd.github.io/arbital/"
+
+[project.optional-dependencies]
+# Only needed for a live plotly Figure object; to_html() works without it,
+# emitting Plotly JSON plus the CDN script.
+plotly = ["plotly>=5"]
+# Example datasets are loaded through seaborn (which brings pandas). None
+# of this is needed by the core package; it powers arbital.datasets only.
+datasets = ["seaborn>=0.12"]
+test = ["pytest>=7", "seaborn>=0.12"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+# the bundled example datasets (mpg, penguins, titanic, tips)
+arbital = ["data/*.csv"]
+
+[tool.setuptools.dynamic]
+version = { attr = "arbital.__version__" }
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint.per-file-ignores]
+# matplotlib.use("Agg") must run before pyplot is imported
+"assets/make_figure.py" = ["E402"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
