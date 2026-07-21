@@ -6,9 +6,10 @@
 
 <p align="center">
   <a href="https://github.com/aaronbyrnephd/arbital/actions/workflows/test.yml"><img src="https://github.com/aaronbyrnephd/arbital/actions/workflows/test.yml/badge.svg" alt="tests"></a>
-  <a href="https://pypi.org/project/arbital/"><img src="https://img.shields.io/pypi/v/arbital.svg" alt="PyPI"></a>
-  <img src="https://img.shields.io/pypi/pyversions/arbital.svg" alt="Python versions">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license"></a>
+
+  <a href="https://pypi.org/project/arbital/"><img src="https://img.shields.io/pypi/v/arbital.svg?cacheSeconds=3600" alt="PyPI"></a>
+  <img src="https://img.shields.io/pypi/pyversions/arbital.svg?cacheSeconds=3600" alt="Python versions">
+  <a href="https://github.com/aaronbyrnephd/arbital/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license"></a>
   <a href="https://aaronbyrnephd.github.io/arbital/"><img src="https://img.shields.io/badge/docs-vignette%20%2B%20API-blue.svg" alt="Documentation"></a>
 </p>
 
@@ -153,12 +154,12 @@ values are dropped.
 - **[Usage vignette](https://aaronbyrnephd.github.io/arbital/)**: the full tour, synthetic
   ground truth, redundancy groups and the angle axis, transformed and lagged variables,
   interactions, categorical data, Simpson's paradox, selection, uncertainty, and a glossary of
-  every quantity the hover/table/`to_df()` report. Published on every push to `main`; open
-  [locally](demo/arbital_vignette.html) too.
+  every quantity the hover/table/`to_df()` report.
+  Published on every push to `main`; also downloadable [from the repo](https://github.com/aaronbyrnephd/arbital/blob/main/demo/arbital_vignette.html).
 - **[API reference](https://aaronbyrnephd.github.io/arbital/api/)**: every public function
   and class, generated from the docstrings below with [pdoc](https://pdoc.dev); the same
   content `help(arbital.orbits)` gives you at a prompt, browsable.
-- **[Tutorial notebook](demo/explore_arbital.ipynb)**: hands-on version of the vignette.
+- **[Tutorial notebook](https://github.com/aaronbyrnephd/arbital/blob/main/demo/explore_arbital.ipynb)**: hands-on version of the vignette.
 - **Repository layout**: `src/arbital/measures.py` (estimators), `geometry.py` (orbit
   mapping, layout, selection), `plot.py` (Plotly JSON), `datasets.py` (bundled data),
   `tests/` (property-based suite), `demo/` (vignette builder).
