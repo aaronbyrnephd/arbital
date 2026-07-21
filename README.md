@@ -1,6 +1,3 @@
-<!-- Repo home: github.com/aaronbyrnephd/arbital.  Before the first PyPI
-     upload, switch the two <img> paths below to absolute raw.githubusercontent
-     URLs (PyPI does not resolve repo-relative paths). -->
 <p align="center">
   <img src="assets/hero.png" alt="arbital orbit plot: association orbits around penguin body mass" width="720">
 </p>
@@ -15,9 +12,9 @@
   <a href="https://aaronbyrnephd.github.io/arbital/"><img src="https://img.shields.io/badge/docs-vignette%20%2B%20API-blue.svg" alt="Documentation"></a>
 </p>
 
-**arbital draws every variable in a dataset as an orbit around a target, so that the
+**arbital** draws every variable in a dataset as an orbit around a target, so that the
 strength, shape, direction, redundancy, and usefulness of each association are readable
-from a single figure.**
+from a single figure.
 
 ## Why correlation fails
 
