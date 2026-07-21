@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/hero.png" alt="arbital orbit plot: association orbits around penguin body mass" width="720">
+  <img src="https://raw.githubusercontent.com/aaronbyrnephd/arbital/main/assets/hero.png" alt="arbital orbit plot: association orbits around penguin body mass" width="720">
 </p>
 
 <h1 align="center">arbital</h1>
@@ -62,7 +62,7 @@ arbital.orbits(cars, target="mpg").to_html("mpg.html")
 ```
 
 <p align="center">
-  <img src="assets/quickstart.png" alt="Orbit plot for the Auto MPG dataset" width="680">
+  <img src="https://raw.githubusercontent.com/aaronbyrnephd/arbital/main/assets/quickstart.png" alt="Orbit plot for the Auto MPG dataset" width="680">
 </p>
 
 Weight, displacement, cylinders and horsepower huddle in one angular sector, one redundant

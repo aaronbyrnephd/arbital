@@ -36,7 +36,7 @@ from .plot import orbit_figure, figure_html
 # intentionally NOT imported here, so the core package has no data
 # dependency.  Import it explicitly:  from arbital import datasets
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __all__ = ["orbits", "select_features", "OrbitSystem",
            "pearson", "spearman", "mutual_information", "linfoot",
            "profile", "select_target", "shuffled_mi"]

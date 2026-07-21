@@ -4,6 +4,13 @@ All notable changes to arbital are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 follows [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-07-21
+
+- Fixed the README's hero and quickstart images not rendering on PyPI: they
+  used repo-relative paths, which GitHub resolves automatically but PyPI does
+  not, so both pointed at nothing on the project page. They now point at
+  absolute `raw.githubusercontent.com` URLs.
+
 ## [0.1.0] - 2026-07-15
 
 First public release.
