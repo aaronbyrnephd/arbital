@@ -18,7 +18,9 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Topic :: Scientific/Engineering :: Information Analysis",
     "Topic :: Scientific/Engineering :: Visualization",
-    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.13",
 ]
 # Core is deliberately pure NumPy: every estimator is implemented in
 # readable code in this package rather than delegated to a black box.
