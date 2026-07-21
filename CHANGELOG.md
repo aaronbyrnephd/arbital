@@ -4,6 +4,15 @@ All notable changes to arbital are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 follows [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] - 2026-07-21
+
+- Made the remaining README links absolute so they resolve on PyPI: the
+  license badge, the local vignette, and the tutorial notebook used
+  repo-relative paths that work on GitHub but not on the project page.
+- Declared the tested Python versions explicitly in the trove classifiers
+  (3.9, 3.11, 3.13) instead of a bare `Python :: 3`, so the pyversions
+  badge reports real versions.
+
 ## [0.1.1] - 2026-07-21
 
 - Fixed the README's hero and quickstart images not rendering on PyPI: they
