@@ -446,8 +446,9 @@ def _bootstrap_se(F, y, y_disc, feat_disc, n_neighbors, n_bootstrap, random_stat
     Nonparametric bootstrap (Efron 1979, "Bootstrap methods: another look
     at the jackknife", Annals of Statistics 7(1), 1-26): resamples rows
     with replacement n_bootstrap times and recomputes r_info;
-    the spread of those estimates becomes the arc's angular sweep, so a
-    shaky association reads as a wide, smeared orbit.
+    the spread of those estimates becomes a radial band drawn through the
+    marker (r_info +/- se), so a shaky association reads as a long band
+    along the radius rather than a short one.
     """
     rng = np.random.default_rng(random_state + 1)
     n = F.shape[0]
