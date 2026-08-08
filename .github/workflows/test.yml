@@ -42,6 +42,19 @@ jobs:
       - run: pip install ruff
       - run: ruff check src/ tests/ demo/ assets/
 
+  # runs the tutorial notebook end-to-end so it can't silently drift from
+  # src/ without CI noticing; kept off the main matrix since it's a docs
+  # asset, not library code
+  demo-notebook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -e ".[test,demo]"
+      - run: pytest -q tests/test_demo_notebook.py
+
   build:
     runs-on: ubuntu-latest
     steps:

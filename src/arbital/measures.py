@@ -43,13 +43,13 @@ from __future__ import annotations
 import numpy as np
 
 __all__ = [
-    "pearson",
-    "spearman",
+    "association_matrix",
+    "linfoot",
     "mutual_information",
     "mutual_information_mixed",
-    "linfoot",
+    "pearson",
     "profile",
-    "association_matrix",
+    "spearman",
 ]
 
 

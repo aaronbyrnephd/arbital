@@ -1,14 +1,20 @@
 """Tests: each checks that an estimator or geometric mapping behaves the
 way the theory says it must on data where the ground truth is known."""
 
+from typing import ClassVar
+
 import numpy as np
 import pytest
 
 import arbital
-from arbital.measures import _digamma, linfoot
-from arbital.geometry import (orbit_parameters, angular_layout,
-                              greedy_selection, strength_to_distance)
 from arbital import datasets
+from arbital.geometry import (
+    angular_layout,
+    greedy_selection,
+    orbit_parameters,
+    strength_to_distance,
+)
+from arbital.measures import _digamma, linfoot
 
 RNG = np.random.default_rng(42)
 N = 600
@@ -26,7 +32,7 @@ def _load_or_skip(loader):
     (seaborn downloads on first use) is unavailable."""
     try:
         return loader()
-    except Exception as exc:                     # ImportError, URLError, ...
+    except Exception as exc:                     # noqa: BLE001 -- ImportError, URLError, ...
         pytest.skip(f"dataset unavailable: {exc}")
 
 
@@ -197,7 +203,7 @@ def test_greedy_selection_defers_the_clone():
 def test_greedy_selection_ranks_everything_once():
     relevance = np.array([0.6, 0.9, 0.3, 0.7])
     assoc = np.eye(4) + 0.2 * (np.ones((4, 4)) - np.eye(4))
-    ranks, gains = greedy_selection(relevance, assoc)
+    ranks, _ = greedy_selection(relevance, assoc)
     assert sorted(ranks.tolist()) == [1, 2, 3, 4]   # a permutation
     assert ranks[1] == 1                            # highest relevance first
 
@@ -361,7 +367,7 @@ def test_select_features_standalone():
                          rng.standard_normal(400)])           # noise
 
     class Frame:
-        columns = ["y", "signal", "clone", "noise"]
+        columns: ClassVar = ["y", "signal", "clone", "noise"]
         def __array__(self, dtype=None): return X
     rows = arbital.select_features(Frame(), target="y")
     assert [r["pick"] for r in rows] == sorted(r["pick"] for r in rows)
@@ -380,7 +386,7 @@ def test_string_columns_and_missing_rows_are_handled():
     x[3] = np.nan                                   # one incomplete row
 
     class Frame:
-        columns = ["y", "x", "grp"]
+        columns: ClassVar = ["y", "x", "grp"]
         def __init__(self):
             self._cols = {"y": y, "x": x, "grp": grp}
         def __getitem__(self, name):
@@ -539,7 +545,7 @@ def test_synthetic_categorical_orbits_end_to_end():
     X = np.column_stack([binary, grp, cont, RNG.standard_normal(n)])
 
     class Frame:
-        columns = ["target", "grp", "cont", "noise"]
+        columns: ClassVar = ["target", "grp", "cont", "noise"]
         def __array__(self, dtype=None): return X
     space = arbital.orbits(Frame(), target="target", categorical=["target", "grp"])
     rows = {r["name"]: r for r in space.table()}

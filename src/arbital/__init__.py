@@ -25,21 +25,36 @@ import warnings
 
 import numpy as np
 
-from .measures import (profile, association_matrix, pearson, spearman,
-                       mutual_information, mutual_information_mixed, linfoot,
-                       shuffled_mi)
-from .geometry import (orbit_parameters, angular_layout, greedy_selection,
-                       select_target)
-from .plot import orbit_figure, figure_html
+from .geometry import angular_layout, greedy_selection, orbit_parameters, select_target
+from .measures import (
+    association_matrix,
+    linfoot,
+    mutual_information,
+    mutual_information_mixed,
+    pearson,
+    profile,
+    shuffled_mi,
+    spearman,
+)
+from .plot import figure_html, orbit_figure
 
 # Note: `arbital.datasets` (optional example data, loaded via seaborn) is
 # intentionally NOT imported here, so the core package has no data
 # dependency.  Import it explicitly:  from arbital import datasets
 
-__version__ = "0.1.2"
-__all__ = ["orbits", "select_features", "OrbitSystem",
-           "pearson", "spearman", "mutual_information", "linfoot",
-           "profile", "select_target", "shuffled_mi"]
+__version__ = "0.1.3"
+__all__ = [
+    "OrbitSystem",
+    "linfoot",
+    "mutual_information",
+    "orbits",
+    "pearson",
+    "profile",
+    "select_features",
+    "select_target",
+    "shuffled_mi",
+    "spearman",
+]
 
 
 # ---------------------------------------------------------------------------
@@ -620,7 +635,7 @@ def select_features(X, target=None, *, n_neighbors: int = 5,
         for row in arbital.select_features(df, target="price"):
             print(row["pick"], row["name"], round(row["gain"], 3))
     """
-    (target_name, feat_names, metrics, assoc,
+    (_, feat_names, metrics, assoc,
      feat_disc, F, y, y_disc) = _compute(X, target, n_neighbors, categorical,
                                          max_samples, random_state)
     if calibrate:

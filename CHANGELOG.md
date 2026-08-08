@@ -4,6 +4,14 @@ All notable changes to arbital are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 follows [Semantic Versioning](https://semver.org/).
 
+## [0.1.3] - 2026-08-08
+
+- Fixed CI lint failures: unsorted imports, unsorted `__all__`, a few
+  unused-variable and dict-iteration nits caught by newer ruff rules.
+- Excluded the tutorial notebook from ruff (it's a doc asset, not library
+  code); added a test that runs it end-to-end instead, so it can't drift
+  from `src/` unnoticed.
+
 ## [0.1.2] - 2026-07-21
 
 - Made the remaining README links absolute so they resolve on PyPI: the
