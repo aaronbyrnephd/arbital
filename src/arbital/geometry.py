@@ -54,8 +54,13 @@ import numpy as np
 
 from .measures import association_matrix
 
-__all__ = ["strength_to_distance", "orbit_parameters", "angular_layout",
-           "greedy_selection", "select_target"]
+__all__ = [
+    "angular_layout",
+    "greedy_selection",
+    "orbit_parameters",
+    "select_target",
+    "strength_to_distance",
+]
 
 
 def strength_to_distance(r, scale: str = "info"):

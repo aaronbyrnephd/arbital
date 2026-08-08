@@ -35,8 +35,15 @@ import os
 
 import numpy as np
 
-__all__ = ["Table", "load", "load_mpg", "load_penguins", "load_titanic",
-           "load_tips", "available"]
+__all__ = [
+    "Table",
+    "available",
+    "load",
+    "load_mpg",
+    "load_penguins",
+    "load_tips",
+    "load_titanic",
+]
 
 _DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 

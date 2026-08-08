@@ -12,8 +12,9 @@ Run from the repo root:  PYTHONPATH=src python3 assets/make_figure.py
 
 import os
 
-import numpy as np
 import matplotlib
+import numpy as np
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap

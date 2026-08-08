@@ -63,7 +63,7 @@ import numpy as np
 
 from .geometry import strength_to_distance
 
-__all__ = ["orbit_figure", "figure_html"]
+__all__ = ["figure_html", "orbit_figure"]
 
 # --- palette (dark theme) ---------------------------------------------------
 BG = "#0b0e1a"

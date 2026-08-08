@@ -265,8 +265,8 @@ def main():
     sys_wk_info = system(wk, "outcome")
     sys_wk_lin = system(wk, "outcome", scale="linear")
     wk_top = max(sys_wk_info.table(), key=lambda r: r["r_info"])
-    wk_top_lin = [r for r in sys_wk_lin.table()
-                  if r["name"] == wk_top["name"]][0]
+    wk_top_lin = next(r for r in sys_wk_lin.table()
+                       if r["name"] == wk_top["name"])
     # the weakest of the four genuine (non-noise) drivers, named and
     # measured live rather than quoted from the generating coefficients:
     # sampling noise at n=700 means the realised r/r_info for a given
@@ -417,12 +417,12 @@ def main():
         "{TF_WINNER}": tf_winner,
         "{SEL_MPG}": selection_rows(mpg_sel),
         "{SEL_TITANIC}": selection_rows(tit_sel),
-        "{S2_R}": f"{[r for r in sys_syn.table() if r['name']=='monotone'][0]['pearson']:.2f}",
-        "{S2_RHO}": f"{[r for r in sys_syn.table() if r['name']=='monotone'][0]['spearman']:.2f}",
-        "{S2_RI}": f"{[r for r in sys_syn.table() if r['name']=='monotone'][0]['r_info']:.2f}",
+        "{S2_R}": f"{next(r for r in sys_syn.table() if r['name']=='monotone')['pearson']:.2f}",
+        "{S2_RHO}": f"{next(r for r in sys_syn.table() if r['name']=='monotone')['spearman']:.2f}",
+        "{S2_RI}": f"{next(r for r in sys_syn.table() if r['name']=='monotone')['r_info']:.2f}",
         "{TIT_SEX_RI}": f"{tit_rows['sex']['r_info']:.2f}",
         "{TIT_SEX_R}": f"{tit_rows['sex']['pearson']:+.2f}",
-        "{TIT_FARE_GAIN}": f"{[s for s in tit_sel if s['name']=='fare'][0]['gain']:+.2f}",
+        "{TIT_FARE_GAIN}": f"{next(s for s in tit_sel if s['name']=='fare')['gain']:+.2f}",
         "{DF_EXAMPLE}": df_example,
         "{DF_ALL_COLUMNS}": df_all_columns,
         "{MPG_NOTE}": datasets.load_mpg().notes,

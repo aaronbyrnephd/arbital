@@ -24,9 +24,14 @@ import numpy as np
 import pytest
 
 import arbital
-from arbital.measures import (mutual_information, mutual_information_mixed,
-                              _mi_discrete_discrete, linfoot, profile)
 from arbital.geometry import orbit_parameters
+from arbital.measures import (
+    _mi_discrete_discrete,
+    linfoot,
+    mutual_information,
+    mutual_information_mixed,
+    profile,
+)
 
 RNG = np.random.default_rng(99)
 N = 600
@@ -193,8 +198,8 @@ def test_calibration_zeroes_independent_features_RELEVANCE_not_position():
     cal = arbital.orbits(_frame(_noisy_system()), target="y")
     r_raw = {r["name"]: r["r_info"] for r in raw.table()}
     rows = {r["name"]: r for r in cal.table()}
-    for name in r_raw:
-        assert rows[name]["r_info"] == pytest.approx(r_raw[name])
+    for name, r_info in r_raw.items():
+        assert rows[name]["r_info"] == pytest.approx(r_info)
     assert rows["signal"]["below_chance"] is False
     below = [rows[f"n{i}"] for i in range(6) if rows[f"n{i}"]["below_chance"]]
     assert len(below) >= 4
@@ -327,8 +332,8 @@ def test_confidence_raises_chance_level_monotonically():
     hi = arbital.orbits(_frame(cols), target="y", categorical=cat, confidence=0.99)
     lo_chance = {r["name"]: r["chance_nats"] for r in lo.table()}
     hi_chance = {r["name"]: r["chance_nats"] for r in hi.table()}
-    for name in lo_chance:
-        assert hi_chance[name] >= lo_chance[name] - 1e-12
+    for name, chance in lo_chance.items():
+        assert hi_chance[name] >= chance - 1e-12
 
 
 def test_confidence_out_of_range_raises():
@@ -381,8 +386,8 @@ def test_binary_categorical_keeps_direction_nominal_does_not():
     # BINARY categorical column (nominal=False): the hover must show it,
     # not hide it behind the blanket "categorical: no direction" wording
     # that only makes sense for a multi-level nominal column (nominal=True).
-    from arbital.plot import _hover
     from arbital.geometry import orbit_parameters
+    from arbital.plot import _hover
     n = 400
     x = RNG.standard_normal(n)
     sex = (x > 0).astype(float)                    # binary categorical
