@@ -1,5 +1,10 @@
 """Association measures, implemented transparently in pure NumPy.
 
+Intent:
+    Measure how strongly two variables are associated -- through a
+    straight line, through any monotone curve, and through any
+    relationship at all -- and report all three on one comparable scale.
+
 The three estimators here answer three different questions about a pair
 of variables (x, y):
 
@@ -54,11 +59,92 @@ __all__ = [
 
 
 # ---------------------------------------------------------------------------
+# Decidable cores
+# ---------------------------------------------------------------------------
+# Each estimator below measures a quantity and then draws a conclusion
+# from it.  The conclusions are these four functions: they take numbers
+# rather than samples, so what this module concludes from an estimate can
+# be read, stated and checked without running an estimator.
+
+def _ksg_mi(psi_k: float, psi_n: float, psi_marginals: float) -> float:
+    """Assemble the KSG estimate from its three digamma terms, in nats.
+
+    Intent:
+        Turn the estimator's three averaged digamma terms into a mutual
+        information, held at zero because information cannot be negative.
+    """
+    return max(0.0, psi_k + psi_n - psi_marginals)
+
+
+def _monotone_strength(r: float, rho: float) -> float:
+    """Best monotone description of a pair: r_mono = max(|r|, |rho|).
+
+    Intent:
+        Say how much of an association a monotone curve can account for,
+        so the remainder can be attributed to shape correlation misses.
+    """
+    return max(abs(r), abs(rho))
+
+
+def _nonlinear_share(r_info: float, r_mono: float) -> float:
+    """The share nu of total dependence a monotone description misses.
+
+    nu = 1 - (r_mono / r_info)^2, floored at zero, and zero when there is
+    no association at all to take a share of.  r_mono is capped at
+    r_info: a monotone fit cannot explain more than the total.
+
+    Intent:
+        Quantify how much of an association is invisible to correlation,
+        as the fraction of the total dependence a monotone description
+        fails to reach.
+    """
+    if r_info <= 0.0:
+        return 0.0
+    return max(0.0, 1.0 - (min(r_mono, r_info) / r_info) ** 2)
+
+
+def _floored_total(r_info_raw: float, r_mono: float) -> float:
+    """Total association, floored at what a monotone fit already reaches.
+
+    Total dependence cannot be less than the part a monotone description
+    already captures, and the k-NN estimator is noisy enough to report
+    less, so the floor is enforced rather than assumed.
+
+    Intent:
+        Keep the total and its monotone part consistent with each other,
+        so the nonlinear share they define is never negative.
+    """
+    return max(r_info_raw, r_mono)
+
+
+def _is_nominal(n_levels: int, is_discrete: bool) -> bool:
+    """True when a side's integer codes are arbitrary labels.
+
+    A discrete side with more than two levels has no meaningful sign or
+    monotone baseline; a binary one still carries a point-biserial
+    direction and is not nominal in this sense.
+
+    Intent:
+        Decide whether a variable's codes carry a direction, which is
+        what settles whether a correlation is reported for the pair.
+    """
+    return is_discrete and n_levels > 2
+
+
+# ---------------------------------------------------------------------------
 # Classical correlations
 # ---------------------------------------------------------------------------
 
 def pearson(x: np.ndarray, y: np.ndarray) -> float:
-    """Plain Pearson correlation coefficient (signed, -1..1)."""
+    """Plain Pearson correlation coefficient (signed, -1..1).
+
+    A constant sample has no linear relationship with anything, so a zero
+    denominator reports 0.0 instead of dividing.
+
+    Intent:
+        Answer how well a straight line describes the relationship
+        between two samples, on the conventional -1..1 scale.
+    """
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
     xc = x - x.mean()
@@ -70,7 +156,12 @@ def pearson(x: np.ndarray, y: np.ndarray) -> float:
 
 
 def _ranks(x: np.ndarray) -> np.ndarray:
-    """Ranks 1..n with ties given the average of the ranks they occupy."""
+    """Ranks 1..n with ties given the average of the ranks they occupy.
+
+    Intent:
+        Replace values by their order so a correlation of the ranks sees
+        any monotone relationship, whatever its curvature.
+    """
     x = np.asarray(x, dtype=float)
     order = np.argsort(x, kind="mergesort")          # stable sort
     ranks = np.empty(len(x))
@@ -89,7 +180,12 @@ def _ranks(x: np.ndarray) -> np.ndarray:
 
 
 def spearman(x: np.ndarray, y: np.ndarray) -> float:
-    """Spearman rank correlation = Pearson correlation of the ranks."""
+    """Spearman rank correlation = Pearson correlation of the ranks.
+
+    Intent:
+        Answer how well any monotone curve describes the relationship
+        between two samples, on the same -1..1 scale as Pearson.
+    """
     return pearson(_ranks(x), _ranks(y))
 
 
@@ -103,6 +199,10 @@ def _digamma(x: np.ndarray) -> np.ndarray:
     Uses the recurrence psi(x) = psi(x+1) - 1/x to push arguments above 10,
     then the standard asymptotic series.  Accurate to ~1e-11 for x > 0,
     which is far more than the MI estimator needs.
+
+    Intent:
+        Supply the one special function the k-NN estimators need, so the
+        package stays pure NumPy with no SciPy dependency.
     """
     x = np.asarray(x, dtype=float).copy()
     result = np.zeros_like(x)
@@ -141,6 +241,10 @@ def mutual_information(
 
     O(n^2) memory/time, fine up to a few thousand points; subsample
     beyond that.
+
+    Intent:
+        Measure how much knowing one continuous variable reduces
+        uncertainty about another, through a relationship of any shape.
     """
     x = np.asarray(x, dtype=float).ravel()
     y = np.asarray(y, dtype=float).ravel()
@@ -173,13 +277,12 @@ def mutual_information(
     n_x = (dx < eps[:, None]).sum(axis=1)
     n_y = (dy < eps[:, None]).sum(axis=1)
 
-    # 4. KSG formula; clip at 0 because MI cannot be negative
-    mi = (
-        _digamma(np.array([float(k)]))[0]
-        + _digamma(np.array([float(n)]))[0]
-        - float(np.mean(_digamma(n_x + 1.0) + _digamma(n_y + 1.0)))
+    # 4. KSG formula; _ksg_mi clips at 0 because MI cannot be negative
+    return _ksg_mi(
+        float(_digamma(np.array([float(k)]))[0]),
+        float(_digamma(np.array([float(n)]))[0]),
+        float(np.mean(_digamma(n_x + 1.0) + _digamma(n_y + 1.0))),
     )
-    return max(0.0, float(mi))
 
 
 def linfoot(mi: float) -> float:
@@ -189,6 +292,10 @@ def linfoot(mi: float) -> float:
     bivariate Gaussian, so it is 'MI expressed on the correlation scale'.
     Linfoot (1957), "An informational measure of correlation",
     Information and Control 1(1), 85-89.
+
+    Intent:
+        Put mutual information on the correlation scale, so dependence
+        of any shape can be compared against an ordinary correlation.
     """
     return float(np.sqrt(1.0 - np.exp(-2.0 * max(0.0, mi))))
 
@@ -207,6 +314,10 @@ def _mi_discrete_discrete(x: np.ndarray, y: np.ndarray) -> float:
         I = sum_{a,b} p(a,b) * log( p(a,b) / (p(a) p(b)) ).
     Both inputs are treated as labels (their numeric value is ignored
     except as an identity), so integer codes are fine.
+
+    Intent:
+        Measure association between two categorical variables exactly
+        from their joint frequency table, with no estimator in between.
     """
     x = np.asarray(x).ravel()
     y = np.asarray(y).ravel()
@@ -239,6 +350,10 @@ def _mi_continuous_discrete(c: np.ndarray, d: np.ndarray, k: int = 5,
     where for each point i, N_class is its class size, and m is the number
     of points (any class) within the distance to its k-th same-class
     neighbour.
+
+    Intent:
+        Measure association between a continuous variable and a class
+        label, which neither the KSG nor the plug-in estimator can do.
     """
     c = np.asarray(c, dtype=float).ravel()
     d = np.asarray(d).ravel()
@@ -273,6 +388,10 @@ def mutual_information_mixed(x, y, x_discrete: bool, y_discrete: bool,
       continuous / continuous -> KSG (mutual_information)
       continuous / discrete   -> Ross estimator
       discrete   / discrete   -> plug-in from the contingency table
+
+    Intent:
+        Give every pair of variables one comparable information number,
+        whatever mix of continuous and categorical types it holds.
     """
     if x_discrete and y_discrete:
         return _mi_discrete_discrete(x, y)
@@ -301,6 +420,10 @@ def shuffled_mi(x, y, x_discrete: bool, y_discrete: bool, k: int = 5,
     that artefact.
 
     Returns an array of n_shuffles MI estimates.
+
+    Intent:
+        Show what this estimator reports when there is nothing to find,
+        so a measured value can be read against its own noise floor.
     """
     rng = np.random.default_rng(rng)
     x = np.asarray(x)
@@ -344,6 +467,10 @@ def profile(x, y, k: int = 5, x_discrete: bool = False,
                                discrete side (nominal=False) still gets a
                                real point-biserial correlation, so it keeps
                                a direction like a continuous variable.
+
+    Intent:
+        Report every association measure for one pair at once, on one
+        scale, so the total and its monotone part can be compared.
     """
     x = np.asarray(x)
     y = np.asarray(y)
@@ -356,11 +483,13 @@ def profile(x, y, k: int = 5, x_discrete: bool = False,
     # sign or monotone baseline (its integer codes are arbitrary labels).
     # A binary variable is fine: point-biserial correlation still gives a
     # consistent direction.  So we only drop the monotone framing for
-    # multi-category nominal sides.
-    def _nominal(v, is_disc):
-        return is_disc and len(np.unique(v)) > 2
+    # multi-category nominal sides.  Level counts are taken only for a
+    # side already known to be discrete, and the decision itself is
+    # _is_nominal().
+    x_levels = len(np.unique(x)) if x_discrete else 0
+    y_levels = len(np.unique(y)) if y_discrete else 0
 
-    if _nominal(x, x_discrete) or _nominal(y, y_discrete):
+    if _is_nominal(x_levels, x_discrete) or _is_nominal(y_levels, y_discrete):
         return {
             "pearson": 0.0, "spearman": 0.0, "mi": mi,
             "r_info": r_info_raw, "r_mono": r_info_raw,
@@ -369,11 +498,9 @@ def profile(x, y, k: int = 5, x_discrete: bool = False,
 
     r = pearson(xf, yf)
     rho = spearman(xf, yf)
-    r_mono = max(abs(r), abs(rho))
-    # Total dependence can't be less than what a monotone fit already
-    # captures; the kNN estimator is noisy, so enforce that floor.
-    r_info = max(r_info_raw, r_mono)
-    nonlin = 0.0 if r_info == 0.0 else max(0.0, 1.0 - (r_mono / r_info) ** 2)
+    r_mono = _monotone_strength(r, rho)
+    r_info = _floored_total(r_info_raw, r_mono)
+    nonlin = _nonlinear_share(r_info, r_mono)
     return {
         "pearson": r, "spearman": rho, "mi": mi,
         "r_info": r_info, "r_mono": r_mono,
@@ -387,6 +514,10 @@ def association_matrix(X: np.ndarray, k: int = 5, discrete=None) -> np.ndarray:
 
     discrete: optional boolean sequence, one flag per column, marking
     categorical columns so the right MI estimator is used.
+
+    Intent:
+        Give the redundancy structure among features one number per
+        pair, which the angular layout and the selection both read.
     """
     X = np.asarray(X, dtype=float)
     p = X.shape[1]

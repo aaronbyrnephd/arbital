@@ -1,0 +1,325 @@
+# machine record; binds to form 5b32ecb57a2b
+arbital.geometry._distance_from_strength:
+  name: "_distance_from_strength"
+  signature: "(r: 'float', scale: \"Literal['info', 'linear']\" = 'info') -> 'float'"
+  intent: "Distance from the centre for an association strength r in [0, 1]. The radial mapping itself, with no coercion: callers hand it a value already known to be in [0, 1]."
+  grammar: "mathema"
+  identity:
+    form: "5b32ecb57a2b"
+    sig: "cdec6983fc87"
+    tier: 2
+    pure: true
+    claims_fingerprint: "6cb8f7edccf2"
+    integrity: "22a7e34206ed90e1"
+  math: null
+  claims:
+    - name: "callable"
+      statement: "parameter 'scale' is a string with no declared domain"
+      verdict: "skipped"
+      n: null
+      counterexample: null
+      note: "declare its values, e.g. 'for scale in {\"a\", \"b\"}, ...' in a claim, or annotate it Literal[...]"
+      sketch: null
+      condition: null
+      route: null
+      authored: "builtin"
+      domain: null
+      grammar: null
+      tolerance: null
+      meta:
+        mathema.probe_gap: "string-domain-missing"
+        mathema.claim_source: "builtin"
+    - name: "stays_inside_the_plot"
+      statement: "for r in [0.0, 1.0]:float|missing, scale in {\"info\", \"linear\"}, 0 <= f(r, scale) <= 1"
+      verdict: "proven"
+      n: null
+      counterexample: null
+      note: "every link of the chained comparison proven"
+      sketch: null
+      condition: "for r in [0.0, 1.0]:float|missing, scale in {\"info\", \"linear\"}"
+      route: "derive"
+      authored: "declared"
+      domain:
+        r:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+        scale:
+          set:
+            - "info"
+            - "linear"
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.claim_source: "the author"
+    - name: "stronger_association_sits_closer"
+      statement: "for r in [0.0, 1.0]:float|missing, scale in {\"info\", \"linear\"}, d(f(r, scale), r) <= 0"
+      verdict: "proven"
+      n: null
+      counterexample: null
+      note: ""
+      sketch: "proven piecewise: scale's domain split into its stated values {\"info\"}, {\"linear\"}, each piece proven separately"
+      condition: "where x=scale: ∀ r ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}, x ∈ {\"info\", \"linear\"}"
+      route: "derive"
+      authored: "declared"
+      domain:
+        r:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+        scale:
+          set:
+            - "info"
+            - "linear"
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.derive_route: "domain_split"
+        mathema.claim_source: "the author"
+    - name: "no_association_sits_on_the_rim"
+      statement: "for scale in {\"info\", \"linear\"}, f(0, scale) = 1"
+      verdict: "proven"
+      n: null
+      counterexample: null
+      note: "; inferred r=0 from the claim's own literal argument"
+      sketch: "proven piecewise: scale's domain split into its stated values {\"info\"}, {\"linear\"}, each piece proven separately"
+      condition: "where x=scale: ∀ r ∈ [0.0, 0.0] ⊂ ℝ ∪ {∅}, x ∈ {\"info\", \"linear\"}"
+      route: "derive"
+      authored: "declared"
+      domain:
+        scale:
+          set:
+            - "info"
+            - "linear"
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.derive_route: "domain_split"
+        mathema.claim_source: "the author"
+    - name: "perfect_association_sits_at_the_centre"
+      statement: "for scale in {\"info\", \"linear\"}, f(1, scale) = 0"
+      verdict: "proven"
+      n: null
+      counterexample: null
+      note: "; inferred r=1 from the claim's own literal argument"
+      sketch: "proven piecewise: scale's domain split into its stated values {\"info\"}, {\"linear\"}, each piece proven separately"
+      condition: "where x=scale: ∀ r ∈ [1.0, 1.0] ⊂ ℝ ∪ {∅}, x ∈ {\"info\", \"linear\"}"
+      route: "derive"
+      authored: "declared"
+      domain:
+        scale:
+          set:
+            - "info"
+            - "linear"
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.derive_route: "domain_split"
+        mathema.claim_source: "the author"
+    - name: "the_linear_scale_is_the_naive_mapping"
+      statement: "for r in [0.0, 1.0]:float|missing, f(r, 'linear') = 1 - r"
+      verdict: "holds"
+      n: 192
+      counterexample: null
+      note: "; routes attempted, derive: underivable (branch pruning couldn't settle this under the declared domain: line 19 (\"scale == 'info'\") needs a domain specific enough for scale; line 21 (\"scale == 'linear'\") needs a domain specific enough for scale); probe: holds"
+      sketch: null
+      condition: "for r in [0.0, 1.0]:float|missing"
+      route: "probe"
+      authored: "declared"
+      domain:
+        r:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.sampling: "r~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], scale~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=192"
+        mathema.confidence:
+          score: 8.6
+          stars: 3
+          max_stars: 5
+          n: 192
+          factors:
+            branches: 2
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "unliftable"
+        mathema.claim_source: "the author"
+    - name: "the_info_scale_is_residual_uncertainty"
+      statement: "for r in [0.0, 1.0]:float|missing, r^2 + f(r, 'info')^2 = 1"
+      verdict: "holds"
+      n: 192
+      counterexample: null
+      note: "; routes attempted, derive: underivable (branch pruning couldn't settle this under the declared domain: line 19 (\"scale == 'info'\") needs a domain specific enough for scale; line 21 (\"scale == 'linear'\") needs a domain specific enough for scale); probe: holds"
+      sketch: null
+      condition: "for r in [0.0, 1.0]:float|missing"
+      route: "probe"
+      authored: "declared"
+      domain:
+        r:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.sampling: "r~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], scale~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=192"
+        mathema.confidence:
+          score: 8.6
+          stars: 3
+          max_stars: 5
+          n: 192
+          factors:
+            branches: 2
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "unliftable"
+        mathema.claim_source: "the author"
+    - name: "the_radial_axis_is_logarithmic_in_information"
+      statement: "let g = arbital.measures.linfoot, let mi be [0.0, 10.0]:float|missing, f(g(mi), 'info') = exp(-mi)"
+      verdict: "holds"
+      n: 192
+      counterexample: null
+      note: "; routes attempted, derive: underivable (branch pruning couldn't settle this under the declared domain: line 19 (\"scale == 'info'\") needs a domain specific enough for scale; line 21 (\"scale == 'linear'\") needs a domain specific enough for scale); probe: holds"
+      sketch: null
+      condition: "for mi in [0.0, 10.0]:float|missing"
+      route: "probe"
+      authored: "declared"
+      domain:
+        mi:
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 10.0
+              closed_lo: true
+              closed_hi: true
+          excluded: []
+          explicit_type: false
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.sampling: "r~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], scale~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=192"
+        mathema.confidence:
+          score: 8.6
+          stars: 3
+          max_stars: 5
+          n: 192
+          factors:
+            branches: 2
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "unliftable"
+        mathema.claim_source: "the author"
+    - name: "refuses_an_unknown_scale"
+      statement: "raises(f(0.5, 'nope'), ValueError)"
+      verdict: "holds"
+      n: 192
+      counterexample: null
+      note: "; inferred r=0.5 from the claim's own literal argument; routes attempted, derive: underivable (branch pruning couldn't settle which side runs under this domain: line 19 (\"scale == 'info'\") needs a domain specific enough for scale; line 21 (\"scale == 'linear'\") needs a domain specific enough for scale); probe: holds"
+      sketch: null
+      condition: null
+      route: "probe"
+      authored: "declared"
+      domain: null
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.sampling: "r~U(0.5,0.5)⊔{lo,hi,mid,±ε}[p=.3], scale~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=192"
+        mathema.confidence:
+          score: 8.6
+          stars: 3
+          max_stars: 5
+          n: 192
+          factors:
+            branches: 2
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "unliftable"
+        mathema.claim_source: "the author"
+    - name: "dependencies_current"
+      statement: "dependencies_current"
+      verdict: "proven"
+      n: null
+      counterexample: null
+      note: "generated by mathema verify; adjudicated against the verified store"
+      sketch: "no direct function dependencies, vacuously current"
+      condition: null
+      route: "derive"
+      authored: "builtin"
+      domain: null
+      grammar: null
+      tolerance: null
+      meta:
+        mathema.claim_source: "builtin"
+  concepts:
+    - "case-analysis"
+    - "differentiation"
+  references: {}
+  reasoning:
+    - step: "intent"
+      claim: "Distance from the centre for an association strength r in [0, 1]. The radial mapping itself, with no coercion: callers hand it a value already known to be in [0, 1]."
+      basis: "documented; the author's stated purpose"
+    - step: "gap"
+      claim: "parameter 'scale' is a string with no declared domain"
+      basis: "declare its values, e.g. 'for scale in {\"a\", \"b\"}, ...' in a claim, or annotate it Literal[...]"
+    - step: "derivation"
+      claim: "for r in [0.0, 1.0]:float|missing, scale in {\"info\", \"linear\"}, 0 <= f(r, scale) <= 1"
+      basis: "symbolic derivation"
+    - step: "derivation"
+      claim: "for r in [0.0, 1.0]:float|missing, scale in {\"info\", \"linear\"}, d(f(r, scale), r) <= 0"
+      basis: "proven piecewise: scale's domain split into its stated values {\"info\"}, {\"linear\"}, each piece proven separately"
+    - step: "derivation"
+      claim: "for scale in {\"info\", \"linear\"}, f(0, scale) = 1"
+      basis: "proven piecewise: scale's domain split into its stated values {\"info\"}, {\"linear\"}, each piece proven separately"
+    - step: "derivation"
+      claim: "for scale in {\"info\", \"linear\"}, f(1, scale) = 0"
+      basis: "proven piecewise: scale's domain split into its stated values {\"info\"}, {\"linear\"}, each piece proven separately"
+    - step: "evidence"
+      claim: "for r in [0.0, 1.0]:float|missing, f(r, 'linear') = 1 - r"
+      basis: "probed, n=192"
+    - step: "evidence"
+      claim: "for r in [0.0, 1.0]:float|missing, r^2 + f(r, 'info')^2 = 1"
+      basis: "probed, n=192"
+    - step: "evidence"
+      claim: "let g = arbital.measures.linfoot, let mi be [0.0, 10.0]:float|missing, f(g(mi), 'info') = exp(-mi)"
+      basis: "probed, n=192"
+    - step: "evidence"
+      claim: "raises(f(0.5, 'nope'), ValueError)"
+      basis: "probed, n=192"
+    - step: "derivation"
+      claim: "dependencies_current"
+      basis: "no direct function dependencies, vacuously current"
+    - step: "situating"
+      claim: "instantiates: case-analysis, differentiation"
+      basis: "deterministic concept tagging"
+  lineage:
+    generated_by: "mathema 0.6.0"
+    CDD_spec_version: "0.1.0"
+    date: "2026-09-14"
+    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+  raises:
+    - "ValueError"
+  meta:
+    mathema.concept_sources:
+      mechanism:
+        - "case-analysis"
+        - "differentiation"
+      keyword:
+        - "metric-space"
+    concepts:
+      - "case-analysis"
+      - "differentiation"
+    mathema.intent_provenance: "declared"

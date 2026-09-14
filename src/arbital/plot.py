@@ -1,5 +1,10 @@
 """Build the orbit plot as a Plotly figure.
 
+Intent:
+    Draw the association numbers so that strength, shape, direction,
+    redundancy and selection are all readable from one figure without a
+    table beside it.
+
 To stay dependency-light the figure is assembled as a plain dict in the
 Plotly JSON schema.  You can:
 
@@ -58,6 +63,7 @@ features do not pile onto the target marker.
 from __future__ import annotations
 
 import json
+import math
 
 import numpy as np
 
@@ -83,9 +89,24 @@ R_FLOOR = 0.06
 R_CLIP = 1.06          # true distance beyond which orbit lines are clipped
 
 
+def _display_radius(r: float) -> float:
+    """Map a true distance (0..1) to its displayed radius.
+
+    Intent:
+        Keep the strongest features off the target marker by reserving
+        the innermost R_FLOOR of the plot, uniformly for everything drawn.
+    """
+    return R_FLOOR + (1.0 - R_FLOOR) * r
+
+
 def _display(r):
-    """Map a true distance (0..1) to its displayed radius."""
-    return R_FLOOR + (1.0 - R_FLOOR) * np.asarray(r, dtype=float)
+    """Map a true distance (0..1) to its displayed radius, elementwise.
+
+    Intent:
+        Apply the display transform over whatever numeric shape a caller
+        has, so rings, arcs and markers share one mapping.
+    """
+    return _display_radius(np.asarray(r, dtype=float))
 
 
 def _clipped_line(r, ang):
@@ -94,6 +115,10 @@ def _clipped_line(r, ang):
     Points whose true distance exceeds R_CLIP are dropped (plotly breaks
     the line at nulls), so an eccentric orbit visibly exits the system
     instead of smearing along the rim.
+
+    Intent:
+        Let an orbit leave the figure honestly rather than piling onto
+        the rim where it would read as a different shape.
     """
     rd = _display(np.minimum(r, R_CLIP))
     xs = rd * np.cos(ang)
@@ -109,11 +134,124 @@ CHANCE_NOTE_MARGIN = 0.2  # r_info units: how close to the chance boundary
                           # "clears chance" is obvious and not worth a line)
 
 
+# --- the decisions the figure draws ----------------------------------------
+# Each of these turns a few numbers into one conclusion about what to
+# draw, so the reasoning can be read without reading the figure builder.
+
+def _near_chance(r_info: float, chance: float) -> bool:
+    """Whether a feature sits close enough to chance to say so.
+
+    Intent:
+        Mention the chance level only where it changes how a marker
+        should be read, so the note does not appear on every feature.
+    """
+    return r_info - chance <= CHANCE_NOTE_MARGIN
+
+
+def _band_high(r_info: float, se: float) -> float:
+    """Inner end of the uncertainty band, in r_info units.
+
+    Intent:
+        Say how strong the association could plausibly be, held below 1
+        because no feature is drawn at the exact centre.
+    """
+    return min(r_info + se, 0.999)
+
+
+def _band_low(r_info: float, se: float) -> float:
+    """Outer end of the uncertainty band, in r_info units.
+
+    Intent:
+        Say how weak the association could plausibly be, held at 0
+        because association is never negative on this scale.
+    """
+    return max(r_info - se, 0.0)
+
+
+def _band_crosses_chance(r_info: float, se: float, chance: float) -> bool:
+    """Whether an uncertainty band reaches below the chance level.
+
+    Intent:
+        Warn that an association which clears chance on its estimate
+        alone could still be noise once its spread is allowed for.
+    """
+    return r_info - se < chance
+
+
+def _band_spans_chance(r_lo: float, r_hi: float, chance: float) -> bool:
+    """Whether a drawn band has the chance level strictly inside it.
+
+    Intent:
+        Place the crossing marker only where the chance boundary
+        actually falls within the band that was drawn.
+    """
+    return r_lo < chance < r_hi
+
+
+def _show_ghost(nonlinearity: float, r_peri: float, r_apo: float) -> bool:
+    """Whether a feature earns a ghost marker and tether.
+
+    Both a real nonlinear share and a visible gap are required, so
+    estimator noise does not conjure a ghost a reader would over-read.
+
+    Intent:
+        Draw what correlation misses only when there is enough of it to
+        be worth looking at.
+    """
+    return nonlinearity > 0.10 and r_apo - r_peri > 0.02
+
+
+def _marker_px(size: float) -> float:
+    """Marker diameter in pixels for a size value in 0..1.
+
+    Diameter grows as sqrt(size), so marker AREA is linear in `size`
+    and a given area means the same thing in every arbital figure.
+
+    Intent:
+        Encode a feature's size channel as area, on an absolute scale
+        that is comparable across figures rather than within one.
+    """
+    return 9.0 + 30.0 * math.sqrt(min(max(size, 0.0), 1.0))
+
+
+def _arc_reach(gap: float, association: float) -> float:
+    """How far one orbit arc reaches toward an angular neighbour.
+
+    12% of the gap as a floor plus up to 55% more with association, so
+    two sides at association > ~0.7 overlap in the middle; never more
+    than 90% of the way across, so a gap never quite closes.
+
+    Intent:
+        Make the arcs of associated features reach toward each other, so
+        a redundant group reads as a connected band.
+    """
+    reach = gap * (0.12 + 0.55 * association)
+    return min(max(reach, 0.10), 0.9 * gap + 0.10)
+
+
+def _fallback_half_span(arc_length: float, r_display: float) -> float:
+    """Half-span of an arc when no association matrix was supplied.
+
+    A fixed display length converted to an angle at that radius, kept
+    inside a readable range.
+
+    Intent:
+        Give every orbit an arc of comparable drawn length when there is
+        no redundancy structure to reach toward.
+    """
+    return min(max(arc_length / (2.0 * r_display), 0.35), 1.6)
+
+
 def _hover(name, m, size_label, size_val, rank=None, gain=None,
            se=None) -> str:
     """Hover label: one short line per channel, defined in the vignette
     glossary ("What the numbers mean").  No symbols that need decoding:
-    r_info (total association), r_pearson, r_spearman."""
+    r_info (total association), r_pearson, r_spearman.
+
+    Intent:
+        Say in words what one marker's position, colour and shape mean,
+        for a reader who has not memorised the encoding.
+    """
     lines = [f"<b>{name}</b>"]
     # 1. strength, with its uncertainty on the same line.  r_info is the
     #    estimated value (never chance-adjusted, see _apply_calibration
@@ -138,10 +276,10 @@ def _hover(name, m, size_label, size_val, rank=None, gain=None,
         if m.get("below_chance"):
             lines.append(f"<i>below {label} ({m['chance']:.2f}): "
                          f"likely noise</i>")
-        elif m["r_info"] - m["chance"] <= CHANCE_NOTE_MARGIN:
+        elif _near_chance(m["r_info"], m["chance"]):
             lines.append(f"near {label} ({m['chance']:.2f})")
         if (se is not None and not m.get("below_chance")
-                and m["r_info"] - se < m["chance"]):
+                and _band_crosses_chance(m["r_info"], se, m["chance"])):
             lines.append(f"<i>uncertainty band crosses {label} "
                          f"({m['chance']:.2f})</i>")
     # 3. direction (colour) and shape (curvature).  Pearson/Spearman are
@@ -192,11 +330,14 @@ def _arc_spans(thetas, assoc, arc_length, r_display):
     strongly associated neighbours' arcs overlap, unrelated neighbours'
     arcs leave a clear gap.  Qualitative by design.  Without `assoc`,
     falls back to a fixed readable length.
+
+    Intent:
+        Turn the feature-feature association matrix into arc lengths, so
+        redundancy is visible in the drawing and not only in the table.
     """
     p = len(thetas)
     if assoc is None or p < 3:
-        half = [float(np.clip(arc_length / (2.0 * rd), 0.35, 1.6))
-                for rd in r_display]
+        half = [_fallback_half_span(arc_length, float(rd)) for rd in r_display]
         return list(zip(half, half))
     order = np.argsort(thetas)
     pos = np.empty(p, dtype=int)
@@ -205,14 +346,10 @@ def _arc_spans(thetas, assoc, arc_length, r_display):
     for i in range(p):
         nxt = order[(pos[i] + 1) % p]          # ccw neighbour
         prv = order[(pos[i] - 1) % p]          # cw neighbour
-        gap_ccw = (thetas[nxt] - thetas[i]) % (2 * np.pi)
-        gap_cw = (thetas[i] - thetas[prv]) % (2 * np.pi)
-        # reach = 12% of the gap as a floor, plus up to 55% more with
-        # association: two sides at a > ~0.7 overlap in the middle
-        ccw = gap_ccw * (0.12 + 0.55 * float(assoc[i, nxt]))
-        cw = gap_cw * (0.12 + 0.55 * float(assoc[i, prv]))
-        spans[i] = (float(np.clip(cw, 0.10, 0.9 * gap_cw + 0.10)),
-                    float(np.clip(ccw, 0.10, 0.9 * gap_ccw + 0.10)))
+        gap_ccw = float((thetas[nxt] - thetas[i]) % (2 * np.pi))
+        gap_cw = float((thetas[i] - thetas[prv]) % (2 * np.pi))
+        spans[i] = (_arc_reach(gap_cw, float(assoc[i, prv])),
+                    _arc_reach(gap_ccw, float(assoc[i, nxt])))
     return spans
 
 
@@ -233,7 +370,12 @@ def orbit_figure(
     arc_length: float = 0.5,  # fallback arc display-length (no assoc given)
     n_rows=None,             # rows measured (labels the chance boundary)
 ) -> dict:
-    """Return the orbit plot as a Plotly figure dict (data + layout)."""
+    """Return the orbit plot as a Plotly figure dict (data + layout).
+
+    Intent:
+        Assemble every drawn element of one orbit system into plain
+        Plotly JSON, so a figure needs no plotly install to exist.
+    """
     data = []
     se = None if se is None else np.asarray(se, dtype=float)
     thetas = np.asarray(thetas, dtype=float)
@@ -355,8 +497,7 @@ def orbit_figure(
 
         # 2. tether + ghost marker: only when a meaningful share of the
         #    dependence is invisible to correlation (nonlinear share > 10%).
-        gap = m["r_apo"] - m["r_peri"]
-        if m["nonlinearity"] > 0.10 and gap > 0.02:
+        if _show_ghost(m["nonlinearity"], m["r_peri"], m["r_apo"]):
             p0, p1 = float(_display(m["r_peri"])), float(_display(m["r_apo"]))
             data.append({
                 "type": "scatter", "mode": "lines",
@@ -378,8 +519,8 @@ def orbit_figure(
         #    angle.  Uncertainty acts on the radius, so it is drawn there;
         #    a diamond flags a crossing of the chance boundary.
         if se is not None:
-            r_hi = min(m["r_info"] + float(se[i]), 0.999)
-            r_lo = max(m["r_info"] - float(se[i]), 0.0)
+            r_hi = _band_high(m["r_info"], float(se[i]))
+            r_lo = _band_low(m["r_info"], float(se[i]))
             d_in = float(_display(strength_to_distance(r_hi, scale)))
             d_out = float(_display(strength_to_distance(r_lo, scale)))
             data.append({
@@ -391,7 +532,8 @@ def orbit_figure(
                               f"{m['r_info']:.2f} &plusmn; {se[i]:.2f}"),
                 "hoverinfo": "text", "showlegend": False,
             })
-            if chance_level is not None and r_lo < chance_level < r_hi:
+            if (chance_level is not None
+                    and _band_spans_chance(r_lo, r_hi, chance_level)):
                 c_r_local = float(_display(
                     strength_to_distance(chance_level, scale)))
                 data.append({
@@ -426,9 +568,9 @@ def orbit_figure(
     py = [rd * np.sin(th) for rd, th in zip(r_disp, thetas)]
     sz = np.asarray(sizes, dtype=float)
     if size_label == "uniform":
-        marker_px = np.full(len(names), 13.0)     # size carries no variable
+        marker_px = [13.0] * len(names)           # size carries no variable
     else:
-        marker_px = 9.0 + 30.0 * np.sqrt(np.clip(sz, 0.0, 1.0))
+        marker_px = [_marker_px(float(s)) for s in sz]
     if ranks is not None and gains is not None:
         g = np.asarray(gains, dtype=float)
         labels = [f"{rk}. {n}" if gg > 0 else n
@@ -449,7 +591,7 @@ def orbit_figure(
     # named-colorscale internals: negative -> blue, positive -> red,
     # matching the intuitive cool/warm convention and the legend text.
     marker = {
-        "size": marker_px.tolist(),
+        "size": marker_px,
         "color": [m["spearman"] for m in metrics],   # signed direction
         "colorscale": [[0.0, "#5a8fe6"], [0.5, "#c9cdd6"], [1.0, "#e06a6a"]],
         "cmin": -1, "cmax": 1,
@@ -558,7 +700,12 @@ HOVER_JS = """
 
 def figure_html(fig: dict, div_id: str = "arbital-plot",
                 height: str = "720px", include_cdn: bool = True) -> str:
-    """Self-contained HTML snippet rendering the figure via plotly.js CDN."""
+    """Self-contained HTML snippet rendering the figure via plotly.js CDN.
+
+    Intent:
+        Make a figure openable in any browser with no plotly install and
+        no build step, so a plot can simply be sent to someone.
+    """
     cdn = ('<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>'
            if include_cdn else "")
     payload = json.dumps(fig)

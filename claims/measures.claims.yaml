@@ -1,0 +1,170 @@
+# Claims about arbital's association estimators and about the
+# conclusions drawn from their output.
+#
+# The estimators themselves take samples, so most of them can only be
+# evidenced empirically; the decidable cores (_ksg_mi,
+# _monotone_strength, _nonlinear_share, _is_nominal, linfoot) take
+# numbers, and carry the properties the rest of the package relies on.
+grammar: mathema
+
+arbital.measures.linfoot:
+  intent: Put mutual information on the correlation scale.
+  claims:
+    - name: zero_without_information
+      statement: "f(0) == 0"
+    - name: floors_negative_information
+      statement: "for mi in [-50, 0], f(mi) == 0"
+    - name: rises_with_information
+      statement: "for mi in [0, 50], d(f(mi), mi) >= 0"
+    - name: concave_in_information
+      statement: "for mi in [0, 50], d(f(mi), mi, mi) <= 0"
+    # the contract the docstring states ("r_I in [0, 1)"), over the
+    # whole range of mutual information a caller may reach
+    - name: strictly_below_one
+      statement: "for mi in [0, 50], 0 <= f(mi) < 1"
+    # the same contract over the range the existing test suite covers
+    - name: strictly_below_one_to_ten_nats
+      statement: "for mi in [0, 10], 0 <= f(mi) < 1"
+    - name: never_above_one
+      statement: "for mi in [-50, 50], 0 <= f(mi) <= 1"
+    # the calibration the module docstring and README both assert:
+    # for a bivariate Gaussian, I = -log(1 - rho^2)/2 and r_I == |rho|
+    - name: gaussian_calibration
+      statement: "let rho be [0.01, 0.99], f(-log(1 - rho^2)/2) == rho"
+
+arbital.measures._ksg_mi:
+  intent: Assemble the KSG estimate from its three digamma terms.
+  claims:
+    - name: never_negative
+      statement: "f(psi_k, psi_n, psi_marginals) >= 0"
+    - name: at_least_the_raw_formula
+      statement: "f(psi_k, psi_n, psi_marginals) >= psi_k + psi_n - psi_marginals"
+    - name: exact_above_the_floor
+      statement: "assuming psi_k + psi_n - psi_marginals >= 0, f(psi_k, psi_n, psi_marginals) == psi_k + psi_n - psi_marginals"
+    - name: symmetric_in_the_two_scale_terms
+      statement: "f(psi_k, psi_n, psi_marginals) == f(psi_n, psi_k, psi_marginals)"
+    - name: falls_with_the_marginal_term
+      statement: "d(f(psi_k, psi_n, psi_marginals), psi_marginals) <= 0"
+
+arbital.measures._monotone_strength:
+  intent: The best monotone description of a pair, max(|r|, |rho|).
+  claims:
+    - name: blind_to_the_pearson_sign
+      statement: "f(-r, rho) == f(r, rho)"
+    - name: blind_to_the_spearman_sign
+      statement: "f(r, -rho) == f(r, rho)"
+    - name: symmetric_in_its_two_channels
+      statement: "f(r, rho) == f(rho, r)"
+    - name: dominates_pearson
+      statement: "f(r, rho) >= |r|"
+    - name: dominates_spearman
+      statement: "f(r, rho) >= |rho|"
+    - name: stays_on_the_correlation_scale
+      statement: "for r in [-1, 1], rho in [-1, 1], 0 <= f(r, rho) <= 1"
+
+arbital.measures._nonlinear_share:
+  intent: The share of dependence a monotone description misses.
+  claims:
+    - name: is_a_share
+      statement: "for r_info in [0, 1], r_mono in [0, 1], 0 <= f(r_info, r_mono) <= 1"
+    - name: zero_when_the_monotone_fit_is_complete
+      statement: "for r_info in (0, 1], f(r_info, r_info) == 0"
+    - name: one_when_nothing_is_monotone
+      statement: "for r_info in (0, 1], f(r_info, 0) == 1"
+    - name: zero_without_association
+      statement: "for r_mono in [0, 1], f(0, r_mono) == 0"
+    - name: falls_as_the_monotone_fit_improves
+      statement: "for r_info in (0, 1], r_mono in [0, 1], d(f(r_info, r_mono), r_mono) <= 0"
+    # a monotone fit cannot explain more than the total, so anything
+    # above the total is read as exactly the total
+    - name: caps_the_monotone_fit_at_the_total
+      statement: "for r_info in (0, 1], r_mono in [1, 2], f(r_info, r_mono) == 0"
+
+arbital.measures._is_nominal:
+  intent: Decide whether a variable's codes carry a direction.
+  claims:
+    - name: a_continuous_side_is_never_nominal
+      statement: "for n_levels in [0, 50] subset Z, f(n_levels, False) == False"
+    - name: a_binary_discrete_side_is_not_nominal
+      statement: "for n_levels in [0, 2] subset Z, f(n_levels, True) == False"
+    - name: a_multi_level_discrete_side_is_nominal
+      statement: "for n_levels in [3, 50] subset Z, f(n_levels, True) == True"
+
+arbital.measures._ranks:
+  intent: Replace values by their order so any monotone shape is visible.
+  claims:
+    - name: ranks_start_at_one
+      statement: "assuming is_defined(f), f(x)[0] >= 1"
+
+arbital.measures.pearson:
+  intent: How well a straight line describes the relationship.
+  claims:
+    - name: on_the_correlation_scale
+      statement: "assuming is_defined(f), |f(x, y)| <= 1"
+    - name: symmetric
+      statement: "assuming is_defined(f), f(x, y) == f(y, x)"
+    # the coefficient measures shape, not units
+    - name: blind_to_a_rescaled_axis
+      statement: "assuming is_defined(f), f(2*x, y) == f(x, y)"
+
+arbital.measures.spearman:
+  intent: How well any monotone curve describes the relationship.
+  claims:
+    - name: on_the_correlation_scale
+      statement: "assuming is_defined(f), |f(x, y)| <= 1"
+    - name: symmetric
+      statement: "assuming is_defined(f), f(x, y) == f(y, x)"
+    - name: blind_to_a_rescaled_axis
+      statement: "assuming is_defined(f), f(2*x, y) == f(x, y)"
+
+arbital.measures.mutual_information:
+  intent: Estimate I(x; y) in nats for a continuous pair.
+  claims:
+    - name: never_negative
+      statement: "assuming is_defined(f), f(x, y, 5, 0) >= 0"
+    # the guard the docstring states: k + 1 samples are not enough
+    - name: refuses_more_neighbours_than_samples
+      statement: "raises(f(x, y, 500, 0), ValueError)"
+
+arbital.measures.mutual_information_mixed:
+  intent: One comparable information number for any pair of types.
+  claims:
+    - name: never_negative_discrete_pair
+      statement: "assuming is_defined(f), f(x, y, True, True, 5) >= 0"
+
+arbital.measures._mi_discrete_discrete:
+  intent: Plug-in mutual information from the joint frequency table.
+  claims:
+    - name: never_negative
+      statement: "assuming is_defined(f), f(x, y) >= 0"
+    - name: symmetric
+      statement: "assuming is_defined(f), f(x, y) == f(y, x)"
+
+arbital.measures._floored_total:
+  intent: Keep the total and its monotone part consistent with each other.
+  claims:
+    - name: never_below_the_monotone_part
+      statement: "f(r_info_raw, r_mono) >= r_mono"
+    - name: never_below_the_estimate
+      statement: "f(r_info_raw, r_mono) >= r_info_raw"
+    - name: stays_on_the_association_scale
+      statement: "for r_info_raw in [0, 1], r_mono in [0, 1], 0 <= f(r_info_raw, r_mono) <= 1"
+    - name: symmetric_in_its_two_arguments
+      statement: "f(r_info_raw, r_mono) == f(r_mono, r_info_raw)"
+    # so the share _nonlinear_share() computes from the pair is never
+    # clipped away: the floor is what keeps it a genuine fraction
+    - name: leaves_a_genuine_nonlinear_share
+      statement: "let g = arbital.measures._nonlinear_share, for r_info_raw in [0, 1], r_mono in [0, 1], 0 <= g(f(r_info_raw, r_mono), r_mono) <= 1"
+
+# profile() both estimates and assembles, and mathema cannot synthesize
+# inputs for it (see the report): these two are stated because they are
+# the contract its callers rely on, and they come back `unknown`.  The
+# assembly they are about is decidable and proven on _floored_total,
+# _monotone_strength and _nonlinear_share above.
+arbital.measures.profile:
+  intent: Every association measure for one pair, on one scale.
+  claims:
+    - name: the_monotone_part_never_exceeds_the_total
+      statement: 'assuming is_defined(f), f(x, y, 5, False, False)["r_mono"] <= f(x, y, 5, False, False)["r_info"]'
+    - name: the_nonlinear_share_is_a_share
+      statement: 'assuming is_defined(f), 0 <= f(x, y, 5, False, False)["nonlinearity"] <= 1'

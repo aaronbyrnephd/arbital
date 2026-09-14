@@ -1,0 +1,174 @@
+# machine record; binds to form c9e28ee1dc8f
+arbital.geometry.ellipse_path:
+  name: "ellipse_path"
+  signature: "(theta: 'float', r_peri: 'float', r_apo: 'float', n: 'int' = 120)"
+  intent: "(x, y) points tracing the orbit, focus at the origin. Standard focal polar form of an ellipse:  r(phi) = p / (1 + e*cos(phi)) where p = a(1 - e^2) is the semi-latus rectum and phi is measured from the periastron direction.  We point the periastron along `theta`, so the marker (drawn at periastron) sits exactly on its own orbit."
+  grammar: "mathema"
+  identity:
+    form: "c9e28ee1dc8f"
+    sig: "94464c86805a"
+    tier: 2
+    pure: true
+    claims_fingerprint: "84d2a0a7bad8"
+    integrity: "57b2f836e03d13cc"
+  math: null
+  claims:
+    - name: "the_path_starts_at_the_periastron"
+      statement: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, f(theta, r_peri, 0.8, 120)[0][0]^2 + f(theta, r_peri, 0.8, 120)[1][0]^2 = r_peri^2"
+      verdict: "proven"
+      n: null
+      counterexample: null
+      note: "; inferred n=120, r_apo=0.8 from the claim's own literal argument"
+      sketch: "r_peri^2*sin(theta)^2 + r_peri^2*cos(theta)^2 and r_peri^2 simplify identically"
+      condition: "where x=theta, y=r_peri: ∀ x ∈ [0.0, 6.3] ⊂ ℝ ∪ {∅}, y ∈ (0.0, 1.0] ⊂ ℝ ∪ {∅}"
+      route: "derive"
+      authored: "declared"
+      domain:
+        theta:
+          lo: 0.0
+          hi: 6.3
+          closed_lo: true
+          closed_hi: true
+        r_peri:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: false
+          closed_hi: true
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.claim_source: "the author"
+    - name: "the_periastron_points_along_theta_in_x"
+      statement: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing, f(theta, r_peri, r_apo, 120)[0][0] = r_peri*cos(theta)"
+      verdict: "holds"
+      n: 128
+      counterexample: null
+      note: "; inferred n=120 from the claim's own literal argument; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: unsupported-call (line 14), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      sketch: null
+      condition: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing"
+      route: "probe"
+      authored: "declared"
+      domain:
+        theta:
+          lo: 0.0
+          hi: 6.3
+          closed_lo: true
+          closed_hi: true
+        r_peri:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: false
+          closed_hi: true
+        r_apo:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: false
+          closed_hi: true
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.sampling: "theta~U(0,6.3)⊔{lo,hi,mid,±ε}[p=.3], r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], n~U{120..120}, seed=20260718, n=128"
+        mathema.confidence:
+          score: 9.0
+          stars: 4
+          max_stars: 5
+          n: 128
+          factors:
+            branches: 0
+            loops: 0
+            params: 2
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "unliftable"
+        mathema.claim_source: "the author"
+    - name: "the_periastron_points_along_theta_in_y"
+      statement: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing, f(theta, r_peri, r_apo, 120)[1][0] = r_peri*sin(theta)"
+      verdict: "holds"
+      n: 128
+      counterexample: null
+      note: "; inferred n=120 from the claim's own literal argument; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: unsupported-call (line 14), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      sketch: null
+      condition: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing"
+      route: "probe"
+      authored: "declared"
+      domain:
+        theta:
+          lo: 0.0
+          hi: 6.3
+          closed_lo: true
+          closed_hi: true
+        r_peri:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: false
+          closed_hi: true
+        r_apo:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: false
+          closed_hi: true
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.sampling: "theta~U(0,6.3)⊔{lo,hi,mid,±ε}[p=.3], r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], n~U{120..120}, seed=20260718, n=128"
+        mathema.confidence:
+          score: 9.0
+          stars: 4
+          max_stars: 5
+          n: 128
+          factors:
+            branches: 0
+            loops: 0
+            params: 2
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "unliftable"
+        mathema.claim_source: "the author"
+    - name: "dependencies_current"
+      statement: "dependencies_current"
+      verdict: "proven"
+      n: null
+      counterexample: null
+      note: "generated by mathema verify; adjudicated against the verified store"
+      sketch: "every direct function dependency's form matches its verified record"
+      condition: null
+      route: "derive"
+      authored: "builtin"
+      domain: null
+      grammar: null
+      tolerance: null
+      meta:
+        mathema.claim_source: "builtin"
+  concepts: []
+  references: {}
+  reasoning:
+    - step: "intent"
+      claim: "(x, y) points tracing the orbit, focus at the origin. Standard focal polar form of an ellipse:  r(phi) = p / (1 + e*cos(phi)) where p = a(1 - e^2) is the semi-latus rectum and phi is measured from the periastron direction.  We point the periastron along `theta`, so the marker (drawn at periastron) sits exactly on its own orbit."
+      basis: "documented; the author's stated purpose"
+    - step: "derivation"
+      claim: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, f(theta, r_peri, 0.8, 120)[0][0]^2 + f(theta, r_peri, 0.8, 120)[1][0]^2 = r_peri^2"
+      basis: "r_peri^2*sin(theta)^2 + r_peri^2*cos(theta)^2 and r_peri^2 simplify identically"
+    - step: "evidence"
+      claim: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing, f(theta, r_peri, r_apo, 120)[0][0] = r_peri*cos(theta)"
+      basis: "probed, n=128"
+    - step: "evidence"
+      claim: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing, f(theta, r_peri, r_apo, 120)[1][0] = r_peri*sin(theta)"
+      basis: "probed, n=128"
+    - step: "derivation"
+      claim: "dependencies_current"
+      basis: "every direct function dependency's form matches its verified record"
+  lineage:
+    generated_by: "mathema 0.6.0"
+    CDD_spec_version: "0.1.0"
+    date: "2026-09-14"
+    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+  dependencies:
+    - name: "_eccentricity"
+      kind: "function"
+      key: "arbital.geometry._eccentricity"
+      file: "src/arbital/geometry.py"
+      line: 145
+      form: "b6e7db7e6540"
+      freshness: "current"
+  meta:
+    mathema.intent_provenance: "declared"

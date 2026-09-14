@@ -1,0 +1,147 @@
+# Claims about the mapping from association measures onto orbit
+# geometry: the radial axis, the ellipse, the angular layout, and the
+# greedy selection order.
+grammar: mathema
+
+arbital.geometry._distance_from_strength:
+  intent: Decide how far from the centre an association strength sits.
+  claims:
+    - name: stays_inside_the_plot
+      statement: 'for r in [0, 1], scale in {"info", "linear"}, 0 <= f(r, scale) <= 1'
+    - name: stronger_association_sits_closer
+      statement: 'for r in [0, 1], scale in {"info", "linear"}, d(f(r, scale), r) <= 0'
+    - name: no_association_sits_on_the_rim
+      statement: 'for scale in {"info", "linear"}, f(0, scale) == 1'
+    - name: perfect_association_sits_at_the_centre
+      statement: 'for scale in {"info", "linear"}, f(1, scale) == 0'
+    - name: the_linear_scale_is_the_naive_mapping
+      statement: 'for r in [0, 1], f(r, "linear") == 1 - r'
+    # the identity the module docstring states: on the info scale the
+    # distance is the residual uncertainty sqrt(1 - r^2)
+    - name: the_info_scale_is_residual_uncertainty
+      statement: 'for r in [0, 1], f(r, "info")^2 + r^2 == 1'
+    # and therefore, through Linfoot, the radial axis is logarithmic in
+    # mutual information: one factor of e per nat
+    - name: the_radial_axis_is_logarithmic_in_information
+      statement: 'let g = arbital.measures.linfoot, let mi be [0, 10], f(g(mi), "info") == exp(-mi)'
+    - name: refuses_an_unknown_scale
+      statement: 'raises(f(0.5, "nope"), ValueError)'
+
+arbital.geometry.strength_to_distance:
+  intent: The radial mapping over whatever numeric shape a caller has.
+  claims:
+    - name: agrees_with_its_scalar_core
+      statement: 'let g = arbital.geometry._distance_from_strength, for r in [0, 1], scale in {"info", "linear"}, f(r, scale) == g(r, scale)'
+    - name: clamps_above_one_to_the_centre
+      statement: 'for r in [1, 5], scale in {"info", "linear"}, f(r, scale) == 0'
+    - name: clamps_below_zero_to_the_rim
+      statement: 'for r in [-5, 0], scale in {"info", "linear"}, f(r, scale) == 1'
+    - name: refuses_an_unknown_scale
+      statement: 'raises(f(0.5, "nope"), ValueError)'
+
+arbital.geometry._eccentricity:
+  intent: Recover an orbit's shape from its two apsides.
+  claims:
+    # RETAINED, FALSIFIED: an orbit whose periastron sits exactly at the
+    # centre (a feature with r_info == 1) is parabolic, e == 1 exactly,
+    # so the strict upper bound this claim asserts is not the geometry
+    # the code implements.  Witness: (0, 0.492232) -> 1.0.
+    - name: is_a_proper_eccentricity
+      statement: "assuming r_peri <= r_apo, for r_peri in [0, 1], r_apo in [0, 1], 0 <= f(r_peri, r_apo) < 1"
+    # the bound that does hold over the same domain
+    - name: is_a_bounded_eccentricity
+      statement: "assuming r_peri <= r_apo, for r_peri in [0, 1], r_apo in [0, 1], 0 <= f(r_peri, r_apo) <= 1"
+    # and the only place the bound is reached
+    - name: parabolic_only_from_the_centre
+      statement: "for r_apo in (0, 1], f(0, r_apo) == 1"
+    - name: circular_when_the_apsides_agree
+      statement: "for r_peri in [0, 1], f(r_peri, r_peri) == 0"
+    - name: a_degenerate_orbit_is_a_circle
+      statement: "f(0, 0) == 0"
+
+arbital.geometry.orbit_parameters:
+  intent: One feature's ellipse, carrying both views of it at once.
+  claims:
+    - name: the_periastron_is_never_outside_the_apastron
+      statement: 'for r_info in [0, 1], r_mono in [0, 1], f(r_info, r_mono, "info")["r_peri"] <= f(r_info, r_mono, "info")["r_apo"]'
+    # the identity the package's whole visual grammar rests on: the
+    # drawn eccentricity IS the nonlinear share
+    - name: eccentricity_is_the_nonlinear_share
+      statement: 'let g = arbital.measures._nonlinear_share, for r_info in [0, 1], r_mono in [0, 1], f(r_info, r_mono, "info")["e"] == g(r_info, r_mono)'
+    - name: eccentricity_is_a_share
+      statement: 'for r_info in [0, 1], r_mono in [0, 1], 0 <= f(r_info, r_mono, "info")["e"] <= 1'
+    - name: the_apsides_stay_inside_the_plot
+      statement: 'for r_info in [0, 1], r_mono in [0, 1], 0 <= f(r_info, r_mono, "info")["r_peri"] <= 1'
+    - name: the_semi_major_axis_is_the_mean_of_the_apsides
+      statement: 'for r_info in [0, 1], r_mono in [0, 1], 2 * f(r_info, r_mono, "info")["a"] == f(r_info, r_mono, "info")["r_peri"] + f(r_info, r_mono, "info")["r_apo"]'
+
+arbital.geometry.ellipse_path:
+  intent: Trace the full ellipse a feature would sweep.
+  claims:
+    # the property the docstring asserts: the periastron is pointed
+    # along theta, so the marker drawn there sits exactly on its orbit
+    - name: the_path_starts_at_the_periastron
+      statement: "for theta in [0, 6.3], r_peri in (0, 1], f(theta, r_peri, 0.8, 120)[0][0]^2 + f(theta, r_peri, 0.8, 120)[1][0]^2 == r_peri^2"
+    - name: the_periastron_points_along_theta_in_x
+      statement: "for theta in [0, 6.3], r_peri in (0, 1], r_apo in (0, 1], f(theta, r_peri, r_apo, 120)[0][0] == r_peri * cos(theta)"
+    - name: the_periastron_points_along_theta_in_y
+      statement: "for theta in [0, 6.3], r_peri in (0, 1], r_apo in (0, 1], f(theta, r_peri, r_apo, 120)[1][0] == r_peri * sin(theta)"
+
+arbital.geometry._min_gap:
+  intent: The smallest angular gap the spread layout will allow.
+  claims:
+    - name: never_negative
+      statement: "for p in [1, 50] subset Z, min_gap_frac in [0, 1], f(p, min_gap_frac) >= 0"
+    - name: p_minimum_gaps_fit_in_one_turn
+      statement: "for p in [1, 50] subset Z, min_gap_frac in [0, 1], p * f(p, min_gap_frac) <= 2*pi"
+    - name: at_the_full_fraction_it_is_the_even_share
+      statement: "for p in [1, 50] subset Z, p * f(p, 1) == 2*pi"
+    - name: rises_with_the_fraction
+      statement: "for p in [1, 50] subset Z, min_gap_frac in [0, 1], d(f(p, min_gap_frac), min_gap_frac) >= 0"
+
+arbital.geometry._widened_gap:
+  intent: One angular gap after the spread rescaling.
+  claims:
+    # the property that makes labels readable: no gap survives below the
+    # minimum separation
+    - name: never_below_the_minimum
+      statement: "for gap in [0, 7], g_min in [0, 1], scale in [0, 1], f(gap, g_min, scale) >= g_min"
+    # and the property that makes the gaps still mean something: the
+    # order of the gaps is preserved
+    - name: keeps_the_order_of_the_gaps
+      statement: "for gap in [0, 7], g_min in [0, 1], scale in [0, 1], d(f(gap, g_min, scale), gap) >= 0"
+    - name: a_gap_already_at_the_minimum_is_unchanged
+      statement: "for g_min in [0, 1], scale in [0, 1], f(g_min, g_min, scale) == g_min"
+
+arbital.geometry._marginal_gain:
+  intent: What a feature adds on top of the already-selected set.
+  claims:
+    - name: the_first_pick_is_charged_nothing
+      statement: "f(relevance, 0) == relevance"
+    - name: falls_with_redundancy
+      statement: "d(f(relevance, redundancy), redundancy) <= 0"
+    - name: never_exceeds_relevance
+      statement: "for relevance in [0, 1], redundancy in [0, 1], f(relevance, redundancy) <= relevance"
+    # the mRMR stopping property: a feature fully redundant with a
+    # selected one can never gain, whatever its relevance
+    - name: a_full_duplicate_never_gains
+      statement: "for relevance in [0, 1], f(relevance, 1) <= 0"
+
+arbital.geometry._mean_association:
+  intent: How central one column is to the rest of the data.
+  claims:
+    - name: nothing_associated_scores_zero
+      statement: "for p in [2, 50] subset Z, f(1, p) == 0"
+    - name: everything_associated_scores_one
+      statement: "for p in [2, 50] subset Z, f(p, p) == 1"
+    - name: stays_on_the_association_scale
+      statement: "assuming row_sum <= p, for p in [2, 50] subset Z, row_sum in [1, 50], 0 <= f(row_sum, p) <= 1"
+    - name: rises_with_the_row_sum
+      statement: "for p in [2, 50] subset Z, row_sum in [1, 50], d(f(row_sum, p), row_sum) >= 0"
+
+# angular_layout() refuses an unknown layout (tests/test_arbital.py::
+# test_unknown_layout_raises), but that refusal contract is not stated
+# here: mathema replaces the string literal in a raises() claim with a
+# synthesized scalar whenever the signature also has a non-scalar
+# parameter, so the claim it adjudicates is not the claim written.
+# See the report's notes on mathema for the reproduction.

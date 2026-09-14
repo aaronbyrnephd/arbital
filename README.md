@@ -17,6 +17,12 @@
 strength, shape, direction, redundancy, and usefulness of each association are readable
 from a single figure.
 
+## Intent
+
+Make the first look at a dataset show every kind of association, not only the
+straight lines: each variable is drawn as an orbit around a target, so strength,
+shape, direction, redundancy and usefulness are readable from one figure.
+
 ## Why correlation fails
 
 The first look at a new dataset is almost always a correlation matrix, and a correlation

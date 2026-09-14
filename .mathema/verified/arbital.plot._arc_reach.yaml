@@ -1,0 +1,167 @@
+# machine record; binds to form 929e2939fae9
+arbital.plot._arc_reach:
+  name: "_arc_reach"
+  signature: "(gap: 'float', association: 'float') -> 'float'"
+  intent: "How far one orbit arc reaches toward an angular neighbour. 12% of the gap as a floor plus up to 55% more with association, so two sides at association > ~0.7 overlap in the middle; never more than 90% of the way across, so a gap never quite closes."
+  grammar: "mathema"
+  identity:
+    form: "929e2939fae9"
+    sig: "2ccc061c172e"
+    tier: 2
+    pure: true
+    claims_fingerprint: "73ed89674642"
+    integrity: "c206abeddf7660db"
+  math: null
+  claims:
+    - name: "always_long_enough_to_see"
+      statement: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) >= 0.100000000000000"
+      verdict: "holds"
+      n: 128
+      counterexample: null
+      note: "; routes attempted, derive: undecided (sympy could not settle the sign of Min(9*gap/10 + 1/10, Max(1/10, gap*(55*association + 12)/100)) - 1/10; extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, cancel, together, expand, widened wall-clock retry); probe: holds"
+      sketch: null
+      condition: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing"
+      route: "probe"
+      authored: "declared"
+      domain:
+        gap:
+          lo: 0.0
+          hi: 6.3
+          closed_lo: true
+          closed_hi: true
+        association:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.sampling: "gap~U(0,6.3)⊔{lo,hi,mid,±ε}[p=.3], association~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=128"
+        mathema.confidence:
+          score: 10.0
+          stars: 4
+          max_stars: 5
+          n: 128
+          factors:
+            branches: 0
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "undecided"
+        mathema.claim_source: "the author"
+    - name: "never_closes_the_gap"
+      statement: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) <= 0.9*gap + 0.1"
+      verdict: "holds"
+      n: 128
+      counterexample: null
+      note: "; routes attempted, derive: undecided (sympy could not settle the sign of 9*gap/10 - Min(9*gap/10 + 1/10, Max(1/10, gap*(55*association + 12)/100)) + 1/10; extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, cancel, together, expand, widened wall-clock retry); probe: holds"
+      sketch: null
+      condition: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing"
+      route: "probe"
+      authored: "declared"
+      domain:
+        gap:
+          lo: 0.0
+          hi: 6.3
+          closed_lo: true
+          closed_hi: true
+        association:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.sampling: "gap~U(0,6.3)⊔{lo,hi,mid,±ε}[p=.3], association~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=128"
+        mathema.confidence:
+          score: 10.0
+          stars: 4
+          max_stars: 5
+          n: 128
+          factors:
+            branches: 0
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "undecided"
+        mathema.claim_source: "the author"
+    - name: "reaches_further_with_association"
+      statement: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, d(f(gap, association), association) >= 0"
+      verdict: "holds"
+      n: 60
+      counterexample: null
+      note: "; numeric evidence on the LIFTED intermediate (60 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of 11*gap*Heaviside(gap*(55*association + 12)/100 - 1/10)*Heaviside(9*gap/10 - Max(1/10, gap*(55*association + 12)/100) + 1/10)/20; extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, cancel, expand, widened wall-clock retry); probe: holds"
+      sketch: null
+      condition: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing"
+      route: "probe:lifted_numeric"
+      authored: "declared"
+      domain:
+        gap:
+          lo: 0.0
+          hi: 6.3
+          closed_lo: true
+          closed_hi: true
+        association:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+      grammar: "mathema"
+      tolerance: null
+      meta:
+        mathema.derive_status: "undecided"
+        mathema.lifted_numeric_samples: 60
+        mathema.claim_source: "the author"
+    - name: "dependencies_current"
+      statement: "dependencies_current"
+      verdict: "proven"
+      n: null
+      counterexample: null
+      note: "generated by mathema verify; adjudicated against the verified store"
+      sketch: "no direct function dependencies, vacuously current"
+      condition: null
+      route: "derive"
+      authored: "builtin"
+      domain: null
+      grammar: null
+      tolerance: null
+      meta:
+        mathema.claim_source: "builtin"
+  concepts:
+    - "differentiation"
+  references: {}
+  reasoning:
+    - step: "intent"
+      claim: "How far one orbit arc reaches toward an angular neighbour. 12% of the gap as a floor plus up to 55% more with association, so two sides at association > ~0.7 overlap in the middle; never more than 90% of the way across, so a gap never quite closes."
+      basis: "documented; the author's stated purpose"
+    - step: "evidence"
+      claim: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) >= 0.100000000000000"
+      basis: "probed, n=128"
+    - step: "evidence"
+      claim: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) <= 0.9*gap + 0.1"
+      basis: "probed, n=128"
+    - step: "evidence"
+      claim: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, d(f(gap, association), association) >= 0"
+      basis: "probed, n=60"
+    - step: "derivation"
+      claim: "dependencies_current"
+      basis: "no direct function dependencies, vacuously current"
+    - step: "situating"
+      claim: "instantiates: differentiation"
+      basis: "deterministic concept tagging"
+  lineage:
+    generated_by: "mathema 0.6.0"
+    CDD_spec_version: "0.1.0"
+    date: "2026-09-14"
+    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+  meta:
+    mathema.concept_sources:
+      mechanism:
+        - "differentiation"
+    concepts:
+      - "differentiation"
+    mathema.intent_provenance: "declared"

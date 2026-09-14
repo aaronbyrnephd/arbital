@@ -1,5 +1,10 @@
 """arbital: orbit plots of general association.
 
+Intent:
+    Make the first look at a dataset show every kind of association, not
+    only the straight lines, by drawing each variable as an orbit around
+    a target.
+
 The name: a(ssociation) + (o)rbital, association orbits grounded in
 information theory (the "it"), for association learning (the "al").
 
@@ -22,6 +27,7 @@ the closer the feature swings in.
 from __future__ import annotations
 
 import warnings
+from typing import Literal
 
 import numpy as np
 
@@ -69,6 +75,10 @@ def _resolve_input(X, categorical):
       - a datasets.Table's .categorical set,
       - a pandas DataFrame's object / category / bool dtypes,
       - the explicit `categorical` argument (column names or indices).
+
+    Intent:
+        Accept whatever columnar object a caller already has and hand
+        the estimators a plain float matrix that knows its own types.
     """
     # names
     if hasattr(X, "columns"):
@@ -95,7 +105,18 @@ def _resolve_input(X, categorical):
 
     # explicit override (names or integer indices)
     for c in (categorical or []):
-        j = names.index(str(c)) if isinstance(c, str) else int(c)
+        if isinstance(c, str):
+            if str(c) not in names:
+                raise ValueError(
+                    f"categorical column {c!r} is not a column of X; "
+                    f"columns are {names}")
+            j = names.index(str(c))
+        else:
+            j = int(c)
+            if not -len(names) <= j < len(names):
+                raise IndexError(
+                    f"categorical index {j} is out of range for "
+                    f"{len(names)} columns")
         discrete[j] = True
 
     return _to_float_matrix(X, names, discrete), names, discrete
@@ -109,6 +130,10 @@ def _to_float_matrix(X, names, discrete):
     is encoded as integer category codes (and flagged in `discrete`).
     Rows containing a missing value (NaN, or a 'nan'/'None'/'' string in
     a coded column) are dropped: the estimators need complete rows.
+
+    Intent:
+        Get real-world columnar data into the numeric shape the
+        estimators need without asking the caller to clean it first.
     """
     try:
         A = np.asarray(X, dtype=float)
@@ -151,6 +176,10 @@ class OrbitSystem:
       gains         marginal gain per feature at pick time
       show_picks    whether the plot labels features with their pick number
       se            per-feature bootstrap SE of r_info, or None
+
+    Intent:
+        Hold one computed orbit system so the same numbers can be
+        plotted, tabulated or exported without measuring twice.
     """
 
     def __init__(self, target_name, names, metrics, thetas, sizes, size_label,
@@ -171,7 +200,12 @@ class OrbitSystem:
         self.assoc = assoc            # feature-feature r_info matrix
 
     def figure(self, title=None) -> dict:
-        """Plotly figure as a plain dict (data + layout)."""
+        """Plotly figure as a plain dict (data + layout).
+
+        Intent:
+            Hand out the figure as data, so it can be embedded, edited
+            or serialised without a plotting library present.
+        """
         # pick-number labels are shown only when requested; marker size is
         # always driven by `sizes` regardless
         ranks = self.ranks if self.show_picks else None
@@ -183,12 +217,22 @@ class OrbitSystem:
             assoc=self.assoc, n_rows=self.n_rows)
 
     def to_plotly(self, title=None):
-        """Live plotly Figure object (requires the optional plotly install)."""
+        """Live plotly Figure object (requires the optional plotly install).
+
+        Intent:
+            Meet callers who already work in plotly, without making
+            plotly a dependency for everyone else.
+        """
         import plotly.graph_objects as go
         return go.Figure(self.figure(title))
 
     def to_html(self, path=None, title=None) -> str:
-        """Standalone HTML (plotly.js from CDN). Writes to `path` if given."""
+        """Standalone HTML (plotly.js from CDN). Writes to `path` if given.
+
+        Intent:
+            Produce one file that opens the interactive figure in any
+            browser, so a result can simply be sent to someone.
+        """
         snippet = figure_html(self.figure(title))
         page = (f"<!DOCTYPE html><html><head><meta charset='utf-8'>"
                 f"<title>arbital</title></head>"
@@ -199,7 +243,12 @@ class OrbitSystem:
         return page
 
     def table(self) -> list:
-        """Per-feature metrics, sorted by selection pick order."""
+        """Per-feature metrics, sorted by selection pick order.
+
+        Intent:
+            Expose every quantity the figure encodes as plain data, so
+            nothing is readable only by eye.
+        """
         rows = []
         for i, (n, m, t) in enumerate(zip(self.names, self.metrics, self.thetas)):
             row = dict(name=n, theta=float(t), size=float(self.sizes[i]),
@@ -217,6 +266,10 @@ class OrbitSystem:
         pearson, spearman, nonlinearity, chance, below_chance, pick,
         gain, distances, ...).  A convenience for exporting or joining
         with other tables; arbital itself does not require pandas.
+
+        Intent:
+            Meet callers who already work in pandas, without making
+            pandas a dependency for everyone else.
         """
         try:
             import pandas as pd
@@ -234,6 +287,10 @@ class OrbitSystem:
         plotted r_info when calibrate=False; `redundancy` is derived as
         relevance - gain to match, so the three columns are always
         mutually consistent with what orbits() computed.
+
+        Intent:
+            Show the selection as a sequence of decisions with their
+            reasons, rather than as a final ranking to be trusted.
         """
         rows = []
         for r in self.table():
@@ -254,6 +311,10 @@ def _compute(X, target, n_neighbors, categorical, max_samples, random_state):
     build the feature-feature association matrix.
 
     Returns (target_name, feat_names, metrics, assoc, feat_discrete).
+
+    Intent:
+        Do the measuring once, so a figure and a feature ranking are
+        always two views of the same numbers.
     """
     A, names, discrete = _resolve_input(X, categorical)
     if A.ndim != 2 or A.shape[1] < 2:
@@ -267,9 +328,15 @@ def _compute(X, target, n_neighbors, categorical, max_samples, random_state):
     if target is None:
         t_idx = select_target(A, k=n_neighbors)
     elif isinstance(target, str):
+        if target not in names:
+            raise ValueError(f"target {target!r} is not a column of X; "
+                             f"columns are {names}")
         t_idx = names.index(target)
     else:
         t_idx = int(target)
+        if not -len(names) <= t_idx < len(names):
+            raise IndexError(f"target index {t_idx} is out of range for "
+                             f"{len(names)} columns")
     target_name = names[t_idx]
     y_disc = discrete[t_idx]
 
@@ -287,6 +354,93 @@ def _compute(X, target, n_neighbors, categorical, max_samples, random_state):
 
     assoc = association_matrix(F, k=n_neighbors, discrete=feat_disc)
     return target_name, feat_names, metrics, assoc, feat_disc, F, y, y_disc
+
+
+# ---------------------------------------------------------------------------
+# Chance calibration: the decisions, apart from the estimation
+# ---------------------------------------------------------------------------
+# Calibration measures a chance level and then draws conclusions from it.
+# The conclusions are these five functions: each takes numbers rather
+# than data, so what "below chance" and "significant" mean here can be
+# read and checked without running an estimator.
+
+MIN_TAIL_DRAWS = 10     # draws expected beyond the quantile below which
+                        # the chance level is too noisy to be a boundary
+
+
+def _is_valid_confidence(confidence: float) -> bool:
+    """Whether a confidence level names a quantile strictly inside (0, 1).
+
+    Intent:
+        Refuse a confidence that names no quantile at all, before it
+        becomes a silently meaningless chance level.
+    """
+    return 0.0 < confidence < 1.0
+
+
+def _expected_tail_draws(n_shuffles: int, confidence: float) -> float:
+    """How many shuffle draws are expected beyond the chance quantile.
+
+    Intent:
+        Say how much evidence actually stands behind the quantile that
+        the chance boundary is read off.
+    """
+    return n_shuffles * (1.0 - confidence)
+
+
+def _tail_is_thin(n_shuffles: int, confidence: float) -> bool:
+    """Whether too few draws land beyond the quantile to place it stably.
+
+    Intent:
+        Catch the setting where the chance boundary is an estimate from
+        a handful of draws, and say so rather than drawing it silently.
+    """
+    return _expected_tail_draws(n_shuffles, confidence) < MIN_TAIL_DRAWS
+
+
+def _chance_adjusted_mi(mi: float, chance: float) -> float:
+    """Mutual information with the estimator's own chance level taken off.
+
+    Subtracted in nats, never on the 0-1 scale, where Linfoot's steepness
+    near zero would make `estimate - chance` the wrong arithmetic.
+
+    Intent:
+        Give selection a relevance that is zero when there is nothing
+        there, so estimator noise cannot win a pick.
+    """
+    return max(0.0, mi - chance)
+
+
+def _is_below_chance(mi: float, chance: float) -> bool:
+    """Whether a measured MI fails to clear its own chance level.
+
+    Intent:
+        Mark an association that this estimator would report just as
+        readily from independent data.
+    """
+    return mi <= chance
+
+
+def _is_significant(coefficient: float, chance: float) -> bool:
+    """Whether a correlation coefficient clears its own chance level.
+
+    Intent:
+        Ask of the monotone channel the same question the chance
+        boundary asks of the information channel.
+    """
+    return abs(coefficient) > chance
+
+
+def _relative_gain(gain: float, top_gain: float) -> float:
+    """One feature's marginal gain as a share of the largest gain.
+
+    Intent:
+        Put marker area on a 0..1 scale anchored at the first pick, so
+        a near-duplicate feature visibly shrinks.
+    """
+    if top_gain <= 0.0:
+        return 0.0
+    return max(gain, 0.0) / top_gain
 
 
 def _chance_levels(F, y, feat_disc, y_disc, n_neighbors, n_shuffles,
@@ -334,11 +488,15 @@ def _chance_levels(F, y, feat_disc, y_disc, n_neighbors, n_shuffles,
     from only n_shuffles draws is itself a noisy estimate (at the
     default 200 shuffles and 0.95 confidence, only ~10 draws are expected
     beyond it); a warning fires when that expected count is small.
+
+    Intent:
+        Measure what these estimators report when there is nothing to
+        find, so every channel can be read against its own noise floor.
     """
-    if not 0.0 < confidence < 1.0:
+    if not _is_valid_confidence(confidence):
         raise ValueError(f"confidence must be in (0, 1), got {confidence!r}")
-    expected_tail = n_shuffles * (1.0 - confidence)
-    if expected_tail < 10:
+    expected_tail = _expected_tail_draws(n_shuffles, confidence)
+    if _tail_is_thin(n_shuffles, confidence):
         warnings.warn(
             f"n_shuffles={n_shuffles} at confidence={confidence} leaves "
             f"only ~{expected_tail:.1f} draws beyond the quantile: the "
@@ -425,18 +583,23 @@ def _apply_calibration(metrics, mi_chance, pearson_chance, spearman_chance):
     in nats.  For continuous features mi_chance (and therefore `chance`)
     is one pooled value shared by every continuous feature in the
     dataset; categorical features each carry their own.
+
+    Intent:
+        Let a reader tell a real association from this estimator's own
+        noise floor, without moving where any marker is drawn.
     """
     for j, m in enumerate(metrics):
-        m["chance"] = linfoot(mi_chance[j])
-        m["chance_nats"] = float(mi_chance[j])
-        i_cal = max(0.0, m["mi"] - mi_chance[j])
+        chance_nats = float(mi_chance[j])
+        i_cal = _chance_adjusted_mi(m["mi"], chance_nats)
+        m["chance"] = linfoot(chance_nats)
+        m["chance_nats"] = chance_nats
         m["mi_adj"] = i_cal
         m["r_info_adj"] = linfoot(i_cal)
-        m["below_chance"] = bool(m["mi"] <= mi_chance[j])
+        m["below_chance"] = _is_below_chance(m["mi"], chance_nats)
         m["pearson_chance"] = pearson_chance
         m["spearman_chance"] = spearman_chance
-        m["pearson_sig"] = bool(abs(m["pearson"]) > pearson_chance)
-        m["spearman_sig"] = bool(abs(m["spearman"]) > spearman_chance)
+        m["pearson_sig"] = _is_significant(m["pearson"], pearson_chance)
+        m["spearman_sig"] = _is_significant(m["spearman"], spearman_chance)
     return metrics
 
 
@@ -449,6 +612,10 @@ def _bootstrap_se(F, y, y_disc, feat_disc, n_neighbors, n_bootstrap, random_stat
     the spread of those estimates becomes a radial band drawn through the
     marker (r_info +/- se), so a shaky association reads as a long band
     along the radius rather than a short one.
+
+    Intent:
+        Say how much a single r_info could move under a different draw
+        of the same data, so a shaky estimate is visibly shaky.
     """
     rng = np.random.default_rng(random_state + 1)
     n = F.shape[0]
@@ -469,8 +636,10 @@ def _bootstrap_se(F, y, y_disc, feat_disc, n_neighbors, n_bootstrap, random_stat
 # ---------------------------------------------------------------------------
 
 def orbits(X, target=None, *, n_neighbors: int = 5,
-           angle_layout: str = "spread", scale: str = "info",
-           size: str = "gain", selection: bool = False,
+           angle_layout: Literal["spread", "embed", "ordered"] = "spread",
+           scale: Literal["info", "linear"] = "info",
+           size: Literal["gain", "rinfo", "uniform"] = "gain",
+           selection: bool = False,
            uncertainty: bool = False, n_bootstrap: int = 100,
            categorical=None, calibrate: bool = True, confidence: float = 0.95,
            n_shuffles: int = 200,
@@ -556,6 +725,11 @@ def orbits(X, target=None, *, n_neighbors: int = 5,
       max_samples  rows are subsampled beyond this (MI is O(n^2)).
       random_state  seed for subsampling, calibration shuffles, and the
                bootstrap; results are deterministic given the same seed.
+
+    Intent:
+        Answer "what is this dataset's target associated with, and how"
+        in one figure, for a reader who would otherwise open a
+        correlation matrix.
     """
     (target_name, feat_names, metrics, assoc,
      feat_disc, F, y, y_disc) = _compute(X, target, n_neighbors, categorical,
@@ -581,9 +755,8 @@ def orbits(X, target=None, *, n_neighbors: int = 5,
     ranks, gains = greedy_selection(relevance, assoc)
 
     if size == "gain":
-        g = np.clip(gains, 0.0, None)
-        top = g.max()
-        sizes = g / top if top > 0 else np.zeros_like(g)   # relative to top pick
+        top = float(np.clip(gains, 0.0, None).max())       # the first pick
+        sizes = np.array([_relative_gain(float(gv), top) for gv in gains])
     elif size == "rinfo":
         sizes = np.array([m["r_info"] for m in metrics])
     elif size == "uniform":
@@ -635,6 +808,10 @@ def select_features(X, target=None, *, n_neighbors: int = 5,
 
         for row in arbital.select_features(df, target="price"):
             print(row["pick"], row["name"], round(row["gain"], 3))
+
+    Intent:
+        Give the feature ranking on its own, for callers who want the
+        selection rather than the picture.
     """
     (_, feat_names, metrics, assoc,
      feat_disc, F, y, y_disc) = _compute(X, target, n_neighbors, categorical,
