@@ -58,6 +58,7 @@ from __future__ import annotations
 from typing import Literal
 
 import numpy as np
+from mathema.types import Mat, Vec
 
 from .measures import _nonlinear_share, association_matrix
 
@@ -179,7 +180,7 @@ def ellipse_path(theta: float, r_peri: float, r_apo: float, n: int = 120):
     return r * np.cos(ang), r * np.sin(ang)
 
 
-def _classical_mds_2d(D: np.ndarray) -> np.ndarray:
+def _classical_mds_2d(D: Mat("n", "n")) -> np.ndarray:
     """Classical (Torgerson) MDS into 2 dimensions, pure NumPy.
 
     Double-centre the squared distance matrix to recover an inner-product
@@ -226,7 +227,7 @@ def _widened_gap(gap: float, g_min: float, scale: float) -> float:
     return g_min + max(gap - g_min, 0.0) * scale
 
 
-def angular_layout(assoc: np.ndarray,
+def angular_layout(assoc: Mat("n", "n"),
                    layout: Literal["spread", "embed", "ordered"] = "spread",
                    min_gap_frac: float = 0.35) -> np.ndarray:
     """Angle (radians) for each feature from the feature-feature matrix.
@@ -303,7 +304,7 @@ def _marginal_gain(relevance: float, redundancy: float) -> float:
     return relevance - redundancy
 
 
-def greedy_selection(relevance: np.ndarray, assoc: np.ndarray):
+def greedy_selection(relevance: Vec("n"), assoc: Mat("n", "n")):
     """Greedy mRMR forward selection: an explicit feature-selection order.
 
     Minimum-redundancy maximum-relevance selection follows Peng, Long &
@@ -376,7 +377,7 @@ def _mean_association(row_sum: float, p: int) -> float:
     return (row_sum - 1.0) / (p - 1)
 
 
-def select_target(X: np.ndarray, k: int = 5) -> int:
+def select_target(X: Mat("n", "m"), k: int = 5) -> int:
     """Default target choice: the column most associated with all others.
 
     Returns the index of the column with the highest mean r_info to the

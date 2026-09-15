@@ -168,3 +168,12 @@ arbital.measures.profile:
       statement: 'assuming is_defined(f), f(x, y, 5, False, False)["r_mono"] <= f(x, y, 5, False, False)["r_info"]'
     - name: the_nonlinear_share_is_a_share
       statement: 'assuming is_defined(f), 0 <= f(x, y, 5, False, False)["nonlinearity"] <= 1'
+
+arbital.measures.association_matrix:
+  intent: pairwise r_info between every column of X, as a square matrix
+  claims:
+    # The docstring's first line says "Symmetric matrix of r_info between
+    # every pair of columns of X". Until mathema could synthesise matrices
+    # this contract had no evidence behind it at all.
+    - name: symmetric_by_construction
+      law: "is_symmetric(f(X))"

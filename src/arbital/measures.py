@@ -46,6 +46,7 @@ References
 from __future__ import annotations
 
 import numpy as np
+from mathema.types import Mat
 
 __all__ = [
     "association_matrix",
@@ -509,7 +510,8 @@ def profile(x, y, k: int = 5, x_discrete: bool = False,
     }
 
 
-def association_matrix(X: np.ndarray, k: int = 5, discrete=None) -> np.ndarray:
+def association_matrix(X: Mat("n", "m"), k: int = 5,
+                       discrete=None) -> np.ndarray:
     """Symmetric matrix of r_info between every pair of columns of X.
 
     discrete: optional boolean sequence, one flag per column, marking

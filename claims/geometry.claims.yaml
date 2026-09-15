@@ -145,3 +145,12 @@ arbital.geometry._mean_association:
 # synthesized scalar whenever the signature also has a non-scalar
 # parameter, so the claim it adjudicates is not the claim written.
 # See the report's notes on mathema for the reproduction.
+
+arbital.geometry._classical_mds_2d:
+  intent: classical Torgerson MDS of a square distance matrix into the plane
+  claims:
+    # The algorithm double-centres D**2, which is only meaningful for a
+    # symmetric distance matrix; the premise says so rather than leaving it
+    # to the caller's good manners.
+    - name: reads_a_symmetric_distance_matrix
+      law: "assuming D is symmetric, is_symmetric(D)"
