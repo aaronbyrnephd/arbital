@@ -8,9 +8,10 @@ arbital.plot._marker_px:
     form: "8df239cf1c11"
     sig: "bcd90a2f20aa"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "20b5776d1983"
-    integrity: "01f6aa64c9e05ecd"
+    integrity: "ade3d309ecb8a6fe"
   math: null
   claims:
     - name: "within_the_drawn_range"
@@ -22,7 +23,8 @@ arbital.plot._marker_px:
       sketch: null
       condition: "for size in [0.0, 1.0]:float|missing"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         size:
           lo: 0.0
@@ -42,7 +44,8 @@ arbital.plot._marker_px:
       sketch: "900*Min(1, size) and 900*size simplify identically"
       condition: "where x=size: ∀ x ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         size:
           lo: 0.0
@@ -62,7 +65,8 @@ arbital.plot._marker_px:
       sketch: null
       condition: "for size in [0.0, 1.0]:float|missing"
       route: "probe:lifted_numeric"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         size:
           lo: 0.0
@@ -84,7 +88,8 @@ arbital.plot._marker_px:
       sketch: "9 and 9 simplify identically"
       condition: "for size in [-5.0, 0.0]:float|missing"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         size:
           lo: -5.0
@@ -104,7 +109,8 @@ arbital.plot._marker_px:
       sketch: "30*sqrt(Min(1, size)) + 9 and 39 simplify identically"
       condition: "where x=size: ∀ x ∈ [1.0, 5.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         size:
           lo: 1.0
@@ -124,7 +130,8 @@ arbital.plot._marker_px:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -160,9 +167,9 @@ arbital.plot._marker_px:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       mechanism:
@@ -172,4 +179,5 @@ arbital.plot._marker_px:
         - "linearity"
     concepts:
       - "differentiation"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

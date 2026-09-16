@@ -8,9 +8,10 @@ arbital.measures.mutual_information_mixed:
     form: "e569e2f23e53"
     sig: "fa1947888c6c"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "b19112e4b8c3"
-    integrity: "847f68adec86ec51"
+    integrity: "48c79b4c14b56170"
   math: null
   claims:
     - name: "never_negative_discrete_pair"
@@ -22,7 +23,8 @@ arbital.measures.mutual_information_mixed:
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -50,7 +52,8 @@ arbital.measures.mutual_information_mixed:
       sketch: "no verified record yet for: arbital.measures._mi_continuous_discrete"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -70,30 +73,31 @@ arbital.measures.mutual_information_mixed:
       basis: "no verified record yet for: arbital.measures._mi_continuous_discrete"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   dependencies:
     - name: "_mi_continuous_discrete"
       kind: "function"
       key: "arbital.measures._mi_continuous_discrete"
       file: "src/arbital/measures.py"
-      line: 339
+      line: 340
       form: "ee98cc6c6807"
       freshness: "unverified"
     - name: "_mi_discrete_discrete"
       kind: "function"
       key: "arbital.measures._mi_discrete_discrete"
       file: "src/arbital/measures.py"
-      line: 310
+      line: 311
       form: "dd8a1984d2e5"
       freshness: "current"
     - name: "mutual_information"
       kind: "function"
       key: "arbital.measures.mutual_information"
       file: "src/arbital/measures.py"
-      line: 224
+      line: 225
       form: "e04db5e37bcc"
       freshness: "current"
   meta:
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

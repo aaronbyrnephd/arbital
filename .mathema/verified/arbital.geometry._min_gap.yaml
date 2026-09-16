@@ -8,9 +8,10 @@ arbital.geometry._min_gap:
     form: "108e344d2b22"
     sig: "bca22a0914b4"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "b200d5b2a2df"
-    integrity: "8bb361b021ca4380"
+    integrity: "cebdfabc7bf1c64a"
   math: null
   claims:
     - name: "never_negative"
@@ -22,7 +23,8 @@ arbital.geometry._min_gap:
       sketch: "interval evaluation over the declared domain: 2*pi*min_gap_frac/p ∈ AccumBounds(0, 2*pi), never negative"
       condition: "where x=min_gap_frac: ∀ p ∈ [1, 50] ⊂ ℤ ∪ {∅}, x ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         p:
           base_type: "Z"
@@ -51,7 +53,8 @@ arbital.geometry._min_gap:
       sketch: "interval evaluation over the declared domain: -2*pi*(min_gap_frac - 1) ∈ AccumBounds(0, 2*pi), never negative"
       condition: "where x=min_gap_frac: ∀ x ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         p:
           base_type: "Z"
@@ -80,7 +83,8 @@ arbital.geometry._min_gap:
       sketch: "2*pi and 2*pi simplify identically"
       condition: "for p in [1, 50]:int|missing"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         p:
           base_type: "Z"
@@ -104,7 +108,8 @@ arbital.geometry._min_gap:
       sketch: "interval evaluation over the declared domain: 2*pi/p ∈ AccumBounds(pi/25, 2*pi), never negative"
       condition: "∀ p ∈ [1, 50] ⊂ ℤ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         p:
           base_type: "Z"
@@ -133,7 +138,8 @@ arbital.geometry._min_gap:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -166,13 +172,14 @@ arbital.geometry._min_gap:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       mechanism:
         - "differentiation"
     concepts:
       - "differentiation"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

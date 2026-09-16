@@ -8,9 +8,10 @@ arbital._is_below_chance:
     form: "c474df7f3d12"
     sig: "6114a904a69d"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "d32f7fe41c84"
-    integrity: "9c60ea998b9e09fa"
+    integrity: "75ceabb4e2a8c81e"
   math: null
   claims:
     - name: "exactly_when_the_adjusted_estimate_is_zero"
@@ -22,7 +23,8 @@ arbital._is_below_chance:
       sketch: null
       condition: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         mi:
           lo: 0.0
@@ -61,7 +63,8 @@ arbital._is_below_chance:
       sketch: null
       condition: "for mi in [0.0, 5.0]:float|missing, chance in [0.0, 5.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         mi:
           lo: 0.0
@@ -99,7 +102,8 @@ arbital._is_below_chance:
       sketch: null
       condition: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         mi:
           lo: 0.0
@@ -137,7 +141,8 @@ arbital._is_below_chance:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -163,8 +168,9 @@ arbital._is_below_chance:
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

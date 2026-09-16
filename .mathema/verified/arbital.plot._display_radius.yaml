@@ -8,9 +8,10 @@ arbital.plot._display_radius:
     form: "edcd44212809"
     sig: "61ca02610911"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "077f0675991a"
-    integrity: "f58df723fd1097f9"
+    integrity: "eb275fa049c73604"
   math: null
   claims:
     - name: "reserves_the_exclusion_zone"
@@ -22,7 +23,8 @@ arbital.plot._display_radius:
       sketch: null
       condition: "for r in [0.0, 1.0]:float|missing"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r:
           lo: 0.0
@@ -42,7 +44,8 @@ arbital.plot._display_radius:
       sketch: "3/50 and 3/50 simplify identically"
       condition: null
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -57,7 +60,8 @@ arbital.plot._display_radius:
       sketch: "1 and 1 simplify identically"
       condition: null
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -72,7 +76,8 @@ arbital.plot._display_radius:
       sketch: "47/50 has a strictly positive interval hull over the declared domain"
       condition: null
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -87,7 +92,8 @@ arbital.plot._display_radius:
       sketch: "0 and 0 simplify identically"
       condition: null
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -102,7 +108,8 @@ arbital.plot._display_radius:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -138,9 +145,9 @@ arbital.plot._display_radius:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   dependencies:
     - name: "R_FLOOR"
       kind: "constant"
@@ -153,4 +160,5 @@ arbital.plot._display_radius:
         - "metric-space"
     concepts:
       - "differentiation"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

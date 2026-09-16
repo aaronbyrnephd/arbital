@@ -58,7 +58,7 @@ from __future__ import annotations
 from typing import Literal
 
 import numpy as np
-from mathema.types import Mat, Vec
+from mathema.types import Mat, UnitInterval, Vec
 
 from .measures import _nonlinear_share, association_matrix
 
@@ -143,7 +143,7 @@ def orbit_parameters(r_info: float, r_mono: float,
     return {"r_peri": r_peri, "r_apo": r_apo, "a": a, "e": float(nu)}
 
 
-def _eccentricity(r_peri: float, r_apo: float) -> float:
+def _eccentricity(r_peri: float, r_apo: float) -> UnitInterval:
     """Geometric eccentricity of an ellipse from its two apsides.
 
     e = (r_apo - r_peri) / (r_apo + r_peri), and 0 for the degenerate

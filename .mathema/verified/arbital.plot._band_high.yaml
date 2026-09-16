@@ -8,9 +8,10 @@ arbital.plot._band_high:
     form: "a54d6940491d"
     sig: "8fc5aa68e14a"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "19d1e8eabc90"
-    integrity: "589e6b0a4ac91bf8"
+    integrity: "f8640d566223c1e0"
   math: null
   claims:
     - name: "never_reaches_the_centre"
@@ -22,7 +23,8 @@ arbital.plot._band_high:
       sketch: null
       condition: "for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -60,7 +62,8 @@ arbital.plot._band_high:
       sketch: null
       condition: "for r_info in [0.0, 0.999]:float|missing, se in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -98,7 +101,8 @@ arbital.plot._band_high:
       sketch: null
       condition: "for r_info in [0.0, 0.5]:float|missing, se in [0.0, 0.4]:float|missing"
       route: "probe:lifted_numeric"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -125,7 +129,8 @@ arbital.plot._band_high:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -155,13 +160,14 @@ arbital.plot._band_high:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       mechanism:
         - "differentiation"
     concepts:
       - "differentiation"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

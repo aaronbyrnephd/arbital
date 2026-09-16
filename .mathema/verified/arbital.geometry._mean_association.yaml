@@ -8,9 +8,10 @@ arbital.geometry._mean_association:
     form: "62fec79286e7"
     sig: "d9fc46628283"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "820590f8dd78"
-    integrity: "ce4bb65e2ef4cac1"
+    integrity: "5b97f19e6d055c79"
   math: null
   claims:
     - name: "nothing_associated_scores_zero"
@@ -22,7 +23,8 @@ arbital.geometry._mean_association:
       sketch: "0 and 0 simplify identically"
       condition: "for p in [2, 50]:int|missing"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         p:
           base_type: "Z"
@@ -46,7 +48,8 @@ arbital.geometry._mean_association:
       sketch: "1 and 1 simplify identically"
       condition: "for p in [2, 50]:int|missing"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         p:
           base_type: "Z"
@@ -70,7 +73,8 @@ arbital.geometry._mean_association:
       sketch: null
       condition: "for p in [2, 50]:int|missing, row_sum in [1.0, 50.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         p:
           base_type: "Z"
@@ -99,7 +103,8 @@ arbital.geometry._mean_association:
       sketch: "interval evaluation over the declared domain: 1/(p - 1) ∈ AccumBounds(1/49, 1), never negative"
       condition: "∀ p ∈ [2, 50] ⊂ ℤ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         p:
           base_type: "Z"
@@ -128,7 +133,8 @@ arbital.geometry._mean_association:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -161,9 +167,9 @@ arbital.geometry._mean_association:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       mechanism:
@@ -172,4 +178,5 @@ arbital.geometry._mean_association:
         - "weighted-average"
     concepts:
       - "differentiation"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

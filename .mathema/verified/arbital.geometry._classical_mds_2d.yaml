@@ -8,9 +8,10 @@ arbital.geometry._classical_mds_2d:
     form: "29fd430ce9e6"
     sig: "ba49abb8d256"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "40db481ebabb"
-    integrity: "27cc70df29d1cbea"
+    integrity: "a5a589cf32aee1f6"
   math: null
   claims:
     - name: "callable"
@@ -18,11 +19,12 @@ arbital.geometry._classical_mds_2d:
       verdict: "skipped"
       n: null
       counterexample: null
-      note: "AttributeError: 'float' object has no attribute 'shape'"
+      note: "AttributeError: 'list' object has no attribute 'shape'"
       sketch: null
       condition: null
       route: null
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -37,8 +39,9 @@ arbital.geometry._classical_mds_2d:
       note: "; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
       sketch: null
       condition: null
-      route: "examine:trial"
-      authored: "declared"
+      route: "probe:algorithmic"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -54,7 +57,8 @@ arbital.geometry._classical_mds_2d:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -68,7 +72,7 @@ arbital.geometry._classical_mds_2d:
       basis: "documented; the author's stated purpose"
     - step: "gap"
       claim: "could not synthesize valid inputs from the signature"
-      basis: "AttributeError: 'float' object has no attribute 'shape'"
+      basis: "AttributeError: 'list' object has no attribute 'shape'"
     - step: "evidence"
       claim: "assuming D is symmetric, is_symmetric(D)"
       basis: "probed, n=128"
@@ -77,9 +81,9 @@ arbital.geometry._classical_mds_2d:
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-15"
-    commit: "44f3ed9e52b5d538ef4c3759ff41c53d2baa1bb8"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       keyword:

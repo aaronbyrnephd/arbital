@@ -8,9 +8,10 @@ arbital.measures._is_nominal:
     form: "78178d979a34"
     sig: "d52290e5ee4f"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "18b69880afbb"
-    integrity: "459fb913f25e33f0"
+    integrity: "b8663e46c9e308ce"
   math: null
   claims:
     - name: "a_continuous_side_is_never_nominal"
@@ -22,7 +23,8 @@ arbital.measures._is_nominal:
       sketch: null
       condition: "for n_levels in [0, 50]:int|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         n_levels:
           base_type: "Z"
@@ -59,7 +61,8 @@ arbital.measures._is_nominal:
       sketch: null
       condition: "for n_levels in [0, 2]:int|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         n_levels:
           base_type: "Z"
@@ -96,7 +99,8 @@ arbital.measures._is_nominal:
       sketch: null
       condition: "for n_levels in [3, 50]:int|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         n_levels:
           base_type: "Z"
@@ -133,7 +137,8 @@ arbital.measures._is_nominal:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -159,11 +164,12 @@ arbital.measures._is_nominal:
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       keyword:
         - "weighted-average"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

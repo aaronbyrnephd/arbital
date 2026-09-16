@@ -8,9 +8,10 @@ arbital._relative_gain:
     form: "9860f96d1c41"
     sig: "1ed93aab1b6e"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "e61637bc60d7"
-    integrity: "c68e0b5d220b9624"
+    integrity: "d945f7a929d55494"
   math: null
   claims:
     - name: "is_a_share_of_the_top_pick"
@@ -22,7 +23,8 @@ arbital._relative_gain:
       sketch: null
       condition: "for gain in [0.0, 1.0]:float|missing, top_gain in (0.0, 1.0]:float|missing"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         gain:
           lo: 0.0
@@ -47,7 +49,8 @@ arbital._relative_gain:
       sketch: "1 and 1 simplify identically"
       condition: "for top_gain in (0.0, 1.0]:float|missing"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         top_gain:
           lo: 0.0
@@ -57,6 +60,11 @@ arbital._relative_gain:
       grammar: "mathema"
       tolerance: null
       meta:
+        mathema.derive_lines:
+          - 434
+          - 435
+          - 441
+          - 443
         mathema.claim_source: "the author"
     - name: "a_nonpositive_gain_is_invisible"
       statement: "for gain in [-1.0, 0.0]:float|missing, top_gain in (0.0, 1.0]:float|missing, f(gain, top_gain) = 0"
@@ -67,7 +75,8 @@ arbital._relative_gain:
       sketch: "0 and 0 simplify identically"
       condition: "for gain in [-1.0, 0.0]:float|missing, top_gain in (0.0, 1.0]:float|missing"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         gain:
           lo: -1.0
@@ -82,6 +91,11 @@ arbital._relative_gain:
       grammar: "mathema"
       tolerance: null
       meta:
+        mathema.derive_lines:
+          - 434
+          - 435
+          - 441
+          - 443
         mathema.claim_source: "the author"
     - name: "no_positive_gain_anywhere_means_no_size"
       statement: "for gain in [-1.0, 1.0]:float|missing, f(gain, 0) = 0"
@@ -92,7 +106,8 @@ arbital._relative_gain:
       sketch: "0 and 0 simplify identically"
       condition: "for gain in [-1.0, 1.0]:float|missing"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         gain:
           lo: -1.0
@@ -112,7 +127,8 @@ arbital._relative_gain:
       sketch: "interval evaluation over the declared domain: 1/top_gain ∈ AccumBounds(1, oo), never negative"
       condition: "where x=top_gain: ∀ x ∈ (0.0, 1.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         gain:
           lo: 0.0
@@ -127,6 +143,11 @@ arbital._relative_gain:
       grammar: "mathema"
       tolerance: null
       meta:
+        mathema.derive_lines:
+          - 434
+          - 435
+          - 441
+          - 443
         mathema.claim_source: "the author"
     - name: "dependencies_current"
       statement: "dependencies_current"
@@ -137,7 +158,8 @@ arbital._relative_gain:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -173,13 +195,14 @@ arbital._relative_gain:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       mechanism:
         - "differentiation"
     concepts:
       - "differentiation"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

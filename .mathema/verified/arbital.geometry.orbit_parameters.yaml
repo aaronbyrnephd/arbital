@@ -8,9 +8,10 @@ arbital.geometry.orbit_parameters:
     form: "c8df67356886"
     sig: "44530ccc6549"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "ea995f4f4b88"
-    integrity: "464cd996eb3f9434"
+    integrity: "1f969aa9421d88b6"
   math: null
   claims:
     - name: "callable"
@@ -22,7 +23,8 @@ arbital.geometry.orbit_parameters:
       sketch: null
       condition: null
       route: null
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -38,7 +40,8 @@ arbital.geometry.orbit_parameters:
       sketch: null
       condition: "for r_info in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -76,7 +79,8 @@ arbital.geometry.orbit_parameters:
       sketch: null
       condition: "for r_info in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -114,7 +118,8 @@ arbital.geometry.orbit_parameters:
       sketch: null
       condition: "for r_info in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -139,7 +144,8 @@ arbital.geometry.orbit_parameters:
       sketch: null
       condition: "for r_info in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -164,7 +170,8 @@ arbital.geometry.orbit_parameters:
       sketch: null
       condition: "for r_info in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -202,12 +209,14 @@ arbital.geometry.orbit_parameters:
       sketch: "every direct function dependency's form matches its verified record"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
       meta:
         mathema.claim_source: "builtin"
+        mathema.last_supported_commit: "da5bffc046752b1f53188550392524b4f6aff063"
   concepts: []
   references: {}
   reasoning:
@@ -232,31 +241,32 @@ arbital.geometry.orbit_parameters:
     - step: "evidence"
       claim: "for r_info in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing, 2*f(r_info, r_mono, 'info')['a'] = f(r_info, r_mono, 'info')['r_apo'] + f(r_info, r_mono, 'info')['r_peri']"
       basis: "probed, n=128"
-    - step: "gap"
+    - step: "derivation"
       claim: "dependencies_current"
-      basis: "no verified record yet for: arbital.measures._nonlinear_share"
+      basis: "every direct function dependency's form matches its verified record"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   dependencies:
     - name: "_distance_from_strength"
       kind: "function"
       key: "arbital.geometry._distance_from_strength"
       file: "src/arbital/geometry.py"
-      line: 73
+      line: 74
       form: "5b32ecb57a2b"
       freshness: "current"
     - name: "_nonlinear_share"
       kind: "function"
       key: "arbital.measures._nonlinear_share"
       file: "src/arbital/measures.py"
-      line: 89
-      form: "64938aebe50f"
-      freshness: "unverified"
+      line: 90
+      form: "d201dbd223c5"
+      freshness: "current"
   meta:
     mathema.concept_sources:
       keyword:
         - "linearity"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

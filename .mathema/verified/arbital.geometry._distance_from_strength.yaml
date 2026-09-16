@@ -8,9 +8,10 @@ arbital.geometry._distance_from_strength:
     form: "5b32ecb57a2b"
     sig: "cdec6983fc87"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "6cb8f7edccf2"
-    integrity: "22a7e34206ed90e1"
+    integrity: "24c081beb3f4d6b4"
   math: null
   claims:
     - name: "callable"
@@ -22,7 +23,8 @@ arbital.geometry._distance_from_strength:
       sketch: null
       condition: null
       route: null
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -38,7 +40,8 @@ arbital.geometry._distance_from_strength:
       sketch: null
       condition: "for r in [0.0, 1.0]:float|missing, scale in {\"info\", \"linear\"}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r:
           lo: 0.0
@@ -62,7 +65,8 @@ arbital.geometry._distance_from_strength:
       sketch: "proven piecewise: scale's domain split into its stated values {\"info\"}, {\"linear\"}, each piece proven separately"
       condition: "where x=scale: ∀ r ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}, x ∈ {\"info\", \"linear\"}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r:
           lo: 0.0
@@ -87,7 +91,8 @@ arbital.geometry._distance_from_strength:
       sketch: "proven piecewise: scale's domain split into its stated values {\"info\"}, {\"linear\"}, each piece proven separately"
       condition: "where x=scale: ∀ r ∈ [0.0, 0.0] ⊂ ℝ ∪ {∅}, x ∈ {\"info\", \"linear\"}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         scale:
           set:
@@ -107,7 +112,8 @@ arbital.geometry._distance_from_strength:
       sketch: "proven piecewise: scale's domain split into its stated values {\"info\"}, {\"linear\"}, each piece proven separately"
       condition: "where x=scale: ∀ r ∈ [1.0, 1.0] ⊂ ℝ ∪ {∅}, x ∈ {\"info\", \"linear\"}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         scale:
           set:
@@ -127,7 +133,8 @@ arbital.geometry._distance_from_strength:
       sketch: null
       condition: "for r in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r:
           lo: 0.0
@@ -160,7 +167,8 @@ arbital.geometry._distance_from_strength:
       sketch: null
       condition: "for r in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r:
           lo: 0.0
@@ -193,7 +201,8 @@ arbital.geometry._distance_from_strength:
       sketch: null
       condition: "for mi in [0.0, 10.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         mi:
           base_type: "R"
@@ -230,7 +239,8 @@ arbital.geometry._distance_from_strength:
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -258,7 +268,8 @@ arbital.geometry._distance_from_strength:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -307,9 +318,9 @@ arbital.geometry._distance_from_strength:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   raises:
     - "ValueError"
   meta:
@@ -322,4 +333,5 @@ arbital.geometry._distance_from_strength:
     concepts:
       - "case-analysis"
       - "differentiation"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

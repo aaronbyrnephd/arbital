@@ -8,9 +8,10 @@ arbital.measures._mi_discrete_discrete:
     form: "dd8a1984d2e5"
     sig: "eb6a1f81f38c"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "35a276b43a39"
-    integrity: "73428c8af38b1394"
+    integrity: "19109a6107ff1f7c"
   math: null
   claims:
     - name: "never_negative"
@@ -22,7 +23,8 @@ arbital.measures._mi_discrete_discrete:
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -45,12 +47,13 @@ arbital.measures._mi_discrete_discrete:
       statement: "assuming f is defined, f(x, y) = f(y, x)"
       verdict: "falsified"
       n: 1
-      counterexample: "([-8.13206, -6.17214, -0.832786], [-9.75167, 3.20082, -9.49487, -8.42549, -5.51203]): 1.0986122886681096 vs 0.9656627474604602"
+      counterexample: "([5.35914, 8.13893, -6.41202, -1.01639], [-8.81263, 6.78366, 7.26609, 9.15831, -3.08564, 9.4357]): 1.3862943611198906 vs 1.1945063128187032"
       note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: loop: multiple-loops (line 19), the loop doesn't match a recognized fold/sum/dot shape); probe: falsified"
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -68,14 +71,16 @@ arbital.measures._mi_discrete_discrete:
             wide_domain: 0
             float_extremes: 0
         mathema.counterexample_args:
-          - - -8.132061477037995
-            - -6.1721417315681215
-            - -0.83278620418141
-          - - -9.751673260584788
-            - 3.200824963617375
-            - -9.494869493457017
-            - -8.425490052508142
-            - -5.5120262587865865
+          - - 5.35913891242258
+            - 8.138925718335383
+            - -6.4120182253078095
+            - -1.0163866673471933
+          - - -8.812628792921156
+            - 6.783661007225696
+            - 7.26608673233827
+            - 9.158311174630672
+            - -3.0856393321809357
+            - 9.435701473952133
         mathema.derive_status: "unliftable"
         mathema.claim_source: "the author"
     - name: "dependencies_current"
@@ -87,7 +92,8 @@ arbital.measures._mi_discrete_discrete:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -108,7 +114,7 @@ arbital.measures._mi_discrete_discrete:
       basis: "probed, n=192"
     - step: "refutation"
       claim: "NOT (assuming f is defined, f(x, y) = f(y, x))"
-      basis: "counterexample ([-8.13206, -6.17214, -0.832786], [-9.75167, 3.20082, -9.49487, -8.42549, -5.51203]): 1.0986122886681096 vs 0.9656627474604602"
+      basis: "counterexample ([5.35914, 8.13893, -6.41202, -1.01639], [-8.81263, 6.78366, 7.26609, 9.15831, -3.08564, 9.4357]): 1.3862943611198906 vs 1.1945063128187032"
     - step: "derivation"
       claim: "dependencies_current"
       basis: "no direct function dependencies, vacuously current"
@@ -117,13 +123,14 @@ arbital.measures._mi_discrete_discrete:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       mechanism:
         - "iteration"
     concepts:
       - "iteration"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

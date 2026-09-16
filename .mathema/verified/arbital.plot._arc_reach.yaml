@@ -8,9 +8,10 @@ arbital.plot._arc_reach:
     form: "929e2939fae9"
     sig: "2ccc061c172e"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "73ed89674642"
-    integrity: "c206abeddf7660db"
+    integrity: "57fc1dee040067c4"
   math: null
   claims:
     - name: "always_long_enough_to_see"
@@ -22,7 +23,8 @@ arbital.plot._arc_reach:
       sketch: null
       condition: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         gap:
           lo: 0.0
@@ -60,7 +62,8 @@ arbital.plot._arc_reach:
       sketch: null
       condition: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         gap:
           lo: 0.0
@@ -98,7 +101,8 @@ arbital.plot._arc_reach:
       sketch: null
       condition: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing"
       route: "probe:lifted_numeric"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         gap:
           lo: 0.0
@@ -125,7 +129,8 @@ arbital.plot._arc_reach:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -155,13 +160,14 @@ arbital.plot._arc_reach:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       mechanism:
         - "differentiation"
     concepts:
       - "differentiation"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

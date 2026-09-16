@@ -8,9 +8,10 @@ arbital.plot._fallback_half_span:
     form: "f45b8d07b372"
     sig: "7a9409f0f5eb"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "c581f2516560"
-    integrity: "d2f685107eb73127"
+    integrity: "13c6b7106b44b18f"
   math: null
   claims:
     - name: "stays_readable"
@@ -22,7 +23,8 @@ arbital.plot._fallback_half_span:
       sketch: null
       condition: "for arc_length in [0.0, 2.0]:float|missing, r_display in [0.06, 1.06]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         arc_length:
           lo: 0.0
@@ -47,7 +49,8 @@ arbital.plot._fallback_half_span:
       sketch: null
       condition: "for arc_length in [0.0, 2.0]:float|missing, r_display in [0.06, 1.06]:float|missing"
       route: "probe:lifted_numeric"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         arc_length:
           lo: 0.0
@@ -74,7 +77,8 @@ arbital.plot._fallback_half_span:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -101,13 +105,14 @@ arbital.plot._fallback_half_span:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       mechanism:
         - "differentiation"
     concepts:
       - "differentiation"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

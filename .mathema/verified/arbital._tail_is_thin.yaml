@@ -8,9 +8,10 @@ arbital._tail_is_thin:
     form: "046af26d242a"
     sig: "30b3ed3e0600"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "63ceb13dc392"
-    integrity: "071c84ccb5e19945"
+    integrity: "32cc795183aa29c2"
   math: null
   claims:
     - name: "the_documented_default_is_not_thin"
@@ -22,7 +23,8 @@ arbital._tail_is_thin:
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -50,7 +52,8 @@ arbital._tail_is_thin:
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -78,7 +81,8 @@ arbital._tail_is_thin:
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -106,7 +110,8 @@ arbital._tail_is_thin:
       sketch: "every direct function dependency's form matches its verified record"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -132,9 +137,9 @@ arbital._tail_is_thin:
       basis: "every direct function dependency's form matches its verified record"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   dependencies:
     - name: "MIN_TAIL_DRAWS"
       kind: "constant"
@@ -147,4 +152,5 @@ arbital._tail_is_thin:
       form: "57ec85b6d456"
       freshness: "current"
   meta:
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

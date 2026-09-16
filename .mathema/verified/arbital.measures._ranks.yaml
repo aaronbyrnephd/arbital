@@ -8,9 +8,10 @@ arbital.measures._ranks:
     form: "21f5b70c1295"
     sig: "2a1d3f9fb0b5"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "95670282acc9"
-    integrity: "408cb68a758d740b"
+    integrity: "200127c9aedf61b7"
   math: null
   claims:
     - name: "ranks_start_at_one"
@@ -22,7 +23,8 @@ arbital.measures._ranks:
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -50,7 +52,8 @@ arbital.measures._ranks:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -70,11 +73,12 @@ arbital.measures._ranks:
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       keyword:
         - "weighted-average"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

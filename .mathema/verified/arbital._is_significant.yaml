@@ -8,9 +8,10 @@ arbital._is_significant:
     form: "6a932d89ef89"
     sig: "bc075fba6309"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "51f00de62000"
-    integrity: "32af3ed12b3be57e"
+    integrity: "a7ecf93aa33e74ed"
   math: null
   claims:
     - name: "blind_to_the_sign"
@@ -22,7 +23,8 @@ arbital._is_significant:
       sketch: "when chance < Abs(coefficient): 1; otherwise 0 and when chance < Abs(coefficient): 1; otherwise 0 simplify identically"
       condition: "where x=coefficient, y=chance: ∀ x, y ∈ ℝ"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -37,7 +39,8 @@ arbital._is_significant:
       sketch: null
       condition: "for coefficient in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing"
       route: "probe:semi_analytical"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         coefficient:
           lo: 0.0
@@ -75,7 +78,8 @@ arbital._is_significant:
       sketch: null
       condition: "for coefficient in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing"
       route: "probe:semi_analytical"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         coefficient:
           lo: 0.0
@@ -113,7 +117,8 @@ arbital._is_significant:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -139,8 +144,9 @@ arbital._is_significant:
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

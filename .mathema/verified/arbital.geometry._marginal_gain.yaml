@@ -8,9 +8,10 @@ arbital.geometry._marginal_gain:
     form: "e5cbc86dfa36"
     sig: "8a0b176ccf78"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "eedcf43fce9a"
-    integrity: "11293c198556bcb8"
+    integrity: "2061390c84535c93"
   math: null
   claims:
     - name: "the_first_pick_is_charged_nothing"
@@ -22,7 +23,8 @@ arbital.geometry._marginal_gain:
       sketch: "relevance and relevance simplify identically"
       condition: "where x=relevance: ∀ x ∈ ℝ"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -37,7 +39,8 @@ arbital.geometry._marginal_gain:
       sketch: "interval evaluation over the declared domain: 1 ∈ 1, never negative"
       condition: null
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -52,7 +55,8 @@ arbital.geometry._marginal_gain:
       sketch: "interval evaluation over the declared domain: redundancy ∈ AccumBounds(0, 1), never negative"
       condition: "where x=relevance, y=redundancy: ∀ x, y ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         relevance:
           lo: 0.0
@@ -77,7 +81,8 @@ arbital.geometry._marginal_gain:
       sketch: "interval evaluation over the declared domain: 1 - relevance ∈ AccumBounds(0, 1), never negative"
       condition: "where x=relevance: ∀ x ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         relevance:
           lo: 0.0
@@ -97,7 +102,8 @@ arbital.geometry._marginal_gain:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -130,13 +136,14 @@ arbital.geometry._marginal_gain:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       mechanism:
         - "differentiation"
     concepts:
       - "differentiation"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

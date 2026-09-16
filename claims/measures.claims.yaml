@@ -177,3 +177,28 @@ arbital.measures.association_matrix:
     # this contract had no evidence behind it at all.
     - name: symmetric_by_construction
       law: "is_symmetric(f(X))"
+
+arbital.measures._monotone_strength:
+  claims:
+    # NOT marked UnitInterval: max(|r|, |rho|) is bounded only where its
+    # inputs are, and the battery's suggested unconditional bound falsified
+    # at (2, 0) -> 2.0. The guarantee belongs to the callers, which pass
+    # correlations, so the bound is stated over that domain instead.
+    - name: bounded_on_correlation_inputs
+      law: "for r in [-1, 1], rho in [-1, 1], 0 <= f(r, rho) <= 1"
+
+arbital.measures.pearson:
+  claims:
+    - name: returns_in_range
+      law: "assuming len(x) == len(y), -1 <= f(x, y) <= 1"
+    # The paired-length premise states the precondition directly, where
+    # earlier passes had to lean on assuming is_defined(f) to imply it.
+    - name: symmetric_in_its_arguments
+      law: "assuming len(x) == len(y), f(x, y) == f(y, x)"
+
+arbital.measures.spearman:
+  claims:
+    - name: returns_in_range
+      law: "assuming len(x) == len(y), -1 <= f(x, y) <= 1"
+    - name: symmetric_in_its_arguments
+      law: "assuming len(x) == len(y), f(x, y) == f(y, x)"

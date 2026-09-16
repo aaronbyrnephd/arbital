@@ -8,9 +8,10 @@ arbital.plot._show_ghost:
     form: "3128b313eb7c"
     sig: "87b1f818388f"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "aab7f2509423"
-    integrity: "bf0fb87370e7046c"
+    integrity: "e4e10332ffc36121"
   math: null
   claims:
     - name: "no_ghost_below_the_nonlinearity_threshold"
@@ -22,7 +23,8 @@ arbital.plot._show_ghost:
       sketch: null
       condition: "for nonlinearity in [0.0, 0.1]:float|missing, r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         nonlinearity:
           lo: 0.0
@@ -65,7 +67,8 @@ arbital.plot._show_ghost:
       sketch: null
       condition: "for nonlinearity in [0.0, 1.0]:float|missing, r_peri in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         nonlinearity:
           lo: 0.0
@@ -103,7 +106,8 @@ arbital.plot._show_ghost:
       sketch: null
       condition: "for nonlinearity in [0.0, 1.0]:float|missing, r_peri in [0.0, 0.5]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         nonlinearity:
           lo: 0.0
@@ -141,7 +145,8 @@ arbital.plot._show_ghost:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -167,11 +172,12 @@ arbital.plot._show_ghost:
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       keyword:
         - "linearity"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

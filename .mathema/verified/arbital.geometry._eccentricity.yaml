@@ -1,16 +1,17 @@
-# machine record; binds to form b6e7db7e6540
+# machine record; binds to form 90e50901424c
 arbital.geometry._eccentricity:
   name: "_eccentricity"
-  signature: "(r_peri: 'float', r_apo: 'float') -> 'float'"
+  signature: "(r_peri: 'float', r_apo: 'float') -> 'UnitInterval'"
   intent: "Geometric eccentricity of an ellipse from its two apsides. e = (r_apo - r_peri) / (r_apo + r_peri), and 0 for the degenerate orbit whose apsides both sit at the origin."
   grammar: "mathema"
   identity:
-    form: "b6e7db7e6540"
-    sig: "741842c8ff0c"
+    form: "90e50901424c"
+    sig: "323aad2eece5"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "297affebd995"
-    integrity: "0b51b72257d094e7"
+    integrity: "3aa10fe010cc36c4"
   math: null
   claims:
     - name: "is_a_proper_eccentricity"
@@ -22,7 +23,8 @@ arbital.geometry._eccentricity:
       sketch: null
       condition: "for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_peri:
           lo: 0.0
@@ -47,7 +49,8 @@ arbital.geometry._eccentricity:
       sketch: null
       condition: "for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_peri:
           lo: 0.0
@@ -72,7 +75,8 @@ arbital.geometry._eccentricity:
       sketch: null
       condition: "for r_apo in (0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_apo:
           lo: 0.0
@@ -105,7 +109,8 @@ arbital.geometry._eccentricity:
       sketch: null
       condition: "for r_peri in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_peri:
           lo: 0.0
@@ -138,7 +143,8 @@ arbital.geometry._eccentricity:
       sketch: "0 and 0 simplify identically"
       condition: null
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -153,7 +159,8 @@ arbital.geometry._eccentricity:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -185,11 +192,12 @@ arbital.geometry._eccentricity:
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       keyword:
         - "metric-space"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

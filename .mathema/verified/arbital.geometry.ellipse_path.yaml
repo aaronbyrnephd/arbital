@@ -8,9 +8,10 @@ arbital.geometry.ellipse_path:
     form: "c9e28ee1dc8f"
     sig: "94464c86805a"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "84d2a0a7bad8"
-    integrity: "57b2f836e03d13cc"
+    integrity: "d819b42f373fc609"
   math: null
   claims:
     - name: "the_path_starts_at_the_periastron"
@@ -22,7 +23,8 @@ arbital.geometry.ellipse_path:
       sketch: "r_peri^2*sin(theta)^2 + r_peri^2*cos(theta)^2 and r_peri^2 simplify identically"
       condition: "where x=theta, y=r_peri: ∀ x ∈ [0.0, 6.3] ⊂ ℝ ∪ {∅}, y ∈ (0.0, 1.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         theta:
           lo: 0.0
@@ -47,7 +49,8 @@ arbital.geometry.ellipse_path:
       sketch: null
       condition: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         theta:
           lo: 0.0
@@ -90,7 +93,8 @@ arbital.geometry.ellipse_path:
       sketch: null
       condition: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         theta:
           lo: 0.0
@@ -133,7 +137,8 @@ arbital.geometry.ellipse_path:
       sketch: "every direct function dependency's form matches its verified record"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -159,16 +164,17 @@ arbital.geometry.ellipse_path:
       basis: "every direct function dependency's form matches its verified record"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   dependencies:
     - name: "_eccentricity"
       kind: "function"
       key: "arbital.geometry._eccentricity"
       file: "src/arbital/geometry.py"
-      line: 145
-      form: "b6e7db7e6540"
+      line: 146
+      form: "90e50901424c"
       freshness: "current"
   meta:
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

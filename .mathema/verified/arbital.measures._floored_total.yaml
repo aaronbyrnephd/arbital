@@ -1,16 +1,17 @@
-# machine record; binds to form b4c0960d55c3
+# machine record; binds to form 17d0daad94b5
 arbital.measures._floored_total:
   name: "_floored_total"
-  signature: "(r_info_raw: 'float', r_mono: 'float') -> 'float'"
+  signature: "(r_info_raw: 'float', r_mono: 'float') -> 'UnitInterval'"
   intent: "Total association, floored at what a monotone fit already reaches. Total dependence cannot be less than the part a monotone description already captures, and the k-NN estimator is noisy enough to report less, so the floor is enforced rather than assumed."
   grammar: "mathema"
   identity:
-    form: "b4c0960d55c3"
-    sig: "3468846e77c4"
+    form: "17d0daad94b5"
+    sig: "ba599182df27"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "f9190d2d45b8"
-    integrity: "da0b25e62af89890"
+    integrity: "f1b08ce1ddfdd805"
   math: null
   claims:
     - name: "never_below_the_monotone_part"
@@ -22,7 +23,8 @@ arbital.measures._floored_total:
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -50,7 +52,8 @@ arbital.measures._floored_total:
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -78,7 +81,8 @@ arbital.measures._floored_total:
       sketch: null
       condition: "for r_info_raw in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info_raw:
           lo: 0.0
@@ -103,7 +107,8 @@ arbital.measures._floored_total:
       sketch: "Max(r_info_raw, r_mono) and Max(r_info_raw, r_mono) simplify identically"
       condition: "where x=r_info_raw, y=r_mono: ∀ x, y ∈ ℝ"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -118,7 +123,8 @@ arbital.measures._floored_total:
       sketch: null
       condition: "for r_info_raw in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info_raw:
           lo: 0.0
@@ -143,7 +149,8 @@ arbital.measures._floored_total:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -175,8 +182,9 @@ arbital.measures._floored_total:
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

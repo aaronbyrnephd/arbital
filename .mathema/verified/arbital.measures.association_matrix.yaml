@@ -8,9 +8,10 @@ arbital.measures.association_matrix:
     form: "79f1e9a43795"
     sig: "33e7a84a9d52"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "9bc0ec35085a"
-    integrity: "e7e2cbb0d81b5384"
+    integrity: "dcd0dae28d84a714"
   math: null
   claims:
     - name: "callable"
@@ -22,7 +23,8 @@ arbital.measures.association_matrix:
       sketch: null
       condition: null
       route: null
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -37,8 +39,9 @@ arbital.measures.association_matrix:
       note: "; inferred k in Z from its own int annotation; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
       sketch: null
       condition: null
-      route: "examine:trial"
-      authored: "declared"
+      route: "probe:algorithmic"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -54,7 +57,8 @@ arbital.measures.association_matrix:
       sketch: "every direct function dependency's form matches its verified record"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -77,9 +81,9 @@ arbital.measures.association_matrix:
       basis: "every direct function dependency's form matches its verified record"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-15"
-    commit: "44f3ed9e52b5d538ef4c3759ff41c53d2baa1bb8"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   dependencies:
     - name: "profile"
       kind: "function"

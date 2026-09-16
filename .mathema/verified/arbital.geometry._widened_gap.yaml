@@ -8,9 +8,10 @@ arbital.geometry._widened_gap:
     form: "688101abcdb0"
     sig: "90612bd33cd2"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "3c3da84ced87"
-    integrity: "113d0940ba937130"
+    integrity: "af67114df89dfb38"
   math: null
   claims:
     - name: "never_below_the_minimum"
@@ -22,7 +23,8 @@ arbital.geometry._widened_gap:
       sketch: "scale*Max(0, -g_min + gap) is nonnegative under the declared domain"
       condition: "where x=gap, y=g_min, z=scale: ∀ x ∈ [0.0, 7.0] ⊂ ℝ ∪ {∅}, y, z ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         gap:
           lo: 0.0
@@ -52,7 +54,8 @@ arbital.geometry._widened_gap:
       sketch: null
       condition: "for gap in [0.0, 7.0]:float|missing, g_min in [0.0, 1.0]:float|missing, scale in [0.0, 1.0]:float|missing"
       route: "probe:lifted_numeric"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         gap:
           lo: 0.0
@@ -84,7 +87,8 @@ arbital.geometry._widened_gap:
       sketch: "g_min and g_min simplify identically"
       condition: "where x=g_min: ∀ x ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         g_min:
           lo: 0.0
@@ -109,7 +113,8 @@ arbital.geometry._widened_gap:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -139,13 +144,14 @@ arbital.geometry._widened_gap:
       basis: "deterministic concept tagging"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
     mathema.concept_sources:
       mechanism:
         - "differentiation"
     concepts:
       - "differentiation"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

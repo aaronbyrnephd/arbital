@@ -8,21 +8,23 @@ arbital._is_valid_confidence:
     form: "b148be46532f"
     sig: "5cf782bf9ece"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "0f12243149b7"
-    integrity: "5a3c2441c6608e70"
+    integrity: "487de2b400ce6bf4"
   math: null
   claims:
     - name: "accepts_a_quantile_inside_the_unit_interval"
       statement: "for confidence in (0.0, 1.0):float|missing, f(confidence) = True"
       verdict: "holds"
-      n: 128
+      n: 32
       counterexample: null
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 8), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant True); probe: holds"
       sketch: null
       condition: "for confidence in (0.0, 1.0):float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         confidence:
           lo: 0.0
@@ -32,12 +34,12 @@ arbital._is_valid_confidence:
       grammar: "mathema"
       tolerance: null
       meta:
-        mathema.sampling: "confidence~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=128"
+        mathema.sampling: "confidence~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=32"
         mathema.confidence:
-          score: 10.0
-          stars: 4
+          score: 8.0
+          stars: 3
           max_stars: 5
-          n: 128
+          n: 32
           factors:
             branches: 0
             loops: 0
@@ -49,13 +51,14 @@ arbital._is_valid_confidence:
     - name: "rejects_one_at_or_above_one"
       statement: "for confidence in [1.0, 10.0]:float|missing, f(confidence) = False"
       verdict: "holds"
-      n: 128
+      n: 32
       counterexample: null
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 8), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
       sketch: null
       condition: "for confidence in [1.0, 10.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         confidence:
           lo: 1.0
@@ -65,12 +68,12 @@ arbital._is_valid_confidence:
       grammar: "mathema"
       tolerance: null
       meta:
-        mathema.sampling: "confidence~U(1,10)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=128"
+        mathema.sampling: "confidence~U(1,10)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=32"
         mathema.confidence:
-          score: 10.0
-          stars: 4
+          score: 8.0
+          stars: 3
           max_stars: 5
-          n: 128
+          n: 32
           factors:
             branches: 0
             loops: 0
@@ -82,13 +85,14 @@ arbital._is_valid_confidence:
     - name: "rejects_one_at_or_below_zero"
       statement: "for confidence in [-10.0, 0.0]:float|missing, f(confidence) = False"
       verdict: "holds"
-      n: 128
+      n: 32
       counterexample: null
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 8), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
       sketch: null
       condition: "for confidence in [-10.0, 0.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         confidence:
           lo: -10.0
@@ -98,12 +102,12 @@ arbital._is_valid_confidence:
       grammar: "mathema"
       tolerance: null
       meta:
-        mathema.sampling: "confidence~U(-10,0)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=128"
+        mathema.sampling: "confidence~U(-10,0)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=32"
         mathema.confidence:
-          score: 10.0
-          stars: 4
+          score: 8.0
+          stars: 3
           max_stars: 5
-          n: 128
+          n: 32
           factors:
             branches: 0
             loops: 0
@@ -121,7 +125,8 @@ arbital._is_valid_confidence:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -135,20 +140,21 @@ arbital._is_valid_confidence:
       basis: "documented; the author's stated purpose"
     - step: "evidence"
       claim: "for confidence in (0.0, 1.0):float|missing, f(confidence) = True"
-      basis: "probed, n=128"
+      basis: "probed, n=32"
     - step: "evidence"
       claim: "for confidence in [1.0, 10.0]:float|missing, f(confidence) = False"
-      basis: "probed, n=128"
+      basis: "probed, n=32"
     - step: "evidence"
       claim: "for confidence in [-10.0, 0.0]:float|missing, f(confidence) = False"
-      basis: "probed, n=128"
+      basis: "probed, n=32"
     - step: "derivation"
       claim: "dependencies_current"
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

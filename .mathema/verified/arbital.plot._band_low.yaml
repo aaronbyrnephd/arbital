@@ -8,9 +8,10 @@ arbital.plot._band_low:
     form: "ceff62af5603"
     sig: "8fc5aa68e14a"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "b01d5acfd0af"
-    integrity: "6c4db9b34e9dc6dd"
+    integrity: "a6e107476a032c13"
   math: null
   claims:
     - name: "never_negative"
@@ -22,7 +23,8 @@ arbital.plot._band_low:
       sketch: "Max(0, r_info - se) is nonnegative under the declared domain"
       condition: "where x=r_info, y=se: ∀ x, y ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -47,7 +49,8 @@ arbital.plot._band_low:
       sketch: null
       condition: "for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -85,7 +88,8 @@ arbital.plot._band_low:
       sketch: null
       condition: "for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -126,7 +130,8 @@ arbital.plot._band_low:
       sketch: null
       condition: "for r_info in [0.0, 0.999]:float|missing, se in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -164,7 +169,8 @@ arbital.plot._band_low:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -193,8 +199,9 @@ arbital.plot._band_low:
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

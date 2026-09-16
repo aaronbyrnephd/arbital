@@ -46,7 +46,7 @@ References
 from __future__ import annotations
 
 import numpy as np
-from mathema.types import Mat
+from mathema.types import InRange, Mat, UnitInterval
 
 __all__ = [
     "association_matrix",
@@ -87,7 +87,7 @@ def _monotone_strength(r: float, rho: float) -> float:
     return max(abs(r), abs(rho))
 
 
-def _nonlinear_share(r_info: float, r_mono: float) -> float:
+def _nonlinear_share(r_info: float, r_mono: float) -> UnitInterval:
     """The share nu of total dependence a monotone description misses.
 
     nu = 1 - (r_mono / r_info)^2, floored at zero, and zero when there is
@@ -104,7 +104,7 @@ def _nonlinear_share(r_info: float, r_mono: float) -> float:
     return max(0.0, 1.0 - (min(r_mono, r_info) / r_info) ** 2)
 
 
-def _floored_total(r_info_raw: float, r_mono: float) -> float:
+def _floored_total(r_info_raw: float, r_mono: float) -> UnitInterval:
     """Total association, floored at what a monotone fit already reaches.
 
     Total dependence cannot be less than the part a monotone description
@@ -136,7 +136,7 @@ def _is_nominal(n_levels: int, is_discrete: bool) -> bool:
 # Classical correlations
 # ---------------------------------------------------------------------------
 
-def pearson(x: np.ndarray, y: np.ndarray) -> float:
+def pearson(x: np.ndarray, y: np.ndarray) -> InRange(-1.0, 1.0):
     """Plain Pearson correlation coefficient (signed, -1..1).
 
     A constant sample has no linear relationship with anything, so a zero
@@ -180,7 +180,7 @@ def _ranks(x: np.ndarray) -> np.ndarray:
     return ranks
 
 
-def spearman(x: np.ndarray, y: np.ndarray) -> float:
+def spearman(x: np.ndarray, y: np.ndarray) -> InRange(-1.0, 1.0):
     """Spearman rank correlation = Pearson correlation of the ranks.
 
     Intent:
@@ -286,7 +286,7 @@ def mutual_information(
     )
 
 
-def linfoot(mi: float) -> float:
+def linfoot(mi: float) -> UnitInterval:
     """Linfoot's informational coefficient of correlation, r_I in [0, 1).
 
     r_I = sqrt(1 - exp(-2*I)).  Equals |rho| exactly when (x, y) is

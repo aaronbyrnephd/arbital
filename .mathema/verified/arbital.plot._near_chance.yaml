@@ -8,9 +8,10 @@ arbital.plot._near_chance:
     form: "e92fbf3dcd44"
     sig: "948f655dba5b"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "f6c93edabed8"
-    integrity: "5c0c86d17fa5ab86"
+    integrity: "422c6476cd3343e0"
   math: null
   claims:
     - name: "flags_anything_at_or_below_chance"
@@ -22,7 +23,8 @@ arbital.plot._near_chance:
       sketch: null
       condition: "for r_info in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -60,7 +62,8 @@ arbital.plot._near_chance:
       sketch: null
       condition: "for r_info in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_info:
           lo: 0.0
@@ -98,7 +101,8 @@ arbital.plot._near_chance:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -121,12 +125,13 @@ arbital.plot._near_chance:
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   dependencies:
     - name: "CHANCE_NOTE_MARGIN"
       kind: "constant"
       value: 0.2
   meta:
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

@@ -8,21 +8,23 @@ arbital.plot._band_spans_chance:
     form: "ecfc49246078"
     sig: "20e739a35625"
     tier: 2
+    source_available: true
     pure: true
     claims_fingerprint: "e33cc0c326eb"
-    integrity: "d72804887e124d14"
+    integrity: "22257e1e0b9d5c9c"
   math: null
   claims:
     - name: "an_empty_band_spans_nothing"
       statement: "for r_lo in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_lo, r_lo, chance) = False"
       verdict: "holds"
-      n: 128
+      n: 32
       counterexample: null
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 8), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
       sketch: null
       condition: "for r_lo in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_lo:
           lo: 0.0
@@ -37,12 +39,12 @@ arbital.plot._band_spans_chance:
       grammar: "mathema"
       tolerance: null
       meta:
-        mathema.sampling: "r_lo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_hi~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=128"
+        mathema.sampling: "r_lo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_hi~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=32"
         mathema.confidence:
-          score: 9.5
-          stars: 4
+          score: 7.5
+          stars: 3
           max_stars: 5
-          n: 128
+          n: 32
           factors:
             branches: 0
             loops: 0
@@ -54,13 +56,14 @@ arbital.plot._band_spans_chance:
     - name: "a_level_below_the_band_is_not_spanned"
       statement: "assuming chance <= r_lo, for r_lo in [0.0, 1.0]:float|missing, r_hi in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_lo, r_hi, chance) = False"
       verdict: "holds"
-      n: 66
+      n: 16
       counterexample: null
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 8), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
       sketch: null
       condition: "for r_lo in [0.0, 1.0]:float|missing, r_hi in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing"
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain:
         r_lo:
           lo: 0.0
@@ -80,12 +83,12 @@ arbital.plot._band_spans_chance:
       grammar: "mathema"
       tolerance: null
       meta:
-        mathema.sampling: "r_lo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_hi~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=66"
+        mathema.sampling: "r_lo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_hi~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=16"
         mathema.confidence:
-          score: 8.5
+          score: 6.5
           stars: 3
           max_stars: 5
-          n: 66
+          n: 16
           factors:
             branches: 0
             loops: 0
@@ -103,7 +106,8 @@ arbital.plot._band_spans_chance:
       sketch: "no direct function dependencies, vacuously current"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -117,17 +121,18 @@ arbital.plot._band_spans_chance:
       basis: "documented; the author's stated purpose"
     - step: "evidence"
       claim: "for r_lo in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_lo, r_lo, chance) = False"
-      basis: "probed, n=128"
+      basis: "probed, n=32"
     - step: "evidence"
       claim: "assuming chance <= r_lo, for r_lo in [0.0, 1.0]:float|missing, r_hi in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_lo, r_hi, chance) = False"
-      basis: "probed, n=66"
+      basis: "probed, n=16"
     - step: "derivation"
       claim: "dependencies_current"
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   meta:
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"

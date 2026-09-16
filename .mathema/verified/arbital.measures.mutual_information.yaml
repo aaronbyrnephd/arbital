@@ -8,9 +8,10 @@ arbital.measures.mutual_information:
     form: "e04db5e37bcc"
     sig: "a06e4cb6cf6c"
     tier: 3
+    source_available: true
     pure: false
     claims_fingerprint: "e520aec2c309"
-    integrity: "0f7611a89110dcb0"
+    integrity: "2db5fa7a8ac401d8"
   math: null
   claims:
     - name: "purity"
@@ -22,7 +23,8 @@ arbital.measures.mutual_information:
       sketch: null
       condition: null
       route: null
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -31,23 +33,24 @@ arbital.measures.mutual_information:
     - name: "never_negative"
       statement: "assuming f is defined, f(x, y, 5, 0) >= 0"
       verdict: "holds"
-      n: 7
+      n: 9
       counterexample: null
       note: "; inferred k=5, rng_seed=0 from the claim's own literal argument; routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if n != len(y) (line 29), a branch couldn't be resolved from the declared domain); probe: holds"
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
       meta:
-        mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), k~U{5..5}, rng_seed~U{0..0}, seed=20260718, n=7"
+        mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), k~U{5..5}, rng_seed~U{0..0}, seed=20260718, n=9"
         mathema.confidence:
-          score: 2.8
+          score: 3.2
           stars: 1
           max_stars: 5
-          n: 7
+          n: 9
           factors:
             branches: 2
             loops: 0
@@ -65,7 +68,8 @@ arbital.measures.mutual_information:
       sketch: null
       condition: null
       route: "probe"
-      authored: "declared"
+      authored:
+        surface: "claims-file"
       domain: null
       grammar: "mathema"
       tolerance: null
@@ -93,7 +97,8 @@ arbital.measures.mutual_information:
       sketch: "no verified record yet for: arbital.measures._digamma"
       condition: null
       route: "derive"
-      authored: "builtin"
+      authored:
+        surface: "builtin"
       domain: null
       grammar: null
       tolerance: null
@@ -110,7 +115,7 @@ arbital.measures.mutual_information:
       basis: "uses randomness"
     - step: "evidence"
       claim: "assuming f is defined, f(x, y, 5, 0) >= 0"
-      basis: "probed, n=7"
+      basis: "probed, n=9"
     - step: "evidence"
       claim: "raises(f(x, y, 500, 0), ValueError)"
       basis: "probed, n=192"
@@ -119,22 +124,22 @@ arbital.measures.mutual_information:
       basis: "no verified record yet for: arbital.measures._digamma"
   lineage:
     generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.1.0"
-    date: "2026-09-14"
-    commit: "da5bffc046752b1f53188550392524b4f6aff063"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-16"
+    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
   dependencies:
     - name: "_digamma"
       kind: "function"
       key: "arbital.measures._digamma"
       file: "src/arbital/measures.py"
-      line: 196
+      line: 197
       form: "ee52e2f42b77"
       freshness: "unverified"
     - name: "_ksg_mi"
       kind: "function"
       key: "arbital.measures._ksg_mi"
       file: "src/arbital/measures.py"
-      line: 69
+      line: 70
       form: "7cf26d9c1a32"
       freshness: "current"
   raises:
@@ -143,4 +148,5 @@ arbital.measures.mutual_information:
     mathema.concept_sources:
       keyword:
         - "metric-space"
+    mathema.premise_state: {}
     mathema.intent_provenance: "declared"
