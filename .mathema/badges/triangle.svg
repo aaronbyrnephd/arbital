@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320" font-family="system-ui,sans-serif">
+<polygon points="160.0,40.0 28.0,280.0 292.0,280.0" fill="none" stroke="#8b949e" stroke-dasharray="3 4" stroke-width="1"/>
+<polygon points="160.0,229.6 37.2,280.0 253.7,280.0" fill="#b536ed" stroke="#57606a" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="160" y1="280" x2="160.0" y2="40.0" stroke="#8250df" stroke-width="1" opacity="0.35"/>
+<circle cx="160.0" cy="229.6" r="5" fill="#8250df"/>
+<text x="160.0" y="28.0" fill="#8250df" font-size="13" font-weight="600" text-anchor="middle">CLARITY 21</text>
+<line x1="160" y1="280" x2="28.0" y2="280.0" stroke="#1f6feb" stroke-width="1" opacity="0.35"/>
+<circle cx="37.2" cy="280.0" r="5" fill="#1f6feb"/>
+<text x="24.0" y="300.0" fill="#1f6feb" font-size="13" font-weight="600" text-anchor="start">IMPL 93</text>
+<line x1="160" y1="280" x2="292.0" y2="280.0" stroke="#2da44e" stroke-width="1" opacity="0.35"/>
+<circle cx="253.7" cy="280.0" r="5" fill="#2da44e"/>
+<text x="296.0" y="300.0" fill="#2da44e" font-size="13" font-weight="600" text-anchor="end">INTENT 71</text>
+<text x="160" y="210" fill="#ffffff" font-size="15" font-weight="700" text-anchor="middle">17%</text>
+</svg>

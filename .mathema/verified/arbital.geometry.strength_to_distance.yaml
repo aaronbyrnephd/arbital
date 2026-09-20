@@ -11,6 +11,7 @@ arbital.geometry.strength_to_distance:
     source_available: true
     pure: true
     claims_fingerprint: "d6f72cd4f4c2"
+    pin: "none"
     integrity: "feb8b2bcf6697d6a"
   math: null
   claims:
@@ -75,8 +76,8 @@ arbital.geometry.strength_to_distance:
           - "info"
         mathema.derive_status: "unliftable"
         mathema.claim_source: "the author"
-        mathema.previous_verdict: "holds"
         mathema.last_supported_commit: "da5bffc046752b1f53188550392524b4f6aff063"
+        mathema.previous_verdict: "invalidated"
         mathema.regressed_to: "falsified"
     - name: "clamps_above_one_to_the_centre"
       statement: "for r in [1.0, 5.0]:float|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
@@ -226,8 +227,8 @@ arbital.geometry.strength_to_distance:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-16"
-    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
+    date: "2026-09-17"
+    commit: "07b1344a6fdde5dadaf5344af6c0e10fc4df3f68"
   dependencies:
     - name: "_distance_from_strength"
       kind: "function"

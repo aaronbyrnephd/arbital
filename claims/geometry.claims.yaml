@@ -154,3 +154,10 @@ arbital.geometry._classical_mds_2d:
     # to the caller's good manners.
     - name: reads_a_symmetric_distance_matrix
       law: "assuming D is symmetric, is_symmetric(D)"
+
+arbital.geometry.angular_layout:
+  claims:
+    # The layout parameter is a bare string reaching a branch; the fuzz
+    # half shrinks any unguarded crash to a minimal witness.
+    - name: is_arbitrary_input_safe
+      law: "is_arbitrary_input_safe(layout)"

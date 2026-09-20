@@ -11,6 +11,7 @@ arbital._chance_adjusted_mi:
     source_available: true
     pure: true
     claims_fingerprint: "754fc23349ed"
+    pin: "none"
     integrity: "3ddab92ebfe85dda"
   math: null
   claims:
@@ -84,7 +85,7 @@ arbital._chance_adjusted_mi:
       verdict: "holds"
       n: 65
       counterexample: null
-      note: "; routes attempted, derive: undecided (sympy's .equals() claimed Max(0, -chance + mi) != 0, but a seeded numeric check inside the declared domain could not reproduce a counterexample, so this is not reported as disproven; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      note: "; routes attempted, derive: undecided (sympy could not simplify Max(0, -chance + mi) to 0; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       sketch: null
       condition: "for mi in [0.0, 5.0]:float|missing, chance in [0.0, 5.0]:float|missing"
       route: "probe"
@@ -123,7 +124,7 @@ arbital._chance_adjusted_mi:
       verdict: "holds"
       n: 109
       counterexample: null
-      note: "; routes attempted, derive: undecided (sympy's .equals() claimed chance - mi + Max(0, -chance + mi) != 0, but a seeded numeric check inside the declared domain could not reproduce a counterexample, so this is not reported as disproven; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      note: "; routes attempted, derive: undecided (sympy could not simplify chance - mi + Max(0, -chance + mi) to 0; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       sketch: null
       condition: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing"
       route: "probe"
@@ -287,8 +288,8 @@ arbital._chance_adjusted_mi:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-16"
-    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
+    date: "2026-09-17"
+    commit: "07b1344a6fdde5dadaf5344af6c0e10fc4df3f68"
   meta:
     mathema.concept_sources:
       mechanism:

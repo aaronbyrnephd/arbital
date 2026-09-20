@@ -11,6 +11,7 @@ arbital.measures.mutual_information_mixed:
     source_available: true
     pure: true
     claims_fingerprint: "b19112e4b8c3"
+    pin: "none"
     integrity: "48c79b4c14b56170"
   math: null
   claims:
@@ -74,8 +75,8 @@ arbital.measures.mutual_information_mixed:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-16"
-    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
+    date: "2026-09-17"
+    commit: "07b1344a6fdde5dadaf5344af6c0e10fc4df3f68"
   dependencies:
     - name: "_mi_continuous_discrete"
       kind: "function"

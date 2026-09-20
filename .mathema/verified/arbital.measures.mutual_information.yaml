@@ -11,6 +11,7 @@ arbital.measures.mutual_information:
     source_available: true
     pure: false
     claims_fingerprint: "e520aec2c309"
+    pin: "none"
     integrity: "2db5fa7a8ac401d8"
   math: null
   claims:
@@ -125,8 +126,8 @@ arbital.measures.mutual_information:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-16"
-    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
+    date: "2026-09-17"
+    commit: "07b1344a6fdde5dadaf5344af6c0e10fc4df3f68"
   dependencies:
     - name: "_digamma"
       kind: "function"

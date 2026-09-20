@@ -11,6 +11,7 @@ arbital.plot._fallback_half_span:
     source_available: true
     pure: true
     claims_fingerprint: "c581f2516560"
+    pin: "none"
     integrity: "13c6b7106b44b18f"
   math: null
   claims:
@@ -106,8 +107,8 @@ arbital.plot._fallback_half_span:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-16"
-    commit: "0c6aaaaca06cdc3599114eef22b12c53e1914adb"
+    date: "2026-09-17"
+    commit: "07b1344a6fdde5dadaf5344af6c0e10fc4df3f68"
   meta:
     mathema.concept_sources:
       mechanism:

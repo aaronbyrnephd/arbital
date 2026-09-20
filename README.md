@@ -13,6 +13,23 @@
   <a href="https://aaronbyrnephd.github.io/arbital/"><img src="https://img.shields.io/badge/docs-vignette%20%2B%20API-blue.svg" alt="Documentation"></a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/tetrionlabs/mathema"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fimplementation.json" alt="implementation coverage"></a>
+  <a href="https://github.com/tetrionlabs/mathema"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fintent.json" alt="intent"></a>
+  <a href="https://github.com/tetrionlabs/mathema"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fbehavioural.json" alt="behavioural clarity"></a>
+  <a href="https://github.com/tetrionlabs/mathema"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Foverall.json" alt="overall"></a>
+</p>
+
+<p align="center"><sub>
+  <b>implementation</b>: share of statements reached by a test, a probe, or a proof &middot;
+  <b>intent</b>: share of what the code is for that is written down &middot;
+  <b>behavioural clarity</b>: how much is <i>known</i> about the behaviour, from
+  adjudicated claims, not a pass rate, since a falsified claim still counts as
+  knowledge &middot;
+  <b>overall</b>: the area of the triangle the three span.
+  Measured by <a href="https://github.com/tetrionlabs/mathema">mathema</a>; regenerate with <code>mathema badges arbital --out</code>.
+</sub></p>
+
 **arbital** draws every variable in a dataset as an orbit around a target, so that the
 strength, shape, direction, redundancy, and usefulness of each association are readable
 from a single figure.

@@ -1,0 +1,21 @@
+# Claims for arbital.datasets. This layer is I/O and was named as an
+# unclaimable gap by earlier passes; the string-hazard member and the
+# refusal contracts reach part of it.
+
+arbital.datasets.load:
+  claims:
+    # Auto-suggested for the bare str parameter. Fuzzes `name` over an
+    # edge-case corpus and shrinks any unguarded crash to a minimal
+    # witness; a deliberate ValueError on an unknown name holds.
+    - name: is_arbitrary_input_safe
+      law: "is_arbitrary_input_safe(name)"
+    # RETAINED FALSIFIED, and it is a finding rather than a bad claim.
+    # An unknown name is not rejected: load() falls through to seaborn,
+    # which attempts a NETWORK FETCH, so the witness is
+    #   ('no-such-dataset', ...): raised URLError, claimed ValueError
+    # Whether an unknown dataset should be a clean local ValueError or a
+    # deliberate remote lookup is a judgement about intent that is not
+    # written down anywhere, so it is left for a human. The claim stays
+    # as authored and stays falsified.
+    - name: refuses_an_unknown_dataset
+      law: 'raises(f("no-such-dataset"), ValueError)'
