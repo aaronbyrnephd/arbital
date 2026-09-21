@@ -26,13 +26,11 @@ jobs:
       - run: mathema verify --root . --lenient
       # the implementation badge unions test-, probe- and proof-reached
       # lines, so it needs current coverage; without it badges re-derives
-      # reach itself and runs well over ten minutes.
-      # NOT `mathema coverage --run-tests`: that traces the suite, and
-      # the tracing overhead pushes a sympy proof attempt past the
-      # wall-clock cap, killing the command outright.
-      - run: |
-          python -m coverage run -m pytest -q
-          python -m coverage json -o coverage.json
+      # reach itself and runs well over ten minutes. Under tracing the
+      # wall-clock alarm can fire inside a sympy generator's cleanup and
+      # print an "Exception ignored in:" traceback to stderr; that is
+      # non-fatal finalization noise, not a failure. Trust the exit code.
+      - run: mathema coverage --run-tests --root .
       # a stale badge fails CI rather than quietly overstating the repo
       - run: |
           mathema badges arbital --root . --out
