@@ -12,9 +12,9 @@ arbital.measures.linfoot:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "66947f06f24c"
+    claims_fingerprint: "0a5fb0081355"
     pin: "none"
-    integrity: "f9bde112d9a033fc"
+    integrity: "749ac020925b0a57"
   math:
     unicode: "sqrt(exp(2*max(0, mi)) - 1)*exp(-max(0, mi))"
     latex: "\\sqrt{e^{2 \\max\\left(0, mi\\right)} - 1} e^{- \\max\\left(0, mi\\right)}"
@@ -137,22 +137,26 @@ arbital.measures.linfoot:
           closed_hi: true
       meta:
         mathema.surface: "declared"
-    - name: "strictly_below_one"
-      statement: "for mi in [0.0, 50.0]:float|missing, 0 <= f(mi) < 1"
-      verdict: "falsified"
-      n: 3
-      counterexample: "link 2: f(mi) < 1: (37.3064): 1.0 vs 1"
-      note: "chained comparison falsified at link 2: f(mi) < 1"
+    - name: "strictly_below_one_corrected"
+      statement: "for mi in [0.0, 18.7]:float|missing, 0 <= f(mi) < 1"
+      verdict: "holds"
+      n: 128
+      note: "every link of the chained comparison holds"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         mi:
-          lo: 0.0
-          hi: 50.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 18.7
+              closed_lo: true
+              closed_hi: true
+          excluded: []
+          explicit_type: true
       meta:
+        mathema.membership: "repopulated-from-verified"
         mathema.surface: "declared"
     - name: "strictly_below_one_to_ten_nats"
       statement: "for mi in [0.0, 10.0]:float|missing, 0 <= f(mi) < 1"
@@ -203,9 +207,6 @@ arbital.measures.linfoot:
     - step: "derivation"
       claim: "for mi in [0.0, 50.0]:float|missing, d(f(mi), mi, mi) <= 0"
       basis: "interval evaluation over the declared domain: -(1 - 2*exp(2*mi))*exp(-mi)/(exp(2*mi) - 1)^(3/2) ∈ AccumBounds(exp(-50)/(-1 + exp(100))**(3/2), oo), never negative"
-    - step: "refutation"
-      claim: "NOT (for mi in [0.0, 50.0]:float|missing, 0 <= f(mi) < 1)"
-      basis: "counterexample link 2: f(mi) < 1: (37.3064): 1.0 vs 1"
     - step: "evidence"
       claim: "for mi in [0.0, 10.0]:float|missing, 0 <= f(mi) < 1"
       basis: "probed, n=128"
@@ -217,6 +218,9 @@ arbital.measures.linfoot:
       basis: "probed, n=128"
     - step: "evidence"
       claim: "is_compendium_safe(numpy)"
+      basis: "probed, n=128"
+    - step: "evidence"
+      claim: "for mi in [0.0, 18.7]:float|missing, 0 <= f(mi) < 1"
       basis: "probed, n=128"
     - step: "derivation"
       claim: ""
@@ -239,3 +243,32 @@ arbital.measures.linfoot:
       - "differentiation"
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"
+  discoveries:
+    - name: "strictly_below_one"
+      statement: "for mi in [0.0, 50.0]:float|missing, 0 <= f(mi) < 1"
+      verdict: "falsified"
+      n: 3
+      counterexample: "link 2: f(mi) < 1: (37.3064): 1.0 vs 1"
+      note: "chained comparison falsified at link 2: f(mi) < 1"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+      domain:
+        mi:
+          lo: 0.0
+          hi: 50.0
+          closed_lo: true
+          closed_hi: true
+      meta:
+        mathema.surface: "declared"
+      acceptance_history:
+        - at: "2026-09-21"
+          as: "discovery"
+          verdict: "falsified"
+          by: "Aaron Byrne"
+      accepted:
+        as: "discovery"
+        at: "2026-09-21"
+        form: "3fc373eae8d7"
+        by: "Aaron Byrne"
+      superseded_by: "strictly_below_one_corrected"

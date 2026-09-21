@@ -4,15 +4,15 @@
 <circle cx="180.0" cy="64.0" r="3" fill="none" stroke="#afb8c1" stroke-width="1.25"/>
 <circle cx="56.0" cy="246.0" r="3" fill="none" stroke="#afb8c1" stroke-width="1.25"/>
 <circle cx="304.0" cy="246.0" r="3" fill="none" stroke="#afb8c1" stroke-width="1.25"/>
-<polygon points="180.0,207.8 64.7,246.0 268.0,246.0" fill="#b536ed" stroke="#57606a" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="180.0,206.0 64.7,246.0 268.0,246.0" fill="#b538ed" stroke="#57606a" stroke-width="1.5" stroke-linejoin="round"/>
 <line x1="180" y1="246" x2="180.0" y2="64.0" stroke="#8250df" stroke-width="1" opacity="0.3"/>
-<circle cx="180.0" cy="207.8" r="5.5" fill="#8250df"/>
-<text x="180.0" y="50.0" fill="#8250df" font-size="14" font-weight="600" text-anchor="middle">CLARITY 21</text>
+<circle cx="180.0" cy="206.0" r="5.5" fill="#8250df"/>
+<text x="180.0" y="50.0" fill="#8250df" font-size="14" font-weight="600" text-anchor="middle">CLARITY 22</text>
 <line x1="180" y1="246" x2="56.0" y2="246.0" stroke="#1f6feb" stroke-width="1" opacity="0.3"/>
 <circle cx="64.7" cy="246.0" r="5.5" fill="#1f6feb"/>
 <text x="46.0" y="272.0" fill="#1f6feb" font-size="14" font-weight="600" text-anchor="start">IMPL 93</text>
 <line x1="180" y1="246" x2="304.0" y2="246.0" stroke="#2da44e" stroke-width="1" opacity="0.3"/>
 <circle cx="268.0" cy="246.0" r="5.5" fill="#2da44e"/>
 <text x="314.0" y="272.0" fill="#2da44e" font-size="14" font-weight="600" text-anchor="end">INTENT 71</text>
-<text x="170.9" y="238.3" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">17%</text>
+<text x="170.9" y="237.7" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">18%</text>
 </svg>

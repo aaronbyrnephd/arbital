@@ -18,18 +18,17 @@ arbital.measures.linfoot:
       statement: "for mi in [0, 50], d(f(mi), mi) >= 0"
     - name: concave_in_information
       statement: "for mi in [0, 50], d(f(mi), mi, mi) <= 0"
-    # The docstring stated "r_I in [0, 1)" over the whole range. That is
-    # true in exact arithmetic and false in float64: exp(-2*mi) drops
-    # below the smallest representable step at mi = 18.714973875118524
-    # and the return saturates to exactly 1.0 above it (witness
-    # 37.3064 -> 1.0). Left as authored so the falsification stays a
-    # finding. It retires into the record's discoveries section, witness
-    # kept, and the true bound is supplied at acceptance:
-    #   mathema accept arbital.measures.linfoot strictly_below_one \
-    #     --as discovery --corrected "for mi in [0, 18.7], 0 <= f(mi) < 1"
-    # never_above_one already covers [0, 1] over the whole range.
-    - name: strictly_below_one
-      statement: "for mi in [0, 50], 0 <= f(mi) < 1"
+    # strictly_below_one used to sit here, asserting the docstring's
+    # "r_I in [0, 1)" over the whole range. True in exact arithmetic and
+    # false in float64: exp(-2*mi) drops below the smallest
+    # representable step at mi = 18.714973875118524 and the return
+    # saturates to exactly 1.0 above it (witness 37.3064 -> 1.0). It was
+    # accepted as a discovery, so it now lives in the record's
+    # discoveries section with that witness, and the true bound is the
+    # live strictly_below_one_corrected claim written there at
+    # acceptance. It is NOT re-declared here: a declared claim
+    # regenerates on every verify, which would resurrect the
+    # falsification the discovery just retired.
     # the same contract over the range the existing test suite covers
     - name: strictly_below_one_to_ten_nats
       statement: "for mi in [0, 10], 0 <= f(mi) < 1"

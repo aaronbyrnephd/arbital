@@ -12,7 +12,7 @@ arbital.measures._mi_discrete_discrete:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "4f0e1d3c9aed"
+    claims_fingerprint: "e8b80aec62d6"
     pin: "none"
     integrity: "cc3c3aaa4a379170"
   math: null
@@ -38,7 +38,7 @@ arbital.measures._mi_discrete_discrete:
     - name: "is_compendium_safe"
       statement: "is_compendium_safe(numpy)"
       verdict: "holds"
-      n: 30
+      n: 26
       note: "; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
       route: "probe:algorithmic"
       authored:
@@ -70,6 +70,73 @@ arbital.measures._mi_discrete_discrete:
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "symmetric"
+      statement: "assuming dim(x, 0) == dim(y, 0), f(x, y) = f(y, x)"
+      verdict: "holds"
+      n: 224
+      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: loop: multiple-loops (line 21), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+      meta:
+        mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=224"
+        mathema.confidence:
+          score: 6.8
+          stars: 3
+          max_stars: 5
+          n: 224
+          factors:
+            branches: 1
+            loops: 2
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "unliftable"
+        mathema.surface: "declared"
+  concepts:
+    - "iteration"
+  references: {}
+  reasoning:
+    - step: "intent"
+      claim: "Plug-in MI (nats) between two categorical variables. Straight from the definition using the joint frequency table:     I = sum_{a,b} p(a,b) * log( p(a,b) / (p(a) p(b)) ). Both inputs are treated as labels (their numeric value is ignored except as an identity), so integer codes are fine."
+      basis: "documented; the author's stated purpose"
+    - step: "structure"
+      claim: "comprehension pipeline: map, map"
+      basis: "read off the AST"
+    - step: "gap"
+      claim: ""
+      basis: "could not synthesize valid inputs from the signature (ValueError: x and y must have the same length)"
+    - step: "evidence"
+      claim: "assuming f is defined, f(x, y) >= 0"
+      basis: "probed, n=24"
+    - step: "evidence"
+      claim: "assuming dim(x, 0) == dim(y, 0), f(x, y) = f(y, x)"
+      basis: "probed, n=224"
+    - step: "evidence"
+      claim: "is_compendium_safe(numpy)"
+      basis: "probed, n=26"
+    - step: "derivation"
+      claim: ""
+      basis: "no direct function dependencies, vacuously current"
+    - step: "situating"
+      claim: "instantiates: iteration"
+      basis: "deterministic concept tagging"
+  lineage:
+    generated_by: "mathema 0.6.0"
+    CDD_spec_version: "0.2.0"
+    date: "2026-09-21"
+    commit: "f0991a1456f686e2cb66094c1b7c7ee30bb01c2d"
+  raises:
+    - "ValueError"
+  meta:
+    mathema.concept_sources:
+      mechanism:
+        - "iteration"
+    concepts:
+      - "iteration"
+    mathema.premise_state: {}
+    mathema.intent_provenance: "declared"
+  superseded:
+    - name: "symmetric"
       statement: "assuming f is defined, f(x, y) = f(y, x)"
       verdict: "holds"
       n: 29
@@ -91,46 +158,15 @@ arbital.measures._mi_discrete_discrete:
             wide_domain: 0
             float_extremes: 0
         mathema.surface: "declared"
-  concepts:
-    - "iteration"
-  references: {}
-  reasoning:
-    - step: "intent"
-      claim: "Plug-in MI (nats) between two categorical variables. Straight from the definition using the joint frequency table:     I = sum_{a,b} p(a,b) * log( p(a,b) / (p(a) p(b)) ). Both inputs are treated as labels (their numeric value is ignored except as an identity), so integer codes are fine."
-      basis: "documented; the author's stated purpose"
-    - step: "structure"
-      claim: "comprehension pipeline: map, map"
-      basis: "read off the AST"
-    - step: "gap"
-      claim: ""
-      basis: "could not synthesize valid inputs from the signature (ValueError: x and y must have the same length)"
-    - step: "evidence"
-      claim: "assuming f is defined, f(x, y) >= 0"
-      basis: "probed, n=24"
-    - step: "evidence"
-      claim: "assuming f is defined, f(x, y) = f(y, x)"
-      basis: "probed, n=29"
-    - step: "evidence"
-      claim: "is_compendium_safe(numpy)"
-      basis: "probed, n=30"
-    - step: "derivation"
-      claim: ""
-      basis: "no direct function dependencies, vacuously current"
-    - step: "situating"
-      claim: "instantiates: iteration"
-      basis: "deterministic concept tagging"
-  lineage:
-    generated_by: "mathema 0.6.0"
-    CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "1361b4124ef03f36f091caaf9a6624f490d67e37"
-  raises:
-    - "ValueError"
-  meta:
-    mathema.concept_sources:
-      mechanism:
-        - "iteration"
-    concepts:
-      - "iteration"
-    mathema.premise_state: {}
-    mathema.intent_provenance: "declared"
+      accepted:
+        as: "superseded"
+        at: "2026-09-21"
+        form: "53de052d34f2"
+        commit: null
+        by: "Aaron Byrne"
+      acceptance_history:
+        - at: "2026-09-21"
+          as: "superseded"
+          verdict: "holds"
+          by: "Aaron Byrne"
+      superseded_by: "symmetric"

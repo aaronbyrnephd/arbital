@@ -1,8 +1,8 @@
 {
   "implementation": 93,
   "intent": 71,
-  "clarity": 21,
-  "overall": 17,
+  "clarity": 22,
+  "overall": 18,
   "clarity_algo": "entropy-dimensions@1",
   "per_function": {
     "arbital._resolve_input": {
@@ -143,7 +143,7 @@
     "arbital.datasets.load": {
       "implementation": 80,
       "intent": 76,
-      "clarity": 11
+      "clarity": 8
     },
     "arbital.datasets.load_mpg": {
       "implementation": 100,
@@ -178,7 +178,7 @@
     "arbital.geometry.strength_to_distance": {
       "implementation": 100,
       "intent": 68,
-      "clarity": 16
+      "clarity": 14
     },
     "arbital.geometry.orbit_parameters": {
       "implementation": 100,
@@ -188,7 +188,7 @@
     "arbital.geometry._eccentricity": {
       "implementation": 100,
       "intent": 68,
-      "clarity": 50
+      "clarity": 44
     },
     "arbital.geometry.ellipse_path": {
       "implementation": 100,
@@ -222,8 +222,8 @@
     },
     "arbital.geometry.greedy_selection": {
       "implementation": 100,
-      "intent": 65,
-      "clarity": 6
+      "intent": 61,
+      "clarity": 17
     },
     "arbital.geometry._mean_association": {
       "implementation": 100,
@@ -263,7 +263,7 @@
     "arbital.measures.pearson": {
       "implementation": 100,
       "intent": 100,
-      "clarity": 47
+      "clarity": 35
     },
     "arbital.measures._ranks": {
       "implementation": 100,
@@ -273,7 +273,7 @@
     "arbital.measures.spearman": {
       "implementation": 100,
       "intent": 90,
-      "clarity": 29
+      "clarity": 22
     },
     "arbital.measures._digamma": {
       "implementation": 100,
@@ -283,26 +283,26 @@
     "arbital.measures.mutual_information": {
       "implementation": 100,
       "intent": 56,
-      "clarity": 17
+      "clarity": 37
     },
     "arbital.measures.linfoot": {
       "implementation": 100,
       "intent": 66,
-      "clarity": 33
+      "clarity": 49
     },
     "arbital.measures._mi_discrete_discrete": {
       "implementation": 100,
-      "intent": 90,
-      "clarity": 25
+      "intent": 72,
+      "clarity": 51
     },
     "arbital.measures._mi_continuous_discrete": {
       "implementation": 100,
-      "intent": 72,
-      "clarity": 5
+      "intent": 67,
+      "clarity": 34
     },
     "arbital.measures.mutual_information_mixed": {
       "implementation": 100,
-      "intent": 59,
+      "intent": 58,
       "clarity": 9
     },
     "arbital.measures.shuffled_mi": {
@@ -347,7 +347,7 @@
     },
     "arbital.plot._band_low": {
       "implementation": 100,
-      "intent": 68,
+      "intent": 66,
       "clarity": 40
     },
     "arbital.plot._band_crosses_chance": {

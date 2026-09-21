@@ -12,9 +12,9 @@ arbital.geometry._eccentricity:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "297affebd995"
+    claims_fingerprint: "447711fce87a"
     pin: "none"
-    integrity: "3aa10fe010cc36c4"
+    integrity: "4f96272db05d8096"
   math: null
   claims:
     - name: "a_degenerate_orbit_is_a_circle"
@@ -86,27 +86,35 @@ arbital.geometry._eccentricity:
           closed_hi: true
       meta:
         mathema.surface: "declared"
-    - name: "is_a_proper_eccentricity"
-      statement: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) < 1"
-      verdict: "falsified"
-      n: 10
-      counterexample: "link 2: f(r_peri, r_apo) < 1: (0, 0.492232): 1.0 vs 1"
-      note: "chained comparison falsified at link 2: f(r_peri, r_apo) < 1"
+    - name: "is_a_proper_eccentricity_corrected"
+      statement: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
+      verdict: "holds"
+      n: 78
+      note: "every link of the chained comparison holds"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         r_peri:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+          excluded: []
+          explicit_type: true
         r_apo:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+          excluded: []
+          explicit_type: true
       meta:
+        mathema.membership: "repopulated-from-verified"
         mathema.surface: "declared"
     - name: "parabolic_only_from_the_centre"
       statement: "for r_apo in (0.0, 1.0]:float|missing, f(0, r_apo) = 1"
@@ -143,9 +151,6 @@ arbital.geometry._eccentricity:
     - step: "intent"
       claim: "Geometric eccentricity of an ellipse from its two apsides. e = (r_apo - r_peri) / (r_apo + r_peri), and 0 for the degenerate orbit whose apsides both sit at the origin."
       basis: "documented; the author's stated purpose"
-    - step: "refutation"
-      claim: "NOT (assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) < 1)"
-      basis: "counterexample link 2: f(r_peri, r_apo) < 1: (0, 0.492232): 1.0 vs 1"
     - step: "evidence"
       claim: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
       basis: "probed, n=83"
@@ -158,6 +163,9 @@ arbital.geometry._eccentricity:
     - step: "derivation"
       claim: "f(0, 0) = 0"
       basis: "0 and 0 simplify identically"
+    - step: "evidence"
+      claim: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
+      basis: "probed, n=78"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
@@ -172,3 +180,37 @@ arbital.geometry._eccentricity:
         - "metric-space"
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"
+  discoveries:
+    - name: "is_a_proper_eccentricity"
+      statement: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) < 1"
+      verdict: "falsified"
+      n: 10
+      counterexample: "link 2: f(r_peri, r_apo) < 1: (0, 0.492232): 1.0 vs 1"
+      note: "chained comparison falsified at link 2: f(r_peri, r_apo) < 1"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+      domain:
+        r_peri:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+        r_apo:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+      meta:
+        mathema.surface: "declared"
+      acceptance_history:
+        - at: "2026-09-21"
+          as: "discovery"
+          verdict: "falsified"
+          by: "Aaron Byrne"
+      accepted:
+        as: "discovery"
+        at: "2026-09-21"
+        form: "90e50901424c"
+        by: "Aaron Byrne"
+      superseded_by: "is_a_proper_eccentricity_corrected"

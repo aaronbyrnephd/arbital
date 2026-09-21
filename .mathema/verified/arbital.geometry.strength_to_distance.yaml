@@ -12,58 +12,11 @@ arbital.geometry.strength_to_distance:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "cd2916a1340b"
+    claims_fingerprint: "da3f96eb112d"
     pin: "none"
-    integrity: "2a1c2022d5663c6b"
+    integrity: "e21c59c43163b10f"
   math: null
   claims:
-    - name: "agrees_with_its_scalar_core"
-      statement: "let g = arbital.geometry._distance_from_strength, for r in [0.0, 1.0]:float|missing, scale in {\"info\", \"linear\"}, f(r, scale) = g(r, scale)"
-      verdict: "falsified"
-      n: 1
-      counterexample: "([0.0921922, 0.641052, 1, 1, 0.51857, 0.999999, 1, 0.731754], 'info'): raised TypeError, narrow the claim's domain to where every call returns, or state the raising region as its own raises(...) claim"
-      route: "probe"
-      authored:
-        surface: "claims-file"
-      domain:
-        r:
-          base_type: "R"
-          pieces:
-            - lo: 0.0
-              hi: 1.0
-              closed_lo: true
-              closed_hi: true
-          excluded: []
-          explicit_type: true
-        scale:
-          set:
-            - "info"
-            - "linear"
-      meta:
-        mathema.membership: "repopulated-from-verified"
-        mathema.sampling: "r~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), scale~U{info, linear}, seed=20260718, n=1"
-        mathema.confidence:
-          score: 3.0
-          stars: 1
-          max_stars: 5
-          n: 1
-          factors:
-            branches: 0
-            loops: 0
-            params: 0
-            wide_domain: 0
-            float_extremes: 0
-        mathema.counterexample_args:
-          - - 0.09219219165589587
-            - 0.641052368439991
-            - 1.0
-            - 1.0
-            - 0.5185704551472166
-            - 0.999999
-            - 1.0
-            - 0.7317538346222778
-          - "info"
-        mathema.surface: "declared"
     - name: "callable"
       verdict: "skipped"
       note: "parameter 'scale' is a string with no declared domain; declare its values, e.g. 'for scale in {\"a\", \"b\"}, ...' in a claim, or annotate it Literal[...]"
@@ -189,9 +142,6 @@ arbital.geometry.strength_to_distance:
     - step: "evidence"
       claim: "raises(f(0.5, 'nope'), ValueError)"
       basis: "probed, n=128"
-    - step: "refutation"
-      claim: "NOT (let g = arbital.geometry._distance_from_strength, for r in [0.0, 1.0]:float|missing, scale in {\"info\", \"linear\"}, f(r, scale) = g(r, scale))"
-      basis: "counterexample ([0.0921922, 0.641052, 1, 1, 0.51857, 0.999999, 1, 0.731754], 'info'): raised TypeError, narrow the claim's domain to where every call returns, or state the raising region as its own raises(...) claim"
     - step: "derivation"
       claim: ""
       basis: "every direct function dependency's form matches its verified record"
@@ -214,3 +164,61 @@ arbital.geometry.strength_to_distance:
         - "metric-space"
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"
+  discoveries:
+    - name: "agrees_with_its_scalar_core"
+      statement: "let g = arbital.geometry._distance_from_strength, for r in [0.0, 1.0]:float|missing, scale in {\"info\", \"linear\"}, f(r, scale) = g(r, scale)"
+      verdict: "falsified"
+      n: 1
+      counterexample: "([0.0921922, 0.641052, 1, 1, 0.51857, 0.999999, 1, 0.731754], 'info'): raised TypeError, narrow the claim's domain to where every call returns, or state the raising region as its own raises(...) claim"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+      domain:
+        r:
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+          excluded: []
+          explicit_type: true
+        scale:
+          set:
+            - "info"
+            - "linear"
+      meta:
+        mathema.membership: "repopulated-from-verified"
+        mathema.sampling: "r~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), scale~U{info, linear}, seed=20260718, n=1"
+        mathema.confidence:
+          score: 3.0
+          stars: 1
+          max_stars: 5
+          n: 1
+          factors:
+            branches: 0
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.counterexample_args:
+          - - 0.09219219165589587
+            - 0.641052368439991
+            - 1.0
+            - 1.0
+            - 0.5185704551472166
+            - 0.999999
+            - 1.0
+            - 0.7317538346222778
+          - "info"
+        mathema.surface: "declared"
+      acceptance_history:
+        - at: "2026-09-21"
+          as: "discovery"
+          verdict: "falsified"
+          by: "Aaron Byrne"
+      accepted:
+        as: "discovery"
+        at: "2026-09-21"
+        form: "873f274ad7b7"
+        by: "Aaron Byrne"

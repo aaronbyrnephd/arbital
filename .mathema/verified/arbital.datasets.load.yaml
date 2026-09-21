@@ -12,9 +12,9 @@ arbital.datasets.load:
     tier: 3
     source_available: true
     pure: false
-    claims_fingerprint: "162898c6afdd"
+    claims_fingerprint: "6f7b407bd781"
     pin: "none"
-    integrity: "71b08d7555e50139"
+    integrity: "c8988737baebb16b"
   math: null
   claims:
     - name: "dependencies_current"
@@ -26,6 +26,20 @@ arbital.datasets.load:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
+        mathema.previous_verdict: "unknown"
+      accepted:
+        as: "risk"
+        at: "2026-09-21"
+        form: "2660052ea450"
+        by: "Aaron Byrne"
+        note: "third-party dataset fetch, not pinned"
+      acceptance_history:
+        - at: "2026-09-21"
+          as: "risk"
+          verdict: "unknown"
+          by: "Aaron Byrne"
+          note: "third-party dataset fetch, not pinned"
+      counterexample: null
     - name: "is_arbitrary_input_safe"
       statement: "is_arbitrary_input_safe(name)"
       verdict: "holds"
@@ -45,33 +59,6 @@ arbital.datasets.load:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
-    - name: "refuses_an_unknown_dataset"
-      statement: "raises(f('no-such-dataset'), ValueError)"
-      verdict: "falsified"
-      n: 1
-      counterexample: "('no-such-dataset', 0.5, -0.5): raised URLError, claimed ValueError"
-      route: "probe"
-      authored:
-        surface: "claims-file"
-      meta:
-        mathema.membership: "repopulated-from-verified"
-        mathema.sampling: "name~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], drop~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], categorical~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=1"
-        mathema.confidence:
-          score: 1.5
-          stars: 1
-          max_stars: 5
-          n: 1
-          factors:
-            branches: 1
-            loops: 0
-            params: 1
-            wide_domain: 0
-            float_extremes: 0
-        mathema.counterexample_args:
-          - "no-such-dataset"
-          - 0.5
-          - -0.5
-        mathema.surface: "declared"
   concepts: []
   references: {}
   reasoning:
@@ -84,9 +71,6 @@ arbital.datasets.load:
     - step: "evidence"
       claim: "is_arbitrary_input_safe(name)"
       basis: "probed, n=160"
-    - step: "refutation"
-      claim: "NOT (raises(f('no-such-dataset'), ValueError))"
-      basis: "counterexample ('no-such-dataset', 0.5, -0.5): raised URLError, claimed ValueError"
     - step: "gap"
       claim: ""
       basis: "no verified record yet for: arbital.datasets._dataframe_to_table, arbital.datasets._load_bundled, arbital.datasets._seaborn"
@@ -120,3 +104,41 @@ arbital.datasets.load:
   meta:
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"
+  discoveries:
+    - name: "refuses_an_unknown_dataset"
+      statement: "raises(f('no-such-dataset'), ValueError)"
+      verdict: "falsified"
+      n: 1
+      counterexample: "('no-such-dataset', 0.5, -0.5): raised URLError, claimed ValueError"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+      meta:
+        mathema.membership: "repopulated-from-verified"
+        mathema.sampling: "name~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], drop~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], categorical~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=1"
+        mathema.confidence:
+          score: 1.5
+          stars: 1
+          max_stars: 5
+          n: 1
+          factors:
+            branches: 1
+            loops: 0
+            params: 1
+            wide_domain: 0
+            float_extremes: 0
+        mathema.counterexample_args:
+          - "no-such-dataset"
+          - 0.5
+          - -0.5
+        mathema.surface: "declared"
+      acceptance_history:
+        - at: "2026-09-21"
+          as: "discovery"
+          verdict: "falsified"
+          by: "Aaron Byrne"
+      accepted:
+        as: "discovery"
+        at: "2026-09-21"
+        form: "2660052ea450"
+        by: "Aaron Byrne"

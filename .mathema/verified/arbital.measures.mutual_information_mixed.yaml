@@ -14,7 +14,7 @@ arbital.measures.mutual_information_mixed:
     pure: true
     claims_fingerprint: "b19112e4b8c3"
     pin: "none"
-    integrity: "48c79b4c14b56170"
+    integrity: "0d0db06d2dd6a89b"
   math: null
   claims:
     - name: "dependencies_current"
@@ -26,7 +26,6 @@ arbital.measures.mutual_information_mixed:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
-      counterexample: null
     - name: "never_negative_discrete_pair"
       statement: "assuming f is defined, f(x, y, True, True, 5) >= 0"
       verdict: "holds"
@@ -59,14 +58,14 @@ arbital.measures.mutual_information_mixed:
     - step: "evidence"
       claim: "assuming f is defined, f(x, y, True, True, 5) >= 0"
       basis: "probed, n=224"
-    - step: "gap"
+    - step: "derivation"
       claim: ""
-      basis: "no verified record yet for: arbital.measures._mi_continuous_discrete"
+      basis: "every direct function dependency's form matches its verified record"
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
     date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    commit: "f0991a1456f686e2cb66094c1b7c7ee30bb01c2d"
   dependencies:
     - name: "_mi_continuous_discrete"
       kind: "function"
@@ -74,7 +73,7 @@ arbital.measures.mutual_information_mixed:
       file: "src/arbital/measures.py"
       line: 347
       form: "ee98cc6c6807"
-      freshness: "unverified"
+      freshness: "current"
     - name: "_mi_discrete_discrete"
       kind: "function"
       key: "arbital.measures._mi_discrete_discrete"

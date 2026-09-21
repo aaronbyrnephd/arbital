@@ -1,5 +1,6 @@
 # machine record; binds to form cfaf71abbae0
 arbital.measures.spearman:
+  schema_version: "0.2.0"
   name: "spearman"
   signature: "(x: 'np.ndarray', y: 'np.ndarray') -> 'InRange(-1.0, 1.0)'"
   intent: "Spearman rank correlation = Pearson correlation of the ranks."
@@ -11,47 +12,11 @@ arbital.measures.spearman:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "19cd8d67b348"
+    claims_fingerprint: "b39e8d974bc2"
     pin: "none"
-    integrity: "e0d5eb2227ad5346"
+    integrity: "4245a374ce5ec159"
   math: null
   claims:
-    - name: "blind_to_a_rescaled_axis"
-      statement: "assuming dim(x, 0) == dim(y, 0), f(2*x, y) = f(x, y)"
-      verdict: "falsified"
-      n: 2
-      counterexample: "([3.39596, 1.98947, 6.83467, -2.74497, 0.0948689, -2.1341], [4.92719, 0, 5.82645, -8.13892, -8.24571, -9.09399]): raised ValueError, narrow the claim's domain to where every call returns, or state the raising region as its own raises(...) claim"
-      route: "probe"
-      authored:
-        surface: "claims-file"
-      meta:
-        mathema.membership: "repopulated-from-verified"
-        mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=2"
-        mathema.confidence:
-          score: 4.0
-          stars: 2
-          max_stars: 5
-          n: 2
-          factors:
-            branches: 0
-            loops: 0
-            params: 0
-            wide_domain: 0
-            float_extremes: 0
-        mathema.counterexample_args:
-          - - 3.3959641943103573
-            - 1.9894695892556982
-            - 6.834674374501258
-            - -2.744970728084864
-            - 0.09486887165879665
-            - -2.134098001079103
-          - - 4.927193859620221
-            - 0.0
-            - 5.826450002523371
-            - -8.138923446938911
-            - -8.245711719293475
-            - -9.093990454718712
-        mathema.surface: "declared"
     - name: "blind_to_an_elementwise_rescale"
       statement: "assuming dim(x, 0) == dim(y, 0), let s = mathema.f.scale_seq, f(s(x, 2), y) = f(x, y)"
       verdict: "holds"
@@ -170,9 +135,6 @@ arbital.measures.spearman:
     - step: "evidence"
       claim: "assuming dim(x, 0) == dim(y, 0), f(x, y) = f(y, x)"
       basis: "probed, n=128"
-    - step: "refutation"
-      claim: "NOT (assuming dim(x, 0) == dim(y, 0), f(2*x, y) = f(x, y))"
-      basis: "counterexample ([3.39596, 1.98947, 6.83467, -2.74497, 0.0948689, -2.1341], [4.92719, 0, 5.82645, -8.13892, -8.24571, -9.09399]): raised ValueError, narrow the claim's domain to where every call returns, or state the raising region as its own raises(...) claim"
     - step: "derivation"
       claim: ""
       basis: "every direct function dependency's form matches its verified record"
@@ -199,3 +161,52 @@ arbital.measures.spearman:
   meta:
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"
+  superseded:
+    - name: "blind_to_a_rescaled_axis"
+      statement: "assuming dim(x, 0) == dim(y, 0), f(2*x, y) = f(x, y)"
+      verdict: "falsified"
+      n: 2
+      counterexample: "([3.39596, 1.98947, 6.83467, -2.74497, 0.0948689, -2.1341], [4.92719, 0, 5.82645, -8.13892, -8.24571, -9.09399]): raised ValueError, narrow the claim's domain to where every call returns, or state the raising region as its own raises(...) claim"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+      meta:
+        mathema.membership: "repopulated-from-verified"
+        mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=2"
+        mathema.confidence:
+          score: 4.0
+          stars: 2
+          max_stars: 5
+          n: 2
+          factors:
+            branches: 0
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.counterexample_args:
+          - - 3.3959641943103573
+            - 1.9894695892556982
+            - 6.834674374501258
+            - -2.744970728084864
+            - 0.09486887165879665
+            - -2.134098001079103
+          - - 4.927193859620221
+            - 0.0
+            - 5.826450002523371
+            - -8.138923446938911
+            - -8.245711719293475
+            - -9.093990454718712
+        mathema.surface: "declared"
+      accepted:
+        as: "superseded"
+        at: "2026-09-21"
+        form: "cfaf71abbae0"
+        commit: null
+        by: "Aaron Byrne"
+      acceptance_history:
+        - at: "2026-09-21"
+          as: "superseded"
+          verdict: "falsified"
+          by: "Aaron Byrne"
+      superseded_by: "blind_to_a_rescaled_axis"
