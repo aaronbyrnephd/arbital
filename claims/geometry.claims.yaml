@@ -187,3 +187,12 @@ arbital.geometry.select_target:
     # states the sample-count precondition the estimators carry.
     - name: picks_an_existing_column
       law: "assuming len(X) > 6, 0 <= f(X)"
+
+arbital.geometry.greedy_selection:
+  intent: "Greedy mRMR forward selection: an explicit feature-selection order."
+  claims:
+    # numpy is compendium-covered, so this asks whether an unguarded
+    # call into it can silently return nan or inf. Verified holding
+    # ad-hoc before being authored.
+    - name: is_compendium_safe
+      law: "is_compendium_safe(numpy)"

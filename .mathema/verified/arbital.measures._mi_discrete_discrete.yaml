@@ -12,9 +12,9 @@ arbital.measures._mi_discrete_discrete:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "8098199a079e"
+    claims_fingerprint: "4f0e1d3c9aed"
     pin: "none"
-    integrity: "cfd9bed0bb325762"
+    integrity: "cc3c3aaa4a379170"
   math: null
   claims:
     - name: "callable"
@@ -35,15 +35,49 @@ arbital.measures._mi_discrete_discrete:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
+    - name: "is_compendium_safe"
+      statement: "is_compendium_safe(numpy)"
+      verdict: "holds"
+      n: 30
+      note: "; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
+      route: "probe:algorithmic"
+      authored:
+        surface: "claims-file"
+      meta:
+        mathema.derive_status: "unsupported"
+        mathema.surface: "declared"
     - name: "never_negative"
       statement: "assuming f is defined, f(x, y) >= 0"
       verdict: "holds"
-      n: 29
+      n: 24
       note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: loop: multiple-loops (line 21), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
       meta:
+        mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=24"
+        mathema.confidence:
+          score: 3.6
+          stars: 1
+          max_stars: 5
+          n: 24
+          factors:
+            branches: 1
+            loops: 2
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "unliftable"
+        mathema.surface: "declared"
+    - name: "symmetric"
+      statement: "assuming f is defined, f(x, y) = f(y, x)"
+      verdict: "holds"
+      n: 29
+      route: "probe"
+      authored:
+        surface: "claims-file"
+      meta:
+        mathema.pending_supersession: "assuming dim(x, 0) == dim(y, 0), f(x, y) = f(y, x)"
         mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=29"
         mathema.confidence:
           score: 3.9
@@ -56,31 +90,7 @@ arbital.measures._mi_discrete_discrete:
             params: 0
             wide_domain: 0
             float_extremes: 0
-        mathema.derive_status: "unliftable"
         mathema.surface: "declared"
-    - name: "symmetric"
-      statement: "assuming f is defined, f(x, y) = f(y, x)"
-      verdict: "holds"
-      n: 40
-      route: "probe"
-      authored:
-        surface: "claims-file"
-      meta:
-        mathema.pending_supersession: "assuming dim(x, 0) == dim(y, 0), f(x, y) = f(y, x)"
-        mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=40"
-        mathema.confidence:
-          score: 4.3
-          stars: 2
-          max_stars: 5
-          n: 40
-          factors:
-            branches: 1
-            loops: 2
-            params: 0
-            wide_domain: 0
-            float_extremes: 0
-        mathema.surface: "declared"
-        mathema.previous_verdict: "falsified"
   concepts:
     - "iteration"
   references: {}
@@ -96,10 +106,13 @@ arbital.measures._mi_discrete_discrete:
       basis: "could not synthesize valid inputs from the signature (ValueError: x and y must have the same length)"
     - step: "evidence"
       claim: "assuming f is defined, f(x, y) >= 0"
-      basis: "probed, n=29"
+      basis: "probed, n=24"
     - step: "evidence"
       claim: "assuming f is defined, f(x, y) = f(y, x)"
-      basis: "probed, n=40"
+      basis: "probed, n=29"
+    - step: "evidence"
+      claim: "is_compendium_safe(numpy)"
+      basis: "probed, n=30"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
@@ -110,7 +123,7 @@ arbital.measures._mi_discrete_discrete:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
     date: "2026-09-21"
-    commit: "7990f0113705add13771e75fd2988613b4ee73a9"
+    commit: "1361b4124ef03f36f091caaf9a6624f490d67e37"
   raises:
     - "ValueError"
   meta:

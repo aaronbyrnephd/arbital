@@ -39,6 +39,13 @@ arbital.measures.linfoot:
     # for a bivariate Gaussian, I = -log(1 - rho^2)/2 and r_I == |rho|
     - name: gaussian_calibration
       statement: "let rho be [0.01, 0.99], f(-log(1 - rho^2)/2) == rho"
+    # numpy is compendium-covered, so this asks whether an unguarded
+    # call into it can silently return nan or inf. Verified holding
+    # ad-hoc before being authored: the failure modes here are real
+    # (ellipse_path and _digamma both falsify it) so this is not a
+    # formality.
+    - name: is_compendium_safe
+      law: "is_compendium_safe(numpy)"
 
 arbital.measures._ksg_mi:
   intent: Assemble the KSG estimate from its three digamma terms.
@@ -114,6 +121,13 @@ arbital.measures.pearson:
     # the coefficient measures shape, not units
     - name: blind_to_an_elementwise_rescale
       statement: "assuming is_defined(f), f(2*x, y) == f(x, y)"
+    # numpy is compendium-covered, so this asks whether an unguarded
+    # call into it can silently return nan or inf. Verified holding
+    # ad-hoc before being authored: the failure modes here are real
+    # (ellipse_path and _digamma both falsify it) so this is not a
+    # formality.
+    - name: is_compendium_safe
+      law: "is_compendium_safe(numpy)"
 
 arbital.measures.spearman:
   intent: How well any monotone curve describes the relationship.
@@ -133,6 +147,13 @@ arbital.measures.mutual_information:
     # the guard the docstring states: k + 1 samples are not enough
     - name: refuses_more_neighbours_than_samples
       statement: "raises(f(x, y, 500, 0), ValueError)"
+    # numpy is compendium-covered, so this asks whether an unguarded
+    # call into it can silently return nan or inf. Verified holding
+    # ad-hoc before being authored: the failure modes here are real
+    # (ellipse_path and _digamma both falsify it) so this is not a
+    # formality.
+    - name: is_compendium_safe
+      law: "is_compendium_safe(numpy)"
 
 arbital.measures.mutual_information_mixed:
   intent: One comparable information number for any pair of types.
@@ -152,6 +173,13 @@ arbital.measures._mi_discrete_discrete:
     # too, so the premise is what the function actually promises.
     - name: symmetric
       statement: "assuming len(x) == len(y), f(x, y) == f(y, x)"
+    # numpy is compendium-covered, so this asks whether an unguarded
+    # call into it can silently return nan or inf. Verified holding
+    # ad-hoc before being authored: the failure modes here are real
+    # (ellipse_path and _digamma both falsify it) so this is not a
+    # formality.
+    - name: is_compendium_safe
+      law: "is_compendium_safe(numpy)"
 
 arbital.measures._floored_total:
   intent: Keep the total and its monotone part consistent with each other.
@@ -259,3 +287,12 @@ arbital.measures._digamma:
     # reach on this signature.
     - name: grows_more_slowly_than_its_argument
       law: "for x in [2, 100], f(x) <= x"
+
+arbital.measures._mi_continuous_discrete:
+  intent: "MI (nats) between a continuous variable and a discrete label."
+  claims:
+    # numpy is compendium-covered, so this asks whether an unguarded
+    # call into it can silently return nan or inf. Verified holding
+    # ad-hoc before being authored.
+    - name: is_compendium_safe
+      law: "is_compendium_safe(numpy)"
