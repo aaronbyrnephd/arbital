@@ -13,9 +13,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/tetrionlabs/mathema"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fimplementation.json" alt="implementation coverage"></a>
-  <a href="https://github.com/tetrionlabs/mathema"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fintent.json" alt="intent"></a>
-  <a href="https://github.com/tetrionlabs/mathema"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fclarity.json" alt="clarity"></a>
+  <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fimplementation.json" alt="implementation coverage">
+  <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fintent.json" alt="intent">
+  <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fclarity.json" alt="clarity">
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
   <b>implementation</b>: statements reached by a test, a probe, or a proof &middot;
   <b>intent</b>: how much of what the code is for is written down &middot;
   <b>clarity</b>: how much of what is knowable about the behaviour the claims pin down.
-  <br>Measured by <a href="https://github.com/tetrionlabs/mathema">mathema</a>, which adjudicates each claim rather than counting passes.
+  <br>Measured by mathema, which adjudicates each claim rather than counting passes.
 </sub></p>
 
 **arbital** draws every variable in a dataset as an orbit around a target, so that the
