@@ -23,12 +23,12 @@
 </p>
 
 <p align="center"><sub>
-  <b>implementation</b> &middot; statements reached by a test, a probe, or a proof<br>
-  <b>intent</b> &middot; how much of what the code is for is written down<br>
-  <b>clarity</b> &middot; how much of what is knowable about the behaviour is pinned down
+  <b>implementation</b> &middot; how much of the code&rsquo;s behaviour is covered by tests, probes, or proofs<br>
+  <b>intent</b> &middot; how much of what the code is meant to do is explicitly specified<br>
+  <b>clarity</b> &middot; how much of the code&rsquo;s knowable behaviour is made explicit and unambiguous
 </sub></p>
 
-<p align="center"><sub><i>Measured by mathema: every claim is adjudicated, not counted as a pass.</i></sub></p>
+<p align="center"><sub><b>mathema</b>: know what the code actually does</sub></p>
 
 **arbital** draws every variable in a dataset as an orbit around a target, so that the
 strength, shape, direction, redundancy, and usefulness of each association are readable
