@@ -6,7 +6,6 @@
 
 <p align="center">
   <a href="https://github.com/aaronbyrnephd/arbital/actions/workflows/test.yml"><img src="https://github.com/aaronbyrnephd/arbital/actions/workflows/test.yml/badge.svg" alt="tests"></a>
-
   <a href="https://pypi.org/project/arbital/"><img src="https://img.shields.io/pypi/v/arbital.svg?cacheSeconds=3600" alt="PyPI"></a>
   <img src="https://img.shields.io/pypi/pyversions/arbital.svg?cacheSeconds=3600" alt="Python versions">
   <a href="https://github.com/aaronbyrnephd/arbital/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license"></a>
@@ -19,12 +18,15 @@
   <a href="https://github.com/tetrionlabs/mathema"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fclarity.json" alt="clarity"></a>
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/aaronbyrnephd/arbital/main/.mathema/badges/triangle.svg" alt="implementation, intent and clarity plotted as a triangle" width="320">
+</p>
+
 <p align="center"><sub>
-  <b>implementation</b>: share of statements reached by a test, a probe, or a proof &middot;
-  <b>intent</b>: share of what the code is for that is written down &middot;
-  <b>clarity</b>: how much of what is knowable about the behaviour the
-  adjudicated claims pin down, over five dimensions, not a pass rate.
-  Measured by <a href="https://github.com/tetrionlabs/mathema">mathema</a>; regenerate with <code>mathema badges arbital --out</code>.
+  <b>implementation</b>: statements reached by a test, a probe, or a proof &middot;
+  <b>intent</b>: how much of what the code is for is written down &middot;
+  <b>clarity</b>: how much of what is knowable about the behaviour the claims pin down.
+  <br>Measured by <a href="https://github.com/tetrionlabs/mathema">mathema</a>, which adjudicates each claim rather than counting passes.
 </sub></p>
 
 **arbital** draws every variable in a dataset as an orbit around a target, so that the
