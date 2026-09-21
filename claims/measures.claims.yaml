@@ -104,7 +104,7 @@ arbital.measures.pearson:
     - name: symmetric
       statement: "assuming is_defined(f), f(x, y) == f(y, x)"
     # the coefficient measures shape, not units
-    - name: blind_to_a_rescaled_axis
+    - name: blind_to_an_elementwise_rescale
       statement: "assuming is_defined(f), f(2*x, y) == f(x, y)"
 
 arbital.measures.spearman:
@@ -114,7 +114,7 @@ arbital.measures.spearman:
       statement: "assuming is_defined(f), |f(x, y)| <= 1"
     - name: symmetric
       statement: "assuming is_defined(f), f(x, y) == f(y, x)"
-    - name: blind_to_a_rescaled_axis
+    - name: blind_to_an_elementwise_rescale
       statement: "assuming is_defined(f), f(2*x, y) == f(x, y)"
 
 arbital.measures.mutual_information:
@@ -180,6 +180,23 @@ arbital.measures.association_matrix:
 
 arbital.measures._monotone_strength:
   claims:
+    # Recovered from the verified store at fb26a05: these were authored in
+    # the first pass, dropped from this file by a later rewrite, and were
+    # only still adjudicating because verify carries verified membership
+    # forward. Deleting the store lost them, which is why they are back
+    # here where they belong.
+    - name: blind_to_the_pearson_sign
+      law: "f(-r, rho) == f(r, rho)"
+    - name: blind_to_the_spearman_sign
+      law: "f(r, -rho) == f(r, rho)"
+    - name: symmetric_in_its_two_channels
+      law: "f(r, rho) == f(rho, r)"
+    - name: dominates_pearson
+      law: "f(r, rho) >= |r|"
+    - name: dominates_spearman
+      law: "f(r, rho) >= |rho|"
+    - name: stays_on_the_correlation_scale
+      law: "for r in [-1, 1], rho in [-1, 1], 0 <= f(r, rho) <= 1"
     # NOT marked UnitInterval: max(|r|, |rho|) is bounded only where its
     # inputs are, and the battery's suggested unconditional bound falsified
     # at (2, 0) -> 2.0. The guarantee belongs to the callers, which pass
@@ -189,6 +206,15 @@ arbital.measures._monotone_strength:
 
 arbital.measures.pearson:
   claims:
+    # Also recovered from fb26a05.
+    - name: on_the_correlation_scale
+      law: "assuming len(x) == len(y), |f(x, y)| <= 1"
+    # `2*x` on a synthesised list is list REPETITION, not elementwise
+    # scaling, so the plain spelling silently tested the wrong thing and
+    # survived only because most samples raised and were excluded (n=15).
+    # scale_seq is the construct for this: n=160, and it scales the axis.
+    - name: blind_to_an_elementwise_rescale
+      law: "let s = mathema.f.scale_seq, assuming len(x) == len(y), f(s(x, 2), y) == f(x, y)"
     - name: returns_in_range
       law: "assuming len(x) == len(y), -1 <= f(x, y) <= 1"
     # The paired-length premise states the precondition directly, where
@@ -198,7 +224,25 @@ arbital.measures.pearson:
 
 arbital.measures.spearman:
   claims:
+    # Also recovered from fb26a05.
+    - name: on_the_correlation_scale
+      law: "assuming len(x) == len(y), |f(x, y)| <= 1"
+    # `2*x` on a synthesised list is list REPETITION, not elementwise
+    # scaling, so the plain spelling silently tested the wrong thing and
+    # survived only because most samples raised and were excluded (n=15).
+    # scale_seq is the construct for this: n=160, and it scales the axis.
+    - name: blind_to_an_elementwise_rescale
+      law: "let s = mathema.f.scale_seq, assuming len(x) == len(y), f(s(x, 2), y) == f(x, y)"
     - name: returns_in_range
       law: "assuming len(x) == len(y), -1 <= f(x, y) <= 1"
     - name: symmetric_in_its_arguments
       law: "assuming len(x) == len(y), f(x, y) == f(y, x)"
+
+arbital.measures._digamma:
+  claims:
+    # psi(x) < x for x >= 2: the asymptotic series grows like log(x), so the
+    # function stays under its own argument. A bound rather than the
+    # recurrence itself, which needs array synthesis the probe route cannot
+    # reach on this signature.
+    - name: grows_more_slowly_than_its_argument
+      law: "for x in [2, 100], f(x) <= x"

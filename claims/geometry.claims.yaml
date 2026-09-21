@@ -161,3 +161,10 @@ arbital.geometry.angular_layout:
     # half shrinks any unguarded crash to a minimal witness.
     - name: is_arbitrary_input_safe
       law: "is_arbitrary_input_safe(layout)"
+
+arbital.geometry.select_target:
+  claims:
+    # Returns a column index, so it must be one that exists. The premise
+    # states the sample-count precondition the estimators carry.
+    - name: picks_an_existing_column
+      law: "assuming len(X) > 6, 0 <= f(X)"
