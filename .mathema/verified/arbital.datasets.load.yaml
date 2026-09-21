@@ -1,5 +1,6 @@
 # machine record; binds to form 2660052ea450
 arbital.datasets.load:
+  schema_version: "0.2.0"
   name: "load"
   signature: "(name: 'str', drop=None, categorical=None) -> 'Table'"
   intent: "Load a dataset by name and return a Table. Bundled datasets (mpg, penguins, titanic, tips) load from CSV files inside the package, offline and dependency-free.  Any other name is fetched through seaborn (requires the 'datasets' extra and, on first use, a network connection)."
@@ -11,7 +12,7 @@ arbital.datasets.load:
     tier: 3
     source_available: true
     pure: false
-    claims_fingerprint: "3b526084fa0f"
+    claims_fingerprint: "162898c6afdd"
     pin: "none"
     integrity: "71b08d7555e50139"
   math: null
@@ -49,11 +50,11 @@ arbital.datasets.load:
       verdict: "falsified"
       n: 1
       counterexample: "('no-such-dataset', 0.5, -0.5): raised URLError, claimed ValueError"
-      note: "; routes attempted, derive: underivable (no explicit raise statement anywhere in this function, an exception implicit in an arithmetic operation (division, sqrt of a negative, ...) can't be proven this way; only an explicit `if cond: raise ...` guard can); probe: falsified"
       route: "probe"
       authored:
         surface: "claims-file"
       meta:
+        mathema.membership: "repopulated-from-verified"
         mathema.sampling: "name~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], drop~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], categorical~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=1"
         mathema.confidence:
           score: 1.5
@@ -70,7 +71,6 @@ arbital.datasets.load:
           - "no-such-dataset"
           - 0.5
           - -0.5
-        mathema.derive_status: "unliftable"
         mathema.surface: "declared"
   concepts: []
   references: {}

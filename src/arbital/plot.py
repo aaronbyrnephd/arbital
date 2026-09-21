@@ -163,9 +163,12 @@ def _band_low(r_info: float, se: float) -> float:
 
     Intent:
         Say how weak the association could plausibly be, held at 0
-        because association is never negative on this scale.
+        because association is never negative on this scale, and below
+        1 for the same reason _band_high() is: r_info saturates to
+        exactly 1.0 for a strong enough association, and without the
+        ceiling the band's outer end would overtake its inner one.
     """
-    return max(r_info - se, 0.0)
+    return min(max(r_info - se, 0.0), 0.999)
 
 
 def _band_crosses_chance(r_info: float, se: float, chance: float) -> bool:

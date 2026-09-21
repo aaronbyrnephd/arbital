@@ -287,12 +287,17 @@ def mutual_information(
 
 
 def linfoot(mi: float) -> UnitInterval:
-    """Linfoot's informational coefficient of correlation, r_I in [0, 1).
+    """Linfoot's informational coefficient of correlation, r_I in [0, 1].
 
     r_I = sqrt(1 - exp(-2*I)).  Equals |rho| exactly when (x, y) is
     bivariate Gaussian, so it is 'MI expressed on the correlation scale'.
     Linfoot (1957), "An informational measure of correlation",
     Information and Control 1(1), 85-89.
+
+    The mathematical range is [0, 1), but exp(-2*I) falls below the
+    smallest representable step at I = 18.714973875118524 nats, so the
+    return saturates to exactly 1.0 beyond that.  Callers that divide
+    by 1 - r_I need to account for it.
 
     Intent:
         Put mutual information on the correlation scale, so dependence
@@ -323,6 +328,8 @@ def _mi_discrete_discrete(x: np.ndarray, y: np.ndarray) -> float:
     x = np.asarray(x).ravel()
     y = np.asarray(y).ravel()
     n = len(x)
+    if n != len(y):
+        raise ValueError("x and y must have the same length")
     xs = {v: i for i, v in enumerate(np.unique(x))}
     ys = {v: i for i, v in enumerate(np.unique(y))}
     joint = np.zeros((len(xs), len(ys)))

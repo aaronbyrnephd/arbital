@@ -9,13 +9,16 @@ arbital.datasets.load:
     # witness; a deliberate ValueError on an unknown name holds.
     - name: is_arbitrary_input_safe
       law: "is_arbitrary_input_safe(name)"
-    # RETAINED FALSIFIED, and it is a finding rather than a bad claim.
-    # An unknown name is not rejected: load() falls through to seaborn,
-    # which attempts a NETWORK FETCH, so the witness is
-    #   ('no-such-dataset', ...): raised URLError, claimed ValueError
-    # Whether an unknown dataset should be a clean local ValueError or a
-    # deliberate remote lookup is a judgement about intent that is not
-    # written down anywhere, so it is left for a human. The claim stays
-    # as authored and stays falsified.
-    - name: refuses_an_unknown_dataset
-      law: 'raises(f("no-such-dataset"), ValueError)'
+    # refuses_an_unknown_dataset used to sit here and was wrong.
+    # load()'s docstring is explicit that any name outside the bundled
+    # set is fetched through seaborn, and available() exists to list
+    # what that admits, so the fall-through is the documented contract
+    # rather than a defect. The row is retired by
+    #   mathema accept arbital.datasets.load refuses_an_unknown_dataset \
+    #     --as superseded
+    # and keeps adjudicating from the store until then; the verified
+    # layer is append-only in membership, so deleting it here does not
+    # remove it. No replacement claim: is_arbitrary_input_safe(name)
+    # above is already the meaningful safety contract for this
+    # function, and the narrower definedness predicates either restate
+    # it or re-find the same seaborn fall-through.

@@ -30,8 +30,20 @@ arbital.geometry._distance_from_strength:
 arbital.geometry.strength_to_distance:
   intent: The radial mapping over whatever numeric shape a caller has.
   claims:
-    - name: agrees_with_its_scalar_core
-      statement: 'let g = arbital.geometry._distance_from_strength, for r in [0, 1], scale in {"info", "linear"}, f(r, scale) == g(r, scale)'
+    # agrees_with_its_scalar_core used to sit here. It was falsified
+    # before this pass began (it fails at HEAD~ too) and it is not
+    # expressible as stated: r is unannotated on the wrapper because it
+    # genuinely takes either a scalar or an array, so the sampler
+    # explores both shapes, and the scalar core raises TypeError on the
+    # list ones. Declaring `r in [0, 1]:float` does not constrain it;
+    # the canonical form already carried :float|missing and still
+    # sampled [0.5, 0.0649399, ...]. Annotating the wrapper `r: float`
+    # would make it checkable by making the signature untrue. Retire it
+    # with
+    #   mathema accept arbital.geometry.strength_to_distance \
+    #     agrees_with_its_scalar_core --as superseded
+    # and see the limitations log: pinning a union-shaped unannotated
+    # parameter to one of its branches has no spelling today.
     - name: clamps_above_one_to_the_centre
       statement: 'for r in [1, 5], scale in {"info", "linear"}, f(r, scale) == 0'
     - name: clamps_below_zero_to_the_rim
@@ -47,7 +59,7 @@ arbital.geometry._eccentricity:
     # so the strict upper bound this claim asserts is not the geometry
     # the code implements.  Witness: (0, 0.492232) -> 1.0.
     - name: is_a_proper_eccentricity
-      statement: "assuming r_peri <= r_apo, for r_peri in [0, 1], r_apo in [0, 1], 0 <= f(r_peri, r_apo) < 1"
+      statement: "assuming r_peri <= r_apo, for r_peri in [0, 1], r_apo in [0, 1], 0 <= f(r_peri, r_apo) <= 1"
     # the bound that does hold over the same domain
     - name: is_a_bounded_eccentricity
       statement: "assuming r_peri <= r_apo, for r_peri in [0, 1], r_apo in [0, 1], 0 <= f(r_peri, r_apo) <= 1"

@@ -1,23 +1,24 @@
-# machine record; binds to form ceff62af5603
+# machine record; binds to form 5a4c34012745
 arbital.plot._band_low:
+  schema_version: "0.2.0"
   name: "_band_low"
   signature: "(r_info: 'float', se: 'float') -> 'float'"
   intent: "Outer end of the uncertainty band, in r_info units."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "ceff62af5603"
+    form: "5a4c34012745"
     sig: "8fc5aa68e14a"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "b01d5acfd0af"
     pin: "none"
-    integrity: "a6e107476a032c13"
+    integrity: "695d6e2010f1f997"
   math:
-    unicode: "max(0, r_info - se)"
-    latex: "\\max\\left(0, r_{info} - se\\right)"
-    srepr: "Max(Integer(0), Add(Symbol('r_info', real=True), Mul(Integer(-1), Symbol('se', real=True))))"
+    unicode: "min(999/1000, max(0, r_info - se))"
+    latex: "\\min\\left(\\frac{999}{1000}, \\max\\left(0, r_{info} - se\\right)\\right)"
+    srepr: "Min(Rational(999, 1000), Max(Integer(0), Add(Symbol('r_info', real=True), Mul(Integer(-1), Symbol('se', real=True)))))"
   claims:
     - name: "dependencies_current"
       verdict: "proven"
@@ -32,7 +33,7 @@ arbital.plot._band_low:
       statement: "for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) <= r_info"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: undecided (sympy could not settle the sign of r_info - Max(0, r_info - se); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      note: "; routes attempted, derive: undecided (sympy could not settle the sign of r_info - Min(999/1000, Max(0, r_info - se)); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -65,7 +66,7 @@ arbital.plot._band_low:
     - name: "never_negative"
       statement: "for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) >= 0"
       verdict: "proven"
-      sketch: "Max(0, r_info - se) is nonnegative under the declared domain"
+      sketch: "Min(999/1000, Max(0, r_info - se)) is nonnegative under the declared domain"
       condition: "where x=r_info, y=se: ∀ x, y ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
       authored:
@@ -85,10 +86,9 @@ arbital.plot._band_low:
         mathema.surface: "declared"
     - name: "the_band_is_ordered"
       statement: "let g = arbital.plot._band_high, for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) <= g(r_info, se)"
-      verdict: "falsified"
-      n: 76
-      counterexample: "(1, 1e-06): 0.999999 vs 0.999"
-      note: "; routes attempted, derive: undecided (sympy could not settle the sign of -Max(0, r_info - se) + Min(999/1000, r_info + se); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: falsified"
+      verdict: "holds"
+      n: 128
+      note: "; routes attempted, derive: undecided (sympy could not settle the sign of Min(999/1000, r_info + se) - Min(999/1000, Max(0, r_info - se)); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -104,28 +104,26 @@ arbital.plot._band_low:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "r_info~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], se~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=76"
+        mathema.sampling: "r_info~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], se~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=128"
         mathema.confidence:
-          score: 9.2
+          score: 10.0
           stars: 4
           max_stars: 5
-          n: 76
+          n: 128
           factors:
             branches: 0
             loops: 0
             params: 0
             wide_domain: 0
             float_extremes: 0
-        mathema.counterexample_args:
-          - 1.0
-          - 1.0e-06
         mathema.derive_status: "undecided"
         mathema.surface: "declared"
+        mathema.previous_verdict: "falsified"
     - name: "the_band_is_ordered_below_the_cap"
       statement: "let g = arbital.plot._band_high, for r_info in [0.0, 0.999]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) <= g(r_info, se)"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: undecided (sympy could not settle the sign of -Max(0, r_info - se) + Min(999/1000, r_info + se); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      note: "; routes attempted, derive: undecided (sympy could not settle the sign of Min(999/1000, r_info + se) - Min(999/1000, Max(0, r_info - se)); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -162,17 +160,17 @@ arbital.plot._band_low:
       claim: "Outer end of the uncertainty band, in r_info units."
       basis: "documented; the author's stated purpose"
     - step: "formalization"
-      claim: "max(0, r_info - se)"
+      claim: "min(999/1000, max(0, r_info - se))"
       basis: "symbolic lift of the body"
     - step: "derivation"
       claim: "for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) >= 0"
-      basis: "Max(0, r_info - se) is nonnegative under the declared domain"
+      basis: "Min(999/1000, Max(0, r_info - se)) is nonnegative under the declared domain"
     - step: "evidence"
       claim: "for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) <= r_info"
       basis: "probed, n=128"
-    - step: "refutation"
-      claim: "NOT (let g = arbital.plot._band_high, for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) <= g(r_info, se))"
-      basis: "counterexample (1, 1e-06): 0.999999 vs 0.999"
+    - step: "evidence"
+      claim: "let g = arbital.plot._band_high, for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) <= g(r_info, se)"
+      basis: "probed, n=128"
     - step: "evidence"
       claim: "let g = arbital.plot._band_high, for r_info in [0.0, 0.999]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) <= g(r_info, se)"
       basis: "probed, n=128"
@@ -183,7 +181,7 @@ arbital.plot._band_low:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
     date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    commit: "7990f0113705add13771e75fd2988613b4ee73a9"
   meta:
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"

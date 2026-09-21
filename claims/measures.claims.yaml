@@ -18,10 +18,14 @@ arbital.measures.linfoot:
       statement: "for mi in [0, 50], d(f(mi), mi) >= 0"
     - name: concave_in_information
       statement: "for mi in [0, 50], d(f(mi), mi, mi) <= 0"
-    # the contract the docstring states ("r_I in [0, 1)"), over the
-    # whole range of mutual information a caller may reach
+    # The docstring used to state "r_I in [0, 1)" over the whole range.
+    # That is true in exact arithmetic and false in float64: exp(-2*mi)
+    # drops below the smallest representable step at mi =
+    # 18.714973875118524, and the return saturates to exactly 1.0 above
+    # it (witness 37.3064 -> 1.0). The strict bound is claimed over the
+    # range where it survives; never_above_one covers the rest.
     - name: strictly_below_one
-      statement: "for mi in [0, 50], 0 <= f(mi) < 1"
+      statement: "for mi in [0, 18.7], 0 <= f(mi) < 1"
     # the same contract over the range the existing test suite covers
     - name: strictly_below_one_to_ten_nats
       statement: "for mi in [0, 10], 0 <= f(mi) < 1"
@@ -137,8 +141,13 @@ arbital.measures._mi_discrete_discrete:
   claims:
     - name: never_negative
       statement: "assuming is_defined(f), f(x, y) >= 0"
+    # Mismatched lengths used to truncate silently through zip() while n
+    # stayed len(x), so the joint table did not sum to 1 and the answer
+    # depended on argument order. The continuous path
+    # (mutual_information) already raised on that; this one now does
+    # too, so the premise is what the function actually promises.
     - name: symmetric
-      statement: "assuming is_defined(f), f(x, y) == f(y, x)"
+      statement: "assuming len(x) == len(y), f(x, y) == f(y, x)"
 
 arbital.measures._floored_total:
   intent: Keep the total and its monotone part consistent with each other.

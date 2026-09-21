@@ -1,8 +1,9 @@
 # machine record; binds to form 3fc373eae8d7
 arbital.measures.linfoot:
+  schema_version: "0.2.0"
   name: "linfoot"
   signature: "(mi: 'float') -> 'UnitInterval'"
-  intent: "Linfoot's informational coefficient of correlation, r_I in [0, 1). r_I = sqrt(1 - exp(-2*I)).  Equals |rho| exactly when (x, y) is bivariate Gaussian, so it is 'MI expressed on the correlation scale'. Linfoot (1957), \"An informational measure of correlation\", Information and Control 1(1), 85-89."
+  intent: "Linfoot's informational coefficient of correlation, r_I in [0, 1]. r_I = sqrt(1 - exp(-2*I)).  Equals |rho| exactly when (x, y) is bivariate Gaussian, so it is 'MI expressed on the correlation scale'. Linfoot (1957), \"An informational measure of correlation\", Information and Control 1(1), 85-89."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
@@ -11,7 +12,7 @@ arbital.measures.linfoot:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "dd16ccb9d8d0"
+    claims_fingerprint: "3f73f592a4e9"
     pin: "none"
     integrity: "7621ea16262aa3f7"
   math:
@@ -128,19 +129,24 @@ arbital.measures.linfoot:
     - name: "strictly_below_one"
       statement: "for mi in [0.0, 50.0]:float|missing, 0 <= f(mi) < 1"
       verdict: "falsified"
-      n: 3
-      counterexample: "link 2: f(mi) < 1: (37.3064): 1.0 vs 1"
+      n: 1
+      counterexample: "link 2: f(mi) < 1: (35.6687): 1.0 vs 1"
       note: "chained comparison falsified at link 2: f(mi) < 1"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         mi:
-          lo: 0.0
-          hi: 50.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 50.0
+              closed_lo: true
+              closed_hi: true
+          excluded: []
+          explicit_type: true
       meta:
+        mathema.pending_supersession: "for mi in [0.0, 18.7]:float|missing, 0 <= f(mi) < 1"
         mathema.surface: "declared"
     - name: "strictly_below_one_to_ten_nats"
       statement: "for mi in [0.0, 10.0]:float|missing, 0 <= f(mi) < 1"
@@ -174,7 +180,7 @@ arbital.measures.linfoot:
   references: {}
   reasoning:
     - step: "intent"
-      claim: "Linfoot's informational coefficient of correlation, r_I in [0, 1). r_I = sqrt(1 - exp(-2*I)).  Equals |rho| exactly when (x, y) is bivariate Gaussian, so it is 'MI expressed on the correlation scale'. Linfoot (1957), \"An informational measure of correlation\", Information and Control 1(1), 85-89."
+      claim: "Linfoot's informational coefficient of correlation, r_I in [0, 1]. r_I = sqrt(1 - exp(-2*I)).  Equals |rho| exactly when (x, y) is bivariate Gaussian, so it is 'MI expressed on the correlation scale'. Linfoot (1957), \"An informational measure of correlation\", Information and Control 1(1), 85-89."
       basis: "documented; the author's stated purpose"
     - step: "formalization"
       claim: "sqrt(exp(2*max(0, mi)) - 1)*exp(-max(0, mi))"
@@ -193,7 +199,7 @@ arbital.measures.linfoot:
       basis: "interval evaluation over the declared domain: -(1 - 2*exp(2*mi))*exp(-mi)/(exp(2*mi) - 1)^(3/2) ∈ AccumBounds(exp(-50)/(-1 + exp(100))**(3/2), oo), never negative"
     - step: "refutation"
       claim: "NOT (for mi in [0.0, 50.0]:float|missing, 0 <= f(mi) < 1)"
-      basis: "counterexample link 2: f(mi) < 1: (37.3064): 1.0 vs 1"
+      basis: "counterexample link 2: f(mi) < 1: (35.6687): 1.0 vs 1"
     - step: "evidence"
       claim: "for mi in [0.0, 10.0]:float|missing, 0 <= f(mi) < 1"
       basis: "probed, n=128"

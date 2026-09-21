@@ -1,5 +1,6 @@
 # machine record; binds to form 90e50901424c
 arbital.geometry._eccentricity:
+  schema_version: "0.2.0"
   name: "_eccentricity"
   signature: "(r_peri: 'float', r_apo: 'float') -> 'UnitInterval'"
   intent: "Geometric eccentricity of an ellipse from its two apsides. e = (r_apo - r_peri) / (r_apo + r_peri), and 0 for the degenerate orbit whose apsides both sit at the origin."
@@ -11,7 +12,7 @@ arbital.geometry._eccentricity:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "297affebd995"
+    claims_fingerprint: "ecdfbca39606"
     pin: "none"
     integrity: "3aa10fe010cc36c4"
   math: null
@@ -88,24 +89,33 @@ arbital.geometry._eccentricity:
     - name: "is_a_proper_eccentricity"
       statement: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) < 1"
       verdict: "falsified"
-      n: 10
-      counterexample: "link 2: f(r_peri, r_apo) < 1: (0, 0.492232): 1.0 vs 1"
+      n: 22
+      counterexample: "link 2: f(r_peri, r_apo) < 1: (0, 0.048362): 1.0 vs 1"
       note: "chained comparison falsified at link 2: f(r_peri, r_apo) < 1"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         r_peri:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+          excluded: []
+          explicit_type: true
         r_apo:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+          excluded: []
+          explicit_type: true
       meta:
+        mathema.pending_supersession: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
         mathema.surface: "declared"
     - name: "parabolic_only_from_the_centre"
       statement: "for r_apo in (0.0, 1.0]:float|missing, f(0, r_apo) = 1"
@@ -144,7 +154,7 @@ arbital.geometry._eccentricity:
       basis: "documented; the author's stated purpose"
     - step: "refutation"
       claim: "NOT (assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) < 1)"
-      basis: "counterexample link 2: f(r_peri, r_apo) < 1: (0, 0.492232): 1.0 vs 1"
+      basis: "counterexample link 2: f(r_peri, r_apo) < 1: (0, 0.048362): 1.0 vs 1"
     - step: "evidence"
       claim: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
       basis: "probed, n=83"

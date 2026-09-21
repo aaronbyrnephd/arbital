@@ -1,5 +1,6 @@
 # machine record; binds to form e569e2f23e53
 arbital.measures.mutual_information_mixed:
+  schema_version: "0.2.0"
   name: "mutual_information_mixed"
   signature: "(x, y, x_discrete: 'bool', y_discrete: 'bool', k: 'int' = 5) -> 'float'"
   intent: "Estimate I(x; y) in nats, dispatching on each side's type. continuous / continuous -> KSG (mutual_information)   continuous / discrete   -> Ross estimator   discrete   / discrete   -> plug-in from the contingency table"
@@ -70,15 +71,15 @@ arbital.measures.mutual_information_mixed:
       kind: "function"
       key: "arbital.measures._mi_continuous_discrete"
       file: "src/arbital/measures.py"
-      line: 340
+      line: 347
       form: "ee98cc6c6807"
       freshness: "unverified"
     - name: "_mi_discrete_discrete"
       kind: "function"
       key: "arbital.measures._mi_discrete_discrete"
       file: "src/arbital/measures.py"
-      line: 311
-      form: "dd8a1984d2e5"
+      line: 316
+      form: "53de052d34f2"
       freshness: "current"
     - name: "mutual_information"
       kind: "function"
