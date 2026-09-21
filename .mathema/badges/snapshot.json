@@ -1,0 +1,404 @@
+{
+  "implementation": 93,
+  "intent": 71,
+  "clarity": 22,
+  "overall": 18,
+  "clarity_algo": "entropy-dimensions@1",
+  "per_function": {
+    "arbital._resolve_input": {
+      "implementation": 83,
+      "intent": 51,
+      "clarity": 10
+    },
+    "arbital._to_float_matrix": {
+      "implementation": 100,
+      "intent": 67,
+      "clarity": 5
+    },
+    "arbital.OrbitSystem.figure": {
+      "implementation": 100,
+      "intent": 76,
+      "clarity": 4
+    },
+    "arbital.OrbitSystem.to_plotly": {
+      "implementation": 100,
+      "intent": 74,
+      "clarity": 5
+    },
+    "arbital.OrbitSystem.to_html": {
+      "implementation": 100,
+      "intent": 82,
+      "clarity": 4
+    },
+    "arbital.OrbitSystem.table": {
+      "implementation": 100,
+      "intent": 100,
+      "clarity": 4
+    },
+    "arbital.OrbitSystem.to_df": {
+      "implementation": 75,
+      "intent": 71,
+      "clarity": 2
+    },
+    "arbital.OrbitSystem.selection": {
+      "implementation": 100,
+      "intent": 100,
+      "clarity": 10
+    },
+    "arbital._compute": {
+      "implementation": 83,
+      "intent": 51,
+      "clarity": 3
+    },
+    "arbital._is_valid_confidence": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 20
+    },
+    "arbital._expected_tail_draws": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 51
+    },
+    "arbital._tail_is_thin": {
+      "implementation": 100,
+      "intent": 64,
+      "clarity": 12
+    },
+    "arbital._chance_adjusted_mi": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 51
+    },
+    "arbital._is_below_chance": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 60
+    },
+    "arbital._is_significant": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 42
+    },
+    "arbital._relative_gain": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 44
+    },
+    "arbital._chance_levels": {
+      "implementation": 100,
+      "intent": 43,
+      "clarity": 6
+    },
+    "arbital._apply_calibration": {
+      "implementation": 100,
+      "intent": 64,
+      "clarity": 5
+    },
+    "arbital._bootstrap_se": {
+      "implementation": 100,
+      "intent": 55,
+      "clarity": 10
+    },
+    "arbital.orbits": {
+      "implementation": 76,
+      "intent": 55,
+      "clarity": 6
+    },
+    "arbital.select_features": {
+      "implementation": 100,
+      "intent": 64,
+      "clarity": 9
+    },
+    "arbital.datasets.Table.column": {
+      "implementation": 100,
+      "intent": 74,
+      "clarity": 9
+    },
+    "arbital.datasets.Table.is_categorical": {
+      "implementation": 100,
+      "intent": 77,
+      "clarity": 11
+    },
+    "arbital.datasets.Table.to_pandas": {
+      "implementation": 40,
+      "intent": 88,
+      "clarity": 3
+    },
+    "arbital.datasets._seaborn": {
+      "implementation": 75,
+      "intent": 64,
+      "clarity": 4
+    },
+    "arbital.datasets._dataframe_to_table": {
+      "implementation": 10,
+      "intent": 74,
+      "clarity": 6
+    },
+    "arbital.datasets._load_bundled": {
+      "implementation": 100,
+      "intent": 77,
+      "clarity": 3
+    },
+    "arbital.datasets.load": {
+      "implementation": 80,
+      "intent": 76,
+      "clarity": 8
+    },
+    "arbital.datasets.load_mpg": {
+      "implementation": 100,
+      "intent": 97,
+      "clarity": 4
+    },
+    "arbital.datasets.load_penguins": {
+      "implementation": 100,
+      "intent": 97,
+      "clarity": 4
+    },
+    "arbital.datasets.load_titanic": {
+      "implementation": 100,
+      "intent": 97,
+      "clarity": 4
+    },
+    "arbital.datasets.load_tips": {
+      "implementation": 100,
+      "intent": 97,
+      "clarity": 4
+    },
+    "arbital.datasets.available": {
+      "implementation": 100,
+      "intent": 74,
+      "clarity": 2
+    },
+    "arbital.geometry._distance_from_strength": {
+      "implementation": 100,
+      "intent": 57,
+      "clarity": 45
+    },
+    "arbital.geometry.strength_to_distance": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 14
+    },
+    "arbital.geometry.orbit_parameters": {
+      "implementation": 100,
+      "intent": 61,
+      "clarity": 14
+    },
+    "arbital.geometry._eccentricity": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 44
+    },
+    "arbital.geometry.ellipse_path": {
+      "implementation": 100,
+      "intent": 58,
+      "clarity": 13
+    },
+    "arbital.geometry._classical_mds_2d": {
+      "implementation": 100,
+      "intent": 90,
+      "clarity": 9
+    },
+    "arbital.geometry._min_gap": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 51
+    },
+    "arbital.geometry._widened_gap": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 49
+    },
+    "arbital.geometry.angular_layout": {
+      "implementation": 85,
+      "intent": 59,
+      "clarity": 7
+    },
+    "arbital.geometry._marginal_gain": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 51
+    },
+    "arbital.geometry.greedy_selection": {
+      "implementation": 100,
+      "intent": 61,
+      "clarity": 17
+    },
+    "arbital.geometry._mean_association": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 51
+    },
+    "arbital.geometry.select_target": {
+      "implementation": 100,
+      "intent": 58,
+      "clarity": 9
+    },
+    "arbital.measures._ksg_mi": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 49
+    },
+    "arbital.measures._monotone_strength": {
+      "implementation": 100,
+      "intent": 74,
+      "clarity": 53
+    },
+    "arbital.measures._nonlinear_share": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 31
+    },
+    "arbital.measures._floored_total": {
+      "implementation": 100,
+      "intent": 66,
+      "clarity": 34
+    },
+    "arbital.measures._is_nominal": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 25
+    },
+    "arbital.measures.pearson": {
+      "implementation": 100,
+      "intent": 100,
+      "clarity": 35
+    },
+    "arbital.measures._ranks": {
+      "implementation": 100,
+      "intent": 90,
+      "clarity": 19
+    },
+    "arbital.measures.spearman": {
+      "implementation": 100,
+      "intent": 90,
+      "clarity": 22
+    },
+    "arbital.measures._digamma": {
+      "implementation": 100,
+      "intent": 100,
+      "clarity": 19
+    },
+    "arbital.measures.mutual_information": {
+      "implementation": 100,
+      "intent": 56,
+      "clarity": 37
+    },
+    "arbital.measures.linfoot": {
+      "implementation": 100,
+      "intent": 66,
+      "clarity": 49
+    },
+    "arbital.measures._mi_discrete_discrete": {
+      "implementation": 100,
+      "intent": 72,
+      "clarity": 51
+    },
+    "arbital.measures._mi_continuous_discrete": {
+      "implementation": 100,
+      "intent": 67,
+      "clarity": 34
+    },
+    "arbital.measures.mutual_information_mixed": {
+      "implementation": 100,
+      "intent": 58,
+      "clarity": 9
+    },
+    "arbital.measures.shuffled_mi": {
+      "implementation": 100,
+      "intent": 62,
+      "clarity": 8
+    },
+    "arbital.measures.profile": {
+      "implementation": 100,
+      "intent": 60,
+      "clarity": 6
+    },
+    "arbital.measures.association_matrix": {
+      "implementation": 100,
+      "intent": 65,
+      "clarity": 17
+    },
+    "arbital.plot._display_radius": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 53
+    },
+    "arbital.plot._display": {
+      "implementation": 100,
+      "intent": 66,
+      "clarity": 7
+    },
+    "arbital.plot._clipped_line": {
+      "implementation": 100,
+      "intent": 71,
+      "clarity": 9
+    },
+    "arbital.plot._near_chance": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 24
+    },
+    "arbital.plot._band_high": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 29
+    },
+    "arbital.plot._band_low": {
+      "implementation": 100,
+      "intent": 66,
+      "clarity": 40
+    },
+    "arbital.plot._band_crosses_chance": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 25
+    },
+    "arbital.plot._band_spans_chance": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 32
+    },
+    "arbital.plot._show_ghost": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 33
+    },
+    "arbital.plot._marker_px": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 41
+    },
+    "arbital.plot._arc_reach": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 29
+    },
+    "arbital.plot._fallback_half_span": {
+      "implementation": 100,
+      "intent": 68,
+      "clarity": 29
+    },
+    "arbital.plot._hover": {
+      "implementation": 93,
+      "intent": 66,
+      "clarity": 5
+    },
+    "arbital.plot._arc_spans": {
+      "implementation": 100,
+      "intent": 62,
+      "clarity": 9
+    },
+    "arbital.plot.orbit_figure": {
+      "implementation": 96,
+      "intent": 64,
+      "clarity": 11
+    },
+    "arbital.plot.figure_html": {
+      "implementation": 100,
+      "intent": 100,
+      "clarity": 11
+    }
+  }
+}

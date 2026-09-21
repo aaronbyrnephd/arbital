@@ -1,0 +1,24 @@
+# Claims for arbital.datasets. This layer is I/O and was named as an
+# unclaimable gap by earlier passes; the string-hazard member and the
+# refusal contracts reach part of it.
+
+arbital.datasets.load:
+  claims:
+    # Auto-suggested for the bare str parameter. Fuzzes `name` over an
+    # edge-case corpus and shrinks any unguarded crash to a minimal
+    # witness; a deliberate ValueError on an unknown name holds.
+    - name: is_arbitrary_input_safe
+      law: "is_arbitrary_input_safe(name)"
+    # refuses_an_unknown_dataset used to sit here and was wrong.
+    # load()'s docstring is explicit that any name outside the bundled
+    # set is fetched through seaborn, and available() exists to list
+    # what that admits, so the fall-through is the documented contract
+    # rather than a defect. The row is retired by
+    #   mathema accept arbital.datasets.load refuses_an_unknown_dataset \
+    #     --as superseded
+    # and keeps adjudicating from the store until then; the verified
+    # layer is append-only in membership, so deleting it here does not
+    # remove it. No replacement claim: is_arbitrary_input_safe(name)
+    # above is already the meaningful safety contract for this
+    # function, and the narrower definedness predicates either restate
+    # it or re-find the same seaborn fall-through.

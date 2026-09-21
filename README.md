@@ -13,9 +13,29 @@
   <a href="https://aaronbyrnephd.github.io/arbital/"><img src="https://img.shields.io/badge/docs-vignette%20%2B%20API-blue.svg" alt="Documentation"></a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/tetrionlabs/mathema"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fimplementation.json" alt="implementation coverage"></a>
+  <a href="https://github.com/tetrionlabs/mathema"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fintent.json" alt="intent"></a>
+  <a href="https://github.com/tetrionlabs/mathema"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Faaronbyrnephd%2Farbital%2Fmain%2F.mathema%2Fbadges%2Fclarity.json" alt="clarity"></a>
+</p>
+
+<p align="center"><sub>
+  <b>implementation</b>: share of statements reached by a test, a probe, or a proof &middot;
+  <b>intent</b>: share of what the code is for that is written down &middot;
+  <b>clarity</b>: how much of what is knowable about the behaviour the
+  adjudicated claims pin down, over five dimensions, not a pass rate.
+  Measured by <a href="https://github.com/tetrionlabs/mathema">mathema</a>; regenerate with <code>mathema badges arbital --out</code>.
+</sub></p>
+
 **arbital** draws every variable in a dataset as an orbit around a target, so that the
 strength, shape, direction, redundancy, and usefulness of each association are readable
 from a single figure.
+
+## Intent
+
+Make the first look at a dataset show every kind of association, not only the
+straight lines: each variable is drawn as an orbit around a target, so strength,
+shape, direction, redundancy and usefulness are readable from one figure.
 
 ## Why correlation fails
 

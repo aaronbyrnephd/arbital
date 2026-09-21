@@ -1,0 +1,297 @@
+# Claims about arbital's association estimators and about the
+# conclusions drawn from their output.
+#
+# The estimators themselves take samples, so most of them can only be
+# evidenced empirically; the decidable cores (_ksg_mi,
+# _monotone_strength, _nonlinear_share, _is_nominal, linfoot) take
+# numbers, and carry the properties the rest of the package relies on.
+grammar: mathema
+
+arbital.measures.linfoot:
+  intent: Put mutual information on the correlation scale.
+  claims:
+    - name: zero_without_information
+      statement: "f(0) == 0"
+    - name: floors_negative_information
+      statement: "for mi in [-50, 0], f(mi) == 0"
+    - name: rises_with_information
+      statement: "for mi in [0, 50], d(f(mi), mi) >= 0"
+    - name: concave_in_information
+      statement: "for mi in [0, 50], d(f(mi), mi, mi) <= 0"
+    # strictly_below_one used to sit here, asserting the docstring's
+    # "r_I in [0, 1)" over the whole range. True in exact arithmetic and
+    # false in float64: exp(-2*mi) drops below the smallest
+    # representable step at mi = 18.714973875118524 and the return
+    # saturates to exactly 1.0 above it (witness 37.3064 -> 1.0). It was
+    # accepted as a discovery, so it now lives in the record's
+    # discoveries section with that witness, and the true bound is the
+    # live strictly_below_one_corrected claim written there at
+    # acceptance. It is NOT re-declared here: a declared claim
+    # regenerates on every verify, which would resurrect the
+    # falsification the discovery just retired.
+    # the same contract over the range the existing test suite covers
+    - name: strictly_below_one_to_ten_nats
+      statement: "for mi in [0, 10], 0 <= f(mi) < 1"
+    - name: never_above_one
+      statement: "for mi in [-50, 50], 0 <= f(mi) <= 1"
+    # the calibration the module docstring and README both assert:
+    # for a bivariate Gaussian, I = -log(1 - rho^2)/2 and r_I == |rho|
+    - name: gaussian_calibration
+      statement: "let rho be [0.01, 0.99], f(-log(1 - rho^2)/2) == rho"
+    # numpy is compendium-covered, so this asks whether an unguarded
+    # call into it can silently return nan or inf. Verified holding
+    # ad-hoc before being authored: the failure modes here are real
+    # (ellipse_path and _digamma both falsify it) so this is not a
+    # formality.
+    - name: is_compendium_safe
+      law: "is_compendium_safe(numpy)"
+
+arbital.measures._ksg_mi:
+  intent: Assemble the KSG estimate from its three digamma terms.
+  claims:
+    - name: never_negative
+      statement: "f(psi_k, psi_n, psi_marginals) >= 0"
+    - name: at_least_the_raw_formula
+      statement: "f(psi_k, psi_n, psi_marginals) >= psi_k + psi_n - psi_marginals"
+    - name: exact_above_the_floor
+      statement: "assuming psi_k + psi_n - psi_marginals >= 0, f(psi_k, psi_n, psi_marginals) == psi_k + psi_n - psi_marginals"
+    - name: symmetric_in_the_two_scale_terms
+      statement: "f(psi_k, psi_n, psi_marginals) == f(psi_n, psi_k, psi_marginals)"
+    - name: falls_with_the_marginal_term
+      statement: "d(f(psi_k, psi_n, psi_marginals), psi_marginals) <= 0"
+
+arbital.measures._monotone_strength:
+  intent: The best monotone description of a pair, max(|r|, |rho|).
+  claims:
+    - name: blind_to_the_pearson_sign
+      statement: "f(-r, rho) == f(r, rho)"
+    - name: blind_to_the_spearman_sign
+      statement: "f(r, -rho) == f(r, rho)"
+    - name: symmetric_in_its_two_channels
+      statement: "f(r, rho) == f(rho, r)"
+    - name: dominates_pearson
+      statement: "f(r, rho) >= |r|"
+    - name: dominates_spearman
+      statement: "f(r, rho) >= |rho|"
+    - name: stays_on_the_correlation_scale
+      statement: "for r in [-1, 1], rho in [-1, 1], 0 <= f(r, rho) <= 1"
+
+arbital.measures._nonlinear_share:
+  intent: The share of dependence a monotone description misses.
+  claims:
+    - name: is_a_share
+      statement: "for r_info in [0, 1], r_mono in [0, 1], 0 <= f(r_info, r_mono) <= 1"
+    - name: zero_when_the_monotone_fit_is_complete
+      statement: "for r_info in (0, 1], f(r_info, r_info) == 0"
+    - name: one_when_nothing_is_monotone
+      statement: "for r_info in (0, 1], f(r_info, 0) == 1"
+    - name: zero_without_association
+      statement: "for r_mono in [0, 1], f(0, r_mono) == 0"
+    - name: falls_as_the_monotone_fit_improves
+      statement: "for r_info in (0, 1], r_mono in [0, 1], d(f(r_info, r_mono), r_mono) <= 0"
+    # a monotone fit cannot explain more than the total, so anything
+    # above the total is read as exactly the total
+    - name: caps_the_monotone_fit_at_the_total
+      statement: "for r_info in (0, 1], r_mono in [1, 2], f(r_info, r_mono) == 0"
+
+arbital.measures._is_nominal:
+  intent: Decide whether a variable's codes carry a direction.
+  claims:
+    - name: a_continuous_side_is_never_nominal
+      statement: "for n_levels in [0, 50] subset Z, f(n_levels, False) == False"
+    - name: a_binary_discrete_side_is_not_nominal
+      statement: "for n_levels in [0, 2] subset Z, f(n_levels, True) == False"
+    - name: a_multi_level_discrete_side_is_nominal
+      statement: "for n_levels in [3, 50] subset Z, f(n_levels, True) == True"
+
+arbital.measures._ranks:
+  intent: Replace values by their order so any monotone shape is visible.
+  claims:
+    - name: ranks_start_at_one
+      statement: "assuming is_defined(f), f(x)[0] >= 1"
+
+arbital.measures.pearson:
+  intent: How well a straight line describes the relationship.
+  claims:
+    - name: on_the_correlation_scale
+      statement: "assuming is_defined(f), |f(x, y)| <= 1"
+    - name: symmetric
+      statement: "assuming is_defined(f), f(x, y) == f(y, x)"
+    # the coefficient measures shape, not units
+    - name: blind_to_an_elementwise_rescale
+      statement: "assuming is_defined(f), f(2*x, y) == f(x, y)"
+    # numpy is compendium-covered, so this asks whether an unguarded
+    # call into it can silently return nan or inf. Verified holding
+    # ad-hoc before being authored: the failure modes here are real
+    # (ellipse_path and _digamma both falsify it) so this is not a
+    # formality.
+    - name: is_compendium_safe
+      law: "is_compendium_safe(numpy)"
+
+arbital.measures.spearman:
+  intent: How well any monotone curve describes the relationship.
+  claims:
+    - name: on_the_correlation_scale
+      statement: "assuming is_defined(f), |f(x, y)| <= 1"
+    - name: symmetric
+      statement: "assuming is_defined(f), f(x, y) == f(y, x)"
+    - name: blind_to_an_elementwise_rescale
+      statement: "assuming is_defined(f), f(2*x, y) == f(x, y)"
+
+arbital.measures.mutual_information:
+  intent: Estimate I(x; y) in nats for a continuous pair.
+  claims:
+    - name: never_negative
+      statement: "assuming is_defined(f), f(x, y, 5, 0) >= 0"
+    # the guard the docstring states: k + 1 samples are not enough
+    - name: refuses_more_neighbours_than_samples
+      statement: "raises(f(x, y, 500, 0), ValueError)"
+    # numpy is compendium-covered, so this asks whether an unguarded
+    # call into it can silently return nan or inf. Verified holding
+    # ad-hoc before being authored: the failure modes here are real
+    # (ellipse_path and _digamma both falsify it) so this is not a
+    # formality.
+    - name: is_compendium_safe
+      law: "is_compendium_safe(numpy)"
+
+arbital.measures.mutual_information_mixed:
+  intent: One comparable information number for any pair of types.
+  claims:
+    - name: never_negative_discrete_pair
+      statement: "assuming is_defined(f), f(x, y, True, True, 5) >= 0"
+
+arbital.measures._mi_discrete_discrete:
+  intent: Plug-in mutual information from the joint frequency table.
+  claims:
+    - name: never_negative
+      statement: "assuming is_defined(f), f(x, y) >= 0"
+    # Mismatched lengths used to truncate silently through zip() while n
+    # stayed len(x), so the joint table did not sum to 1 and the answer
+    # depended on argument order. The continuous path
+    # (mutual_information) already raised on that; this one now does
+    # too, so the premise is what the function actually promises.
+    - name: symmetric
+      statement: "assuming len(x) == len(y), f(x, y) == f(y, x)"
+    # numpy is compendium-covered, so this asks whether an unguarded
+    # call into it can silently return nan or inf. Verified holding
+    # ad-hoc before being authored: the failure modes here are real
+    # (ellipse_path and _digamma both falsify it) so this is not a
+    # formality.
+    - name: is_compendium_safe
+      law: "is_compendium_safe(numpy)"
+
+arbital.measures._floored_total:
+  intent: Keep the total and its monotone part consistent with each other.
+  claims:
+    - name: never_below_the_monotone_part
+      statement: "f(r_info_raw, r_mono) >= r_mono"
+    - name: never_below_the_estimate
+      statement: "f(r_info_raw, r_mono) >= r_info_raw"
+    - name: stays_on_the_association_scale
+      statement: "for r_info_raw in [0, 1], r_mono in [0, 1], 0 <= f(r_info_raw, r_mono) <= 1"
+    - name: symmetric_in_its_two_arguments
+      statement: "f(r_info_raw, r_mono) == f(r_mono, r_info_raw)"
+    # so the share _nonlinear_share() computes from the pair is never
+    # clipped away: the floor is what keeps it a genuine fraction
+    - name: leaves_a_genuine_nonlinear_share
+      statement: "let g = arbital.measures._nonlinear_share, for r_info_raw in [0, 1], r_mono in [0, 1], 0 <= g(f(r_info_raw, r_mono), r_mono) <= 1"
+
+# profile() both estimates and assembles, and mathema cannot synthesize
+# inputs for it (see the report): these two are stated because they are
+# the contract its callers rely on, and they come back `unknown`.  The
+# assembly they are about is decidable and proven on _floored_total,
+# _monotone_strength and _nonlinear_share above.
+arbital.measures.profile:
+  intent: Every association measure for one pair, on one scale.
+  claims:
+    - name: the_monotone_part_never_exceeds_the_total
+      statement: 'assuming is_defined(f), f(x, y, 5, False, False)["r_mono"] <= f(x, y, 5, False, False)["r_info"]'
+    - name: the_nonlinear_share_is_a_share
+      statement: 'assuming is_defined(f), 0 <= f(x, y, 5, False, False)["nonlinearity"] <= 1'
+
+arbital.measures.association_matrix:
+  intent: pairwise r_info between every column of X, as a square matrix
+  claims:
+    # The docstring's first line says "Symmetric matrix of r_info between
+    # every pair of columns of X". Until mathema could synthesise matrices
+    # this contract had no evidence behind it at all.
+    - name: symmetric_by_construction
+      law: "is_symmetric(f(X))"
+
+arbital.measures._monotone_strength:
+  claims:
+    # Recovered from the verified store at fb26a05: these were authored in
+    # the first pass, dropped from this file by a later rewrite, and were
+    # only still adjudicating because verify carries verified membership
+    # forward. Deleting the store lost them, which is why they are back
+    # here where they belong.
+    - name: blind_to_the_pearson_sign
+      law: "f(-r, rho) == f(r, rho)"
+    - name: blind_to_the_spearman_sign
+      law: "f(r, -rho) == f(r, rho)"
+    - name: symmetric_in_its_two_channels
+      law: "f(r, rho) == f(rho, r)"
+    - name: dominates_pearson
+      law: "f(r, rho) >= |r|"
+    - name: dominates_spearman
+      law: "f(r, rho) >= |rho|"
+    - name: stays_on_the_correlation_scale
+      law: "for r in [-1, 1], rho in [-1, 1], 0 <= f(r, rho) <= 1"
+    # NOT marked UnitInterval: max(|r|, |rho|) is bounded only where its
+    # inputs are, and the battery's suggested unconditional bound falsified
+    # at (2, 0) -> 2.0. The guarantee belongs to the callers, which pass
+    # correlations, so the bound is stated over that domain instead.
+    - name: bounded_on_correlation_inputs
+      law: "for r in [-1, 1], rho in [-1, 1], 0 <= f(r, rho) <= 1"
+
+arbital.measures.pearson:
+  claims:
+    # Also recovered from fb26a05.
+    - name: on_the_correlation_scale
+      law: "assuming len(x) == len(y), |f(x, y)| <= 1"
+    # `2*x` on a synthesised list is list REPETITION, not elementwise
+    # scaling, so the plain spelling silently tested the wrong thing and
+    # survived only because most samples raised and were excluded (n=15).
+    # scale_seq is the construct for this: n=160, and it scales the axis.
+    - name: blind_to_an_elementwise_rescale
+      law: "let s = mathema.f.scale_seq, assuming len(x) == len(y), f(s(x, 2), y) == f(x, y)"
+    - name: returns_in_range
+      law: "assuming len(x) == len(y), -1 <= f(x, y) <= 1"
+    # The paired-length premise states the precondition directly, where
+    # earlier passes had to lean on assuming is_defined(f) to imply it.
+    - name: symmetric_in_its_arguments
+      law: "assuming len(x) == len(y), f(x, y) == f(y, x)"
+
+arbital.measures.spearman:
+  claims:
+    # Also recovered from fb26a05.
+    - name: on_the_correlation_scale
+      law: "assuming len(x) == len(y), |f(x, y)| <= 1"
+    # `2*x` on a synthesised list is list REPETITION, not elementwise
+    # scaling, so the plain spelling silently tested the wrong thing and
+    # survived only because most samples raised and were excluded (n=15).
+    # scale_seq is the construct for this: n=160, and it scales the axis.
+    - name: blind_to_an_elementwise_rescale
+      law: "let s = mathema.f.scale_seq, assuming len(x) == len(y), f(s(x, 2), y) == f(x, y)"
+    - name: returns_in_range
+      law: "assuming len(x) == len(y), -1 <= f(x, y) <= 1"
+    - name: symmetric_in_its_arguments
+      law: "assuming len(x) == len(y), f(x, y) == f(y, x)"
+
+arbital.measures._digamma:
+  claims:
+    # psi(x) < x for x >= 2: the asymptotic series grows like log(x), so the
+    # function stays under its own argument. A bound rather than the
+    # recurrence itself, which needs array synthesis the probe route cannot
+    # reach on this signature.
+    - name: grows_more_slowly_than_its_argument
+      law: "for x in [2, 100], f(x) <= x"
+
+arbital.measures._mi_continuous_discrete:
+  intent: "MI (nats) between a continuous variable and a discrete label."
+  claims:
+    # numpy is compendium-covered, so this asks whether an unguarded
+    # call into it can silently return nan or inf. Verified holding
+    # ad-hoc before being authored.
+    - name: is_compendium_safe
+      law: "is_compendium_safe(numpy)"

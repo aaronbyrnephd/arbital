@@ -1,0 +1,90 @@
+# Claims about chance calibration: what "below chance", "significant"
+# and "relative size" mean, apart from the estimation that produces the
+# numbers they are computed from.
+grammar: mathema
+
+arbital._chance_adjusted_mi:
+  intent: A relevance that is zero when there is nothing there.
+  claims:
+    - name: never_negative
+      statement: "for mi in [0, 50], chance in [0, 5], f(mi, chance) >= 0"
+    - name: never_above_the_estimate
+      statement: "for mi in [0, 50], chance in [0, 5], f(mi, chance) <= mi"
+    - name: zero_at_or_below_chance
+      statement: "assuming mi <= chance, for mi in [0, 5], chance in [0, 5], f(mi, chance) == 0"
+    - name: an_exact_subtraction_above_chance
+      statement: "assuming mi >= chance, for mi in [0, 50], chance in [0, 5], f(mi, chance) == mi - chance"
+    - name: rises_with_the_estimate
+      statement: "for mi in [0, 50], chance in [0, 5], d(f(mi, chance), mi) >= 0"
+    - name: falls_with_the_chance_level
+      statement: "for mi in [0, 50], chance in [0, 5], d(f(mi, chance), chance) <= 0"
+    - name: no_chance_level_leaves_the_estimate_alone
+      statement: "for mi in [0, 50], f(mi, 0) == mi"
+
+arbital._is_below_chance:
+  intent: Mark an association this estimator would report from noise.
+  claims:
+    # the invariant _apply_calibration's docstring relies on: a feature
+    # is below chance exactly when its adjusted relevance is zero
+    - name: exactly_when_the_adjusted_estimate_is_zero
+      statement: "let g = arbital._chance_adjusted_mi, for mi in [0, 50], chance in [0, 5], f(mi, chance) == (g(mi, chance) == 0)"
+    - name: true_at_or_below_chance
+      statement: "assuming mi <= chance, for mi in [0, 5], chance in [0, 5], f(mi, chance) == True"
+    - name: false_above_chance
+      statement: "assuming mi > chance, for mi in [0, 50], chance in [0, 5], f(mi, chance) == False"
+
+arbital._is_significant:
+  intent: Ask of the monotone channel what chance asks of information.
+  claims:
+    - name: blind_to_the_sign
+      statement: "f(-coefficient, chance) == f(coefficient, chance)"
+    - name: true_above_the_level
+      statement: "assuming coefficient > chance, for coefficient in [0, 1], chance in [0, 1], f(coefficient, chance) == True"
+    - name: false_at_or_below_the_level
+      statement: "assuming coefficient <= chance, for coefficient in [0, 1], chance in [0, 1], f(coefficient, chance) == False"
+
+arbital._expected_tail_draws:
+  intent: How much evidence stands behind the chance quantile.
+  claims:
+    - name: some_draws_always_land_beyond_a_valid_quantile
+      statement: "for n_shuffles in [1, 1000] subset Z, confidence in (0, 1), f(n_shuffles, confidence) > 0"
+    - name: never_more_draws_than_were_taken
+      statement: "for n_shuffles in [1, 1000] subset Z, confidence in (0, 1), f(n_shuffles, confidence) < n_shuffles"
+    - name: falls_as_the_quantile_gets_stricter
+      statement: "for n_shuffles in [1, 1000] subset Z, confidence in (0, 1), d(f(n_shuffles, confidence), confidence) <= 0"
+    - name: the_default_quantile_keeps_a_twentieth
+      statement: "for n_shuffles in [1, 1000] subset Z, f(n_shuffles, 0.95) == n_shuffles / 20"
+
+arbital._tail_is_thin:
+  intent: Catch a chance boundary estimated from a handful of draws.
+  claims:
+    - name: the_documented_default_is_not_thin
+      statement: "f(200, 0.95) == False"
+    - name: too_few_draws_is_thin
+      statement: "f(20, 0.95) == True"
+    - name: a_stricter_quantile_needs_more_draws
+      statement: "f(200, 0.99) == True"
+
+arbital._is_valid_confidence:
+  intent: Refuse a confidence that names no quantile at all.
+  claims:
+    - name: accepts_a_quantile_inside_the_unit_interval
+      statement: "for confidence in (0, 1), f(confidence) == True"
+    - name: rejects_one_at_or_above_one
+      statement: "for confidence in [1, 10], f(confidence) == False"
+    - name: rejects_one_at_or_below_zero
+      statement: "for confidence in [-10, 0], f(confidence) == False"
+
+arbital._relative_gain:
+  intent: Put marker area on a scale anchored at the first pick.
+  claims:
+    - name: is_a_share_of_the_top_pick
+      statement: "assuming gain <= top_gain, for gain in [0, 1], top_gain in (0, 1], 0 <= f(gain, top_gain) <= 1"
+    - name: the_top_pick_is_full_size
+      statement: "for top_gain in (0, 1], f(top_gain, top_gain) == 1"
+    - name: a_nonpositive_gain_is_invisible
+      statement: "for gain in [-1, 0], top_gain in (0, 1], f(gain, top_gain) == 0"
+    - name: no_positive_gain_anywhere_means_no_size
+      statement: "for gain in [-1, 1], f(gain, 0) == 0"
+    - name: rises_with_the_gain
+      statement: "for gain in [0, 1], top_gain in (0, 1], d(f(gain, top_gain), gain) >= 0"

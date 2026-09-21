@@ -1,0 +1,113 @@
+# Claims about the decisions the figure draws: the display transform,
+# marker size, the ghost marker, the uncertainty band, and how far an
+# orbit arc reaches toward its neighbour.
+grammar: mathema
+
+arbital.plot._display_radius:
+  intent: Reserve an exclusion zone around the centre of the plot.
+  claims:
+    - name: reserves_the_exclusion_zone
+      statement: "for r in [0, 1], 0.06 <= f(r) <= 1"
+    - name: the_centre_maps_to_the_floor
+      statement: "f(0) == 0.06"
+    - name: the_rim_maps_to_the_rim
+      statement: "f(1) == 1"
+    - name: rises_with_true_distance
+      statement: "d(f(r), r) > 0"
+    # affine, so relative positions and the ring calibration survive
+    - name: preserves_relative_position
+      statement: "d(f(r), r, r) == 0"
+
+arbital.plot._marker_px:
+  intent: Encode a feature's size channel as marker area.
+  claims:
+    - name: within_the_drawn_range
+      statement: "for size in [0, 1], 9 <= f(size) <= 39"
+    # area (not diameter) is what carries the number
+    - name: area_is_linear_in_size
+      statement: "for size in [0, 1], (f(size) - 9)^2 == 900 * size"
+    - name: rises_with_size
+      statement: "for size in [0, 1], d(f(size), size) >= 0"
+    - name: clamps_below_zero
+      statement: "for size in [-5, 0], f(size) == 9"
+    - name: clamps_above_one
+      statement: "for size in [1, 5], f(size) == 39"
+
+arbital.plot._show_ghost:
+  intent: Draw what correlation misses only when it is worth looking at.
+  claims:
+    - name: no_ghost_below_the_nonlinearity_threshold
+      statement: "for nonlinearity in [0, 0.1], r_peri in [0, 1], r_apo in [0, 1], f(nonlinearity, r_peri, r_apo) == False"
+    - name: no_ghost_without_a_visible_gap
+      statement: "for nonlinearity in [0, 1], r_peri in [0, 1], f(nonlinearity, r_peri, r_peri) == False"
+    - name: a_ghost_once_both_thresholds_clear
+      statement: "assuming nonlinearity > 0.1, for nonlinearity in [0, 1], r_peri in [0, 0.5], f(nonlinearity, r_peri, r_peri + 0.5) == True"
+
+arbital.plot._near_chance:
+  intent: Mention the chance level only where it changes the reading.
+  claims:
+    - name: flags_anything_at_or_below_chance
+      statement: "assuming r_info <= chance, for r_info in [0, 1], chance in [0, 1], f(r_info, chance) == True"
+    - name: silent_well_above_chance
+      statement: "assuming r_info - chance > 0.2, for r_info in [0, 1], chance in [0, 1], f(r_info, chance) == False"
+
+arbital.plot._band_high:
+  intent: How strong the association could plausibly be.
+  claims:
+    - name: never_reaches_the_centre
+      statement: "for r_info in [0, 1], se in [0, 1], f(r_info, se) <= 0.999"
+    - name: never_below_the_estimate
+      statement: "for r_info in [0, 0.999], se in [0, 1], f(r_info, se) >= r_info"
+    - name: rises_with_the_standard_error
+      statement: "for r_info in [0, 0.5], se in [0, 0.4], d(f(r_info, se), se) >= 0"
+
+arbital.plot._band_low:
+  intent: How weak the association could plausibly be.
+  claims:
+    - name: never_negative
+      statement: "for r_info in [0, 1], se in [0, 1], f(r_info, se) >= 0"
+    - name: never_above_the_estimate
+      statement: "for r_info in [0, 1], se in [0, 1], f(r_info, se) <= r_info"
+    # a drawn band must run outward from its inner end; r_info can reach
+    # exactly 1 whenever Linfoot saturates, so this is stated over the
+    # whole scale and again over the range the band's own cap admits
+    - name: the_band_is_ordered
+      statement: "let g = arbital.plot._band_high, for r_info in [0, 1], se in [0, 1], f(r_info, se) <= g(r_info, se)"
+    - name: the_band_is_ordered_below_the_cap
+      statement: "let g = arbital.plot._band_high, for r_info in [0, 0.999], se in [0, 1], f(r_info, se) <= g(r_info, se)"
+
+arbital.plot._band_spans_chance:
+  intent: Mark a crossing only where the band really spans the level.
+  claims:
+    - name: an_empty_band_spans_nothing
+      statement: "for r_lo in [0, 1], chance in [0, 1], f(r_lo, r_lo, chance) == False"
+    - name: a_level_below_the_band_is_not_spanned
+      statement: "assuming chance <= r_lo, for r_lo in [0, 1], r_hi in [0, 1], chance in [0, 1], f(r_lo, r_hi, chance) == False"
+
+arbital.plot._band_crosses_chance:
+  intent: Warn when an association that clears chance could still be noise.
+  claims:
+    - name: no_warning_without_uncertainty
+      statement: "assuming r_info > chance, for r_info in [0, 1], chance in [0, 1], f(r_info, 0, chance) == False"
+    - name: blind_to_nothing_below_the_level
+      statement: "assuming r_info - se >= chance, for r_info in [0, 1], se in [0, 1], chance in [0, 1], f(r_info, se, chance) == False"
+
+arbital.plot._arc_reach:
+  intent: Make the arcs of associated features reach toward each other.
+  claims:
+    - name: always_long_enough_to_see
+      statement: "for gap in [0, 6.3], association in [0, 1], f(gap, association) >= 0.1"
+    # an arc never quite closes the gap to its neighbour, so unrelated
+    # features always keep visible daylight between them
+    - name: never_closes_the_gap
+      statement: "for gap in [0, 6.3], association in [0, 1], f(gap, association) <= 0.9 * gap + 0.1"
+    - name: reaches_further_with_association
+      statement: "for gap in [0, 6.3], association in [0, 1], d(f(gap, association), association) >= 0"
+
+arbital.plot._fallback_half_span:
+  intent: Give every orbit a comparable arc when there is no matrix.
+  claims:
+    - name: stays_readable
+      statement: "for arc_length in [0, 2], r_display in [0.06, 1.06], 0.35 <= f(arc_length, r_display) <= 1.6"
+    - name: shrinks_at_a_larger_radius
+      statement: "for arc_length in [0, 2], r_display in [0.06, 1.06], d(f(arc_length, r_display), r_display) <= 0"

@@ -1,5 +1,9 @@
 """Example datasets: bundled copies first, seaborn for everything else.
 
+Intent:
+    Let the docs, the tutorials and a first try of the package run on
+    real data with no install and no network.
+
 This module is a convenience for the tutorials and is not imported by the
 core package, so arbital itself has no data dependency.
 
@@ -56,6 +60,10 @@ class Table:
     categorical (.categorical).  Table provides exactly those.
     Categorical columns hold integer codes; .levels maps each back to its
     original labels.
+
+    Intent:
+        Carry named, typed columnar data into orbits() without making
+        pandas a dependency of the examples.
     """
 
     def __init__(self, columns, matrix, categorical=None, levels=None,
@@ -74,13 +82,29 @@ class Table:
         return self._M.shape
 
     def column(self, name):
+        """The named column as a float array.
+
+        Intent:
+            Reach one column by name, the way a DataFrame would.
+        """
         return self._M[:, self.columns.index(name)]
 
     def is_categorical(self, name) -> bool:
+        """Whether the named column holds integer category codes.
+
+        Intent:
+            Tell a caller which columns are labels, so they are not read
+            as numbers.
+        """
         return name in self.categorical
 
     def to_pandas(self):
-        """Return a pandas DataFrame with categorical columns decoded."""
+        """Return a pandas DataFrame with categorical columns decoded.
+
+        Intent:
+            Hand the table back in its original labelled form for
+            callers who do have pandas.
+        """
         import pandas as pd
         df = pd.DataFrame(self._M, columns=self.columns)
         for name, labels in self.levels.items():
@@ -94,7 +118,12 @@ class Table:
 
 
 def _seaborn():
-    """Import seaborn, with a helpful message if the extra is missing."""
+    """Import seaborn, with a helpful message if the extra is missing.
+
+    Intent:
+        Keep seaborn optional, and say exactly how to get it when a
+        non-bundled dataset is asked for.
+    """
     try:
         import seaborn
     except ImportError as exc:                       # pragma: no cover
@@ -114,6 +143,10 @@ def _dataframe_to_table(df, drop=None, categorical=None, name="") -> Table:
     - rows with any missing value in the kept columns are removed.
     Categorical columns are integer-encoded; the mapping is kept in
     Table.levels.
+
+    Intent:
+        Turn a seaborn DataFrame into the complete, numeric, typed table
+        the estimators need.
     """
     drop = set(drop or [])
     forced = set(categorical or [])
@@ -147,6 +180,10 @@ def _load_bundled(path, drop=None, categorical=None, name="") -> Table:
     Mirrors _dataframe_to_table: a column is categorical when forced by
     `categorical` or when any of its values does not parse as a float;
     rows with a missing value (an empty field, or NaN) are dropped.
+
+    Intent:
+        Load the bundled example data with the standard library alone,
+        so the docs run with numpy and nothing else.
     """
     drop = set(drop or [])
     forced = set(categorical or [])
@@ -208,6 +245,10 @@ def load(name: str, drop=None, categorical=None) -> Table:
     Example::
 
         datasets.load("diamonds", categorical=["cut", "color", "clarity"])
+
+    Intent:
+        Get a named dataset by the shortest route available: bundled if
+        there is a copy, seaborn if not.
     """
     bundled = os.path.join(_DATA_DIR, f"{name}.csv")
     if os.path.exists(bundled):
@@ -222,6 +263,10 @@ def load_mpg() -> Table:
 
     The free-text 'name' and low-value 'origin' columns are dropped, so
     this is the all-numeric multicollinearity example.
+
+    Intent:
+        Supply the docs' redundant-feature example, already trimmed to
+        the columns the narrative uses.
     """
     return load("mpg", drop=["name", "origin"])
 
@@ -232,6 +277,10 @@ def load_penguins() -> Table:
     The species/island/sex columns are dropped so this stays the numeric
     example (bill_depth is confounded by species, a Simpson's-paradox
     setup); use load_titanic() for a categorical example.
+
+    Intent:
+        Supply the docs' Simpson's-paradox example, where a pooled
+        correlation has the wrong sign.
     """
     return load("penguins", drop=["species", "island", "sex"])
 
@@ -242,6 +291,10 @@ def load_titanic() -> Table:
     Keeps survived, pclass, sex, age, sibsp, parch, fare, embarked; sex
     and embarked are treated as categorical.  Seaborn's redundant derived
     columns (class, who, deck, ...) are dropped.
+
+    Intent:
+        Supply the docs' mixed-type example, with a categorical target
+        and both nominal and binary features.
     """
     return load("titanic",
                 drop=["class", "who", "adult_male", "deck", "embark_town",
@@ -254,6 +307,10 @@ def load_tips() -> Table:
 
     total_bill and size are numeric; sex, smoker, day and time are
     categorical.  A compact mixed-type regression example.
+
+    Intent:
+        Supply a small mixed-type example that loads instantly, for a
+        first try of the package.
     """
     return load("tips")
 
@@ -264,5 +321,9 @@ def available():
     Any of these can be passed to load().  The convenience wrappers
     (mpg, penguins, titanic, tips) apply tidy defaults and load offline
     from copies bundled with the package.
+
+    Intent:
+        Say what load() will accept, so a caller does not have to guess
+        a dataset name.
     """
     return list(_seaborn().get_dataset_names())

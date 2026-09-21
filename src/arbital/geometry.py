@@ -1,5 +1,10 @@
 """Mapping association measures onto Keplerian orbit geometry.
 
+Intent:
+    Turn each feature's association numbers into a position and a shape,
+    so strength, nonlinearity and redundancy can all be read off one
+    picture at once.
+
 The target variable is the central feature, sitting at the focus of
 every orbit; each feature is a body on its own ellipse.  In plain terms,
 each orbit has a closest point and a farthest point from the centre
@@ -50,9 +55,12 @@ against features you might never keep.
 
 from __future__ import annotations
 
-import numpy as np
+from typing import Literal
 
-from .measures import association_matrix
+import numpy as np
+from mathema.types import Mat, UnitInterval, Vec
+
+from .measures import _nonlinear_share, association_matrix
 
 __all__ = [
     "angular_layout",
@@ -63,8 +71,12 @@ __all__ = [
 ]
 
 
-def strength_to_distance(r, scale: str = "info"):
-    """Map association strength r in [0, 1] to distance from the centre.
+def _distance_from_strength(r: float,
+                            scale: Literal["info", "linear"] = "info") -> float:
+    """Distance from the centre for an association strength r in [0, 1].
+
+    The radial mapping itself, with no coercion: callers hand it a value
+    already known to be in [0, 1].
 
     scale="info" (default): distance = sqrt(1 - r^2), the residual
       uncertainty after observing the feature.  Since Linfoot's
@@ -72,8 +84,11 @@ def strength_to_distance(r, scale: str = "info"):
       axis is logarithmic in mutual information (one factor of e per
       nat), which spreads out strong associations near the centre.
     scale="linear": distance = 1 - r, the naive mapping.
+
+    Intent:
+        Decide how far from the centre a given association strength
+        sits, which is the one choice the whole radial axis rests on.
     """
-    r = np.clip(np.asarray(r, dtype=float), 0.0, 1.0)
     if scale == "info":
         return np.sqrt(1.0 - r**2)
     if scale == "linear":
@@ -81,7 +96,22 @@ def strength_to_distance(r, scale: str = "info"):
     raise ValueError(f"unknown scale {scale!r}, use 'info' or 'linear'")
 
 
-def orbit_parameters(r_info: float, r_mono: float, scale: str = "info") -> dict:
+def strength_to_distance(r, scale: Literal["info", "linear"] = "info"):
+    """Map association strength r in [0, 1] to distance from the centre.
+
+    Accepts a scalar or an array and clamps it into [0, 1] before
+    applying _distance_from_strength(), which is the mapping itself.
+
+    Intent:
+        Offer the radial mapping over whatever numeric shape a caller
+        has, so estimates that stray outside [0, 1] still plot.
+    """
+    r = np.clip(np.asarray(r, dtype=float), 0.0, 1.0)
+    return _distance_from_strength(r, scale)
+
+
+def orbit_parameters(r_info: float, r_mono: float,
+                     scale: Literal["info", "linear"] = "info") -> dict:
     """Ellipse parameters (focus at origin) for one feature.
 
     The orbit's eccentricity is set to equal the nonlinearity share
@@ -99,14 +129,34 @@ def orbit_parameters(r_info: float, r_mono: float, scale: str = "info") -> dict:
                       the ghost/tether
       a               semi-major axis  = (r_peri + r_apo) / 2
       e               eccentricity = nu (the nonlinear share)
+
+    Intent:
+        Give one feature the ellipse that carries both its views at
+        once: how close it gets, and how far correlation alone puts it.
     """
-    r_info = float(np.clip(r_info, 0.0, 1.0))
-    r_mono = float(np.clip(min(r_mono, r_info), 0.0, 1.0))
-    r_peri = float(strength_to_distance(r_info, scale))
-    r_apo = float(strength_to_distance(r_mono, scale))
+    r_info = min(max(r_info, 0.0), 1.0)
+    r_mono = min(max(min(r_mono, r_info), 0.0), 1.0)
+    r_peri = float(_distance_from_strength(r_info, scale))
+    r_apo = float(_distance_from_strength(r_mono, scale))
     a = 0.5 * (r_peri + r_apo)
-    nu = 0.0 if r_info == 0.0 else max(0.0, 1.0 - (r_mono / r_info) ** 2)
+    nu = _nonlinear_share(r_info, r_mono)
     return {"r_peri": r_peri, "r_apo": r_apo, "a": a, "e": float(nu)}
+
+
+def _eccentricity(r_peri: float, r_apo: float) -> UnitInterval:
+    """Geometric eccentricity of an ellipse from its two apsides.
+
+    e = (r_apo - r_peri) / (r_apo + r_peri), and 0 for the degenerate
+    orbit whose apsides both sit at the origin.
+
+    Intent:
+        Recover the shape of an orbit from the two distances that
+        define it, without needing the semi-major axis as well.
+    """
+    a = 0.5 * (r_peri + r_apo)
+    if a == 0.0:
+        return 0.0
+    return (r_apo - r_peri) / (r_apo + r_peri)
 
 
 def ellipse_path(theta: float, r_peri: float, r_apo: float, n: int = 120):
@@ -116,9 +166,13 @@ def ellipse_path(theta: float, r_peri: float, r_apo: float, n: int = 120):
     where p = a(1 - e^2) is the semi-latus rectum and phi is measured from
     the periastron direction.  We point the periastron along `theta`, so
     the marker (drawn at periastron) sits exactly on its own orbit.
+
+    Intent:
+        Trace the full ellipse a feature would sweep, so its shape can
+        be drawn rather than inferred from two marker positions.
     """
     a = 0.5 * (r_peri + r_apo)
-    e = 0.0 if a == 0.0 else (r_apo - r_peri) / (r_apo + r_peri)
+    e = _eccentricity(r_peri, r_apo)
     p = a * (1.0 - e**2)
     phi = np.linspace(0.0, 2.0 * np.pi, n)
     r = p / (1.0 + e * np.cos(phi))
@@ -126,13 +180,17 @@ def ellipse_path(theta: float, r_peri: float, r_apo: float, n: int = 120):
     return r * np.cos(ang), r * np.sin(ang)
 
 
-def _classical_mds_2d(D: np.ndarray) -> np.ndarray:
+def _classical_mds_2d(D: Mat("n", "n")) -> np.ndarray:
     """Classical (Torgerson) MDS into 2 dimensions, pure NumPy.
 
     Double-centre the squared distance matrix to recover an inner-product
     matrix B, then use its top-2 eigenvectors scaled by sqrt(eigenvalue).
     Torgerson (1952), "Multidimensional scaling: I. Theory and method",
     Psychometrika 17(4), 401-419.
+
+    Intent:
+        Place features in a plane so that how far apart they sit
+        reflects how little information they share.
     """
     n = D.shape[0]
     J = np.eye(n) - np.ones((n, n)) / n          # centring matrix
@@ -143,7 +201,34 @@ def _classical_mds_2d(D: np.ndarray) -> np.ndarray:
     return vecs[:, idx] * L[None, :]
 
 
-def angular_layout(assoc: np.ndarray, layout: str = "spread",
+def _min_gap(p: int, min_gap_frac: float) -> float:
+    """The smallest angular gap the "spread" layout will allow.
+
+    A fraction of the even share 2*pi/p that p features would get.
+
+    Intent:
+        Fix a separation below which two labels would collide, as a
+        share of the spacing an even layout would have given them.
+    """
+    return min_gap_frac * 2.0 * np.pi / p
+
+
+def _widened_gap(gap: float, g_min: float, scale: float) -> float:
+    """One angular gap after the "spread" rescaling.
+
+    Every gap is raised to at least g_min, and whatever it had above
+    g_min is kept in proportion `scale`, so the gaps that were large
+    stay large relative to each other while the pile-ups are opened.
+
+    Intent:
+        Open a crowded gap to a readable minimum without discarding how
+        much larger the roomy gaps were.
+    """
+    return g_min + max(gap - g_min, 0.0) * scale
+
+
+def angular_layout(assoc: Mat("n", "n"),
+                   layout: Literal["spread", "embed", "ordered"] = "spread",
                    min_gap_frac: float = 0.35) -> np.ndarray:
     """Angle (radians) for each feature from the feature-feature matrix.
 
@@ -165,8 +250,18 @@ def angular_layout(assoc: np.ndarray, layout: str = "spread",
           features evenly.  Neighbours are still associated, but a gap
           carries no magnitude: the conservative choice when you only
           trust the ordering.
+
+    `min_gap_frac` is a fraction of an even share and is meaningful in
+    [0, 1]; at 1 every gap is the even share and the layout carries no
+    structure at all.
+
+    Intent:
+        Put associated features near each other on the circle, so a
+        redundant group is visible as a huddle rather than a table.
     """
     p = assoc.shape[0]
+    if p == 0:
+        raise ValueError("assoc must have at least one row")
     if p == 1:
         return np.array([0.0])
     D = 1.0 - assoc                              # similarity -> distance
@@ -187,19 +282,29 @@ def angular_layout(assoc: np.ndarray, layout: str = "spread",
     # shrink the remaining (large) gaps by a common factor so the total is
     # still one full turn.  Relative differences between the large gaps
     # survive; only the pile-ups are opened.
-    g_min = min_gap_frac * 2.0 * np.pi / p
+    g_min = _min_gap(p, min_gap_frac)
     gaps = np.diff(theta[order], append=theta[order][0] + 2.0 * np.pi)
     excess = np.clip(gaps - g_min, 0.0, None)     # room above the minimum
     budget = 2.0 * np.pi - p * g_min              # what the excesses may sum to
     scale = budget / excess.sum() if excess.sum() > 0 else 0.0
-    new_gaps = g_min + excess * scale
+    new_gaps = np.array([_widened_gap(float(g), g_min, scale) for g in gaps])
     spread = np.empty(p)
     spread[order] = theta[order][0] + np.concatenate(
         ([0.0], np.cumsum(new_gaps[:-1])))
     return spread
 
 
-def greedy_selection(relevance: np.ndarray, assoc: np.ndarray):
+def _marginal_gain(relevance: float, redundancy: float) -> float:
+    """What a feature adds on top of the already-selected set.
+
+    Intent:
+        Charge a feature for the information it duplicates, so a
+        near-copy of an earlier pick cannot win a round on relevance.
+    """
+    return relevance - redundancy
+
+
+def greedy_selection(relevance: Vec("n"), assoc: Mat("n", "n")):
     """Greedy mRMR forward selection: an explicit feature-selection order.
 
     Minimum-redundancy maximum-relevance selection follows Peng, Long &
@@ -227,9 +332,17 @@ def greedy_selection(relevance: np.ndarray, assoc: np.ndarray):
     Returns:
       ranks  int array, ranks[j] = 1-based pick order of feature j
       gains  float array, gains[j] = marginal gain when feature j was picked
+
+    Intent:
+        Produce an honest feature-selection order, where every feature's
+        score is what it added at the moment it was chosen.
     """
     relevance = np.asarray(relevance, dtype=float)
     p = len(relevance)
+    if not np.all(np.isfinite(relevance)):
+        # every gain would compare false against -inf and no feature
+        # could ever be picked
+        raise ValueError("relevance must be finite, got a NaN or infinity")
     ranks = np.zeros(p, dtype=int)
     gains = np.zeros(p)
     selected: list = []
@@ -241,7 +354,7 @@ def greedy_selection(relevance: np.ndarray, assoc: np.ndarray):
                 redundancy = float(np.mean([assoc[j, s] for s in selected]))
             else:
                 redundancy = 0.0
-            gain = relevance[j] - redundancy
+            gain = _marginal_gain(relevance[j], redundancy)
             if gain > best_gain:
                 best_j, best_gain = j, gain
         ranks[best_j] = step
@@ -251,14 +364,36 @@ def greedy_selection(relevance: np.ndarray, assoc: np.ndarray):
     return ranks, gains
 
 
-def select_target(X: np.ndarray, k: int = 5) -> int:
+def _mean_association(row_sum: float, p: int) -> float:
+    """Mean association of one column to the other p - 1 columns.
+
+    `row_sum` is that column's row of the association matrix summed,
+    including its own diagonal 1, which is subtracted off here.
+
+    Intent:
+        Score how central one column is to the rest of the data, on the
+        same 0..1 scale as any single association.
+    """
+    return (row_sum - 1.0) / (p - 1)
+
+
+def select_target(X: Mat("n", "m"), k: int = 5) -> int:
     """Default target choice: the column most associated with all others.
 
     Returns the index of the column with the highest mean r_info to the
     remaining columns: the variable the rest of the data 'revolves
-    around' the most.
+    around' the most.  A single-column input has no other columns to be
+    associated with, so its only column is the answer.
+
+    Intent:
+        Choose what the plot should revolve around when the caller has
+        not decided yet, without asking them to guess.
     """
     M = association_matrix(np.asarray(X, dtype=float), k=k)
     p = M.shape[0]
-    mean_assoc = (M.sum(axis=1) - 1.0) / (p - 1)  # exclude self (diag = 1)
+    if p == 0:
+        raise ValueError("X must have at least one column")
+    if p == 1:
+        return 0
+    mean_assoc = [_mean_association(float(s), p) for s in M.sum(axis=1)]
     return int(np.argmax(mean_assoc))

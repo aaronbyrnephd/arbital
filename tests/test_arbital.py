@@ -581,3 +581,49 @@ def test_uncertainty_flag_populates_se():
     assert off.se is None                              # off by default
     assert on.se is not None and len(on.se) == len(on.names)
     assert all(s >= 0 for s in on.se)
+
+
+# ---------------------------------------------------------------- input guards
+# Every refusal below already happened before these guards existed, as an
+# IndexError or ValueError raised somewhere downstream. These pin the
+# exception type and the fact that the refusal is now a decision.
+
+def test_unknown_target_name_raises():
+    with pytest.raises(ValueError, match="not a column"):
+        arbital.orbits(_demo_data(), target="no_such_column")
+
+
+def test_out_of_range_target_index_raises():
+    with pytest.raises(IndexError, match="out of range"):
+        arbital.orbits(_demo_data(), target=99)
+
+
+def test_unknown_categorical_name_raises():
+    with pytest.raises(ValueError, match="not a column"):
+        arbital.orbits(_demo_data(), target=0, categorical=["no_such_column"])
+
+
+def test_out_of_range_categorical_index_raises():
+    with pytest.raises(IndexError, match="out of range"):
+        arbital.orbits(_demo_data(), target=0, categorical=[99])
+
+
+def test_empty_association_matrix_layout_raises():
+    with pytest.raises(ValueError, match="at least one row"):
+        angular_layout(np.empty((0, 0)))
+
+
+def test_non_finite_relevance_raises():
+    # with a NaN every gain compares false against -inf, so no feature
+    # could ever be picked
+    relevance = np.array([0.5, np.nan])
+    with pytest.raises(ValueError, match="finite"):
+        greedy_selection(relevance, np.eye(2))
+
+
+def test_select_target_on_a_single_column():
+    from arbital.geometry import select_target
+    # one column has no others to be associated with: it is the answer
+    assert select_target(RNG.standard_normal((50, 1))) == 0
+    with pytest.raises(ValueError, match="at least one column"):
+        select_target(np.empty((50, 0)))
