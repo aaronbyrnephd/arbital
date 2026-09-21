@@ -1,0 +1,36 @@
+# mathema verify is the CI gate over the committed .mathema/ store: it
+# re-adjudicates whatever changed and fails on a falsified or open
+# unknown claim. Exit codes: 0 clean, 1 gate failure, 2 broken
+# invocation or store, so a failing gate is distinguishable from a
+# broken job without parsing any output.
+name: mathema
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # your project must import for its claims to adjudicate; adjust
+      # this line to however your project installs
+      - run: pip install -e ".[datasets]" mathema coverage
+      # --lenient because arbital carries 12 structurally-skipped
+      # claims (I/O and array-shaped surfaces the routes cannot reach).
+      # verify defaults to strict, which fails on those too.
+      - run: mathema verify --root . --lenient
+      # the implementation badge unions test-, probe- and proof-reached
+      # lines, so it needs current coverage; without it badges re-derives
+      # reach itself and runs well over ten minutes
+      - run: mathema coverage --run-tests --root .
+      # a stale badge fails CI rather than quietly overstating the repo
+      - run: |
+          mathema badges arbital --root . --out
+          git diff --exit-code .mathema/badges/
+      # optional: the claim-level delta since the base, for a PR comment
+      # - run: mathema review --format json --output review.json

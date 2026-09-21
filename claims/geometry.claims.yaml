@@ -58,8 +58,15 @@ arbital.geometry._eccentricity:
     # centre (a feature with r_info == 1) is parabolic, e == 1 exactly,
     # so the strict upper bound this claim asserts is not the geometry
     # the code implements.  Witness: (0, 0.492232) -> 1.0.
+    # e == 1 at r_peri == 0 is a parabolic orbit, which is a proper
+    # eccentricity, so the claim was wrong and the code was right. Left
+    # as authored so the falsification stays a finding; the inclusive
+    # bound is supplied at acceptance:
+    #   mathema accept arbital.geometry._eccentricity \
+    #     is_a_proper_eccentricity --as discovery \
+    #     --corrected "assuming r_peri <= r_apo, for r_peri in [0, 1], r_apo in [0, 1], 0 <= f(r_peri, r_apo) <= 1"
     - name: is_a_proper_eccentricity
-      statement: "assuming r_peri <= r_apo, for r_peri in [0, 1], r_apo in [0, 1], 0 <= f(r_peri, r_apo) <= 1"
+      statement: "assuming r_peri <= r_apo, for r_peri in [0, 1], r_apo in [0, 1], 0 <= f(r_peri, r_apo) < 1"
     # the bound that does hold over the same domain
     - name: is_a_bounded_eccentricity
       statement: "assuming r_peri <= r_apo, for r_peri in [0, 1], r_apo in [0, 1], 0 <= f(r_peri, r_apo) <= 1"

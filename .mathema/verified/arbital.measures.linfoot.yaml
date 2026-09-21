@@ -12,7 +12,7 @@ arbital.measures.linfoot:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "3f73f592a4e9"
+    claims_fingerprint: "dd16ccb9d8d0"
     pin: "none"
     integrity: "7621ea16262aa3f7"
   math:
@@ -129,24 +129,19 @@ arbital.measures.linfoot:
     - name: "strictly_below_one"
       statement: "for mi in [0.0, 50.0]:float|missing, 0 <= f(mi) < 1"
       verdict: "falsified"
-      n: 1
-      counterexample: "link 2: f(mi) < 1: (35.6687): 1.0 vs 1"
+      n: 3
+      counterexample: "link 2: f(mi) < 1: (37.3064): 1.0 vs 1"
       note: "chained comparison falsified at link 2: f(mi) < 1"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         mi:
-          base_type: "R"
-          pieces:
-            - lo: 0.0
-              hi: 50.0
-              closed_lo: true
-              closed_hi: true
-          excluded: []
-          explicit_type: true
+          lo: 0.0
+          hi: 50.0
+          closed_lo: true
+          closed_hi: true
       meta:
-        mathema.pending_supersession: "for mi in [0.0, 18.7]:float|missing, 0 <= f(mi) < 1"
         mathema.surface: "declared"
     - name: "strictly_below_one_to_ten_nats"
       statement: "for mi in [0.0, 10.0]:float|missing, 0 <= f(mi) < 1"
@@ -199,7 +194,7 @@ arbital.measures.linfoot:
       basis: "interval evaluation over the declared domain: -(1 - 2*exp(2*mi))*exp(-mi)/(exp(2*mi) - 1)^(3/2) ∈ AccumBounds(exp(-50)/(-1 + exp(100))**(3/2), oo), never negative"
     - step: "refutation"
       claim: "NOT (for mi in [0.0, 50.0]:float|missing, 0 <= f(mi) < 1)"
-      basis: "counterexample link 2: f(mi) < 1: (35.6687): 1.0 vs 1"
+      basis: "counterexample link 2: f(mi) < 1: (37.3064): 1.0 vs 1"
     - step: "evidence"
       claim: "for mi in [0.0, 10.0]:float|missing, 0 <= f(mi) < 1"
       basis: "probed, n=128"

@@ -12,7 +12,7 @@ arbital.geometry._eccentricity:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "ecdfbca39606"
+    claims_fingerprint: "297affebd995"
     pin: "none"
     integrity: "3aa10fe010cc36c4"
   math: null
@@ -89,33 +89,24 @@ arbital.geometry._eccentricity:
     - name: "is_a_proper_eccentricity"
       statement: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) < 1"
       verdict: "falsified"
-      n: 22
-      counterexample: "link 2: f(r_peri, r_apo) < 1: (0, 0.048362): 1.0 vs 1"
+      n: 10
+      counterexample: "link 2: f(r_peri, r_apo) < 1: (0, 0.492232): 1.0 vs 1"
       note: "chained comparison falsified at link 2: f(r_peri, r_apo) < 1"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         r_peri:
-          base_type: "R"
-          pieces:
-            - lo: 0.0
-              hi: 1.0
-              closed_lo: true
-              closed_hi: true
-          excluded: []
-          explicit_type: true
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
         r_apo:
-          base_type: "R"
-          pieces:
-            - lo: 0.0
-              hi: 1.0
-              closed_lo: true
-              closed_hi: true
-          excluded: []
-          explicit_type: true
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
       meta:
-        mathema.pending_supersession: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
         mathema.surface: "declared"
     - name: "parabolic_only_from_the_centre"
       statement: "for r_apo in (0.0, 1.0]:float|missing, f(0, r_apo) = 1"
@@ -154,7 +145,7 @@ arbital.geometry._eccentricity:
       basis: "documented; the author's stated purpose"
     - step: "refutation"
       claim: "NOT (assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) < 1)"
-      basis: "counterexample link 2: f(r_peri, r_apo) < 1: (0, 0.048362): 1.0 vs 1"
+      basis: "counterexample link 2: f(r_peri, r_apo) < 1: (0, 0.492232): 1.0 vs 1"
     - step: "evidence"
       claim: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
       basis: "probed, n=83"
