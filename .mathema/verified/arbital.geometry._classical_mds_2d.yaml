@@ -1,22 +1,24 @@
-# machine record; binds to form 29fd430ce9e6
+# machine record; binds to form 8fe9b7f2adef
 arbital.geometry._classical_mds_2d:
+  schema_version: "0.2.0"
   name: "_classical_mds_2d"
   signature: "(D: \"Mat('n', 'n')\") -> 'np.ndarray'"
   intent: "Classical (Torgerson) MDS into 2 dimensions, pure NumPy. Double-centre the squared distance matrix to recover an inner-product matrix B, then use its top-2 eigenvectors scaled by sqrt(eigenvalue). Torgerson (1952), \"Multidimensional scaling: I. Theory and method\", Psychometrika 17(4), 401-419."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "29fd430ce9e6"
+    form: "8fe9b7f2adef"
     sig: "ba49abb8d256"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "40db481ebabb"
     pin: "none"
-    integrity: "a5a589cf32aee1f6"
+    integrity: "v2:8e6e8c012be7ec3e"
   math: null
   claims:
     - name: "callable"
+      statement: "f(D) can be called"
       verdict: "skipped"
       note: "could not synthesize valid inputs from the signature (AttributeError: 'list' object has no attribute 'shape')"
       route: null
@@ -38,10 +40,11 @@ arbital.geometry._classical_mds_2d:
       statement: "assuming D is symmetric, is_symmetric(D)"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
+      note: "routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
       route: "probe:algorithmic"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.derive_status: "unsupported"
         mathema.surface: "declared"
@@ -52,7 +55,7 @@ arbital.geometry._classical_mds_2d:
       claim: "Classical (Torgerson) MDS into 2 dimensions, pure NumPy. Double-centre the squared distance matrix to recover an inner-product matrix B, then use its top-2 eigenvectors scaled by sqrt(eigenvalue). Torgerson (1952), \"Multidimensional scaling: I. Theory and method\", Psychometrika 17(4), 401-419."
       basis: "documented; the author's stated purpose"
     - step: "gap"
-      claim: ""
+      claim: "f(D) can be called"
       basis: "could not synthesize valid inputs from the signature (AttributeError: 'list' object has no attribute 'shape')"
     - step: "evidence"
       claim: "assuming D is symmetric, is_symmetric(D)"
@@ -63,8 +66,8 @@ arbital.geometry._classical_mds_2d:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.concept_sources:
       keyword:

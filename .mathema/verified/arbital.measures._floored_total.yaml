@@ -1,19 +1,20 @@
-# machine record; binds to form 17d0daad94b5
+# machine record; binds to form bc7884a1d4c9
 arbital.measures._floored_total:
+  schema_version: "0.2.0"
   name: "_floored_total"
   signature: "(r_info_raw: 'float', r_mono: 'float') -> 'UnitInterval'"
   intent: "Total association, floored at what a monotone fit already reaches. Total dependence cannot be less than the part a monotone description already captures, and the k-NN estimator is noisy enough to report less, so the floor is enforced rather than assumed."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "17d0daad94b5"
+    form: "bc7884a1d4c9"
     sig: "ba599182df27"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "f9190d2d45b8"
     pin: "none"
-    integrity: "f1b08ce1ddfdd805"
+    integrity: "v2:98a7ddbafcf771c4"
   math:
     unicode: "max(r_info_raw, r_mono)"
     latex: "\\max\\left(r_{info raw}, r_{mono}\\right)"
@@ -31,11 +32,12 @@ arbital.measures._floored_total:
     - name: "leaves_a_genuine_nonlinear_share"
       statement: "let g = arbital.measures._nonlinear_share, for r_info_raw in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing, 0 <= g(f(r_info_raw, r_mono), r_mono) <= 1"
       verdict: "holds"
-      n: 128
+      n: 132
       note: "every link of the chained comparison holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         r_info_raw:
           lo: 0.0
@@ -53,10 +55,11 @@ arbital.measures._floored_total:
       statement: "f(r_info_raw, r_mono) >= r_info_raw"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: undecided (sympy could not settle the sign of -r_info_raw + Max(r_info_raw, r_mono); extensive attempts did not settle it either: exact real-root isolation, interval refinement, t = atan(x) on r_info_raw, t = atan(x) on r_mono, t = atan(x) jointly on r_info_raw, r_mono, widened wall-clock retry); probe: holds"
+      note: "routes attempted, derive: undecided (sympy could not settle the sign of -r_info_raw + Max(r_info_raw, r_mono); extensive attempts did not settle it either: exact real-root isolation, interval refinement, t = atan(x) on r_info_raw, t = atan(x) on r_mono, t = atan(x) jointly on r_info_raw, r_mono, widened wall-clock retry); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.sampling: "r_info_raw~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], r_mono~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=128"
         mathema.confidence:
@@ -76,10 +79,11 @@ arbital.measures._floored_total:
       statement: "f(r_info_raw, r_mono) >= r_mono"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: undecided (sympy could not settle the sign of -r_mono + Max(r_info_raw, r_mono); extensive attempts did not settle it either: exact real-root isolation, interval refinement, t = atan(x) on r_info_raw, t = atan(x) on r_mono, t = atan(x) jointly on r_info_raw, r_mono, widened wall-clock retry); probe: holds"
+      note: "routes attempted, derive: undecided (sympy could not settle the sign of -r_mono + Max(r_info_raw, r_mono); extensive attempts did not settle it either: exact real-root isolation, interval refinement, t = atan(x) on r_info_raw, t = atan(x) on r_mono, t = atan(x) jointly on r_info_raw, r_mono, widened wall-clock retry); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.sampling: "r_info_raw~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], r_mono~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=128"
         mathema.confidence:
@@ -103,6 +107,29 @@ arbital.measures._floored_total:
       route: "derive"
       authored:
         surface: "claims-file"
+        route: "best"
+      domain:
+        r_info_raw:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+        r_mono:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+      meta:
+        mathema.float_companion: "stays_on_the_association_scale[float]"
+        mathema.surface: "declared"
+    - name: "stays_on_the_association_scale[float]"
+      statement: "for r_info_raw in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing, 0 <= f(r_info_raw, r_mono) <= 1"
+      verdict: "holds"
+      n: 44
+      note: "the implementation of stays_on_the_association_scale, executed in float link by link; every link of the float companion holds"
+      route: "probe"
+      authored:
+        surface: "claims-file"
       domain:
         r_info_raw:
           lo: 0.0
@@ -116,6 +143,8 @@ arbital.measures._floored_total:
           closed_hi: true
       meta:
         mathema.surface: "declared"
+        mathema.companion_of: "stays_on_the_association_scale"
+        mathema.family: "is_numerically_stable"
     - name: "symmetric_in_its_two_arguments"
       statement: "f(r_info_raw, r_mono) = f(r_mono, r_info_raw)"
       verdict: "proven"
@@ -124,8 +153,22 @@ arbital.measures._floored_total:
       route: "derive"
       authored:
         surface: "claims-file"
+        route: "best"
+      meta:
+        mathema.float_companion: "symmetric_in_its_two_arguments[float]"
+        mathema.surface: "declared"
+    - name: "symmetric_in_its_two_arguments[float]"
+      statement: "f(r_info_raw, r_mono) = f(r_mono, r_info_raw)"
+      verdict: "holds"
+      n: 44
+      note: "the implementation of symmetric_in_its_two_arguments, executed in float at 44 points (every domain corner, then sampled interior points); unbounded directions (r_info_raw, r_mono) run to magnitude 1e+308, sampled log-uniformly (no |inf| declared)"
+      route: "probe"
+      authored:
+        surface: "claims-file"
       meta:
         mathema.surface: "declared"
+        mathema.companion_of: "symmetric_in_its_two_arguments"
+        mathema.family: "is_numerically_stable"
   concepts: []
   references: {}
   reasoning:
@@ -144,20 +187,26 @@ arbital.measures._floored_total:
     - step: "derivation"
       claim: "for r_info_raw in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing, 0 <= f(r_info_raw, r_mono) <= 1"
       basis: "symbolic derivation"
+    - step: "evidence"
+      claim: "for r_info_raw in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing, 0 <= f(r_info_raw, r_mono) <= 1"
+      basis: "probed, n=44"
     - step: "derivation"
       claim: "f(r_info_raw, r_mono) = f(r_mono, r_info_raw)"
       basis: "Max(r_info_raw, r_mono) and Max(r_info_raw, r_mono) simplify identically"
     - step: "evidence"
+      claim: "f(r_info_raw, r_mono) = f(r_mono, r_info_raw)"
+      basis: "probed, n=44"
+    - step: "evidence"
       claim: "let g = arbital.measures._nonlinear_share, for r_info_raw in [0.0, 1.0]:float|missing, r_mono in [0.0, 1.0]:float|missing, 0 <= g(f(r_info_raw, r_mono), r_mono) <= 1"
-      basis: "probed, n=128"
+      basis: "probed, n=132"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"

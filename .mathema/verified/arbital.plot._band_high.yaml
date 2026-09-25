@@ -1,19 +1,20 @@
-# machine record; binds to form a54d6940491d
+# machine record; binds to form ac81abc81858
 arbital.plot._band_high:
+  schema_version: "0.2.0"
   name: "_band_high"
   signature: "(r_info: 'float', se: 'float') -> 'float'"
   intent: "Inner end of the uncertainty band, in r_info units."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "a54d6940491d"
+    form: "ac81abc81858"
     sig: "8fc5aa68e14a"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "19d1e8eabc90"
     pin: "none"
-    integrity: "f8640d566223c1e0"
+    integrity: "v2:9907749bc7df41dd"
   math:
     unicode: "min(999/1000, r_info + se)"
     latex: "\\min\\left(\\frac{999}{1000}, r_{info} + se\\right)"
@@ -31,11 +32,12 @@ arbital.plot._band_high:
     - name: "never_below_the_estimate"
       statement: "for r_info in [0.0, 0.999]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) >= r_info"
       verdict: "holds"
-      n: 128
-      note: "; routes attempted, derive: undecided (sympy could not settle the sign of -r_info + Min(999/1000, r_info + se); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      n: 132
+      note: "routes attempted, derive: undecided (sympy could not settle the sign of -r_info + Min(999/1000, r_info + se); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         r_info:
           lo: 0.0
@@ -48,12 +50,12 @@ arbital.plot._band_high:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "r_info~U(0,0.999)⊔{lo,hi,mid,±ε}[p=.3], se~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=128"
+        mathema.sampling: "r_info~U(0,0.999)⊔{lo,hi,mid,±ε}[p=.3], se~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=132"
         mathema.confidence:
           score: 10.0
           stars: 4
           max_stars: 5
-          n: 128
+          n: 132
           factors:
             branches: 0
             loops: 0
@@ -64,9 +66,34 @@ arbital.plot._band_high:
         mathema.surface: "declared"
     - name: "never_reaches_the_centre"
       statement: "for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) <= 0.999000000000000"
+      verdict: "proven"
+      sketch: "interval evaluation over the declared domain: 999/1000 - Min(999/1000, r_info + se) ∈ AccumBounds(0, 999/1000), never negative"
+      condition: "where x=r_info, y=se: ∀ x, y ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
+      route: "derive"
+      authored:
+        surface: "claims-file"
+        route: "best"
+      domain:
+        r_info:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+        se:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+      meta:
+        mathema.float_companion: "never_reaches_the_centre[float]"
+        mathema.surface: "declared"
+        mathema.previous_verdict: "holds"
+        mathema.last_supported_commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    - name: "never_reaches_the_centre[float]"
+      statement: "for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) <= 0.999000000000000"
       verdict: "holds"
-      n: 128
-      note: "; routes attempted, derive: undecided (sympy could not settle the sign of 999/1000 - Min(999/1000, r_info + se); extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, together, widened wall-clock retry); probe: holds"
+      n: 44
+      note: "the implementation of never_reaches_the_centre, executed in float at 44 points (every domain corner, then sampled interior points)"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -82,28 +109,18 @@ arbital.plot._band_high:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "r_info~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], se~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=128"
-        mathema.confidence:
-          score: 10.0
-          stars: 4
-          max_stars: 5
-          n: 128
-          factors:
-            branches: 0
-            loops: 0
-            params: 0
-            wide_domain: 0
-            float_extremes: 0
-        mathema.derive_status: "undecided"
         mathema.surface: "declared"
+        mathema.companion_of: "never_reaches_the_centre"
+        mathema.family: "is_numerically_stable"
     - name: "rises_with_the_standard_error"
       statement: "for r_info in [0.0, 0.5]:float|missing, se in [0.0, 0.4]:float|missing, d(f(r_info, se), se) >= 0"
       verdict: "holds"
       n: 60
-      note: "; numeric evidence on the LIFTED intermediate (60 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of Heaviside(-r_info - se + 999/1000); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      note: "numeric evidence on the LIFTED intermediate (60 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of Heaviside(-r_info - se + 999/1000); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       route: "probe:lifted_numeric"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         r_info:
           lo: 0.0
@@ -129,12 +146,15 @@ arbital.plot._band_high:
     - step: "formalization"
       claim: "min(999/1000, r_info + se)"
       basis: "symbolic lift of the body"
+    - step: "derivation"
+      claim: "for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) <= 0.999000000000000"
+      basis: "interval evaluation over the declared domain: 999/1000 - Min(999/1000, r_info + se) ∈ AccumBounds(0, 999/1000), never negative"
     - step: "evidence"
       claim: "for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) <= 0.999000000000000"
-      basis: "probed, n=128"
+      basis: "probed, n=44"
     - step: "evidence"
       claim: "for r_info in [0.0, 0.999]:float|missing, se in [0.0, 1.0]:float|missing, f(r_info, se) >= r_info"
-      basis: "probed, n=128"
+      basis: "probed, n=132"
     - step: "evidence"
       claim: "for r_info in [0.0, 0.5]:float|missing, se in [0.0, 0.4]:float|missing, d(f(r_info, se), se) >= 0"
       basis: "probed, n=60"
@@ -147,8 +167,8 @@ arbital.plot._band_high:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.concept_sources:
       mechanism:

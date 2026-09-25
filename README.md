@@ -19,16 +19,17 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/aaronbyrnephd/arbital/main/.mathema/badges/triangle.svg" alt="implementation, intent and clarity plotted as a triangle" width="320">
+  <img src="https://raw.githubusercontent.com/aaronbyrnephd/arbital/main/.mathema/badges/triangle.svg" alt="implementation, intent and clarity plotted as a triangle" width="360">
 </p>
 
 <p align="center"><sub>
-  <b>implementation</b> &middot; how much of the code&rsquo;s behaviour is covered by tests, probes, or proofs<br>
-  <b>intent</b> &middot; how much of what the code is meant to do is explicitly specified<br>
-  <b>clarity</b> &middot; how much of the code&rsquo;s knowable behaviour is made explicit and unambiguous
+  <a href="https://mathema.tetrionlabs.com/modes/badges/#the-three-badges"><b>implementation</b></a> &middot; the share of statements reached by a test, a probe or a derive proof, taken together<br>
+  <a href="https://mathema.tetrionlabs.com/modes/badges/#the-three-badges"><b>intent</b></a> &middot; how much of what the code is meant to do is explicitly specified<br>
+  <a href="https://mathema.tetrionlabs.com/modes/badges/#how-clarity-is-scored"><b>clarity</b></a> &middot; how much of each function&rsquo;s knowable behaviour its verified claims have pinned down<br>
+  <a href="https://mathema.tetrionlabs.com/modes/badges/#the-triangle"><b>overall</b></a> &middot; the area the three span, so it falls toward zero when any one of them is empty
 </sub></p>
 
-<p align="center"><sub><b>mathema</b>: know what the code actually does</sub></p>
+<p align="center"><sub><a href="https://mathema.tetrionlabs.com/"><b>mathema</b></a>: know what your code actually does</sub></p>
 
 **arbital** draws every variable in a dataset as an orbit around a target, so that the
 strength, shape, direction, redundancy, and usefulness of each association are readable

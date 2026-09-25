@@ -1,4 +1,4 @@
-# machine record; binds to form cfaf71abbae0
+# machine record; binds to form efa3f64a3db3
 arbital.measures.spearman:
   schema_version: "0.2.0"
   name: "spearman"
@@ -7,24 +7,25 @@ arbital.measures.spearman:
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "cfaf71abbae0"
+    form: "efa3f64a3db3"
     sig: "61fb750518aa"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "b39e8d974bc2"
     pin: "none"
-    integrity: "4245a374ce5ec159"
+    integrity: "v2:249545d8d58b9771"
   math: null
   claims:
     - name: "blind_to_an_elementwise_rescale"
       statement: "assuming dim(x, 0) == dim(y, 0), let s = mathema.f.scale_seq, f(s(x, 2), y) = f(x, y)"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=128"
         mathema.confidence:
@@ -41,6 +42,7 @@ arbital.measures.spearman:
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "callable"
+      statement: "f(x, y) can be called"
       verdict: "skipped"
       note: "could not synthesize valid inputs from the signature (ValueError: operands could not be broadcast together with shapes (5,) (6,) )"
       route: null
@@ -62,10 +64,11 @@ arbital.measures.spearman:
       statement: "assuming dim(x, 0) == dim(y, 0), |f(x, y)| <= 1"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=128"
         mathema.confidence:
@@ -89,16 +92,18 @@ arbital.measures.spearman:
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.surface: "declared"
     - name: "symmetric_in_its_arguments"
       statement: "assuming dim(x, 0) == dim(y, 0), f(x, y) = f(y, x)"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=128"
         mathema.confidence:
@@ -121,7 +126,7 @@ arbital.measures.spearman:
       claim: "Spearman rank correlation = Pearson correlation of the ranks."
       basis: "documented; the author's stated purpose"
     - step: "gap"
-      claim: ""
+      claim: "f(x, y) can be called"
       basis: "could not synthesize valid inputs from the signature (ValueError: operands could not be broadcast together with shapes (5,) (6,) )"
     - step: "evidence"
       claim: "assuming dim(x, 0) == dim(y, 0), |f(x, y)| <= 1"
@@ -141,22 +146,22 @@ arbital.measures.spearman:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   dependencies:
     - name: "_ranks"
       kind: "function"
       key: "arbital.measures._ranks"
       file: "src/arbital/measures.py"
       line: 159
-      form: "21f5b70c1295"
+      form: "639848f8b2a8"
       freshness: "current"
     - name: "pearson"
       kind: "function"
       key: "arbital.measures.pearson"
       file: "src/arbital/measures.py"
       line: 139
-      form: "df8b351c4416"
+      form: "a54388d1e6b4"
       freshness: "current"
   meta:
     mathema.premise_state: {}

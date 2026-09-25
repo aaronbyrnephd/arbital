@@ -1,4 +1,4 @@
-# machine record; binds to form ee98cc6c6807
+# machine record; binds to form e1231a2d45d0
 arbital.measures._mi_continuous_discrete:
   schema_version: "0.2.0"
   name: "_mi_continuous_discrete"
@@ -7,14 +7,14 @@ arbital.measures._mi_continuous_discrete:
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "ee98cc6c6807"
+    form: "e1231a2d45d0"
     sig: "c689e02ac6e6"
     tier: 3
     source_available: true
     pure: false
     claims_fingerprint: "a4d4d5274f8e"
     pin: "none"
-    integrity: "0ed1f42cd8216e2b"
+    integrity: "v2:49e0a06251e09303"
   math: null
   claims:
     - name: "dependencies_current"
@@ -28,15 +28,18 @@ arbital.measures._mi_continuous_discrete:
         mathema.surface: "builtin"
     - name: "is_compendium_safe"
       statement: "is_compendium_safe(numpy)"
-      verdict: "holds"
-      n: 89
-      note: "; inferred k in Z, rng_seed in Z from its own int annotation; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
-      route: "probe:algorithmic"
+      verdict: "invalidated"
+      note: "inferred k in Z, rng_seed in Z from its own int annotation; the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: unknown (the registered family for this claim's own name couldn't decide it, and the generic sampling loop has no meaning for this predicate)"
+      route: "examine"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.derive_status: "unsupported"
         mathema.surface: "declared"
+        mathema.previous_verdict: "holds"
+        mathema.last_supported_commit: "1361b4124ef03f36f091caaf9a6624f490d67e37"
+        mathema.regressed_to: "unknown"
     - name: "purity"
       verdict: "skipped"
       note: "function has effects; algebraic probing not meaningful: uses randomness"
@@ -59,9 +62,9 @@ arbital.measures._mi_continuous_discrete:
     - step: "gap"
       claim: ""
       basis: "function has effects; algebraic probing not meaningful: uses randomness"
-    - step: "evidence"
+    - step: "gap"
       claim: "is_compendium_safe(numpy)"
-      basis: "probed, n=89"
+      basis: "inferred k in Z, rng_seed in Z from its own int annotation; the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: unknown (the registered family for this claim's own name couldn't decide it, and the generic sampling loop has no meaning for this predicate)"
     - step: "derivation"
       claim: ""
       basis: "every direct function dependency's form matches its verified record"
@@ -71,15 +74,15 @@ arbital.measures._mi_continuous_discrete:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "1361b4124ef03f36f091caaf9a6624f490d67e37"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   dependencies:
     - name: "_digamma"
       kind: "function"
       key: "arbital.measures._digamma"
       file: "src/arbital/measures.py"
       line: 197
-      form: "ee52e2f42b77"
+      form: "12433e691938"
       freshness: "current"
   meta:
     mathema.concept_sources:

@@ -1,0 +1,12 @@
+{
+ "algorithm": "sha256",
+ "files": {
+  "src/arbital/__init__.py": "045f971ec299c61728708e40e501a859a0b0ecce50d4730b63186b1ebd0d685f",
+  "src/arbital/datasets.py": "bfd890e7587305080f3cd0eac749ef276d89df36df38bf1f97c041e7ca453c33",
+  "src/arbital/geometry.py": "343b2b90aae7289b8179de32e2ce299f56d97026bd22764e49da876815396e65",
+  "src/arbital/measures.py": "70f37fa514ceeddee67ac06e817e2605c028325ecb426b5e66cff3e672bf1227",
+  "src/arbital/plot.py": "f43d92768d7a8e5ebf44c8393c5ab79fcebe9393e4cde88ad7c6477373714412"
+ },
+ "report": "coverage.json",
+ "report_digest": "20925ef6230a5d7c3a58848423da13f790eb4bbe73816c49100c4e8516ae51e7"
+}

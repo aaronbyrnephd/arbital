@@ -1,29 +1,31 @@
-# machine record; binds to form 78178d979a34
+# machine record; binds to form 28bb50181772
 arbital.measures._is_nominal:
+  schema_version: "0.2.0"
   name: "_is_nominal"
   signature: "(n_levels: 'int', is_discrete: 'bool') -> 'bool'"
   intent: "True when a side's integer codes are arbitrary labels. A discrete side with more than two levels has no meaningful sign or monotone baseline; a binary one still carries a point-biserial direction and is not nominal in this sense."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "78178d979a34"
+    form: "28bb50181772"
     sig: "d52290e5ee4f"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "18b69880afbb"
     pin: "none"
-    integrity: "b8663e46c9e308ce"
+    integrity: "v2:d0017d2a0afc75df"
   math: null
   claims:
     - name: "a_binary_discrete_side_is_not_nominal"
       statement: "for n_levels in [0, 2]:int|missing, f(n_levels, True) = False"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 12), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 12), an expression form the derive vocabulary doesn't cover yet); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         n_levels:
           base_type: "Z"
@@ -53,10 +55,11 @@ arbital.measures._is_nominal:
       statement: "for n_levels in [0, 50]:int|missing, f(n_levels, False) = False"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 12), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 12), an expression form the derive vocabulary doesn't cover yet); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         n_levels:
           base_type: "Z"
@@ -86,10 +89,11 @@ arbital.measures._is_nominal:
       statement: "for n_levels in [3, 50]:int|missing, f(n_levels, True) = True"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 12), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 12), an expression form the derive vocabulary doesn't cover yet); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         n_levels:
           base_type: "Z"
@@ -145,8 +149,8 @@ arbital.measures._is_nominal:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.concept_sources:
       keyword:

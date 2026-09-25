@@ -1,19 +1,20 @@
-# machine record; binds to form 2005b11406b6
+# machine record; binds to form 1441d2dfc188
 arbital.plot._band_crosses_chance:
+  schema_version: "0.2.0"
   name: "_band_crosses_chance"
   signature: "(r_info: 'float', se: 'float', chance: 'float') -> 'bool'"
   intent: "Whether an uncertainty band reaches below the chance level."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "2005b11406b6"
+    form: "1441d2dfc188"
     sig: "4f1f6fddfacd"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "987b4810ac0c"
     pin: "none"
-    integrity: "58ffda8ec3d5859c"
+    integrity: "v2:cef8cdc3fe00c950"
   math:
     unicode: "when chance > r_info - se: 1; otherwise 0"
     latex: "\\begin{cases} 1 & \\text{for}\\: chance > r_{info} - se \\\\0 & \\text{otherwise} \\end{cases}"
@@ -22,11 +23,12 @@ arbital.plot._band_crosses_chance:
     - name: "blind_to_nothing_below_the_level"
       statement: "assuming r_info - se >= chance, for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_info, se, chance) = False"
       verdict: "holds"
-      n: 4
-      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
+      n: 8
+      note: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         r_info:
           lo: 0.0
@@ -44,12 +46,12 @@ arbital.plot._band_crosses_chance:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "r_info~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], se~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=4"
+        mathema.sampling: "r_info~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], se~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=8"
         mathema.confidence:
-          score: 4.5
+          score: 5.5
           stars: 2
           max_stars: 5
-          n: 4
+          n: 8
           factors:
             branches: 0
             loops: 0
@@ -70,11 +72,12 @@ arbital.plot._band_crosses_chance:
     - name: "no_warning_without_uncertainty"
       statement: "assuming r_info > chance, for r_info in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_info, 0, chance) = False"
       verdict: "holds"
-      n: 13
-      note: "; inferred se=0 from the claim's own literal argument; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
+      n: 14
+      note: "inferred se=0 from the claim's own literal argument; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         r_info:
           lo: 0.0
@@ -87,12 +90,12 @@ arbital.plot._band_crosses_chance:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "r_info~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], se~U(0,0)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=13"
+        mathema.sampling: "r_info~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], se~U(0,0)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=14"
         mathema.confidence:
-          score: 6.2
-          stars: 2
+          score: 6.3
+          stars: 3
           max_stars: 5
-          n: 13
+          n: 14
           factors:
             branches: 0
             loops: 0
@@ -112,18 +115,18 @@ arbital.plot._band_crosses_chance:
       basis: "symbolic lift of the body"
     - step: "evidence"
       claim: "assuming r_info > chance, for r_info in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_info, 0, chance) = False"
-      basis: "probed, n=13"
+      basis: "probed, n=14"
     - step: "evidence"
       claim: "assuming r_info - se >= chance, for r_info in [0.0, 1.0]:float|missing, se in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_info, se, chance) = False"
-      basis: "probed, n=4"
+      basis: "probed, n=8"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"

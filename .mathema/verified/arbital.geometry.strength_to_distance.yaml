@@ -1,4 +1,4 @@
-# machine record; binds to form 873f274ad7b7
+# machine record; binds to form cd60617ab776
 arbital.geometry.strength_to_distance:
   schema_version: "0.2.0"
   name: "strength_to_distance"
@@ -7,33 +7,25 @@ arbital.geometry.strength_to_distance:
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "873f274ad7b7"
+    form: "cd60617ab776"
     sig: "e8f6f9319e42"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "da3f96eb112d"
     pin: "none"
-    integrity: "e21c59c43163b10f"
+    integrity: "v2:36a7da20d7c51fdd"
   math: null
   claims:
-    - name: "callable"
-      verdict: "skipped"
-      note: "parameter 'scale' is a string with no declared domain; declare its values, e.g. 'for scale in {\"a\", \"b\"}, ...' in a claim, or annotate it Literal[...]"
-      route: null
-      authored:
-        surface: "builtin"
-      meta:
-        mathema.probe_gap: "string-domain-missing"
-        mathema.surface: "builtin"
     - name: "clamps_above_one_to_the_centre"
       statement: "for r in [1.0, 5.0]:float|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         r:
           lo: 1.0
@@ -63,10 +55,11 @@ arbital.geometry.strength_to_distance:
       statement: "for r in [-5.0, 0.0]:float|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 1"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         r:
           lo: -5.0
@@ -104,18 +97,19 @@ arbital.geometry.strength_to_distance:
     - name: "refuses_an_unknown_scale"
       statement: "raises(f(0.5, 'nope'), ValueError)"
       verdict: "holds"
-      n: 128
-      note: "; inferred r=0.5 from the claim's own literal argument; routes attempted, derive: underivable (no explicit raise statement anywhere in this function, an exception implicit in an arithmetic operation (division, sqrt of a negative, ...) can't be proven this way; only an explicit `if cond: raise ...` guard can); probe: holds"
+      n: 129
+      note: "inferred r=0.5 from the claim's own literal argument; routes attempted, derive: underivable (no explicit raise statement anywhere in this function, an exception implicit in an arithmetic operation (division, sqrt of a negative, ...) can't be proven this way; only an explicit `if cond: raise ...` guard can); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
-        mathema.sampling: "r~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), scale~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=128"
+        mathema.sampling: "r~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), scale~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=129"
         mathema.confidence:
           score: 10.0
           stars: 4
           max_stars: 5
-          n: 128
+          n: 129
           factors:
             branches: 0
             loops: 0
@@ -130,9 +124,6 @@ arbital.geometry.strength_to_distance:
     - step: "intent"
       claim: "Map association strength r in [0, 1] to distance from the centre. Accepts a scalar or an array and clamps it into [0, 1] before applying _distance_from_strength(), which is the mapping itself."
       basis: "documented; the author's stated purpose"
-    - step: "gap"
-      claim: ""
-      basis: "parameter 'scale' is a string with no declared domain; declare its values, e.g. 'for scale in {\"a\", \"b\"}, ...' in a claim, or annotate it Literal[...]"
     - step: "evidence"
       claim: "for r in [1.0, 5.0]:float|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
       basis: "probed, n=128"
@@ -141,22 +132,22 @@ arbital.geometry.strength_to_distance:
       basis: "probed, n=128"
     - step: "evidence"
       claim: "raises(f(0.5, 'nope'), ValueError)"
-      basis: "probed, n=128"
+      basis: "probed, n=129"
     - step: "derivation"
       claim: ""
       basis: "every direct function dependency's form matches its verified record"
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   dependencies:
     - name: "_distance_from_strength"
       kind: "function"
       key: "arbital.geometry._distance_from_strength"
       file: "src/arbital/geometry.py"
       line: 74
-      form: "5b32ecb57a2b"
+      form: "f94b92a035b4"
       freshness: "current"
   meta:
     mathema.concept_sources:

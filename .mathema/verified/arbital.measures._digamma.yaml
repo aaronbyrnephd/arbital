@@ -1,19 +1,20 @@
-# machine record; binds to form ee52e2f42b77
+# machine record; binds to form 12433e691938
 arbital.measures._digamma:
+  schema_version: "0.2.0"
   name: "_digamma"
   signature: "(x: 'np.ndarray') -> 'np.ndarray'"
   intent: "Digamma (psi) function, vectorised, pure NumPy. Uses the recurrence psi(x) = psi(x+1) - 1/x to push arguments above 10, then the standard asymptotic series.  Accurate to ~1e-11 for x > 0, which is far more than the MI estimator needs."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "ee52e2f42b77"
+    form: "12433e691938"
     sig: "2a1d3f9fb0b5"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "f5c2253382bd"
     pin: "none"
-    integrity: "c1152a96e3038735"
+    integrity: "v2:df71ce483572e0b0"
   math: null
   claims:
     - name: "dependencies_current"
@@ -29,10 +30,11 @@ arbital.measures._digamma:
       statement: "for x in [2.0, 100.0]:float|missing, f(x) <= x"
       verdict: "holds"
       n: 160
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: loop: not-a-fold (line 15), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: loop: not-a-fold (line 15), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         x:
           lo: 2.0
@@ -69,8 +71,8 @@ arbital.measures._digamma:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"

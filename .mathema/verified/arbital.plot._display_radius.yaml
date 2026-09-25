@@ -1,19 +1,20 @@
-# machine record; binds to form edcd44212809
+# machine record; binds to form 1b8965c250fb
 arbital.plot._display_radius:
+  schema_version: "0.2.0"
   name: "_display_radius"
   signature: "(r: 'float') -> 'float'"
   intent: "Map a true distance (0..1) to its displayed radius."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "edcd44212809"
+    form: "1b8965c250fb"
     sig: "61ca02610911"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "077f0675991a"
     pin: "none"
-    integrity: "eb275fa049c73604"
+    integrity: "v2:798237bc722f53cd"
   math:
     unicode: "47*r/50 + 3/50"
     latex: "\\frac{47 r}{50} + \\frac{3}{50}"
@@ -31,12 +32,14 @@ arbital.plot._display_radius:
     - name: "preserves_relative_position"
       statement: "d(f(r), r, r) = 0"
       verdict: "proven"
-      note: "; module constants read at adjudication: R_FLOOR = 0.06"
+      note: "module constants read at adjudication: R_FLOOR = 0.06"
       sketch: "0 and 0 simplify identically"
       route: "derive"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
+        mathema.float_companion: "none (the claim has no point evaluation against the code)"
         mathema.surface: "declared"
     - name: "reserves_the_exclusion_zone"
       statement: "for r in [0.0, 1.0]:float|missing, 0.0600000000000000 <= f(r) <= 1"
@@ -44,6 +47,24 @@ arbital.plot._display_radius:
       note: "every link of the chained comparison proven"
       condition: "for r in [0.0, 1.0]:float|missing"
       route: "derive"
+      authored:
+        surface: "claims-file"
+        route: "best"
+      domain:
+        r:
+          lo: 0.0
+          hi: 1.0
+          closed_lo: true
+          closed_hi: true
+      meta:
+        mathema.float_companion: "reserves_the_exclusion_zone[float]"
+        mathema.surface: "declared"
+    - name: "reserves_the_exclusion_zone[float]"
+      statement: "for r in [0.0, 1.0]:float|missing, 0.0600000000000000 <= f(r) <= 1"
+      verdict: "holds"
+      n: 42
+      note: "the implementation of reserves_the_exclusion_zone, executed in float link by link; every link of the float companion holds"
+      route: "probe"
       authored:
         surface: "claims-file"
       domain:
@@ -54,36 +75,68 @@ arbital.plot._display_radius:
           closed_hi: true
       meta:
         mathema.surface: "declared"
+        mathema.companion_of: "reserves_the_exclusion_zone"
+        mathema.family: "is_numerically_stable"
     - name: "rises_with_true_distance"
       statement: "d(f(r), r) > 0"
       verdict: "proven"
-      note: "; module constants read at adjudication: R_FLOOR = 0.06"
+      note: "module constants read at adjudication: R_FLOOR = 0.06"
       sketch: "47/50 has a strictly positive interval hull over the declared domain"
       route: "derive"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
+        mathema.float_companion: "none (the claim has no point evaluation against the code)"
         mathema.surface: "declared"
     - name: "the_centre_maps_to_the_floor"
       statement: "f(0) = 0.0600000000000000"
       verdict: "proven"
-      note: "; inferred r=0 from the claim's own literal argument; module constants read at adjudication: R_FLOOR = 0.06"
+      note: "inferred r=0 from the claim's own literal argument; module constants read at adjudication: R_FLOOR = 0.06"
       sketch: "3/50 and 3/50 simplify identically"
       route: "derive"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
+        mathema.float_companion: "the_centre_maps_to_the_floor[float]"
         mathema.surface: "declared"
-    - name: "the_rim_maps_to_the_rim"
-      statement: "f(1) = 1"
-      verdict: "proven"
-      note: "; inferred r=1 from the claim's own literal argument; module constants read at adjudication: R_FLOOR = 0.06"
-      sketch: "1 and 1 simplify identically"
-      route: "derive"
+    - name: "the_centre_maps_to_the_floor[float]"
+      statement: "f(0) = 0.0600000000000000"
+      verdict: "holds"
+      n: 42
+      note: "the implementation of the_centre_maps_to_the_floor, executed in float at 42 points (every domain corner, then sampled interior points)"
+      route: "probe"
       authored:
         surface: "claims-file"
       meta:
         mathema.surface: "declared"
+        mathema.companion_of: "the_centre_maps_to_the_floor"
+        mathema.family: "is_numerically_stable"
+    - name: "the_rim_maps_to_the_rim"
+      statement: "f(1) = 1"
+      verdict: "proven"
+      note: "inferred r=1 from the claim's own literal argument; module constants read at adjudication: R_FLOOR = 0.06"
+      sketch: "1 and 1 simplify identically"
+      route: "derive"
+      authored:
+        surface: "claims-file"
+        route: "best"
+      meta:
+        mathema.float_companion: "the_rim_maps_to_the_rim[float]"
+        mathema.surface: "declared"
+    - name: "the_rim_maps_to_the_rim[float]"
+      statement: "f(1) = 1"
+      verdict: "holds"
+      n: 42
+      note: "the implementation of the_rim_maps_to_the_rim, executed in float at 42 points (every domain corner, then sampled interior points)"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+      meta:
+        mathema.surface: "declared"
+        mathema.companion_of: "the_rim_maps_to_the_rim"
+        mathema.family: "is_numerically_stable"
   concepts:
     - "differentiation"
   references: {}
@@ -97,12 +150,21 @@ arbital.plot._display_radius:
     - step: "derivation"
       claim: "for r in [0.0, 1.0]:float|missing, 0.0600000000000000 <= f(r) <= 1"
       basis: "symbolic derivation"
+    - step: "evidence"
+      claim: "for r in [0.0, 1.0]:float|missing, 0.0600000000000000 <= f(r) <= 1"
+      basis: "probed, n=42"
     - step: "derivation"
       claim: "f(0) = 0.0600000000000000"
       basis: "3/50 and 3/50 simplify identically"
+    - step: "evidence"
+      claim: "f(0) = 0.0600000000000000"
+      basis: "probed, n=42"
     - step: "derivation"
       claim: "f(1) = 1"
       basis: "1 and 1 simplify identically"
+    - step: "evidence"
+      claim: "f(1) = 1"
+      basis: "probed, n=42"
     - step: "derivation"
       claim: "d(f(r), r) > 0"
       basis: "47/50 has a strictly positive interval hull over the declared domain"
@@ -118,8 +180,8 @@ arbital.plot._display_radius:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   dependencies:
     - name: "R_FLOOR"
       kind: "constant"

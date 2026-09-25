@@ -1,19 +1,20 @@
-# machine record; binds to form 3128b313eb7c
+# machine record; binds to form 1647aa55b3df
 arbital.plot._show_ghost:
+  schema_version: "0.2.0"
   name: "_show_ghost"
   signature: "(nonlinearity: 'float', r_peri: 'float', r_apo: 'float') -> 'bool'"
   intent: "Whether a feature earns a ghost marker and tether. Both a real nonlinear share and a visible gap are required, so estimator noise does not conjure a ghost a reader would over-read."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "3128b313eb7c"
+    form: "1647aa55b3df"
     sig: "87b1f818388f"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "aab7f2509423"
     pin: "none"
-    integrity: "e4e10332ffc36121"
+    integrity: "v2:b7c1d5baddd2090c"
   math:
     unicode: "when (nonlinearity > 1/10) & (r_apo - r_peri > 1/50): 1; otherwise 0"
     latex: "\\begin{cases} 1 & \\text{for}\\: nonlinearity > \\frac{1}{10} \\wedge r_{apo} - r_{peri} > \\frac{1}{50} \\\\0 & \\text{otherwise} \\end{cases}"
@@ -23,10 +24,11 @@ arbital.plot._show_ghost:
       statement: "assuming nonlinearity > 0.1, for nonlinearity in [0.0, 1.0]:float|missing, r_peri in [0.0, 0.5]:float|missing, f(nonlinearity, r_peri, r_peri + 0.5) = True"
       verdict: "holds"
       n: 27
-      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant True); probe: holds"
+      note: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant True); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         nonlinearity:
           lo: 0.0
@@ -65,11 +67,12 @@ arbital.plot._show_ghost:
     - name: "no_ghost_below_the_nonlinearity_threshold"
       statement: "for nonlinearity in [0.0, 0.1]:float|missing, r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, f(nonlinearity, r_peri, r_apo) = False"
       verdict: "holds"
-      n: 32
-      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
+      n: 40
+      note: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         nonlinearity:
           lo: 0.0
@@ -87,12 +90,12 @@ arbital.plot._show_ghost:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "nonlinearity~U(0,0.1)⊔{lo,hi,mid,±ε}[p=.3], r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=32"
+        mathema.sampling: "nonlinearity~U(0,0.1)⊔{lo,hi,mid,±ε}[p=.3], r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=40"
         mathema.confidence:
-          score: 7.5
+          score: 7.8
           stars: 3
           max_stars: 5
-          n: 32
+          n: 40
           factors:
             branches: 0
             loops: 0
@@ -105,10 +108,11 @@ arbital.plot._show_ghost:
       statement: "for nonlinearity in [0.0, 1.0]:float|missing, r_peri in [0.0, 1.0]:float|missing, f(nonlinearity, r_peri, r_peri) = False"
       verdict: "holds"
       n: 32
-      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
+      note: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         nonlinearity:
           lo: 0.0
@@ -146,7 +150,7 @@ arbital.plot._show_ghost:
       basis: "symbolic lift of the body"
     - step: "evidence"
       claim: "for nonlinearity in [0.0, 0.1]:float|missing, r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, f(nonlinearity, r_peri, r_apo) = False"
-      basis: "probed, n=32"
+      basis: "probed, n=40"
     - step: "evidence"
       claim: "for nonlinearity in [0.0, 1.0]:float|missing, r_peri in [0.0, 1.0]:float|missing, f(nonlinearity, r_peri, r_peri) = False"
       basis: "probed, n=32"
@@ -159,8 +163,8 @@ arbital.plot._show_ghost:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.concept_sources:
       keyword:

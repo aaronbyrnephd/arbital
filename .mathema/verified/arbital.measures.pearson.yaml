@@ -1,4 +1,4 @@
-# machine record; binds to form df8b351c4416
+# machine record; binds to form a54388d1e6b4
 arbital.measures.pearson:
   schema_version: "0.2.0"
   name: "pearson"
@@ -7,24 +7,25 @@ arbital.measures.pearson:
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "df8b351c4416"
+    form: "a54388d1e6b4"
     sig: "61fb750518aa"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "b39e8d974bc2"
     pin: "none"
-    integrity: "f8a68df4ec0fbe06"
+    integrity: "v2:460e0c28f05ffbce"
   math: null
   claims:
     - name: "blind_to_an_elementwise_rescale"
       statement: "assuming dim(x, 0) == dim(y, 0), let s = mathema.f.scale_seq, f(s(x, 2), y) = f(x, y)"
       verdict: "holds"
       n: 160
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=160"
         mathema.confidence:
@@ -41,6 +42,7 @@ arbital.measures.pearson:
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "callable"
+      statement: "f(x, y) can be called"
       verdict: "skipped"
       note: "could not synthesize valid inputs from the signature (ValueError: operands could not be broadcast together with shapes (5,) (6,) )"
       route: null
@@ -62,10 +64,11 @@ arbital.measures.pearson:
       statement: "assuming dim(x, 0) == dim(y, 0), |f(x, y)| <= 1"
       verdict: "holds"
       n: 160
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain); probe: holds"
+      note: "fails by 2.22e-16 at ([0.801241, 9.51591], [9.19246, 6.18823]), within the default tolerance (1e-09); routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=160"
         mathema.confidence:
@@ -89,16 +92,18 @@ arbital.measures.pearson:
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.surface: "declared"
     - name: "symmetric_in_its_arguments"
       statement: "assuming dim(x, 0) == dim(y, 0), f(x, y) = f(y, x)"
       verdict: "holds"
       n: 160
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=160"
         mathema.confidence:
@@ -121,7 +126,7 @@ arbital.measures.pearson:
       claim: "Plain Pearson correlation coefficient (signed, -1..1). A constant sample has no linear relationship with anything, so a zero denominator reports 0.0 instead of dividing."
       basis: "documented; the author's stated purpose"
     - step: "gap"
-      claim: ""
+      claim: "f(x, y) can be called"
       basis: "could not synthesize valid inputs from the signature (ValueError: operands could not be broadcast together with shapes (5,) (6,) )"
     - step: "evidence"
       claim: "assuming dim(x, 0) == dim(y, 0), |f(x, y)| <= 1"
@@ -141,8 +146,8 @@ arbital.measures.pearson:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.concept_sources:
       keyword:
