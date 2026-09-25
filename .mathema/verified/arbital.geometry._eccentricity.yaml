@@ -1,4 +1,4 @@
-# machine record; binds to form 90e50901424c
+# machine record; binds to form 661a4046212c
 arbital.geometry._eccentricity:
   schema_version: "0.2.0"
   name: "_eccentricity"
@@ -7,34 +7,49 @@ arbital.geometry._eccentricity:
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "90e50901424c"
+    form: "661a4046212c"
     sig: "323aad2eece5"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "447711fce87a"
     pin: "none"
-    integrity: "4f96272db05d8096"
+    integrity: "v2:f0331754c002ac23"
   math: null
   claims:
     - name: "a_degenerate_orbit_is_a_circle"
       statement: "f(0, 0) = 0"
       verdict: "proven"
-      note: "; inferred r_apo=0, r_peri=0 from the claim's own literal argument"
+      note: "inferred r_apo=0, r_peri=0 from the claim's own literal argument"
       sketch: "0 and 0 simplify identically"
       route: "derive"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
+        mathema.float_companion: "a_degenerate_orbit_is_a_circle[float]"
         mathema.surface: "declared"
-    - name: "circular_when_the_apsides_agree"
-      statement: "for r_peri in [0.0, 1.0]:float|missing, f(r_peri, r_peri) = 0"
+    - name: "a_degenerate_orbit_is_a_circle[float]"
+      statement: "f(0, 0) = 0"
       verdict: "holds"
-      n: 160
-      note: "; routes attempted, derive: undecided (a call's arguments may reach a raise guard inside the declared domain and neither a witness nor an exclusion could be established, narrow the domain to where every call returns, or state the raising region as its own raises(...) claim; line 12 ('a == 0.0') needs a domain specific enough for r_apo, r_peri); probe: holds"
+      n: 44
+      note: "the implementation of a_degenerate_orbit_is_a_circle, executed in float at 44 points (every domain corner, then sampled interior points)"
       route: "probe"
       authored:
         surface: "claims-file"
+      meta:
+        mathema.surface: "declared"
+        mathema.companion_of: "a_degenerate_orbit_is_a_circle"
+        mathema.family: "is_numerically_stable"
+    - name: "circular_when_the_apsides_agree"
+      statement: "for r_peri in [0.0, 1.0]:float|missing, f(r_peri, r_peri) = 0"
+      verdict: "holds"
+      n: 163
+      note: "routes attempted, derive: undecided (a call's arguments may reach a raise guard inside the declared domain and neither a witness nor an exclusion could be established, narrow the domain to where every call returns, or state the raising region as its own raises(...) claim; line 12 ('a == 0.0') needs a domain specific enough for r_apo, r_peri); probe: holds"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+        route: "best"
       domain:
         r_peri:
           lo: 0.0
@@ -42,12 +57,12 @@ arbital.geometry._eccentricity:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=160"
+        mathema.sampling: "r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=163"
         mathema.confidence:
           score: 9.3
           stars: 4
           max_stars: 5
-          n: 160
+          n: 163
           factors:
             branches: 1
             loops: 0
@@ -68,11 +83,12 @@ arbital.geometry._eccentricity:
     - name: "is_a_bounded_eccentricity"
       statement: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
       verdict: "holds"
-      n: 83
+      n: 86
       note: "every link of the chained comparison holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         r_peri:
           lo: 0.0
@@ -89,11 +105,12 @@ arbital.geometry._eccentricity:
     - name: "is_a_proper_eccentricity_corrected"
       statement: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
       verdict: "holds"
-      n: 78
+      n: 81
       note: "every link of the chained comparison holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "probe"
       domain:
         r_peri:
           base_type: "R"
@@ -119,11 +136,12 @@ arbital.geometry._eccentricity:
     - name: "parabolic_only_from_the_centre"
       statement: "for r_apo in (0.0, 1.0]:float|missing, f(0, r_apo) = 1"
       verdict: "holds"
-      n: 160
-      note: "; inferred r_peri=0 from the claim's own literal argument; routes attempted, derive: undecided (a call's arguments may reach a raise guard inside the declared domain and neither a witness nor an exclusion could be established, narrow the domain to where every call returns, or state the raising region as its own raises(...) claim; line 12 ('a == 0.0') needs a domain specific enough for r_apo, r_peri); probe: holds"
+      n: 161
+      note: "inferred r_peri=0 from the claim's own literal argument; routes attempted, derive: undecided (a call's arguments may reach a raise guard inside the declared domain and neither a witness nor an exclusion could be established, narrow the domain to where every call returns, or state the raising region as its own raises(...) claim; line 12 ('a == 0.0') needs a domain specific enough for r_apo, r_peri); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         r_apo:
           lo: 0.0
@@ -131,12 +149,12 @@ arbital.geometry._eccentricity:
           closed_lo: false
           closed_hi: true
       meta:
-        mathema.sampling: "r_peri~U(0,0)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=160"
+        mathema.sampling: "r_peri~U(0,0)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=161"
         mathema.confidence:
           score: 9.3
           stars: 4
           max_stars: 5
-          n: 160
+          n: 161
           factors:
             branches: 1
             loops: 0
@@ -153,27 +171,30 @@ arbital.geometry._eccentricity:
       basis: "documented; the author's stated purpose"
     - step: "evidence"
       claim: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
-      basis: "probed, n=83"
+      basis: "probed, n=86"
     - step: "evidence"
       claim: "for r_apo in (0.0, 1.0]:float|missing, f(0, r_apo) = 1"
-      basis: "probed, n=160"
+      basis: "probed, n=161"
     - step: "evidence"
       claim: "for r_peri in [0.0, 1.0]:float|missing, f(r_peri, r_peri) = 0"
-      basis: "probed, n=160"
+      basis: "probed, n=163"
     - step: "derivation"
       claim: "f(0, 0) = 0"
       basis: "0 and 0 simplify identically"
     - step: "evidence"
+      claim: "f(0, 0) = 0"
+      basis: "probed, n=44"
+    - step: "evidence"
       claim: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
-      basis: "probed, n=78"
+      basis: "probed, n=81"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.concept_sources:
       keyword:

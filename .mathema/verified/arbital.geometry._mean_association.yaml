@@ -1,19 +1,20 @@
-# machine record; binds to form 62fec79286e7
+# machine record; binds to form ae53bd951927
 arbital.geometry._mean_association:
+  schema_version: "0.2.0"
   name: "_mean_association"
   signature: "(row_sum: 'float', p: 'int') -> 'float'"
   intent: "Mean association of one column to the other p - 1 columns. `row_sum` is that column's row of the association matrix summed, including its own diagonal 1, which is subtracted off here."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "62fec79286e7"
+    form: "ae53bd951927"
     sig: "d9fc46628283"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "820590f8dd78"
     pin: "none"
-    integrity: "5b97f19e6d055c79"
+    integrity: "v2:a4a897f08ce2fdb9"
   math:
     unicode: "(row_sum - 1)/(p - 1)"
     latex: "\\frac{row_{sum} - 1}{p - 1}"
@@ -36,6 +37,7 @@ arbital.geometry._mean_association:
       route: "derive"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         p:
           base_type: "Z"
@@ -47,14 +49,14 @@ arbital.geometry._mean_association:
           excluded: []
           explicit_type: true
       meta:
+        mathema.float_companion: "everything_associated_scores_one[float]"
         mathema.surface: "declared"
-    - name: "nothing_associated_scores_zero"
-      statement: "for p in [2, 50]:int|missing, f(1, p) = 0"
-      verdict: "proven"
-      note: "; inferred row_sum=1 from the claim's own literal argument"
-      sketch: "0 and 0 simplify identically"
-      condition: "for p in [2, 50]:int|missing"
-      route: "derive"
+    - name: "everything_associated_scores_one[float]"
+      statement: "for p in [2, 50]:int|missing, f(p, p) = 1"
+      verdict: "holds"
+      n: 44
+      note: "the implementation of everything_associated_scores_one, executed in float at 44 points (every domain corner, then sampled interior points); unbounded directions (row_sum) run to magnitude 1e+308, sampled log-uniformly (no |inf| declared)"
+      route: "probe"
       authored:
         surface: "claims-file"
       domain:
@@ -69,6 +71,53 @@ arbital.geometry._mean_association:
           explicit_type: true
       meta:
         mathema.surface: "declared"
+        mathema.companion_of: "everything_associated_scores_one"
+        mathema.family: "is_numerically_stable"
+    - name: "nothing_associated_scores_zero"
+      statement: "for p in [2, 50]:int|missing, f(1, p) = 0"
+      verdict: "proven"
+      note: "inferred row_sum=1 from the claim's own literal argument"
+      sketch: "0 and 0 simplify identically"
+      condition: "for p in [2, 50]:int|missing"
+      route: "derive"
+      authored:
+        surface: "claims-file"
+        route: "best"
+      domain:
+        p:
+          base_type: "Z"
+          pieces:
+            - lo: 2.0
+              hi: 50.0
+              closed_lo: true
+              closed_hi: true
+          excluded: []
+          explicit_type: true
+      meta:
+        mathema.float_companion: "nothing_associated_scores_zero[float]"
+        mathema.surface: "declared"
+    - name: "nothing_associated_scores_zero[float]"
+      statement: "for p in [2, 50]:int|missing, f(1, p) = 0"
+      verdict: "holds"
+      n: 44
+      note: "the implementation of nothing_associated_scores_zero, executed in float at 44 points (every domain corner, then sampled interior points)"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+      domain:
+        p:
+          base_type: "Z"
+          pieces:
+            - lo: 2.0
+              hi: 50.0
+              closed_lo: true
+              closed_hi: true
+          excluded: []
+          explicit_type: true
+      meta:
+        mathema.surface: "declared"
+        mathema.companion_of: "nothing_associated_scores_zero"
+        mathema.family: "is_numerically_stable"
     - name: "rises_with_the_row_sum"
       statement: "for p in [2, 50]:int|missing, row_sum in [1.0, 50.0]:float|missing, d(f(row_sum, p), row_sum) >= 0"
       verdict: "proven"
@@ -77,6 +126,7 @@ arbital.geometry._mean_association:
       route: "derive"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         p:
           base_type: "Z"
@@ -93,15 +143,17 @@ arbital.geometry._mean_association:
           closed_lo: true
           closed_hi: true
       meta:
+        mathema.float_companion: "none (the claim has no point evaluation against the code)"
         mathema.surface: "declared"
     - name: "stays_on_the_association_scale"
       statement: "assuming row_sum <= p, for p in [2, 50]:int|missing, row_sum in [1.0, 50.0]:float|missing, 0 <= f(row_sum, p) <= 1"
       verdict: "holds"
       n: 69
       note: "every link of the chained comparison holds"
-      route: "probe"
+      route: "probe:semi_analytical"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         p:
           base_type: "Z"
@@ -132,9 +184,15 @@ arbital.geometry._mean_association:
     - step: "derivation"
       claim: "for p in [2, 50]:int|missing, f(1, p) = 0"
       basis: "0 and 0 simplify identically"
+    - step: "evidence"
+      claim: "for p in [2, 50]:int|missing, f(1, p) = 0"
+      basis: "probed, n=44"
     - step: "derivation"
       claim: "for p in [2, 50]:int|missing, f(p, p) = 1"
       basis: "1 and 1 simplify identically"
+    - step: "evidence"
+      claim: "for p in [2, 50]:int|missing, f(p, p) = 1"
+      basis: "probed, n=44"
     - step: "evidence"
       claim: "assuming row_sum <= p, for p in [2, 50]:int|missing, row_sum in [1.0, 50.0]:float|missing, 0 <= f(row_sum, p) <= 1"
       basis: "probed, n=69"
@@ -150,8 +208,8 @@ arbital.geometry._mean_association:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.concept_sources:
       mechanism:

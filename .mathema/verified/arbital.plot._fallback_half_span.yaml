@@ -1,19 +1,20 @@
-# machine record; binds to form f45b8d07b372
+# machine record; binds to form f4eff542fec4
 arbital.plot._fallback_half_span:
+  schema_version: "0.2.0"
   name: "_fallback_half_span"
   signature: "(arc_length: 'float', r_display: 'float') -> 'float'"
   intent: "Half-span of an arc when no association matrix was supplied. A fixed display length converted to an angle at that radius, kept inside a readable range."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "f45b8d07b372"
+    form: "f4eff542fec4"
     sig: "7a9409f0f5eb"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "c581f2516560"
     pin: "none"
-    integrity: "13c6b7106b44b18f"
+    integrity: "v2:19338eb4142f7eff"
   math:
     unicode: "min(8/5, max(7/20, arc_length/(2*r_display)))"
     latex: "\\min\\left(\\frac{8}{5}, \\max\\left(\\frac{7}{20}, \\frac{arc_{length}}{2 r_{display}}\\right)\\right)"
@@ -32,10 +33,11 @@ arbital.plot._fallback_half_span:
       statement: "for arc_length in [0.0, 2.0]:float|missing, r_display in [0.06, 1.06]:float|missing, d(f(arc_length, r_display), r_display) <= 0"
       verdict: "holds"
       n: 60
-      note: "; numeric evidence on the LIFTED intermediate (60 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of arc_length*Heaviside(8/5 - Max(7/20, arc_length/(2*r_display)))*Heaviside(arc_length/(2*r_display) - 7/20)/(2*r_display^2); extensive attempts did not settle it either: exact real-root isolation, interval refinement, t = 1/x on r_display, widened wall-clock retry); probe: holds"
+      note: "numeric evidence on the LIFTED intermediate (60 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of arc_length*Heaviside(8/5 - Max(7/20, arc_length/(2*r_display)))*Heaviside(arc_length/(2*r_display) - 7/20)/(2*r_display^2); extensive attempts did not settle it either: exact real-root isolation, interval refinement, t = 1/x on r_display, widened wall-clock retry); probe: holds"
       route: "probe:lifted_numeric"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         arc_length:
           lo: 0.0
@@ -53,9 +55,34 @@ arbital.plot._fallback_half_span:
         mathema.surface: "declared"
     - name: "stays_readable"
       statement: "for arc_length in [0.0, 2.0]:float|missing, r_display in [0.06, 1.06]:float|missing, 0.350000000000000 <= f(arc_length, r_display) <= 1.60000000000000"
+      verdict: "proven"
+      note: "every link of the chained comparison proven"
+      condition: "for arc_length in [0.0, 2.0]:float|missing, r_display in [0.06, 1.06]:float|missing"
+      route: "derive"
+      authored:
+        surface: "claims-file"
+        route: "best"
+      domain:
+        arc_length:
+          lo: 0.0
+          hi: 2.0
+          closed_lo: true
+          closed_hi: true
+        r_display:
+          lo: 0.06
+          hi: 1.06
+          closed_lo: true
+          closed_hi: true
+      meta:
+        mathema.float_companion: "stays_readable[float]"
+        mathema.surface: "declared"
+        mathema.previous_verdict: "holds"
+        mathema.last_supported_commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    - name: "stays_readable[float]"
+      statement: "for arc_length in [0.0, 2.0]:float|missing, r_display in [0.06, 1.06]:float|missing, 0.350000000000000 <= f(arc_length, r_display) <= 1.60000000000000"
       verdict: "holds"
-      n: 128
-      note: "every link of the chained comparison holds"
+      n: 44
+      note: "the implementation of stays_readable, executed in float link by link; every link of the float companion holds"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -72,6 +99,8 @@ arbital.plot._fallback_half_span:
           closed_hi: true
       meta:
         mathema.surface: "declared"
+        mathema.companion_of: "stays_readable"
+        mathema.family: "is_numerically_stable"
   concepts:
     - "differentiation"
   references: {}
@@ -82,9 +111,12 @@ arbital.plot._fallback_half_span:
     - step: "formalization"
       claim: "min(8/5, max(7/20, arc_length/(2*r_display)))"
       basis: "symbolic lift of the body"
+    - step: "derivation"
+      claim: "for arc_length in [0.0, 2.0]:float|missing, r_display in [0.06, 1.06]:float|missing, 0.350000000000000 <= f(arc_length, r_display) <= 1.60000000000000"
+      basis: "symbolic derivation"
     - step: "evidence"
       claim: "for arc_length in [0.0, 2.0]:float|missing, r_display in [0.06, 1.06]:float|missing, 0.350000000000000 <= f(arc_length, r_display) <= 1.60000000000000"
-      basis: "probed, n=128"
+      basis: "probed, n=44"
     - step: "evidence"
       claim: "for arc_length in [0.0, 2.0]:float|missing, r_display in [0.06, 1.06]:float|missing, d(f(arc_length, r_display), r_display) <= 0"
       basis: "probed, n=60"
@@ -97,8 +129,8 @@ arbital.plot._fallback_half_span:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.concept_sources:
       mechanism:

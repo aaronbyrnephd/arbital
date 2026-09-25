@@ -1,4 +1,4 @@
-# machine record; binds to form 2660052ea450
+# machine record; binds to form c1663093c38d
 arbital.datasets.load:
   schema_version: "0.2.0"
   name: "load"
@@ -7,14 +7,14 @@ arbital.datasets.load:
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "2660052ea450"
+    form: "c1663093c38d"
     sig: "57261871b37b"
     tier: 3
     source_available: true
     pure: false
     claims_fingerprint: "6f7b407bd781"
     pin: "none"
-    integrity: "c8988737baebb16b"
+    integrity: "v2:ca1c55e5816293e9"
   math: null
   claims:
     - name: "dependencies_current"
@@ -26,28 +26,31 @@ arbital.datasets.load:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
-        mathema.previous_verdict: "unknown"
       accepted:
         as: "risk"
         at: "2026-09-21"
         form: "2660052ea450"
         by: "Aaron Byrne"
         note: "third-party dataset fetch, not pinned"
+        stale: true
       acceptance_history:
         - at: "2026-09-21"
           as: "risk"
           verdict: "unknown"
           by: "Aaron Byrne"
           note: "third-party dataset fetch, not pinned"
-      counterexample: null
+        - at: "2026-09-25"
+          event: "stale"
+          reason: "form changed since acceptance, re-verification and a new sign-off are required"
     - name: "is_arbitrary_input_safe"
       statement: "is_arbitrary_input_safe(name)"
       verdict: "holds"
       n: 160
-      note: "; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
+      note: "routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
       route: "probe:minimal_example"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.derive_status: "unsupported"
         mathema.surface: "declared"
@@ -77,29 +80,29 @@ arbital.datasets.load:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   dependencies:
     - name: "_dataframe_to_table"
       kind: "function"
       key: "arbital.datasets._dataframe_to_table"
       file: "src/arbital/datasets.py"
       line: 137
-      form: "ab2544f473bd"
+      form: "d73ac5121fd6"
       freshness: "unverified"
     - name: "_load_bundled"
       kind: "function"
       key: "arbital.datasets._load_bundled"
       file: "src/arbital/datasets.py"
       line: 177
-      form: "026952dffb2d"
+      form: "3ba6bd78fd9b"
       freshness: "unverified"
     - name: "_seaborn"
       kind: "function"
       key: "arbital.datasets._seaborn"
       file: "src/arbital/datasets.py"
       line: 120
-      form: "2231006d51e6"
+      form: "13b94175a4a6"
       freshness: "unverified"
   meta:
     mathema.premise_state: {}

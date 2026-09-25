@@ -1,22 +1,24 @@
-# machine record; binds to form 818fe912e101
+# machine record; binds to form 60e9062b5078
 arbital.geometry.angular_layout:
+  schema_version: "0.2.0"
   name: "angular_layout"
   signature: "(assoc: \"Mat('n', 'n')\", layout: \"Literal['spread', 'embed', 'ordered']\" = 'spread', min_gap_frac: 'float' = 0.35) -> 'np.ndarray'"
   intent: "Angle (radians) for each feature from the feature-feature matrix. assoc: symmetric matrix of r_info between features (diagonal 1).  We run classical MDS (Torgerson 1952) on the distance matrix d = 1 - assoc and read each feature's angle from the 2-D embedding, so mutually-associated features land near each other on the circle."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "818fe912e101"
+    form: "60e9062b5078"
     sig: "276160527b81"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "ba6b7821628c"
     pin: "none"
-    integrity: "02b4c4f5a0f888c2"
+    integrity: "v2:62659ce81a2b291b"
   math: null
   claims:
     - name: "callable"
+      statement: "f(assoc, layout, min_gap_frac) can be called"
       verdict: "skipped"
       note: "parameter 'layout' is a string with no declared domain; declare its values, e.g. 'for layout in {\"a\", \"b\"}, ...' in a claim, or annotate it Literal[...]"
       route: null
@@ -38,10 +40,11 @@ arbital.geometry.angular_layout:
       statement: "is_arbitrary_input_safe(layout)"
       verdict: "holds"
       n: 256
-      note: "; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
+      note: "routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
       route: "probe:minimal_example"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.derive_status: "unsupported"
         mathema.surface: "declared"
@@ -56,7 +59,7 @@ arbital.geometry.angular_layout:
       claim: "comprehension pipeline: map"
       basis: "read off the AST"
     - step: "gap"
-      claim: ""
+      claim: "f(assoc, layout, min_gap_frac) can be called"
       basis: "parameter 'layout' is a string with no declared domain; declare its values, e.g. 'for layout in {\"a\", \"b\"}, ...' in a claim, or annotate it Literal[...]"
     - step: "evidence"
       claim: "is_arbitrary_input_safe(layout)"
@@ -70,29 +73,29 @@ arbital.geometry.angular_layout:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   dependencies:
     - name: "_classical_mds_2d"
       kind: "function"
       key: "arbital.geometry._classical_mds_2d"
       file: "src/arbital/geometry.py"
       line: 183
-      form: "29fd430ce9e6"
+      form: "8fe9b7f2adef"
       freshness: "current"
     - name: "_min_gap"
       kind: "function"
       key: "arbital.geometry._min_gap"
       file: "src/arbital/geometry.py"
       line: 204
-      form: "108e344d2b22"
+      form: "cd9fe7e2d3b7"
       freshness: "current"
     - name: "_widened_gap"
       kind: "function"
       key: "arbital.geometry._widened_gap"
       file: "src/arbital/geometry.py"
       line: 216
-      form: "688101abcdb0"
+      form: "2805d75b8e7d"
       freshness: "current"
   raises:
     - "ValueError"

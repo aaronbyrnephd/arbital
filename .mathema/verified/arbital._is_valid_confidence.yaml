@@ -1,19 +1,20 @@
-# machine record; binds to form b148be46532f
+# machine record; binds to form 9d3872652999
 arbital._is_valid_confidence:
+  schema_version: "0.2.0"
   name: "_is_valid_confidence"
   signature: "(confidence: 'float') -> 'bool'"
   intent: "Whether a confidence level names a quantile strictly inside (0, 1)."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "b148be46532f"
+    form: "9d3872652999"
     sig: "5cf782bf9ece"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "0f12243149b7"
     pin: "none"
-    integrity: "487de2b400ce6bf4"
+    integrity: "v2:8422ec7d1c24bc82"
   math:
     unicode: "when (confidence > 0) & (confidence < 1): 1; otherwise 0"
     latex: "\\begin{cases} 1 & \\text{for}\\: confidence > 0 \\wedge confidence < 1 \\\\0 & \\text{otherwise} \\end{cases}"
@@ -23,10 +24,11 @@ arbital._is_valid_confidence:
       statement: "for confidence in (0.0, 1.0):float|missing, f(confidence) = True"
       verdict: "holds"
       n: 32
-      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant True); probe: holds"
+      note: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant True); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         confidence:
           lo: 0.0
@@ -60,11 +62,12 @@ arbital._is_valid_confidence:
     - name: "rejects_one_at_or_above_one"
       statement: "for confidence in [1.0, 10.0]:float|missing, f(confidence) = False"
       verdict: "holds"
-      n: 32
-      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
+      n: 34
+      note: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         confidence:
           lo: 1.0
@@ -72,12 +75,12 @@ arbital._is_valid_confidence:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "confidence~U(1,10)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=32"
+        mathema.sampling: "confidence~U(1,10)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=34"
         mathema.confidence:
-          score: 8.0
+          score: 8.1
           stars: 3
           max_stars: 5
-          n: 32
+          n: 34
           factors:
             branches: 0
             loops: 0
@@ -89,11 +92,12 @@ arbital._is_valid_confidence:
     - name: "rejects_one_at_or_below_zero"
       statement: "for confidence in [-10.0, 0.0]:float|missing, f(confidence) = False"
       verdict: "holds"
-      n: 32
-      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
+      n: 34
+      note: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         confidence:
           lo: -10.0
@@ -101,12 +105,12 @@ arbital._is_valid_confidence:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "confidence~U(-10,0)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=32"
+        mathema.sampling: "confidence~U(-10,0)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=34"
         mathema.confidence:
-          score: 8.0
+          score: 8.1
           stars: 3
           max_stars: 5
-          n: 32
+          n: 34
           factors:
             branches: 0
             loops: 0
@@ -129,18 +133,18 @@ arbital._is_valid_confidence:
       basis: "probed, n=32"
     - step: "evidence"
       claim: "for confidence in [1.0, 10.0]:float|missing, f(confidence) = False"
-      basis: "probed, n=32"
+      basis: "probed, n=34"
     - step: "evidence"
       claim: "for confidence in [-10.0, 0.0]:float|missing, f(confidence) = False"
-      basis: "probed, n=32"
+      basis: "probed, n=34"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"

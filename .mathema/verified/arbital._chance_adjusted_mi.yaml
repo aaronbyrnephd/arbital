@@ -1,19 +1,20 @@
-# machine record; binds to form f15b8f6762e5
+# machine record; binds to form 48e12d26901a
 arbital._chance_adjusted_mi:
+  schema_version: "0.2.0"
   name: "_chance_adjusted_mi"
   signature: "(mi: 'float', chance: 'float') -> 'float'"
   intent: "Mutual information with the estimator's own chance level taken off. Subtracted in nats, never on the 0-1 scale, where Linfoot's steepness near zero would make `estimate - chance` the wrong arithmetic."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "f15b8f6762e5"
+    form: "48e12d26901a"
     sig: "d4e6f2cdc01d"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "754fc23349ed"
     pin: "none"
-    integrity: "3ddab92ebfe85dda"
+    integrity: "v2:02790be65f4156cb"
   math:
     unicode: "max(0, -chance + mi)"
     latex: "\\max\\left(0, - chance + mi\\right)"
@@ -22,11 +23,12 @@ arbital._chance_adjusted_mi:
     - name: "an_exact_subtraction_above_chance"
       statement: "assuming mi >= chance, for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) = -chance + mi"
       verdict: "holds"
-      n: 109
-      note: "; routes attempted, derive: undecided (sympy could not simplify chance - mi + Max(0, -chance + mi) to 0; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      n: 112
+      note: "routes attempted, derive: undecided (sympy could not simplify chance - mi + Max(0, -chance + mi) to 0; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         mi:
           lo: 0.0
@@ -39,12 +41,12 @@ arbital._chance_adjusted_mi:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "mi~U(0,50)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=109"
+        mathema.sampling: "mi~U(0,50)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=112"
         mathema.confidence:
           score: 9.8
           stars: 4
           max_stars: 5
-          n: 109
+          n: 112
           factors:
             branches: 0
             loops: 0
@@ -66,10 +68,11 @@ arbital._chance_adjusted_mi:
       statement: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, d(f(mi, chance), chance) <= 0"
       verdict: "holds"
       n: 60
-      note: "; numeric evidence on the LIFTED intermediate (60 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of Heaviside(-chance + mi); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      note: "numeric evidence on the LIFTED intermediate (60 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of Heaviside(-chance + mi); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       route: "probe:lifted_numeric"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         mi:
           lo: 0.0
@@ -88,8 +91,66 @@ arbital._chance_adjusted_mi:
     - name: "never_above_the_estimate"
       statement: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) <= mi"
       verdict: "holds"
-      n: 128
-      note: "; routes attempted, derive: undecided (sympy could not settle the sign of mi - Max(0, -chance + mi); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      n: 132
+      note: "routes attempted, derive: undecided (sympy could not settle the sign of mi - Max(0, -chance + mi); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+        route: "best"
+      domain:
+        mi:
+          lo: 0.0
+          hi: 50.0
+          closed_lo: true
+          closed_hi: true
+        chance:
+          lo: 0.0
+          hi: 5.0
+          closed_lo: true
+          closed_hi: true
+      meta:
+        mathema.sampling: "mi~U(0,50)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=132"
+        mathema.confidence:
+          score: 10.0
+          stars: 4
+          max_stars: 5
+          n: 132
+          factors:
+            branches: 0
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "undecided"
+        mathema.surface: "declared"
+    - name: "never_negative"
+      statement: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) >= 0"
+      verdict: "proven"
+      sketch: "interval evaluation over the declared domain: Max(0, -chance + mi) ∈ AccumBounds(0, 50), never negative"
+      condition: "where x=mi, y=chance: ∀ x ∈ [0.0, 50.0] ⊂ ℝ ∪ {∅}, y ∈ [0.0, 5.0] ⊂ ℝ ∪ {∅}"
+      route: "derive"
+      authored:
+        surface: "claims-file"
+        route: "best"
+      domain:
+        mi:
+          lo: 0.0
+          hi: 50.0
+          closed_lo: true
+          closed_hi: true
+        chance:
+          lo: 0.0
+          hi: 5.0
+          closed_lo: true
+          closed_hi: true
+      meta:
+        mathema.float_companion: "never_negative[float]"
+        mathema.surface: "declared"
+    - name: "never_negative[float]"
+      statement: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) >= 0"
+      verdict: "holds"
+      n: 44
+      note: "the implementation of never_negative, executed in float at 44 points (every domain corner, then sampled interior points)"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -105,50 +166,36 @@ arbital._chance_adjusted_mi:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "mi~U(0,50)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=128"
-        mathema.confidence:
-          score: 10.0
-          stars: 4
-          max_stars: 5
-          n: 128
-          factors:
-            branches: 0
-            loops: 0
-            params: 0
-            wide_domain: 0
-            float_extremes: 0
-        mathema.derive_status: "undecided"
         mathema.surface: "declared"
-    - name: "never_negative"
-      statement: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) >= 0"
-      verdict: "proven"
-      sketch: "Max(0, -chance + mi) is nonnegative under the declared domain"
-      condition: "where x=mi, y=chance: ∀ x ∈ [0.0, 50.0] ⊂ ℝ ∪ {∅}, y ∈ [0.0, 5.0] ⊂ ℝ ∪ {∅}"
-      route: "derive"
-      authored:
-        surface: "claims-file"
-      domain:
-        mi:
-          lo: 0.0
-          hi: 50.0
-          closed_lo: true
-          closed_hi: true
-        chance:
-          lo: 0.0
-          hi: 5.0
-          closed_lo: true
-          closed_hi: true
-      meta:
-        mathema.surface: "declared"
+        mathema.companion_of: "never_negative"
+        mathema.family: "is_numerically_stable"
     - name: "no_chance_level_leaves_the_estimate_alone"
       statement: "for mi in [0.0, 50.0]:float|missing, f(mi, 0) = mi"
       verdict: "proven"
-      note: "; inferred chance=0 from the claim's own literal argument"
+      note: "inferred chance=0 from the claim's own literal argument"
       sketch: "mi and mi simplify identically"
       condition: "where x=mi: ∀ x ∈ [0.0, 50.0] ⊂ ℝ ∪ {∅}"
       route: "derive"
       authored:
         surface: "claims-file"
+        route: "best"
+      domain:
+        mi:
+          lo: 0.0
+          hi: 50.0
+          closed_lo: true
+          closed_hi: true
+      meta:
+        mathema.float_companion: "no_chance_level_leaves_the_estimate_alone[float]"
+        mathema.surface: "declared"
+    - name: "no_chance_level_leaves_the_estimate_alone[float]"
+      statement: "for mi in [0.0, 50.0]:float|missing, f(mi, 0) = mi"
+      verdict: "holds"
+      n: 44
+      note: "the implementation of no_chance_level_leaves_the_estimate_alone, executed in float at 44 points (every domain corner, then sampled interior points)"
+      route: "probe"
+      authored:
+        surface: "claims-file"
       domain:
         mi:
           lo: 0.0
@@ -157,14 +204,17 @@ arbital._chance_adjusted_mi:
           closed_hi: true
       meta:
         mathema.surface: "declared"
+        mathema.companion_of: "no_chance_level_leaves_the_estimate_alone"
+        mathema.family: "is_numerically_stable"
     - name: "rises_with_the_estimate"
       statement: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, d(f(mi, chance), mi) >= 0"
       verdict: "holds"
       n: 60
-      note: "; numeric evidence on the LIFTED intermediate (60 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of Heaviside(-chance + mi); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      note: "numeric evidence on the LIFTED intermediate (60 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of Heaviside(-chance + mi); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       route: "probe:lifted_numeric"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         mi:
           lo: 0.0
@@ -183,11 +233,12 @@ arbital._chance_adjusted_mi:
     - name: "zero_at_or_below_chance"
       statement: "assuming mi <= chance, for mi in [0.0, 5.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) = 0"
       verdict: "holds"
-      n: 65
-      note: "; routes attempted, derive: undecided (sympy's .equals() claimed Max(0, -chance + mi) != 0, but a seeded numeric check inside the declared domain could not reproduce a counterexample, so this is not reported as disproven; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      n: 68
+      note: "routes attempted, derive: undecided (sympy's .equals() claimed Max(0, -chance + mi) != 0, but a seeded numeric check inside the declared domain could not reproduce a counterexample, so this is not reported as disproven; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         mi:
           lo: 0.0
@@ -200,12 +251,12 @@ arbital._chance_adjusted_mi:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "mi~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=65"
+        mathema.sampling: "mi~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=68"
         mathema.confidence:
-          score: 9.0
+          score: 9.1
           stars: 4
           max_stars: 5
-          n: 65
+          n: 68
           factors:
             branches: 0
             loops: 0
@@ -226,16 +277,19 @@ arbital._chance_adjusted_mi:
       basis: "symbolic lift of the body"
     - step: "derivation"
       claim: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) >= 0"
-      basis: "Max(0, -chance + mi) is nonnegative under the declared domain"
+      basis: "interval evaluation over the declared domain: Max(0, -chance + mi) ∈ AccumBounds(0, 50), never negative"
+    - step: "evidence"
+      claim: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) >= 0"
+      basis: "probed, n=44"
     - step: "evidence"
       claim: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) <= mi"
-      basis: "probed, n=128"
+      basis: "probed, n=132"
     - step: "evidence"
       claim: "assuming mi <= chance, for mi in [0.0, 5.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) = 0"
-      basis: "probed, n=65"
+      basis: "probed, n=68"
     - step: "evidence"
       claim: "assuming mi >= chance, for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) = -chance + mi"
-      basis: "probed, n=109"
+      basis: "probed, n=112"
     - step: "evidence"
       claim: "for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, d(f(mi, chance), mi) >= 0"
       basis: "probed, n=60"
@@ -245,6 +299,9 @@ arbital._chance_adjusted_mi:
     - step: "derivation"
       claim: "for mi in [0.0, 50.0]:float|missing, f(mi, 0) = mi"
       basis: "mi and mi simplify identically"
+    - step: "evidence"
+      claim: "for mi in [0.0, 50.0]:float|missing, f(mi, 0) = mi"
+      basis: "probed, n=44"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
@@ -254,8 +311,8 @@ arbital._chance_adjusted_mi:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.concept_sources:
       mechanism:

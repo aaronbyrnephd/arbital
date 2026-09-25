@@ -1,19 +1,20 @@
-# machine record; binds to form c474df7f3d12
+# machine record; binds to form 4881d4edf4f5
 arbital._is_below_chance:
+  schema_version: "0.2.0"
   name: "_is_below_chance"
   signature: "(mi: 'float', chance: 'float') -> 'bool'"
   intent: "Whether a measured MI fails to clear its own chance level."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "c474df7f3d12"
+    form: "4881d4edf4f5"
     sig: "6114a904a69d"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "d32f7fe41c84"
     pin: "none"
-    integrity: "75ceabb4e2a8c81e"
+    integrity: "v2:db08de32675e3368"
   math:
     unicode: "when chance >= mi: 1; otherwise 0"
     latex: "\\begin{cases} 1 & \\text{for}\\: chance \\geq mi \\\\0 & \\text{otherwise} \\end{cases}"
@@ -31,11 +32,48 @@ arbital._is_below_chance:
     - name: "exactly_when_the_adjusted_estimate_is_zero"
       statement: "let g = arbital._chance_adjusted_mi, for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) = (g(mi, chance) == 0)"
       verdict: "holds"
-      n: 32
-      note: "; routes attempted, derive: undecided (sympy could not settle when chance >= mi: 1; otherwise 0 == when Max(0, -chance + mi) = 0: 1; otherwise 0 within the wall-clock cap; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      n: 36
+      note: "routes attempted, derive: undecided (sympy could not settle when chance >= mi: 1; otherwise 0 == when Max(0, -chance + mi) = 0: 1; otherwise 0 within the wall-clock cap; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
+      domain:
+        mi:
+          lo: 0.0
+          hi: 50.0
+          closed_lo: true
+          closed_hi: true
+        chance:
+          lo: 0.0
+          hi: 5.0
+          closed_lo: true
+          closed_hi: true
+      meta:
+        mathema.sampling: "mi~U(0,50)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=36"
+        mathema.confidence:
+          score: 8.2
+          stars: 3
+          max_stars: 5
+          n: 36
+          factors:
+            branches: 0
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "undecided"
+        mathema.timeout: "fast"
+        mathema.surface: "declared"
+    - name: "false_above_chance"
+      statement: "assuming mi > chance, for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) = False"
+      verdict: "holds"
+      n: 32
+      note: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+        route: "best"
       domain:
         mi:
           lo: 0.0
@@ -60,51 +98,17 @@ arbital._is_below_chance:
             params: 0
             wide_domain: 0
             float_extremes: 0
-        mathema.derive_status: "undecided"
-        mathema.timeout: "fast"
-        mathema.surface: "declared"
-    - name: "false_above_chance"
-      statement: "assuming mi > chance, for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) = False"
-      verdict: "holds"
-      n: 30
-      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
-      route: "probe"
-      authored:
-        surface: "claims-file"
-      domain:
-        mi:
-          lo: 0.0
-          hi: 50.0
-          closed_lo: true
-          closed_hi: true
-        chance:
-          lo: 0.0
-          hi: 5.0
-          closed_lo: true
-          closed_hi: true
-      meta:
-        mathema.sampling: "mi~U(0,50)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=30"
-        mathema.confidence:
-          score: 7.9
-          stars: 3
-          max_stars: 5
-          n: 30
-          factors:
-            branches: 0
-            loops: 0
-            params: 0
-            wide_domain: 0
-            float_extremes: 0
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "true_at_or_below_chance"
       statement: "assuming mi <= chance, for mi in [0.0, 5.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) = True"
       verdict: "holds"
-      n: 17
-      note: "; routes attempted, derive: underivable (claim statement not derivable: non-numeric constant True); probe: holds"
+      n: 20
+      note: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant True); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         mi:
           lo: 0.0
@@ -117,12 +121,12 @@ arbital._is_below_chance:
           closed_lo: true
           closed_hi: true
       meta:
-        mathema.sampling: "mi~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=17"
+        mathema.sampling: "mi~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=20"
         mathema.confidence:
-          score: 7.1
+          score: 7.3
           stars: 3
           max_stars: 5
-          n: 17
+          n: 20
           factors:
             branches: 0
             loops: 0
@@ -142,21 +146,21 @@ arbital._is_below_chance:
       basis: "symbolic lift of the body"
     - step: "evidence"
       claim: "let g = arbital._chance_adjusted_mi, for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) = (g(mi, chance) == 0)"
-      basis: "probed, n=32"
+      basis: "probed, n=36"
     - step: "evidence"
       claim: "assuming mi <= chance, for mi in [0.0, 5.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) = True"
-      basis: "probed, n=17"
+      basis: "probed, n=20"
     - step: "evidence"
       claim: "assuming mi > chance, for mi in [0.0, 50.0]:float|missing, chance in [0.0, 5.0]:float|missing, f(mi, chance) = False"
-      basis: "probed, n=30"
+      basis: "probed, n=32"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"

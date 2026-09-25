@@ -1,19 +1,20 @@
-# machine record; binds to form 21f5b70c1295
+# machine record; binds to form 639848f8b2a8
 arbital.measures._ranks:
+  schema_version: "0.2.0"
   name: "_ranks"
   signature: "(x: 'np.ndarray') -> 'np.ndarray'"
   intent: "Ranks 1..n with ties given the average of the ranks they occupy."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "21f5b70c1295"
+    form: "639848f8b2a8"
     sig: "2a1d3f9fb0b5"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "95670282acc9"
     pin: "none"
-    integrity: "200127c9aedf61b7"
+    integrity: "v2:6a186d2ee4948408"
   math: null
   claims:
     - name: "dependencies_current"
@@ -29,10 +30,11 @@ arbital.measures._ranks:
       statement: "assuming f is defined, f(x)[0] >= 1"
       verdict: "holds"
       n: 224
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: loop: multiple-loops (line 15), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: loop: multiple-loops (line 15), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=224"
         mathema.confidence:
@@ -63,8 +65,8 @@ arbital.measures._ranks:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.concept_sources:
       keyword:

@@ -1,19 +1,20 @@
-# machine record; binds to form 57ec85b6d456
+# machine record; binds to form 2bb7dea9533a
 arbital._expected_tail_draws:
+  schema_version: "0.2.0"
   name: "_expected_tail_draws"
   signature: "(n_shuffles: 'int', confidence: 'float') -> 'float'"
   intent: "How many shuffle draws are expected beyond the chance quantile."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "57ec85b6d456"
+    form: "2bb7dea9533a"
     sig: "ec491bb1956a"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "c87527f2043b"
     pin: "none"
-    integrity: "3a9f246618d08dcf"
+    integrity: "v2:4aec315d218386d4"
   math:
     unicode: "n_shuffles*(1 - confidence)"
     latex: "n_{shuffles} \\left(1 - confidence\\right)"
@@ -36,6 +37,7 @@ arbital._expected_tail_draws:
       route: "derive"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         n_shuffles:
           base_type: "Z"
@@ -52,15 +54,17 @@ arbital._expected_tail_draws:
           closed_lo: false
           closed_hi: false
       meta:
+        mathema.float_companion: "none (the claim has no point evaluation against the code)"
         mathema.surface: "declared"
     - name: "never_more_draws_than_were_taken"
       statement: "for n_shuffles in [1, 1000]:int|missing, confidence in (0.0, 1.0):float|missing, f(n_shuffles, confidence) < n_shuffles"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: undecided (sympy could not settle strict positivity of confidence*n_shuffles; extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, cancel, together, expand, widened wall-clock retry); probe: holds"
+      note: "routes attempted, derive: undecided (sympy could not settle strict positivity of confidence*n_shuffles; extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, cancel, together, expand, widened wall-clock retry); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         n_shuffles:
           base_type: "Z"
@@ -95,10 +99,11 @@ arbital._expected_tail_draws:
       statement: "for n_shuffles in [1, 1000]:int|missing, confidence in (0.0, 1.0):float|missing, f(n_shuffles, confidence) > 0"
       verdict: "holds"
       n: 128
-      note: "; routes attempted, derive: undecided (sympy could not settle strict positivity of n_shuffles*(1 - confidence); extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, cancel, expand, widened wall-clock retry); probe: holds"
+      note: "routes attempted, derive: undecided (sympy could not settle strict positivity of n_shuffles*(1 - confidence); extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, cancel, expand, widened wall-clock retry); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         n_shuffles:
           base_type: "Z"
@@ -132,10 +137,32 @@ arbital._expected_tail_draws:
     - name: "the_default_quantile_keeps_a_twentieth"
       statement: "for n_shuffles in [1, 1000]:int|missing, f(n_shuffles, 0.95) = n_shuffles/20"
       verdict: "proven"
-      note: "; inferred confidence=0.95 from the claim's own literal argument"
+      note: "inferred confidence=0.95 from the claim's own literal argument"
       sketch: "n_shuffles/20 and n_shuffles/20 simplify identically"
       condition: "where x=n_shuffles: ∀ x ∈ [1, 1000] ⊂ ℤ ∪ {∅}"
       route: "derive"
+      authored:
+        surface: "claims-file"
+        route: "best"
+      domain:
+        n_shuffles:
+          base_type: "Z"
+          pieces:
+            - lo: 1.0
+              hi: 1000.0
+              closed_lo: true
+              closed_hi: true
+          excluded: []
+          explicit_type: true
+      meta:
+        mathema.float_companion: "the_default_quantile_keeps_a_twentieth[float]"
+        mathema.surface: "declared"
+    - name: "the_default_quantile_keeps_a_twentieth[float]"
+      statement: "for n_shuffles in [1, 1000]:int|missing, f(n_shuffles, 0.95) = n_shuffles/20"
+      verdict: "holds"
+      n: 44
+      note: "the implementation of the_default_quantile_keeps_a_twentieth, executed in float at 44 points (every domain corner, then sampled interior points)"
+      route: "probe"
       authored:
         surface: "claims-file"
       domain:
@@ -150,6 +177,8 @@ arbital._expected_tail_draws:
           explicit_type: true
       meta:
         mathema.surface: "declared"
+        mathema.companion_of: "the_default_quantile_keeps_a_twentieth"
+        mathema.family: "is_numerically_stable"
   concepts:
     - "differentiation"
   references: {}
@@ -172,6 +201,9 @@ arbital._expected_tail_draws:
     - step: "derivation"
       claim: "for n_shuffles in [1, 1000]:int|missing, f(n_shuffles, 0.95) = n_shuffles/20"
       basis: "n_shuffles/20 and n_shuffles/20 simplify identically"
+    - step: "evidence"
+      claim: "for n_shuffles in [1, 1000]:int|missing, f(n_shuffles, 0.95) = n_shuffles/20"
+      basis: "probed, n=44"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
@@ -181,8 +213,8 @@ arbital._expected_tail_draws:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   meta:
     mathema.concept_sources:
       mechanism:

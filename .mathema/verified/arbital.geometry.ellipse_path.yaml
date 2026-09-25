@@ -1,19 +1,20 @@
-# machine record; binds to form c9e28ee1dc8f
+# machine record; binds to form 6655484d1b10
 arbital.geometry.ellipse_path:
+  schema_version: "0.2.0"
   name: "ellipse_path"
   signature: "(theta: 'float', r_peri: 'float', r_apo: 'float', n: 'int' = 120)"
   intent: "(x, y) points tracing the orbit, focus at the origin. Standard focal polar form of an ellipse:  r(phi) = p / (1 + e*cos(phi)) where p = a(1 - e^2) is the semi-latus rectum and phi is measured from the periastron direction.  We point the periastron along `theta`, so the marker (drawn at periastron) sits exactly on its own orbit."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "c9e28ee1dc8f"
+    form: "6655484d1b10"
     sig: "94464c86805a"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "84d2a0a7bad8"
     pin: "none"
-    integrity: "d819b42f373fc609"
+    integrity: "v2:d95037dca2e4e382"
   math: null
   claims:
     - name: "dependencies_current"
@@ -27,13 +28,13 @@ arbital.geometry.ellipse_path:
         mathema.surface: "builtin"
     - name: "the_path_starts_at_the_periastron"
       statement: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, f(theta, r_peri, 0.8, 120)[0][0]^2 + f(theta, r_peri, 0.8, 120)[1][0]^2 = r_peri^2"
-      verdict: "proven"
-      note: "; inferred n=120, r_apo=0.8 from the claim's own literal argument"
-      sketch: "r_peri^2*sin(theta)^2 + r_peri^2*cos(theta)^2 and r_peri^2 simplify identically"
-      condition: "where x=theta, y=r_peri: ∀ x ∈ [0.0, 6.3] ⊂ ℝ ∪ {∅}, y ∈ (0.0, 1.0] ⊂ ℝ ∪ {∅}"
-      route: "derive"
+      verdict: "holds"
+      n: 130
+      note: "inferred n=120, r_apo=0.8 from the claim's own literal argument; routes attempted, derive: undecided (r_peri^2*sin(theta)^2 + r_peri^2*cos(theta)^2 and r_peri^2 simplify identically; not kept as a proof: the raise-region pass stops at ellipse_path line 15: power base, so a raise inside the domain is not ruled out); probe: holds"
+      route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         theta:
           lo: 0.0
@@ -46,15 +47,31 @@ arbital.geometry.ellipse_path:
           closed_lo: false
           closed_hi: true
       meta:
+        mathema.sampling: "theta~U(0,6.3)⊔{lo,hi,mid,±ε}[p=.3], r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0.8,0.8)⊔{lo,hi,mid,±ε}[p=.3], n~U{120..120}, seed=20260718, n=130"
+        mathema.confidence:
+          score: 9.0
+          stars: 4
+          max_stars: 5
+          n: 130
+          factors:
+            branches: 0
+            loops: 0
+            params: 2
+            wide_domain: 0
+            float_extremes: 0
+        mathema.derive_status: "undecided"
         mathema.surface: "declared"
+        mathema.previous_verdict: "proven"
+        mathema.last_supported_commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
     - name: "the_periastron_points_along_theta_in_x"
       statement: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing, f(theta, r_peri, r_apo, 120)[0][0] = r_peri*cos(theta)"
       verdict: "holds"
-      n: 128
-      note: "; inferred n=120 from the claim's own literal argument; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: unsupported-call (line 14), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      n: 130
+      note: "inferred n=120 from the claim's own literal argument; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: unsupported-call (line 14), an expression form the derive vocabulary doesn't cover yet); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         theta:
           lo: 0.0
@@ -72,12 +89,12 @@ arbital.geometry.ellipse_path:
           closed_lo: false
           closed_hi: true
       meta:
-        mathema.sampling: "theta~U(0,6.3)⊔{lo,hi,mid,±ε}[p=.3], r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], n~U{120..120}, seed=20260718, n=128"
+        mathema.sampling: "theta~U(0,6.3)⊔{lo,hi,mid,±ε}[p=.3], r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], n~U{120..120}, seed=20260718, n=130"
         mathema.confidence:
           score: 9.0
           stars: 4
           max_stars: 5
-          n: 128
+          n: 130
           factors:
             branches: 0
             loops: 0
@@ -89,11 +106,12 @@ arbital.geometry.ellipse_path:
     - name: "the_periastron_points_along_theta_in_y"
       statement: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing, f(theta, r_peri, r_apo, 120)[1][0] = r_peri*sin(theta)"
       verdict: "holds"
-      n: 128
-      note: "; inferred n=120 from the claim's own literal argument; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: unsupported-call (line 14), an expression form the derive vocabulary doesn't cover yet); probe: holds"
+      n: 130
+      note: "inferred n=120 from the claim's own literal argument; routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: unsupported-call (line 14), an expression form the derive vocabulary doesn't cover yet); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       domain:
         theta:
           lo: 0.0
@@ -111,12 +129,12 @@ arbital.geometry.ellipse_path:
           closed_lo: false
           closed_hi: true
       meta:
-        mathema.sampling: "theta~U(0,6.3)⊔{lo,hi,mid,±ε}[p=.3], r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], n~U{120..120}, seed=20260718, n=128"
+        mathema.sampling: "theta~U(0,6.3)⊔{lo,hi,mid,±ε}[p=.3], r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], n~U{120..120}, seed=20260718, n=130"
         mathema.confidence:
           score: 9.0
           stars: 4
           max_stars: 5
-          n: 128
+          n: 130
           factors:
             branches: 0
             loops: 0
@@ -131,30 +149,30 @@ arbital.geometry.ellipse_path:
     - step: "intent"
       claim: "(x, y) points tracing the orbit, focus at the origin. Standard focal polar form of an ellipse:  r(phi) = p / (1 + e*cos(phi)) where p = a(1 - e^2) is the semi-latus rectum and phi is measured from the periastron direction.  We point the periastron along `theta`, so the marker (drawn at periastron) sits exactly on its own orbit."
       basis: "documented; the author's stated purpose"
-    - step: "derivation"
+    - step: "evidence"
       claim: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, f(theta, r_peri, 0.8, 120)[0][0]^2 + f(theta, r_peri, 0.8, 120)[1][0]^2 = r_peri^2"
-      basis: "r_peri^2*sin(theta)^2 + r_peri^2*cos(theta)^2 and r_peri^2 simplify identically"
+      basis: "probed, n=130"
     - step: "evidence"
       claim: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing, f(theta, r_peri, r_apo, 120)[0][0] = r_peri*cos(theta)"
-      basis: "probed, n=128"
+      basis: "probed, n=130"
     - step: "evidence"
       claim: "for theta in [0.0, 6.3]:float|missing, r_peri in (0.0, 1.0]:float|missing, r_apo in (0.0, 1.0]:float|missing, f(theta, r_peri, r_apo, 120)[1][0] = r_peri*sin(theta)"
-      basis: "probed, n=128"
+      basis: "probed, n=130"
     - step: "derivation"
       claim: ""
       basis: "every direct function dependency's form matches its verified record"
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   dependencies:
     - name: "_eccentricity"
       kind: "function"
       key: "arbital.geometry._eccentricity"
       file: "src/arbital/geometry.py"
       line: 146
-      form: "90e50901424c"
+      form: "661a4046212c"
       freshness: "current"
   meta:
     mathema.premise_state: {}

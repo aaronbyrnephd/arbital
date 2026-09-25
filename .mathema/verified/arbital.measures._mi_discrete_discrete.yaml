@@ -1,4 +1,4 @@
-# machine record; binds to form 53de052d34f2
+# machine record; binds to form 8853ba4bb8a2
 arbital.measures._mi_discrete_discrete:
   schema_version: "0.2.0"
   name: "_mi_discrete_discrete"
@@ -7,17 +7,18 @@ arbital.measures._mi_discrete_discrete:
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "53de052d34f2"
+    form: "8853ba4bb8a2"
     sig: "eb6a1f81f38c"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "e8b80aec62d6"
     pin: "none"
-    integrity: "cc3c3aaa4a379170"
+    integrity: "v2:8242fe00ddadd643"
   math: null
   claims:
     - name: "callable"
+      statement: "f(x, y) can be called"
       verdict: "skipped"
       note: "could not synthesize valid inputs from the signature (ValueError: x and y must have the same length)"
       route: null
@@ -37,23 +38,27 @@ arbital.measures._mi_discrete_discrete:
         mathema.surface: "builtin"
     - name: "is_compendium_safe"
       statement: "is_compendium_safe(numpy)"
-      verdict: "holds"
-      n: 26
-      note: "; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: holds"
-      route: "probe:algorithmic"
+      verdict: "invalidated"
+      note: "the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: unknown (the registered family for this claim's own name couldn't decide it, and the generic sampling loop has no meaning for this predicate)"
+      route: "examine"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.derive_status: "unsupported"
         mathema.surface: "declared"
+        mathema.previous_verdict: "holds"
+        mathema.last_supported_commit: "f0991a1456f686e2cb66094c1b7c7ee30bb01c2d"
+        mathema.regressed_to: "unknown"
     - name: "never_negative"
       statement: "assuming f is defined, f(x, y) >= 0"
       verdict: "holds"
       n: 24
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: loop: multiple-loops (line 21), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: loop: multiple-loops (line 21), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=24"
         mathema.confidence:
@@ -73,10 +78,11 @@ arbital.measures._mi_discrete_discrete:
       statement: "assuming dim(x, 0) == dim(y, 0), f(x, y) = f(y, x)"
       verdict: "holds"
       n: 224
-      note: "; routes attempted, derive: underivable (function body is not derivable, likely reason: loop: multiple-loops (line 21), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
+      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: loop: multiple-loops (line 21), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
       route: "probe"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.sampling: "x~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), y~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), seed=20260718, n=224"
         mathema.confidence:
@@ -103,7 +109,7 @@ arbital.measures._mi_discrete_discrete:
       claim: "comprehension pipeline: map, map"
       basis: "read off the AST"
     - step: "gap"
-      claim: ""
+      claim: "f(x, y) can be called"
       basis: "could not synthesize valid inputs from the signature (ValueError: x and y must have the same length)"
     - step: "evidence"
       claim: "assuming f is defined, f(x, y) >= 0"
@@ -111,9 +117,9 @@ arbital.measures._mi_discrete_discrete:
     - step: "evidence"
       claim: "assuming dim(x, 0) == dim(y, 0), f(x, y) = f(y, x)"
       basis: "probed, n=224"
-    - step: "evidence"
+    - step: "gap"
       claim: "is_compendium_safe(numpy)"
-      basis: "probed, n=26"
+      basis: "the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate; routes attempted, derive: unsupported (the registered family for this claim's own name couldn't decide it, and there is no ordinary derive route for this predicate); probe: unknown (the registered family for this claim's own name couldn't decide it, and the generic sampling loop has no meaning for this predicate)"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
@@ -123,8 +129,8 @@ arbital.measures._mi_discrete_discrete:
   lineage:
     generated_by: "mathema 0.6.0"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-21"
-    commit: "f0991a1456f686e2cb66094c1b7c7ee30bb01c2d"
+    date: "2026-09-25"
+    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   raises:
     - "ValueError"
   meta:

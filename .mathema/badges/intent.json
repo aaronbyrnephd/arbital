@@ -2,5 +2,6 @@
   "schemaVersion": 1,
   "label": "intent",
   "message": "71%",
-  "color": "#2da44e"
+  "color": "#0E7A47",
+  "labelColor": "#1A1714"
 }
