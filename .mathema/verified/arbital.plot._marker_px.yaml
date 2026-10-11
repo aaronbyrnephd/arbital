@@ -12,183 +12,421 @@ arbital.plot._marker_px:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "20b5776d1983"
+    claims_fingerprint: "cee012523d83"
     pin: "none"
-    integrity: "v2:29216ea9abcbea20"
+    integrity: "v2:1fd10782cb14e168"
   math:
     unicode: "30*sqrt(min(1, max(0, size))) + 9"
     latex: "30 \\sqrt{\\min\\left(1, \\max\\left(0, size\\right)\\right)} + 9"
     srepr: "Add(Mul(Integer(30), Pow(Min(Integer(1), Max(Integer(0), Symbol('size', real=True))), Rational(1, 2))), Integer(9))"
   claims:
     - name: "area_is_linear_in_size"
-      statement: "for size in [0.0, 1.0]:float|missing, (f(size) - 9)^2 = 900*size"
+      statement: "for size in [0.0, 1.0] : float|missing, (f(size) - 9)^2 = 900*size"
       verdict: "proven"
       sketch: "900*Min(1, size) and 900*size simplify identically"
-      condition: "where x=size: ∀ x ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
+      condition: "where x=size: ∀ x ∈ [0.0, 1.0] ⊂ ℝ"
       route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         size:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
         mathema.float_companion: "area_is_linear_in_size[float]"
+        mathema.missing:
+          admitted:
+            size:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for size (float) means nan"
+          origin:
+            size:
+              missing: "type"
         mathema.surface: "declared"
     - name: "area_is_linear_in_size[float]"
-      statement: "for size in [0.0, 1.0]:float|missing, (f(size) - 9)^2 = 900*size"
+      statement: "for size in [0.0, 1.0] : float|missing, (f(size) - 9)^2 = 900*size"
       verdict: "holds"
-      n: 42
-      note: "the implementation of area_is_linear_in_size, executed in float at 42 points (every domain corner, then sampled interior points)"
-      route: "probe"
+      n: 45
+      note: "the float64 computation of area_is_linear_in_size ran (45 trials: 2 at discontinuities of Min(1, Max(0, size)), Max(0, size), 3 edge cases, 40 random)"
+      route: "probe:semi_analytical"
       authored:
         surface: "claims-file"
       domain:
         size:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            size:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            size:
+              - "nan"
+          executed:
+            size:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            size:
+              nan: "propagates"
+          said:
+            size:
+              nan: "at size = nan f gave nan back"
+          means: "missing for size (float) means nan"
+          origin:
+            size:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "area_is_linear_in_size"
         mathema.family: "is_numerically_stable"
     - name: "clamps_above_one"
-      statement: "for size in [1.0, 5.0]:float|missing, f(size) = 39"
+      statement: "for size in [1.0, 5.0] : float|missing, f(size) = 39"
       verdict: "proven"
       sketch: "30*sqrt(Min(1, size)) + 9 and 39 simplify identically"
-      condition: "where x=size: ∀ x ∈ [1.0, 5.0] ⊂ ℝ ∪ {∅}"
+      condition: "where x=size: ∀ x ∈ [1.0, 5.0] ⊂ ℝ"
       route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         size:
-          lo: 1.0
-          hi: 5.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 1.0
+              hi: 5.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
         mathema.float_companion: "clamps_above_one[float]"
+        mathema.missing:
+          admitted:
+            size:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for size (float) means nan"
+          origin:
+            size:
+              missing: "type"
         mathema.surface: "declared"
     - name: "clamps_above_one[float]"
-      statement: "for size in [1.0, 5.0]:float|missing, f(size) = 39"
+      statement: "for size in [1.0, 5.0] : float|missing, f(size) = 39"
       verdict: "holds"
       n: 42
-      note: "the implementation of clamps_above_one, executed in float at 42 points (every domain corner, then sampled interior points)"
+      note: "the float64 computation of clamps_above_one ran at 42 points: every corner and 40 interior points"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         size:
-          lo: 1.0
-          hi: 5.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 1.0
+              hi: 5.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            size:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            size:
+              - "nan"
+          executed:
+            size:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            size:
+              nan: "propagates"
+          said:
+            size:
+              nan: "at size = nan f gave nan back"
+          means: "missing for size (float) means nan"
+          origin:
+            size:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "clamps_above_one"
         mathema.family: "is_numerically_stable"
     - name: "clamps_below_zero"
-      statement: "for size in [-5.0, 0.0]:float|missing, f(size) = 9"
+      statement: "for size in [-5.0, 0.0] : float|missing, f(size) = 9"
       verdict: "proven"
       sketch: "9 and 9 simplify identically"
-      condition: "for size in [-5.0, 0.0]:float|missing"
+      condition: "for size in [-5.0, 0.0] : float|missing"
       route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         size:
-          lo: -5.0
-          hi: 0.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: -5.0
+              hi: 0.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
         mathema.float_companion: "clamps_below_zero[float]"
+        mathema.missing:
+          admitted:
+            size:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for size (float) means nan"
+          origin:
+            size:
+              missing: "type"
         mathema.surface: "declared"
     - name: "clamps_below_zero[float]"
-      statement: "for size in [-5.0, 0.0]:float|missing, f(size) = 9"
+      statement: "for size in [-5.0, 0.0] : float|missing, f(size) = 9"
       verdict: "holds"
-      n: 42
-      note: "the implementation of clamps_below_zero, executed in float at 42 points (every domain corner, then sampled interior points)"
-      route: "probe"
+      n: 45
+      note: "the float64 computation of clamps_below_zero ran (45 trials: 2 at discontinuities of Min(1, Max(0, size)), Max(0, size), 3 edge cases, 40 random)"
+      route: "probe:semi_analytical"
       authored:
         surface: "claims-file"
       domain:
         size:
-          lo: -5.0
-          hi: 0.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: -5.0
+              hi: 0.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            size:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            size:
+              - "nan"
+          executed:
+            size:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            size:
+              nan: "propagates"
+          said:
+            size:
+              nan: "at size = nan f gave nan back"
+          means: "missing for size (float) means nan"
+          origin:
+            size:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "clamps_below_zero"
         mathema.family: "is_numerically_stable"
     - name: "dependencies_current"
       verdict: "proven"
-      note: "generated by mathema verify; adjudicated against the verified store"
+      note: "generated by mathema verify; checked against the verified store"
       sketch: "no direct function dependencies, vacuously current"
       route: "derive"
       authored:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
-    - name: "rises_with_size"
-      statement: "for size in [0.0, 1.0]:float|missing, d(f(size), size) >= 0"
+    - name: "missing[size]"
+      statement: "missing(f, size) propagates"
       verdict: "holds"
-      n: 59
-      note: "numeric evidence on the LIFTED intermediate (59 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of 15*Heaviside(1 - size)/sqrt(size); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      n: 5
+      note: "default for a float, which may be nan; confirmed on the draws of within_the_drawn_range[float], area_is_linear_in_size[float], clamps_below_zero[float] and clamps_above_one[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.plot._marker_px --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "size"
+          evidence: "confirmed on the draws of within_the_drawn_range[float], area_is_linear_in_size[float], clamps_below_zero[float] and clamps_above_one[float]"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default for a float, which may be nan; confirmed on the draws of within_the_drawn_range[float], area_is_linear_in_size[float], clamps_below_zero[float] and clamps_above_one[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.plot._marker_px --write"
+        mathema.surface: "mathema"
+    - name: "rises_with_size"
+      statement: "for size in [0.0, 1.0] : float|missing, d(f(size), size) >= 0"
+      verdict: "holds"
+      n: 57
+      note: "numeric evidence on derive's own reading of the function (57 samples of that symbolic form, mathema's reconstruction, not a run of the code; derive itself could not decide it); derive could not decide it (sympy could not settle the sign of 15*Heaviside(1 - size)/sqrt(size); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry; install mathema[smt] to attempt a proof), so the probe decided it by running the code"
       route: "probe:lifted_numeric"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         size:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
         mathema.derive_status: "undecided"
-        mathema.lifted_numeric_samples: 59
+        mathema.lifted_numeric_samples: 57
+        mathema.routes_attempted: "routes attempted, derive: undecided (sympy could not settle the sign of 15*Heaviside(1 - size)/sqrt(size); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry; install mathema[smt] to attempt a proof); probe: holds"
+        mathema.missing:
+          admitted:
+            size:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for size (float) means nan"
+          origin:
+            size:
+              missing: "type"
         mathema.surface: "declared"
     - name: "within_the_drawn_range"
-      statement: "for size in [0.0, 1.0]:float|missing, 9 <= f(size) <= 39"
+      statement: "for size in [0.0, 1.0] : float|missing, 9 <= f(size) <= 39"
       verdict: "proven"
-      note: "every link of the chained comparison proven"
-      condition: "for size in [0.0, 1.0]:float|missing"
+      note: "every link of the chained comparison is proven"
+      sketch: "link 1: 9 <= f(size): interval evaluation over the declared domain: 30*sqrt(size) ∈ AccumBounds(0, 30), never negative; link 2: f(size) <= 39: interval evaluation over the declared domain: 30 - 30*sqrt(size) ∈ AccumBounds(0, 30), never negative"
+      condition: "where x=size: ∀ x ∈ [0.0, 1.0] ⊂ ℝ"
       route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         size:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            size:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for size (float) means nan"
+          origin:
+            size:
+              missing: "type"
         mathema.float_companion: "within_the_drawn_range[float]"
         mathema.surface: "declared"
     - name: "within_the_drawn_range[float]"
-      statement: "for size in [0.0, 1.0]:float|missing, 9 <= f(size) <= 39"
+      statement: "for size in [0.0, 1.0] : float|missing, 9 <= f(size) <= 39"
       verdict: "holds"
-      n: 42
-      note: "the implementation of within_the_drawn_range, executed in float link by link; every link of the float companion holds"
-      route: "probe"
+      n: 45
+      note: "the float64 computation of within_the_drawn_range ran link by link, and every link holds"
+      route: "probe:semi_analytical"
       authored:
         surface: "claims-file"
       domain:
         size:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            size:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            size:
+              - "nan"
+          executed:
+            size:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            size:
+              nan: "propagates"
+          said:
+            size:
+              nan: "at size = nan f gave nan back"
+          means: "missing for size (float) means nan"
+          origin:
+            size:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "within_the_drawn_range"
         mathema.family: "is_numerically_stable"
@@ -203,32 +441,35 @@ arbital.plot._marker_px:
       claim: "30*sqrt(min(1, max(0, size))) + 9"
       basis: "symbolic lift of the body"
     - step: "derivation"
-      claim: "for size in [0.0, 1.0]:float|missing, 9 <= f(size) <= 39"
-      basis: "symbolic derivation"
+      claim: "for size in [0.0, 1.0] : float|missing, 9 <= f(size) <= 39"
+      basis: "link 1: 9 <= f(size): interval evaluation over the declared domain: 30*sqrt(size) ∈ AccumBounds(0, 30), never negative; link 2: f(size) <= 39: interval evaluation over the declared domain: 30 - 30*sqrt(size) ∈ AccumBounds(0, 30), never negative"
     - step: "evidence"
-      claim: "for size in [0.0, 1.0]:float|missing, 9 <= f(size) <= 39"
-      basis: "probed, n=42"
+      claim: "for size in [0.0, 1.0] : float|missing, 9 <= f(size) <= 39"
+      basis: "probed, n=45"
     - step: "derivation"
-      claim: "for size in [0.0, 1.0]:float|missing, (f(size) - 9)^2 = 900*size"
+      claim: "for size in [0.0, 1.0] : float|missing, (f(size) - 9)^2 = 900*size"
       basis: "900*Min(1, size) and 900*size simplify identically"
     - step: "evidence"
-      claim: "for size in [0.0, 1.0]:float|missing, (f(size) - 9)^2 = 900*size"
-      basis: "probed, n=42"
+      claim: "for size in [0.0, 1.0] : float|missing, (f(size) - 9)^2 = 900*size"
+      basis: "probed, n=45"
     - step: "evidence"
-      claim: "for size in [0.0, 1.0]:float|missing, d(f(size), size) >= 0"
-      basis: "probed, n=59"
+      claim: "for size in [0.0, 1.0] : float|missing, d(f(size), size) >= 0"
+      basis: "probed, n=57"
     - step: "derivation"
-      claim: "for size in [-5.0, 0.0]:float|missing, f(size) = 9"
+      claim: "for size in [-5.0, 0.0] : float|missing, f(size) = 9"
       basis: "9 and 9 simplify identically"
     - step: "evidence"
-      claim: "for size in [-5.0, 0.0]:float|missing, f(size) = 9"
-      basis: "probed, n=42"
+      claim: "for size in [-5.0, 0.0] : float|missing, f(size) = 9"
+      basis: "probed, n=45"
     - step: "derivation"
-      claim: "for size in [1.0, 5.0]:float|missing, f(size) = 39"
+      claim: "for size in [1.0, 5.0] : float|missing, f(size) = 39"
       basis: "30*sqrt(Min(1, size)) + 9 and 39 simplify identically"
     - step: "evidence"
-      claim: "for size in [1.0, 5.0]:float|missing, f(size) = 39"
+      claim: "for size in [1.0, 5.0] : float|missing, f(size) = 39"
       basis: "probed, n=42"
+    - step: "evidence"
+      claim: "missing(f, size) propagates"
+      basis: "probed, n=5"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
@@ -236,10 +477,10 @@ arbital.plot._marker_px:
       claim: "instantiates: differentiation"
       basis: "deterministic concept tagging"
   lineage:
-    generated_by: "mathema 0.6.0"
+    generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-25"
-    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
   meta:
     mathema.concept_sources:
       mechanism:
@@ -249,5 +490,9 @@ arbital.plot._marker_px:
         - "linearity"
     concepts:
       - "differentiation"
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"

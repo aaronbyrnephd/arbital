@@ -12,146 +12,387 @@ arbital.plot._arc_reach:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "73ed89674642"
+    claims_fingerprint: "97d80ea793ba"
     pin: "none"
-    integrity: "v2:9901e4ff7abf8bf4"
+    integrity: "v2:753d51d5d3236951"
   math:
     unicode: "min(9*gap/10 + 1/10, max(1/10, gap*(55*association + 12)/100))"
     latex: "\\min\\left(\\frac{9 gap}{10} + \\frac{1}{10}, \\max\\left(\\frac{1}{10}, \\frac{gap \\left(55 association + 12\\right)}{100}\\right)\\right)"
     srepr: "Min(Add(Mul(Rational(9, 10), Symbol('gap', real=True)), Rational(1, 10)), Max(Rational(1, 10), Mul(Rational(1, 100), Symbol('gap', real=True), Add(Mul(Integer(55), Symbol('association', real=True)), Integer(12)))))"
   claims:
     - name: "always_long_enough_to_see"
-      statement: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) >= 0.100000000000000"
+      statement: "for gap in [0.0, 6.3] : float|missing, association in [0.0, 1.0] : float|missing, f(gap, association) >= 0.100000000000000"
       verdict: "proven"
       sketch: "interval evaluation over the declared domain: Min(9*gap/10 + 1/10, Max(1/10, gap*(55*association + 12)/100)) - 1/10 ∈ AccumBounds(0, 4121/1000), never negative"
-      condition: "where x=gap, y=association: ∀ x ∈ [0.0, 6.3] ⊂ ℝ ∪ {∅}, y ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
+      condition: "where x=gap, y=association: ∀ x ∈ [0.0, 6.3] ⊂ ℝ, y ∈ [0.0, 1.0] ⊂ ℝ"
       route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         gap:
-          lo: 0.0
-          hi: 6.3
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 6.3
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         association:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
         mathema.float_companion: "always_long_enough_to_see[float]"
+        mathema.missing:
+          admitted:
+            gap:
+              absent: false
+              missing:
+                - "nan"
+            association:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for gap (float) means nan; missing for association (float) means nan"
+          origin:
+            gap:
+              missing: "type"
+            association:
+              missing: "type"
         mathema.surface: "declared"
-        mathema.previous_verdict: "holds"
         mathema.last_supported_commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
     - name: "always_long_enough_to_see[float]"
-      statement: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) >= 0.100000000000000"
+      statement: "for gap in [0.0, 6.3] : float|missing, association in [0.0, 1.0] : float|missing, f(gap, association) >= 0.100000000000000"
       verdict: "holds"
-      n: 44
-      note: "the implementation of always_long_enough_to_see, executed in float at 44 points (every domain corner, then sampled interior points)"
+      n: 49
+      note: "the float64 computation of always_long_enough_to_see ran at 49 points: every corner and 40 interior points"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         gap:
-          lo: 0.0
-          hi: 6.3
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 6.3
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         association:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            gap:
+              absent: false
+              missing:
+                - "nan"
+            association:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            gap:
+              - "nan"
+            association:
+              - "nan"
+          executed:
+            gap:
+              nan: "nan in, nan out (propagates)"
+            association:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            gap:
+              nan: "propagates"
+            association:
+              nan: "propagates"
+          said:
+            gap:
+              nan: "at gap = nan f gave nan back"
+            association:
+              nan: "at association = nan f gave nan back"
+          means: "missing for gap (float) means nan; missing for association (float) means nan"
+          origin:
+            gap:
+              missing: "type"
+            association:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "always_long_enough_to_see"
         mathema.family: "is_numerically_stable"
     - name: "dependencies_current"
       verdict: "proven"
-      note: "generated by mathema verify; adjudicated against the verified store"
+      note: "generated by mathema verify; checked against the verified store"
       sketch: "no direct function dependencies, vacuously current"
       route: "derive"
       authored:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
+    - name: "missing[association]"
+      statement: "missing(f, association) propagates"
+      verdict: "holds"
+      n: 2
+      note: "default for a float, which may be nan; confirmed on the draws of always_long_enough_to_see[float] and never_closes_the_gap[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.plot._arc_reach --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "association"
+          evidence: "confirmed on the draws of always_long_enough_to_see[float] and never_closes_the_gap[float]"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default for a float, which may be nan; confirmed on the draws of always_long_enough_to_see[float] and never_closes_the_gap[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.plot._arc_reach --write"
+        mathema.surface: "mathema"
+    - name: "missing[gap]"
+      statement: "missing(f, gap) propagates"
+      verdict: "holds"
+      n: 2
+      note: "default for a float, which may be nan; confirmed on the draws of always_long_enough_to_see[float] and never_closes_the_gap[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.plot._arc_reach --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "gap"
+          evidence: "confirmed on the draws of always_long_enough_to_see[float] and never_closes_the_gap[float]"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default for a float, which may be nan; confirmed on the draws of always_long_enough_to_see[float] and never_closes_the_gap[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.plot._arc_reach --write"
+        mathema.surface: "mathema"
     - name: "never_closes_the_gap"
-      statement: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) <= 0.9*gap + 0.1"
+      statement: "for gap in [0.0, 6.3] : float|missing, association in [0.0, 1.0] : float|missing, f(gap, association) <= 0.9*gap + 0.1"
       verdict: "proven"
-      sketch: "interval refinement over 27 cells of the domain box certifies that -9*gap/10 + Min(9*gap/10 + 1/10, Max(1/10, gap*(55*association + 12)/100)) - 1/10 has the required sign everywhere"
-      condition: "where x=gap, y=association: ∀ x ∈ [0.0, 6.3] ⊂ ℝ ∪ {∅}, y ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
-      route: "derive:extensive"
+      sketch: "9*gap/10 - Min(9*gap/10 + 1/10, Max(1/10, gap*(55*association + 12)/100)) + 1/10 >= 0 splits over the arguments of Min: 0 >= 0"
+      condition: "where x=gap, y=association: ∀ x ∈ [0.0, 6.3] ⊂ ℝ, y ∈ [0.0, 1.0] ⊂ ℝ"
+      route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         gap:
-          lo: 0.0
-          hi: 6.3
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 6.3
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         association:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
-        mathema.derive_route: "refined_interval"
         mathema.float_companion: "never_closes_the_gap[float]"
+        mathema.missing:
+          admitted:
+            gap:
+              absent: false
+              missing:
+                - "nan"
+            association:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for gap (float) means nan; missing for association (float) means nan"
+          origin:
+            gap:
+              missing: "type"
+            association:
+              missing: "type"
         mathema.surface: "declared"
-        mathema.previous_verdict: "holds"
         mathema.last_supported_commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
     - name: "never_closes_the_gap[float]"
-      statement: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) <= 0.9*gap + 0.1"
+      statement: "for gap in [0.0, 6.3] : float|missing, association in [0.0, 1.0] : float|missing, f(gap, association) <= 0.9*gap + 0.1"
       verdict: "holds"
-      n: 44
-      note: "the implementation of never_closes_the_gap, executed in float at 44 points (every domain corner, then sampled interior points)"
+      n: 49
+      note: "the float64 computation of never_closes_the_gap ran at 49 points: every corner and 40 interior points"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         gap:
-          lo: 0.0
-          hi: 6.3
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 6.3
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         association:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            gap:
+              absent: false
+              missing:
+                - "nan"
+            association:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            gap:
+              - "nan"
+            association:
+              - "nan"
+          executed:
+            gap:
+              nan: "nan in, nan out (propagates)"
+            association:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            gap:
+              nan: "propagates"
+            association:
+              nan: "propagates"
+          said:
+            gap:
+              nan: "at gap = nan f gave nan back"
+            association:
+              nan: "at association = nan f gave nan back"
+          means: "missing for gap (float) means nan; missing for association (float) means nan"
+          origin:
+            gap:
+              missing: "type"
+            association:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "never_closes_the_gap"
         mathema.family: "is_numerically_stable"
     - name: "reaches_further_with_association"
-      statement: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, d(f(gap, association), association) >= 0"
+      statement: "for gap in [0.0, 6.3] : float|missing, association in [0.0, 1.0] : float|missing, d(f(gap, association), association) >= 0"
       verdict: "holds"
       n: 60
-      note: "numeric evidence on the LIFTED intermediate (60 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of 11*gap*Heaviside(gap*(55*association + 12)/100 - 1/10)*Heaviside(9*gap/10 - Max(1/10, gap*(55*association + 12)/100) + 1/10)/20; extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, cancel, expand, widened wall-clock retry); probe: holds"
+      note: "numeric evidence on derive's own reading of the function (60 samples of that symbolic form, mathema's reconstruction, not a run of the code; derive itself could not decide it); derive could not decide it (sympy could not settle the sign of 11*gap*Heaviside(gap*(55*association + 12)/100 - 1/10)*Heaviside(9*gap/10 - Max(1/10, gap*(55*association + 12)/100) + 1/10)/20; extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, cancel, expand, widened wall-clock retry; install mathema[smt] to attempt a proof), so the probe decided it by running the code"
       route: "probe:lifted_numeric"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         gap:
-          lo: 0.0
-          hi: 6.3
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 6.3
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         association:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
         mathema.derive_status: "undecided"
         mathema.lifted_numeric_samples: 60
+        mathema.routes_attempted: "routes attempted, derive: undecided (sympy could not settle the sign of 11*gap*Heaviside(gap*(55*association + 12)/100 - 1/10)*Heaviside(9*gap/10 - Max(1/10, gap*(55*association + 12)/100) + 1/10)/20; extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, cancel, expand, widened wall-clock retry; install mathema[smt] to attempt a proof); probe: holds"
+        mathema.missing:
+          admitted:
+            gap:
+              absent: false
+              missing:
+                - "nan"
+            association:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for gap (float) means nan; missing for association (float) means nan"
+          origin:
+            gap:
+              missing: "type"
+            association:
+              missing: "type"
         mathema.surface: "declared"
   concepts:
-    - "interval-arithmetic"
     - "differentiation"
   references: {}
   reasoning:
@@ -162,38 +403,46 @@ arbital.plot._arc_reach:
       claim: "min(9*gap/10 + 1/10, max(1/10, gap*(55*association + 12)/100))"
       basis: "symbolic lift of the body"
     - step: "derivation"
-      claim: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) >= 0.100000000000000"
+      claim: "for gap in [0.0, 6.3] : float|missing, association in [0.0, 1.0] : float|missing, f(gap, association) >= 0.100000000000000"
       basis: "interval evaluation over the declared domain: Min(9*gap/10 + 1/10, Max(1/10, gap*(55*association + 12)/100)) - 1/10 ∈ AccumBounds(0, 4121/1000), never negative"
     - step: "evidence"
-      claim: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) >= 0.100000000000000"
-      basis: "probed, n=44"
+      claim: "for gap in [0.0, 6.3] : float|missing, association in [0.0, 1.0] : float|missing, f(gap, association) >= 0.100000000000000"
+      basis: "probed, n=49"
     - step: "derivation"
-      claim: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) <= 0.9*gap + 0.1"
-      basis: "interval refinement over 27 cells of the domain box certifies that -9*gap/10 + Min(9*gap/10 + 1/10, Max(1/10, gap*(55*association + 12)/100)) - 1/10 has the required sign everywhere"
+      claim: "for gap in [0.0, 6.3] : float|missing, association in [0.0, 1.0] : float|missing, f(gap, association) <= 0.9*gap + 0.1"
+      basis: "9*gap/10 - Min(9*gap/10 + 1/10, Max(1/10, gap*(55*association + 12)/100)) + 1/10 >= 0 splits over the arguments of Min: 0 >= 0"
     - step: "evidence"
-      claim: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, f(gap, association) <= 0.9*gap + 0.1"
-      basis: "probed, n=44"
+      claim: "for gap in [0.0, 6.3] : float|missing, association in [0.0, 1.0] : float|missing, f(gap, association) <= 0.9*gap + 0.1"
+      basis: "probed, n=49"
     - step: "evidence"
-      claim: "for gap in [0.0, 6.3]:float|missing, association in [0.0, 1.0]:float|missing, d(f(gap, association), association) >= 0"
+      claim: "for gap in [0.0, 6.3] : float|missing, association in [0.0, 1.0] : float|missing, d(f(gap, association), association) >= 0"
       basis: "probed, n=60"
+    - step: "evidence"
+      claim: "missing(f, gap) propagates"
+      basis: "probed, n=2"
+    - step: "evidence"
+      claim: "missing(f, association) propagates"
+      basis: "probed, n=2"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
     - step: "situating"
-      claim: "instantiates: interval-arithmetic, differentiation"
+      claim: "instantiates: differentiation"
       basis: "deterministic concept tagging"
   lineage:
-    generated_by: "mathema 0.6.0"
+    generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-25"
-    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
   meta:
     mathema.concept_sources:
       mechanism:
-        - "interval-arithmetic"
         - "differentiation"
     concepts:
       - "differentiation"
-      - "interval-arithmetic"
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"

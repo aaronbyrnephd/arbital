@@ -1,0 +1,247 @@
+# machine record; binds to form fbd6826a736c
+numpy.diff:
+  schema_version: "0.2.0"
+  name: "diff"
+  signature: "(a, n=1, axis=-1, prepend=<no value>, append=<no value>)"
+  intent: "Calculate the n-th discrete difference along the given axis. The first difference is given by ``out[i] = a[i+1] - a[i]`` along the given axis, higher differences are calculated by using `diff` recursively."
+  grammar: "mathema"
+  tolerance: 1.0e-09
+  identity:
+    form: "fbd6826a736c"
+    sig: "007df1656f30"
+    tier: 2
+    source_available: true
+    pure: true
+    claims_fingerprint: "359ebe9419c7"
+    pin: "none"
+    integrity: "v2:3e691d7f48b0cf82"
+  math: null
+  claims:
+    - name: "definition"
+      statement: "assuming dim(a) >= 2, for a in (R | {missing})^n|absent, f(a) = a[1:] - a[:-1]"
+      verdict: "holds"
+      n: 217
+      note: "numpy.diff gives no value at a = [1.7976931348623157e+308, -1.7976931348623157e+308], a magnitude corner where the exact value is finite: a finding about its computation; the row stands; derive could not decide it (function body is not derivable, likely reason: loop: branch-elsewhere (line 127), the loop doesn't match a recognized fold/sum/dot shape), so the probe decided it by running the code; at a = [nan, nan] f gave nan back; held at their defaults: append=<no value>, axis=-1, n=1, prepend=<no value>"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          dims:
+            - "n"
+          absent: true
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/statistics.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~Seq(len∈[2,8]; elem~U(-10,10); holes {nan} at p=.15, degenerate lap first), seed=20260718, n=217"
+        mathema.confidence:
+          score: 4.8
+          stars: 2
+          max_stars: 5
+          n: 217
+          factors:
+            branches: 3
+            loops: 1
+            params: 3
+            wide_domain: 0
+            float_extremes: 0
+        mathema.computation_finding: "numpy.diff gives no value at a = [1.7976931348623157e+308, -1.7976931348623157e+308], a magnitude corner where the exact value is finite: a finding about its computation; the row stands"
+        mathema.missing:
+          admitted:
+            a:
+              absent: true
+              missing:
+                - "nan"
+          executed:
+            a:
+              nan: "nan slot in, nan out (propagates)"
+          behaviour:
+            a:
+              nan: "propagates"
+          said:
+            a:
+              nan: "at a = [nan, nan] f gave nan back"
+          means: "missing for a (unannotated) means nan"
+          origin:
+            a:
+              absent: "type"
+              missing: "type"
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 2
+            - 1
+          largest:
+            - 8
+            - 1
+          entries: 1078
+        mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: loop: branch-elsewhere (line 127), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
+        mathema.derive_status: "unliftable"
+        mathema.defaults:
+          numpy.diff:
+            append: "<no value>"
+            axis: "-1"
+            n: "1"
+            prepend: "<no value>"
+        mathema.surface: "compendium"
+    - name: "definition@n=2"
+      statement: "assuming dim(a) >= 3, for a in (R | {missing})^n|absent, f(a, n=2) = -2*a[1:-1] + a[2:] + a[:-2]"
+      verdict: "holds"
+      n: 214
+      note: "differs by 2 at a = [1e+16, -1e+16, -4.521010435557617, 4.072437215594924, -0.6219130146465908, -1.0785253273763509, 5.710607377810092, 8.862437269729341, 1.623944610488051, 5.525296518189123, -0.48203158950211034, 9.033873991367894], n = 2, axis = -1, prepend = <no value>, append = <no value>, within the tolerance (1e-09 plus 1e-07 times the larger side), and holds there in exact arithmetic; derive could not decide it (the derive route does not model the pinned parameter(s) n), so the probe decided it by running the code; at a = [nan, 4.46, 4.55, 1.65, 2.49, -5.79, ...] f gave [nan, -2.99, 3.74, -9.12, 21.8, -30, ...] back; held at their defaults: append=<no value>, axis=-1, n=2 (pinned), prepend=<no value>"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          dims:
+            - "n"
+          absent: true
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/statistics.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~Seq(len∈[3,12]; elem~U(-10,10); holes {nan} at p=.15, degenerate lap first), seed=20260718, n=214"
+        mathema.confidence:
+          score: 4.7
+          stars: 2
+          max_stars: 5
+          n: 214
+          factors:
+            branches: 3
+            loops: 1
+            params: 3
+            wide_domain: 0
+            float_extremes: 0
+        mathema.missing:
+          admitted:
+            a:
+              absent: true
+              missing:
+                - "nan"
+          executed:
+            a:
+              nan: "nan slot in, [nan, -2.99, 3.74, -9.12, 21.8, -30, ...] out (propagates)"
+          behaviour:
+            a:
+              nan: "propagates"
+          said:
+            a:
+              nan: "at a = [nan, 4.46, 4.55, 1.65, 2.49, -5.79, ...] f gave [nan, -2.99, 3.74, -9.12, 21.8, -30, ...] back"
+          means: "missing for a (unannotated) means nan"
+          origin:
+            a:
+              absent: "type"
+              missing: "type"
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 3
+            - 1
+          largest:
+            - 12
+            - 1
+          entries: 1697
+        mathema.routes_attempted: "routes attempted, derive: unsupported (the derive route does not model the pinned parameter(s) n); probe: holds"
+        mathema.derive_status: "unsupported"
+        mathema.defaults:
+          numpy.diff:
+            append: "<no value>"
+            axis: "-1"
+            n: "2 (pinned)"
+            prepend: "<no value>"
+        mathema.surface: "compendium"
+    - name: "dependencies_current"
+      verdict: "proven"
+      note: "generated by mathema verify; checked against the verified store"
+      sketch: "no direct function dependencies, vacuously current"
+      route: "derive"
+      authored:
+        surface: "builtin"
+      meta:
+        mathema.surface: "builtin"
+    - name: "missing[a]"
+      statement: "missing(f, a) propagates"
+      verdict: "holds"
+      n: 71
+      note: "default: a has no annotation, so it may be nan; confirmed on the draws of definition and definition@n=2. Annotate a as float to say so; to write this row, run: mathema claims numpy.diff --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "a"
+          evidence: "confirmed on the draws of definition and definition@n=2"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default: a has no annotation, so it may be nan; confirmed on the draws of definition and definition@n=2. Annotate a as float to say so; to write this row, run: mathema claims numpy.diff --write"
+        mathema.surface: "mathema"
+  concepts:
+    - "summation"
+    - "folded-sum"
+  references: {}
+  reasoning:
+    - step: "intent"
+      claim: "Calculate the n-th discrete difference along the given axis. The first difference is given by ``out[i] = a[i+1] - a[i]`` along the given axis, higher differences are calculated by using `diff` recursively."
+      basis: "documented; the author's stated purpose"
+    - step: "structure"
+      claim: "a left fold over range(n) with accumulator 'a'"
+      basis: "read off the AST"
+    - step: "evidence"
+      claim: "assuming dim(a) >= 2, for a in (R | {missing})^n|absent, f(a) = a[1:] - a[:-1]"
+      basis: "probed, n=217"
+    - step: "evidence"
+      claim: "assuming dim(a) >= 3, for a in (R | {missing})^n|absent, f(a, n=2) = -2*a[1:-1] + a[2:] + a[:-2]"
+      basis: "probed, n=214"
+    - step: "evidence"
+      claim: "missing(f, a) propagates"
+      basis: "probed, n=71"
+    - step: "derivation"
+      claim: ""
+      basis: "no direct function dependencies, vacuously current"
+    - step: "situating"
+      claim: "instantiates: summation, folded-sum"
+      basis: "deterministic concept tagging"
+  lineage:
+    generated_by: "mathema 0.6.1"
+    CDD_spec_version: "0.2.0"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+  raises:
+    - "ValueError"
+  meta:
+    mathema.concept_sources:
+      mechanism:
+        - "summation"
+        - "folded-sum"
+      keyword:
+        - "recursion"
+    concepts:
+      - "folded-sum"
+      - "summation"
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
+    mathema.premise_state: {}
+    mathema.intent_provenance: "declared"

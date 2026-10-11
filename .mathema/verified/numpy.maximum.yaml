@@ -1,0 +1,238 @@
+# machine record; binds to form doc:3738fd39
+numpy.maximum:
+  schema_version: "0.2.0"
+  name: "maximum"
+  signature: "(x1, x2, /, out=None, *, where=True, casting='same_kind', order='K', dtype=None, subok=True, signature=None)"
+  intent: "maximum(x1, x2, /, out=None, *, where=True, casting='same_kind', order='K', dtype=None, subok=True[, signature]) Element-wise maximum of array elements."
+  grammar: "mathema"
+  tolerance: 1.0e-09
+  identity:
+    form: "doc:3738fd39"
+    sig: "9a6ac8da2aa8"
+    tier: 0
+    source_available: false
+    pure: null
+    claims_fingerprint: "df61b0c7f902"
+    pin: "none"
+    integrity: "v2:3efb7525b863c799"
+  math: null
+  claims:
+    - name: "absent[x1]"
+      statement: "absent(f, x1) raises"
+      verdict: "holds"
+      n: 1
+      note: "default: x1 has no annotation, so it may be None, and f raises on it; confirmed on the 88 draws of definition. Annotate x1 as float to exclude None; to write this row, run: mathema claims numpy.maximum --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "absent"
+          parameter: "x1"
+          evidence: "confirmed on the 88 draws of definition"
+          behaviour: "raises"
+          source: "default"
+          reason: "default: x1 has no annotation, so it may be None, and f raises on it; confirmed on the 88 draws of definition. Annotate x1 as float to exclude None; to write this row, run: mathema claims numpy.maximum --write"
+        mathema.surface: "mathema"
+    - name: "absent[x2]"
+      statement: "absent(f, x2) raises"
+      verdict: "holds"
+      n: 1
+      note: "default: x2 has no annotation, so it may be None, and f raises on it; confirmed on the 88 draws of definition. Annotate x2 as float to exclude None; to write this row, run: mathema claims numpy.maximum --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "absent"
+          parameter: "x2"
+          evidence: "confirmed on the 88 draws of definition"
+          behaviour: "raises"
+          source: "default"
+          reason: "default: x2 has no annotation, so it may be None, and f raises on it; confirmed on the 88 draws of definition. Annotate x2 as float to exclude None; to write this row, run: mathema claims numpy.maximum --write"
+        mathema.surface: "mathema"
+    - name: "definition"
+      statement: "for x1 in (R | {missing})^n|absent, x2 in (R | {missing})^n|absent, f(x1, x2) = x1/2 + x2/2 + abs(x1 - x2)/2"
+      verdict: "holds"
+      n: 88
+      note: "derive could not decide the claim over the vectors or matrices x1, x2, so the probe decided it by running the code; at x1 = [nan, nan, nan, nan, nan, nan, ...] f gave [nan, nan, nan, nan, nan, nan, ...] back; at x1 = None f raised TypeError; at x2 = [nan, nan, nan, nan, nan, nan, ...] f gave [nan, nan, nan, nan, nan, nan, ...] back; at x2 = None f raised TypeError; held at their defaults: casting='same_kind', dtype=None, order='K', out=None, signature=None, subok=True, where=True"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        x1:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          dims:
+            - "n"
+          absent: true
+          members:
+            - "nan"
+        x2:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          dims:
+            - "n"
+          absent: true
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/elementwise.claims.yaml"
+        mathema.compendium_versions: ">=2.4,<3"
+        mathema.sampling: "x1~R^n, x2~R^n, seed=20260718, n=88"
+        mathema.confidence:
+          score: 9.5
+          stars: 4
+          max_stars: 5
+          n: 88
+          factors:
+            branches: 0
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.missing:
+          admitted:
+            x1:
+              absent: true
+              missing:
+                - "nan"
+            x2:
+              absent: true
+              missing:
+                - "nan"
+          executed:
+            x1:
+              nan: "nan slot in, [nan, nan, nan, nan, nan, nan, ...] out (propagates)"
+              None: "raised TypeError"
+            x2:
+              nan: "nan slot in, [nan, nan, nan, nan, nan, nan, ...] out (propagates)"
+              None: "raised TypeError"
+          behaviour:
+            x1:
+              nan: "propagates"
+              None: "raises"
+            x2:
+              nan: "propagates"
+              None: "raises"
+          said:
+            x1:
+              nan: "at x1 = [nan, nan, nan, nan, nan, nan, ...] f gave [nan, nan, nan, nan, nan, nan, ...] back"
+              None: "at x1 = None f raised TypeError"
+            x2:
+              nan: "at x2 = [nan, nan, nan, nan, nan, nan, ...] f gave [nan, nan, nan, nan, nan, nan, ...] back"
+              None: "at x2 = None f raised TypeError"
+          means: "missing for x1 (unannotated) means nan; missing for x2 (unannotated) means nan"
+          origin:
+            x1:
+              absent: "type"
+              missing: "type"
+            x2:
+              absent: "type"
+              missing: "type"
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 1
+            - 1
+          largest:
+            - 8
+            - 1
+          entries: 772
+        mathema.routes_attempted: "routes attempted, derive: underivable (derive could not decide the claim over the vectors or matrices x1, x2); probe: holds"
+        mathema.derive_status: "unliftable"
+        mathema.defaults:
+          numpy.maximum:
+            casting: "'same_kind'"
+            dtype: "None"
+            order: "'K'"
+            out: "None"
+            signature: "None"
+            subok: "True"
+            where: "True"
+        mathema.surface: "compendium"
+    - name: "dependencies_current"
+      verdict: "proven"
+      note: "generated by mathema verify; checked against the verified store"
+      sketch: "no direct function dependencies, vacuously current"
+      route: "derive"
+      authored:
+        surface: "builtin"
+      meta:
+        mathema.surface: "builtin"
+    - name: "missing[x1]"
+      statement: "missing(f, x1) propagates"
+      verdict: "holds"
+      n: 20
+      note: "default: x1 has no annotation, so it may be nan; confirmed on the 88 draws of definition. Annotate x1 as float to say so; to write this row, run: mathema claims numpy.maximum --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "x1"
+          evidence: "confirmed on the 88 draws of definition"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default: x1 has no annotation, so it may be nan; confirmed on the 88 draws of definition. Annotate x1 as float to say so; to write this row, run: mathema claims numpy.maximum --write"
+        mathema.surface: "mathema"
+    - name: "missing[x2]"
+      statement: "missing(f, x2) propagates"
+      verdict: "holds"
+      n: 27
+      note: "default: x2 has no annotation, so it may be nan; confirmed on the 88 draws of definition. Annotate x2 as float to say so; to write this row, run: mathema claims numpy.maximum --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "x2"
+          evidence: "confirmed on the 88 draws of definition"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default: x2 has no annotation, so it may be nan; confirmed on the 88 draws of definition. Annotate x2 as float to say so; to write this row, run: mathema claims numpy.maximum --write"
+        mathema.surface: "mathema"
+  concepts: []
+  references: {}
+  reasoning:
+    - step: "intent"
+      claim: "maximum(x1, x2, /, out=None, *, where=True, casting='same_kind', order='K', dtype=None, subok=True[, signature]) Element-wise maximum of array elements."
+      basis: "documented; the author's stated purpose"
+    - step: "evidence"
+      claim: "for x1 in (R | {missing})^n|absent, x2 in (R | {missing})^n|absent, f(x1, x2) = x1/2 + x2/2 + abs(x1 - x2)/2"
+      basis: "probed, n=88"
+    - step: "evidence"
+      claim: "missing(f, x1) propagates"
+      basis: "probed, n=20"
+    - step: "evidence"
+      claim: "absent(f, x1) raises"
+      basis: "probed, n=1"
+    - step: "evidence"
+      claim: "missing(f, x2) propagates"
+      basis: "probed, n=27"
+    - step: "evidence"
+      claim: "absent(f, x2) raises"
+      basis: "probed, n=1"
+    - step: "derivation"
+      claim: ""
+      basis: "no direct function dependencies, vacuously current"
+  lineage:
+    generated_by: "mathema 0.6.1"
+    CDD_spec_version: "0.2.0"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+  meta:
+    mathema.premise_state: {}
+    mathema.intent_provenance: "declared"

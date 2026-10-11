@@ -12,98 +12,258 @@ arbital.plot._band_spans_chance:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "e33cc0c326eb"
+    claims_fingerprint: "bae3ea996db1"
     pin: "none"
-    integrity: "v2:1068f9ee82d041d0"
+    integrity: "v2:8c1daec90b022289"
   math:
     unicode: "when (chance > r_lo) & (chance < r_hi): 1; otherwise 0"
     latex: "\\begin{cases} 1 & \\text{for}\\: chance > r_{lo} \\wedge chance < r_{hi} \\\\0 & \\text{otherwise} \\end{cases}"
     srepr: "Piecewise(ExprCondPair(Integer(1), And(StrictGreaterThan(Symbol('chance', real=True), Symbol('r_lo', real=True)), StrictLessThan(Symbol('chance', real=True), Symbol('r_hi', real=True)))), ExprCondPair(Integer(0), true))"
   claims:
     - name: "a_level_below_the_band_is_not_spanned"
-      statement: "assuming chance <= r_lo, for r_lo in [0.0, 1.0]:float|missing, r_hi in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_lo, r_hi, chance) = False"
+      statement: "assuming chance <= r_lo, for r_lo in [0.0, 1.0] : float|missing, r_hi in [0.0, 1.0] : float|missing, chance in [0.0, 1.0] : float|missing, f(r_lo, r_hi, chance) = False"
       verdict: "holds"
-      n: 22
-      note: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
+      n: 24
+      note: "derive could not decide it (claim statement not derivable: non-numeric constant False), so the probe decided it by running the code"
       route: "probe"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         r_lo:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         r_hi:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         chance:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
-        mathema.sampling: "r_lo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_hi~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=22"
+        mathema.sampling: "r_lo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_hi~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=24"
         mathema.confidence:
-          score: 7.0
+          score: 7.1
           stars: 3
           max_stars: 5
-          n: 22
+          n: 24
           factors:
             branches: 0
             loops: 0
             params: 1
             wide_domain: 0
             float_extremes: 0
+        mathema.missing:
+          admitted:
+            r_lo:
+              absent: false
+              missing:
+                - "nan"
+            r_hi:
+              absent: false
+              missing:
+                - "nan"
+            chance:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r_lo:
+              - "nan"
+            r_hi:
+              - "nan"
+            chance:
+              - "nan"
+          indifferent:
+            r_hi: 1
+          means: "missing for r_lo (float) means nan; missing for r_hi (float) means nan; missing for chance (float) means nan"
+          origin:
+            r_lo:
+              missing: "type"
+            r_hi:
+              missing: "type"
+            chance:
+              missing: "type"
+        mathema.routes_attempted: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "an_empty_band_spans_nothing"
-      statement: "for r_lo in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_lo, r_lo, chance) = False"
+      statement: "for r_lo in [0.0, 1.0] : float|missing, chance in [0.0, 1.0] : float|missing, f(r_lo, r_lo, chance) = False"
       verdict: "holds"
-      n: 32
-      note: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
+      n: 30
+      note: "derive could not decide it (claim statement not derivable: non-numeric constant False), so the probe decided it by running the code"
       route: "probe"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         r_lo:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         chance:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
-        mathema.sampling: "r_lo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_hi~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=32"
+        mathema.sampling: "r_lo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_hi~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3]⊔far(≤1.79769e+308)[p=.1], chance~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=30"
         mathema.confidence:
-          score: 7.5
+          score: 7.4
           stars: 3
           max_stars: 5
-          n: 32
+          n: 30
           factors:
             branches: 0
             loops: 0
             params: 1
             wide_domain: 0
             float_extremes: 0
+        mathema.missing:
+          admitted:
+            r_lo:
+              absent: false
+              missing:
+                - "nan"
+            chance:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r_lo:
+              - "nan"
+            chance:
+              - "nan"
+          indifferent:
+            r_lo: 1
+            r_hi: 1
+            chance: 1
+          means: "missing for r_lo (float) means nan; missing for chance (float) means nan"
+          origin:
+            r_lo:
+              missing: "type"
+            chance:
+              missing: "type"
+        mathema.routes_attempted: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "dependencies_current"
       verdict: "proven"
-      note: "generated by mathema verify; adjudicated against the verified store"
+      note: "generated by mathema verify; checked against the verified store"
       sketch: "no direct function dependencies, vacuously current"
       route: "derive"
       authored:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
+    - name: "missing[chance]"
+      statement: "missing(f, chance) propagates"
+      verdict: "falsified"
+      n: 1
+      counterexample: "r_lo = 0.53, r_hi = 0.53, chance = nan: f returned False"
+      note: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at r_lo = 0.53, r_hi = 0.53, chance = nan it returns False, and no fill of it changes that. give the calls that ignore chance a premise on another parameter that tells them apart, or make f treat a missing chance one way"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "chance"
+          evidence: "confirmed on the 30 draws of an_empty_band_spans_nothing"
+          behaviour: "propagates"
+          source: "default"
+          reason: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at r_lo = 0.53, r_hi = 0.53, chance = nan it returns False, and no fill of it changes that"
+          next: "give the calls that ignore chance a premise on another parameter that tells them apart, or make f treat a missing chance one way"
+        mathema.surface: "mathema"
+    - name: "missing[r_hi]"
+      statement: "missing(f, r_hi) propagates"
+      verdict: "falsified"
+      n: 2
+      counterexample: "r_lo = nan, r_hi = nan, chance = 1e-06: f returned False"
+      note: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at r_lo = nan, r_hi = nan, chance = 1e-06 it returns False, and no fill of it changes that. give the calls that ignore r_hi a premise on another parameter that tells them apart, or make f treat a missing r_hi one way"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "r_hi"
+          evidence: "confirmed on the draws of an_empty_band_spans_nothing and a_level_below_the_band_is_not_spanned"
+          behaviour: "propagates"
+          source: "default"
+          reason: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at r_lo = nan, r_hi = nan, chance = 1e-06 it returns False, and no fill of it changes that"
+          next: "give the calls that ignore r_hi a premise on another parameter that tells them apart, or make f treat a missing r_hi one way"
+        mathema.surface: "mathema"
+    - name: "missing[r_lo]"
+      statement: "missing(f, r_lo) propagates"
+      verdict: "falsified"
+      n: 1
+      counterexample: "r_lo = nan, r_hi = nan, chance = 1e-06: f returned False"
+      note: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at r_lo = nan, r_hi = nan, chance = 1e-06 it returns False, and no fill of it changes that. give the calls that ignore r_lo a premise on another parameter that tells them apart, or make f treat a missing r_lo one way"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "r_lo"
+          evidence: "confirmed on the 30 draws of an_empty_band_spans_nothing"
+          behaviour: "propagates"
+          source: "default"
+          reason: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at r_lo = nan, r_hi = nan, chance = 1e-06 it returns False, and no fill of it changes that"
+          next: "give the calls that ignore r_lo a premise on another parameter that tells them apart, or make f treat a missing r_lo one way"
+        mathema.surface: "mathema"
   concepts: []
   references: {}
   reasoning:
@@ -114,19 +274,32 @@ arbital.plot._band_spans_chance:
       claim: "when (chance > r_lo) & (chance < r_hi): 1; otherwise 0"
       basis: "symbolic lift of the body"
     - step: "evidence"
-      claim: "for r_lo in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_lo, r_lo, chance) = False"
-      basis: "probed, n=32"
+      claim: "for r_lo in [0.0, 1.0] : float|missing, chance in [0.0, 1.0] : float|missing, f(r_lo, r_lo, chance) = False"
+      basis: "probed, n=30"
     - step: "evidence"
-      claim: "assuming chance <= r_lo, for r_lo in [0.0, 1.0]:float|missing, r_hi in [0.0, 1.0]:float|missing, chance in [0.0, 1.0]:float|missing, f(r_lo, r_hi, chance) = False"
-      basis: "probed, n=22"
+      claim: "assuming chance <= r_lo, for r_lo in [0.0, 1.0] : float|missing, r_hi in [0.0, 1.0] : float|missing, chance in [0.0, 1.0] : float|missing, f(r_lo, r_hi, chance) = False"
+      basis: "probed, n=24"
+    - step: "refutation"
+      claim: "NOT (missing(f, r_lo) propagates)"
+      basis: "counterexample r_lo = nan, r_hi = nan, chance = 1e-06: f returned False"
+    - step: "refutation"
+      claim: "NOT (missing(f, r_hi) propagates)"
+      basis: "counterexample r_lo = nan, r_hi = nan, chance = 1e-06: f returned False"
+    - step: "refutation"
+      claim: "NOT (missing(f, chance) propagates)"
+      basis: "counterexample r_lo = 0.53, r_hi = 0.53, chance = nan: f returned False"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
-    generated_by: "mathema 0.6.0"
+    generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-25"
-    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
   meta:
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"
