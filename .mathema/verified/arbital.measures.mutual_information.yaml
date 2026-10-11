@@ -21,9 +21,9 @@ arbital.measures.mutual_information:
         type: "numpy.ndarray"
         evidence: "annotation: numpy.ndarray"
         library: "numpy==2.5.4"
-    claims_fingerprint: "2faa3acd4924"
+    claims_fingerprint: "9d259dc43f84"
     pin: "none"
-    integrity: "v2:850f740481fb0cc3"
+    integrity: "v2:28d086ab42e44030"
   math: null
   claims:
     - name: "dependencies_current"
@@ -36,9 +36,7 @@ arbital.measures.mutual_information:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
-        mathema.previous_verdict: "proven"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
-        mathema.regressed_to: "falsified"
     - name: "is_empty_safe[x]"
       statement: "is_empty_safe(x)"
       verdict: "holds"
@@ -98,41 +96,25 @@ arbital.measures.mutual_information:
     - name: "is_library_safe"
       statement: "is_library_safe(numpy)"
       verdict: "holds"
-      n: 12
+      n: 13
       note: "derive could not decide it (the built-in claim is_library_safe could not decide it, and derive has no other way to read it), so the probe decided it by running the code; is_compendium_safe is an accepted spelling of is_library_safe"
       route: "probe:algorithmic"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.accepted_spelling: "is_compendium_safe"
         mathema.routes_attempted: "routes attempted, derive: unsupported (the built-in claim is_library_safe could not decide it, and derive has no other way to read it); probe: holds"
         mathema.derive_status: "unsupported"
         mathema.surface: "declared"
-    - name: "missing[x]"
-      statement: "missing(f, x) propagates"
-      verdict: "falsified"
-      n: 1
-      counterexample: "x = [-1.82, 3.74, 9.42, 9.48, -8.28, -9.89, ...], y = [-4.28, 3.15, -7.89, -8.56, -4.41, 3, ...], k = 5, rng_seed = 0: f returned 4.68"
-      note: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f drops instead: a nan slot in, 4.68 out. (i) if 4.68 is the answer f should give when a slot is nan, state: missing(f, x) drops (ii) if not, make f raise or give a hole back (iii) to accept it as a discovery, run: mathema accept arbital.measures.mutual_information missing[x] --as discovery --corrected \"missing(f, x) drops\""
-      route: "probe:counterfactual"
-      authored:
-        surface: "suggested"
-      meta:
-        mathema.policy:
-          kind: "missing"
-          parameter: "x"
-          evidence: "confirmed on the 6 draws of never_negative"
-          behaviour: "propagates"
-          source: "default"
-          reason: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f drops instead: a nan slot in, 4.68 out"
-          next: "(i) if 4.68 is the answer f should give when a slot is nan, state: missing(f, x) drops (ii) if not, make f raise or give a hole back (iii) to accept it as a discovery, run: mathema accept arbital.measures.mutual_information missing[x] --as discovery --corrected \"missing(f, x) drops\""
-        mathema.surface: "mathema"
     - name: "missing[y]"
       statement: "missing(f, y) propagates"
       verdict: "falsified"
       n: 2
-      counterexample: "x = [8.5, 8.5, 8.5, 8.5, 8.5, 8.5, ...], y = [0.943, nan, 8.5, 6.75, 0.344, 8.08, ...], k = 5, rng_seed = 0: f returned 4.68"
-      note: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f drops instead: a nan slot in, 4.68 out. (i) if 4.68 is the answer f should give when a slot is nan, state: missing(f, y) drops (ii) if not, make f raise or give a hole back (iii) to accept it as a discovery, run: mathema accept arbital.measures.mutual_information missing[y] --as discovery --corrected \"missing(f, y) drops\""
+      counterexample: "x = [4.57, 4.09, 1.23, 0.563, -4.08, 9.33, ...], y = [-0.94, 0.665, -2.55, 7.39, -3.81, 8.13, ...], k = 5, rng_seed = 0: f returned 4.68"
+      note: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f drops instead: a nan slot in, 4.68 out. (i) if 4.68 is the answer f should give when a slot is nan, state: missing(f, y) drops
+(ii) if not, make f raise or give a hole back
+(iii) to accept it as a discovery, run: mathema accept arbital.measures.mutual_information missing[y] --as discovery --corrected \"missing(f, y) drops\""
       route: "probe:counterfactual"
       authored:
         surface: "suggested"
@@ -140,28 +122,30 @@ arbital.measures.mutual_information:
         mathema.policy:
           kind: "missing"
           parameter: "y"
-          evidence: "confirmed on the 6 draws of never_negative"
+          evidence: "confirmed on the 1 draws of never_negative"
           behaviour: "propagates"
           source: "default"
           reason: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f drops instead: a nan slot in, 4.68 out"
-          next: "(i) if 4.68 is the answer f should give when a slot is nan, state: missing(f, y) drops (ii) if not, make f raise or give a hole back (iii) to accept it as a discovery, run: mathema accept arbital.measures.mutual_information missing[y] --as discovery --corrected \"missing(f, y) drops\""
+          next: "(i) if 4.68 is the answer f should give when a slot is nan, state: missing(f, y) drops
+(ii) if not, make f raise or give a hole back
+(iii) to accept it as a discovery, run: mathema accept arbital.measures.mutual_information missing[y] --as discovery --corrected \"missing(f, y) drops\""
         mathema.surface: "mathema"
     - name: "never_negative"
       statement: "assuming f is defined, f(x, y, 5, 0) >= 0"
       verdict: "holds"
-      n: 6
-      note: "inferred k=5, rng_seed=0 from the claim's own literal argument; derive could not decide it (function body is not derivable, likely reason: branch: if n != len(y) (line 29), a branch couldn't be resolved from the declared domain), so the probe decided it by running the code; at y = [0.943, nan, 8.5, 6.75, 0.344, 8.08, ...] f returned 4.68, so it drops the nan slot; at x = [-1.82, 3.74, 9.42, 9.48, -8.28, -9.89, ...] f returned 4.68, so it drops the nan slot"
+      n: 1
+      note: "inferred k=5, rng_seed=0 from the claim's own literal argument; derive could not decide it (function body is not derivable, likely reason: branch: if n != len(y) (line 29), a branch couldn't be resolved from the declared domain), so the probe decided it by running the code; at y = [-0.94, 0.665, -2.55, 7.39, -3.81, 8.13, ...] f returned 4.68, so it drops the nan slot"
       route: "probe"
       authored:
         surface: "claims-file"
         route: "best"
       meta:
-        mathema.sampling: "x~Seq(len∈[1,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), k~U{5..5}, rng_seed~U{0..0}, seed=20260718, n=6"
+        mathema.sampling: "x~Seq(len∈[1,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), k~U{5..5}, rng_seed~U{0..0}, seed=20260718, n=1"
         mathema.confidence:
-          score: 2.6
+          score: 1.0
           stars: 1
           max_stars: 5
-          n: 6
+          n: 1
           factors:
             branches: 2
             loops: 0
@@ -179,23 +163,17 @@ arbital.measures.mutual_information:
               missing:
                 - "nan"
           inconclusive:
-            x: 31
-            y: 27
+            x: 33
+            y: 28
           executed:
             y:
-              nan: "nan slot in, 4.68 out (drops)"
-            x:
               nan: "nan slot in, 4.68 out (drops)"
           behaviour:
             y:
               nan: "drops"
-            x:
-              nan: "drops"
           said:
             y:
-              nan: "at y = [0.943, nan, 8.5, 6.75, 0.344, 8.08, ...] f returned 4.68, so it drops the nan slot"
-            x:
-              nan: "at x = [-1.82, 3.74, 9.42, 9.48, -8.28, -9.89, ...] f returned 4.68, so it drops the nan slot"
+              nan: "at y = [-0.94, 0.665, -2.55, 7.39, -3.81, 8.13, ...] f returned 4.68, so it drops the nan slot"
           means: "missing for x (numpy.ndarray) means nan; missing for y (numpy.ndarray) means nan"
           origin:
             x:
@@ -205,31 +183,31 @@ arbital.measures.mutual_information:
         mathema.drawn:
           form: "vec"
           smallest:
-            - 7
+            - 8
             - 1
           largest:
             - 8
             - 1
-          entries: 92
+          entries: 16
         mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if n != len(y) (line 29), a branch couldn't be resolved from the declared domain); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "refuses_more_neighbours_than_samples"
       statement: "raises(f(x, y, 500, 0), ValueError)"
       verdict: "holds"
-      n: 143
+      n: 144
       note: "inferred k=500, rng_seed=0 from the claim's own literal argument; derive could not decide the branch at line 29 (n != len(y)), so the probe decided it by running the code"
       route: "probe"
       authored:
         surface: "claims-file"
         route: "best"
       meta:
-        mathema.sampling: "x~Seq(len∈[1,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), k~U{500..500}, rng_seed~U{0..0}, seed=20260718, n=143"
+        mathema.sampling: "x~Seq(len∈[1,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), k~U{500..500}, rng_seed~U{0..0}, seed=20260718, n=144"
         mathema.confidence:
           score: 7.2
           stars: 3
           max_stars: 5
-          n: 143
+          n: 144
           factors:
             branches: 2
             loops: 0
@@ -247,7 +225,7 @@ arbital.measures.mutual_information:
               missing:
                 - "nan"
           inconclusive:
-            x: 27
+            x: 28
             y: 28
           means: "missing for x (numpy.ndarray) means nan; missing for y (numpy.ndarray) means nan"
           origin:
@@ -263,7 +241,7 @@ arbital.measures.mutual_information:
           largest:
             - 8
             - 1
-          entries: 1304
+          entries: 1415
         mathema.routes_attempted: "routes attempted, derive: underivable (branch pruning couldn't settle which side runs under this domain: line 29 ('n != len(y)'): 'n' is a local variable not traceable to unmodified parameters via a straight-line chain of assignments before the first branch (or is itself a reassigned parameter) (branch pruning only resolves conditions over unmodified parameters or expressions built from them); line 31 ('n <= k + 1'): the other side ('n') isn't a literal value); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
@@ -275,7 +253,7 @@ arbital.measures.mutual_information:
       basis: "documented; the author's stated purpose"
     - step: "evidence"
       claim: "assuming f is defined, f(x, y, 5, 0) >= 0"
-      basis: "probed, n=6"
+      basis: "probed, n=1"
     - step: "evidence"
       claim: "is_empty_safe(x)"
       basis: "probed, n=1"
@@ -284,16 +262,13 @@ arbital.measures.mutual_information:
       basis: "probed, n=1"
     - step: "evidence"
       claim: "raises(f(x, y, 500, 0), ValueError)"
-      basis: "probed, n=143"
+      basis: "probed, n=144"
     - step: "evidence"
       claim: "is_library_safe(numpy)"
-      basis: "probed, n=12"
-    - step: "refutation"
-      claim: "NOT (missing(f, x) propagates)"
-      basis: "counterexample x = [-1.82, 3.74, 9.42, 9.48, -8.28, -9.89, ...], y = [-4.28, 3.15, -7.89, -8.56, -4.41, 3, ...], k = 5, rng_seed = 0: f returned 4.68"
+      basis: "probed, n=13"
     - step: "refutation"
       claim: "NOT (missing(f, y) propagates)"
-      basis: "counterexample x = [8.5, 8.5, 8.5, 8.5, 8.5, 8.5, ...], y = [0.943, nan, 8.5, 6.75, 0.344, 8.08, ...], k = 5, rng_seed = 0: f returned 4.68"
+      basis: "counterexample x = [4.57, 4.09, 1.23, 0.563, -4.08, 9.33, ...], y = [-0.94, 0.665, -2.55, 7.39, -3.81, 8.13, ...], k = 5, rng_seed = 0: f returned 4.68"
     - step: "refutation"
       claim: "NOT ()"
       basis: "counterexample arbital.measures._digamma is invalidated"
@@ -301,13 +276,13 @@ arbital.measures.mutual_information:
     generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
     date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    commit: "b48f13536c0dc69b0fdb7b6323e9fb3e2df8223a"
   dependencies:
     - name: "_digamma"
       kind: "function"
       key: "arbital.measures._digamma"
       file: "src/arbital/measures.py"
-      line: 197
+      line: 216
       form: "12433e691938"
       freshness: "invalidated"
     - name: "_ksg_mi"

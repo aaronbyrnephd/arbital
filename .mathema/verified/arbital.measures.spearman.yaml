@@ -104,9 +104,7 @@ arbital.measures.spearman:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
-        mathema.previous_verdict: "proven"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
-        mathema.regressed_to: "falsified"
     - name: "is_empty_safe[x]"
       statement: "is_empty_safe(x)"
       verdict: "holds"
@@ -336,7 +334,9 @@ arbital.measures.spearman:
       verdict: "falsified"
       n: 155
       counterexample: "x = [nan, nan, nan, nan], y = [nan, nan, nan, nan]: f returned 1.0"
-      note: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f drops instead: a nan slot in, 1.0 out. (i) if 1.0 is the answer f should give when a slot is nan, state: missing(f, x) drops (ii) if not, make f raise or give a hole back (iii) to accept it as a discovery, run: mathema accept arbital.measures.spearman missing[x] --as discovery --corrected \"missing(f, x) drops\""
+      note: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f drops instead: a nan slot in, 1.0 out. (i) if 1.0 is the answer f should give when a slot is nan, state: missing(f, x) drops
+(ii) if not, make f raise or give a hole back
+(iii) to accept it as a discovery, run: mathema accept arbital.measures.spearman missing[x] --as discovery --corrected \"missing(f, x) drops\""
       route: "probe:counterfactual"
       authored:
         surface: "suggested"
@@ -348,14 +348,18 @@ arbital.measures.spearman:
           behaviour: "propagates"
           source: "default"
           reason: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f drops instead: a nan slot in, 1.0 out"
-          next: "(i) if 1.0 is the answer f should give when a slot is nan, state: missing(f, x) drops (ii) if not, make f raise or give a hole back (iii) to accept it as a discovery, run: mathema accept arbital.measures.spearman missing[x] --as discovery --corrected \"missing(f, x) drops\""
+          next: "(i) if 1.0 is the answer f should give when a slot is nan, state: missing(f, x) drops
+(ii) if not, make f raise or give a hole back
+(iii) to accept it as a discovery, run: mathema accept arbital.measures.spearman missing[x] --as discovery --corrected \"missing(f, x) drops\""
         mathema.surface: "mathema"
     - name: "missing[y]"
       statement: "missing(f, y) propagates"
       verdict: "falsified"
       n: 154
       counterexample: "x = [nan, nan, nan, nan], y = [nan, nan, nan, nan]: f returned 1.0"
-      note: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f drops instead: a nan slot in, 1.0 out. (i) if 1.0 is the answer f should give when a slot is nan, state: missing(f, y) drops (ii) if not, make f raise or give a hole back (iii) to accept it as a discovery, run: mathema accept arbital.measures.spearman missing[y] --as discovery --corrected \"missing(f, y) drops\""
+      note: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f drops instead: a nan slot in, 1.0 out. (i) if 1.0 is the answer f should give when a slot is nan, state: missing(f, y) drops
+(ii) if not, make f raise or give a hole back
+(iii) to accept it as a discovery, run: mathema accept arbital.measures.spearman missing[y] --as discovery --corrected \"missing(f, y) drops\""
       route: "probe:counterfactual"
       authored:
         surface: "suggested"
@@ -367,7 +371,9 @@ arbital.measures.spearman:
           behaviour: "propagates"
           source: "default"
           reason: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f drops instead: a nan slot in, 1.0 out"
-          next: "(i) if 1.0 is the answer f should give when a slot is nan, state: missing(f, y) drops (ii) if not, make f raise or give a hole back (iii) to accept it as a discovery, run: mathema accept arbital.measures.spearman missing[y] --as discovery --corrected \"missing(f, y) drops\""
+          next: "(i) if 1.0 is the answer f should give when a slot is nan, state: missing(f, y) drops
+(ii) if not, make f raise or give a hole back
+(iii) to accept it as a discovery, run: mathema accept arbital.measures.spearman missing[y] --as discovery --corrected \"missing(f, y) drops\""
         mathema.surface: "mathema"
     - name: "on_the_correlation_scale"
       statement: "assuming len(x) == len(y), |f(x, y)| <= 1"
@@ -620,15 +626,15 @@ arbital.measures.spearman:
       kind: "function"
       key: "arbital.measures._ranks"
       file: "src/arbital/measures.py"
-      line: 159
+      line: 178
       form: "639848f8b2a8"
       freshness: "current"
     - name: "pearson"
       kind: "function"
       key: "arbital.measures.pearson"
       file: "src/arbital/measures.py"
-      line: 139
-      form: "a54388d1e6b4"
+      line: 156
+      form: "600a3af1b6e9"
       freshness: "invalidated"
   meta:
     mathema.effects:

@@ -336,7 +336,7 @@ arbital.geometry.ellipse_path:
       key: "arbital.geometry._eccentricity"
       file: "src/arbital/geometry.py"
       line: 146
-      form: "661a4046212c"
+      form: "a0c2ba9491ca"
       freshness: "current"
   meta:
     mathema.effects:

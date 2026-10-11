@@ -1,13 +1,13 @@
-# machine record; binds to form a54388d1e6b4
+# machine record; binds to form 600a3af1b6e9
 arbital.measures.pearson:
   schema_version: "0.2.0"
   name: "pearson"
   signature: "(x: 'np.ndarray', y: 'np.ndarray') -> 'InRange(-1.0, 1.0)'"
-  intent: "Plain Pearson correlation coefficient (signed, -1..1). A constant sample has no linear relationship with anything, so a zero denominator reports 0.0 instead of dividing."
+  intent: "Plain Pearson correlation coefficient (signed, -1..1). A constant sample has no linear relationship with anything, so a zero denominator reports 0.0 instead of dividing. r does not change when a sample is rescaled, so each is first divided by its largest magnitude, which keeps the sums of squares finite for values near the float limit."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "a54388d1e6b4"
+    form: "600a3af1b6e9"
     sig: "61fb750518aa"
     tier: 2
     source_available: true
@@ -23,26 +23,26 @@ arbital.measures.pearson:
         library: "numpy==2.5.4"
     claims_fingerprint: "f7921907c39a"
     pin: "none"
-    integrity: "v2:fc2e405509bf84a0"
+    integrity: "v2:a3107fe4ac2c6b21"
   math: null
   claims:
     - name: "blind_to_an_elementwise_rescale"
       statement: "assuming len(x) == len(y), let s = mathema.f.scale_seq, f(s(x, 2), y) = f(x, y)"
       verdict: "invalidated"
-      n: 8
-      counterexample: "x = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300, -1e+300], y = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300, -1e+300]: f returned nan"
-      note: "derive could not decide it (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain), so the probe decided it by running the code; at x = [nan, nan, nan, nan, nan, nan] f gave nan back; at y = [nan, nan, nan, nan, nan, nan] f gave nan back"
+      n: 9
+      counterexample: "x = [1.7976931348623157e+308, -1.7976931348623157e+308, 1.7976931348623157e+308, -1.7976931348623157e+308, 1.7976931348623157e+308, -1.7976931348623157e+308], y = [1.7976931348623157e+308, -1.7976931348623157e+308, 1.7976931348623157e+308, -1.7976931348623157e+308, 1.7976931348623157e+308, -1.7976931348623157e+308]: f returned nan"
+      note: "derive could not decide it (function body is not derivable, likely reason: branch: if denom == 0.0 (line 18), a branch couldn't be resolved from the declared domain), so the probe decided it by running the code; at x = [nan] f gave nan back; at y = [nan] f gave nan back"
       route: "probe"
       authored:
         surface: "claims-file"
         route: "best"
       meta:
-        mathema.sampling: "x~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), seed=20260718, n=8"
+        mathema.sampling: "x~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), seed=20260718, n=9"
         mathema.confidence:
-          score: 5.0
+          score: 5.2
           stars: 2
           max_stars: 5
-          n: 8
+          n: 9
           factors:
             branches: 1
             loops: 0
@@ -50,18 +50,18 @@ arbital.measures.pearson:
             wide_domain: 0
             float_extremes: 0
         mathema.counterexample_args:
-          - - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
-            - -1.0e+300
-          - - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
-            - -1.0e+300
+          - - 1.7976931348623157e+308
+            - -1.7976931348623157e+308
+            - 1.7976931348623157e+308
+            - -1.7976931348623157e+308
+            - 1.7976931348623157e+308
+            - -1.7976931348623157e+308
+          - - 1.7976931348623157e+308
+            - -1.7976931348623157e+308
+            - 1.7976931348623157e+308
+            - -1.7976931348623157e+308
+            - 1.7976931348623157e+308
+            - -1.7976931348623157e+308
         mathema.missing:
           admitted:
             x:
@@ -84,9 +84,9 @@ arbital.measures.pearson:
               nan: "propagates"
           said:
             x:
-              nan: "at x = [nan, nan, nan, nan, nan, nan] f gave nan back"
+              nan: "at x = [nan] f gave nan back"
             y:
-              nan: "at y = [nan, nan, nan, nan, nan, nan] f gave nan back"
+              nan: "at y = [nan] f gave nan back"
           means: "missing for x (numpy.ndarray) means nan; missing for y (numpy.ndarray) means nan"
           origin:
             x:
@@ -101,22 +101,26 @@ arbital.measures.pearson:
           largest:
             - 6
             - 1
-          entries: 48
-        mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain); probe: falsified"
+          entries: 60
+        mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 18), a branch couldn't be resolved from the declared domain); probe: falsified"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
-        mathema.previous_verdict: "holds"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+        mathema.previous_verdict: "invalidated"
         mathema.regressed_to: "falsified"
     - name: "dependencies_current"
-      verdict: "proven"
-      note: "generated by mathema verify; checked against the verified store"
-      sketch: "no direct function dependencies, vacuously current"
+      verdict: "unknown"
+      note: "no verified record yet for arbital.measures._unit_scaled; state claims about it and run mathema verify"
+      sketch: "no verified record yet for: arbital.measures._unit_scaled"
       route: "derive"
       authored:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
+        mathema.previous_verdict: "proven"
+        mathema.last_supported_commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+        mathema.regressed_to: "unknown"
+      counterexample: null
     - name: "is_empty_safe[x]"
       statement: "is_empty_safe(x)"
       verdict: "holds"
@@ -344,7 +348,7 @@ arbital.measures.pearson:
     - name: "missing[x]"
       statement: "missing(f, x) propagates"
       verdict: "holds"
-      n: 21
+      n: 128
       note: "default for a numpy.ndarray slot that may be nan; confirmed on the draws of on_the_correlation_scale, blind_to_an_elementwise_rescale, returns_in_range and symmetric_in_its_arguments. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.measures.pearson --write"
       route: "probe:counterfactual"
       authored:
@@ -361,7 +365,7 @@ arbital.measures.pearson:
     - name: "missing[y]"
       statement: "missing(f, y) propagates"
       verdict: "holds"
-      n: 21
+      n: 136
       note: "default for a numpy.ndarray slot that may be nan; confirmed on the draws of on_the_correlation_scale, blind_to_an_elementwise_rescale, returns_in_range and symmetric_in_its_arguments. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.measures.pearson --write"
       route: "probe:counterfactual"
       authored:
@@ -377,38 +381,26 @@ arbital.measures.pearson:
         mathema.surface: "mathema"
     - name: "on_the_correlation_scale"
       statement: "assuming len(x) == len(y), |f(x, y)| <= 1"
-      verdict: "invalidated"
-      n: 8
-      counterexample: "x = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300], y = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300]: f returned nan"
-      note: "derive could not decide it (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain), so the probe decided it by running the code; at x = [nan, nan, nan, nan] f gave nan back; at y = [nan, nan, nan, nan] f gave nan back"
+      verdict: "holds"
+      n: 117
+      note: "fails by 2.22e-16 at x = [9.537360210818886, 5.922002722195355], y = [5.823882757639971, 3.0825935068786787], within the default tolerance (1e-09); derive could not decide it (function body is not derivable, likely reason: branch: if denom == 0.0 (line 18), a branch couldn't be resolved from the declared domain), so the probe decided it by running the code; at x = [nan, nan, nan, nan] f gave nan back; at y = [nan, nan, nan, nan] f gave nan back"
       route: "probe"
       authored:
         surface: "claims-file"
         route: "best"
       meta:
-        mathema.sampling: "x~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), seed=20260718, n=8"
+        mathema.sampling: "x~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), seed=20260718, n=117"
         mathema.confidence:
-          score: 5.0
-          stars: 2
+          score: 8.9
+          stars: 4
           max_stars: 5
-          n: 8
+          n: 117
           factors:
             branches: 1
             loops: 0
             params: 0
             wide_domain: 0
             float_extremes: 0
-        mathema.counterexample_args:
-          - - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
-          - - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
         mathema.missing:
           admitted:
             x:
@@ -448,19 +440,17 @@ arbital.measures.pearson:
           largest:
             - 6
             - 1
-          entries: 56
-        mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain); probe: falsified"
+          entries: 922
+        mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 18), a branch couldn't be resolved from the declared domain); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
-        mathema.previous_verdict: "holds"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
-        mathema.regressed_to: "falsified"
+        mathema.previous_verdict: "invalidated"
     - name: "returns_in_range"
       statement: "assuming len(x) == len(y), -1 <= f(x, y) <= 1"
-      verdict: "invalidated"
-      n: 8
-      counterexample: "link 1: -1 <= f(x, y): x = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300], y = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300]: f returned nan"
-      note: "chained comparison falsified at link 1: -1 <= f(x, y); at x = [nan, nan, nan, nan] f gave nan back; at y = [nan, nan, nan, nan] f gave nan back"
+      verdict: "holds"
+      n: 117
+      note: "every link of the chained comparison holds; at x = [nan, nan, nan, nan] f gave nan back; at y = [nan, nan, nan, nan] f gave nan back"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -505,45 +495,32 @@ arbital.measures.pearson:
           largest:
             - 6
             - 1
-          entries: 56
+          entries: 922
         mathema.surface: "declared"
-        mathema.previous_verdict: "holds"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
-        mathema.regressed_to: "falsified"
+        mathema.previous_verdict: "invalidated"
     - name: "symmetric_in_its_arguments"
       statement: "assuming len(x) == len(y), f(x, y) = f(y, x)"
-      verdict: "invalidated"
-      n: 8
-      counterexample: "x = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300], y = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300]: f returned nan"
-      note: "derive could not decide it (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain), so the probe decided it by running the code; at x = [nan] f gave nan back; at y = [nan] f gave nan back"
+      verdict: "holds"
+      n: 116
+      note: "derive could not decide it (function body is not derivable, likely reason: branch: if denom == 0.0 (line 18), a branch couldn't be resolved from the declared domain), so the probe decided it by running the code; at x = [nan] f gave nan back; at y = [nan] f gave nan back"
       route: "probe"
       authored:
         surface: "claims-file"
         route: "best"
       meta:
-        mathema.sampling: "x~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), seed=20260718, n=8"
+        mathema.sampling: "x~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), seed=20260718, n=116"
         mathema.confidence:
-          score: 5.0
-          stars: 2
+          score: 8.9
+          stars: 4
           max_stars: 5
-          n: 8
+          n: 116
           factors:
             branches: 1
             loops: 0
             params: 0
             wide_domain: 0
             float_extremes: 0
-        mathema.counterexample_args:
-          - - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
-          - - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
-            - -1.0e+300
-            - 1.0e+300
         mathema.missing:
           admitted:
             x:
@@ -583,22 +560,21 @@ arbital.measures.pearson:
           largest:
             - 6
             - 1
-          entries: 62
-        mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 16), a branch couldn't be resolved from the declared domain); probe: falsified"
+          entries: 838
+        mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: branch: if denom == 0.0 (line 18), a branch couldn't be resolved from the declared domain); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
-        mathema.previous_verdict: "holds"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
-        mathema.regressed_to: "falsified"
+        mathema.previous_verdict: "invalidated"
   concepts: []
   references: {}
   reasoning:
     - step: "intent"
-      claim: "Plain Pearson correlation coefficient (signed, -1..1). A constant sample has no linear relationship with anything, so a zero denominator reports 0.0 instead of dividing."
+      claim: "Plain Pearson correlation coefficient (signed, -1..1). A constant sample has no linear relationship with anything, so a zero denominator reports 0.0 instead of dividing. r does not change when a sample is rescaled, so each is first divided by its largest magnitude, which keeps the sums of squares finite for values near the float limit."
       basis: "documented; the author's stated purpose"
-    - step: "refutation"
-      claim: "NOT (assuming len(x) == len(y), |f(x, y)| <= 1)"
-      basis: "counterexample x = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300], y = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300]: f returned nan"
+    - step: "evidence"
+      claim: "assuming len(x) == len(y), |f(x, y)| <= 1"
+      basis: "probed, n=117"
     - step: "evidence"
       claim: "is_empty_safe(x)"
       basis: "probed, n=1"
@@ -607,25 +583,25 @@ arbital.measures.pearson:
       basis: "probed, n=1"
     - step: "refutation"
       claim: "NOT (assuming len(x) == len(y), let s = mathema.f.scale_seq, f(s(x, 2), y) = f(x, y))"
-      basis: "counterexample x = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300, -1e+300], y = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300, -1e+300]: f returned nan"
+      basis: "counterexample x = [1.7976931348623157e+308, -1.7976931348623157e+308, 1.7976931348623157e+308, -1.7976931348623157e+308, 1.7976931348623157e+308, -1.7976931348623157e+308], y = [1.7976931348623157e+308, -1.7976931348623157e+308, 1.7976931348623157e+308, -1.7976931348623157e+308, 1.7976931348623157e+308, -1.7976931348623157e+308]: f returned nan"
     - step: "evidence"
       claim: "is_empty_safe(x)"
       basis: "probed, n=2"
     - step: "evidence"
       claim: "is_empty_safe(y)"
       basis: "probed, n=2"
-    - step: "refutation"
-      claim: "NOT (assuming len(x) == len(y), -1 <= f(x, y) <= 1)"
-      basis: "counterexample link 1: -1 <= f(x, y): x = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300], y = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300]: f returned nan"
+    - step: "evidence"
+      claim: "assuming len(x) == len(y), -1 <= f(x, y) <= 1"
+      basis: "probed, n=117"
     - step: "evidence"
       claim: "is_empty_safe(x)"
       basis: "probed, n=1"
     - step: "evidence"
       claim: "is_empty_safe(y)"
       basis: "probed, n=1"
-    - step: "refutation"
-      claim: "NOT (assuming len(x) == len(y), f(x, y) = f(y, x))"
-      basis: "counterexample x = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300], y = [1e+300, -1e+300, 1e+300, -1e+300, 1e+300]: f returned nan"
+    - step: "evidence"
+      claim: "assuming len(x) == len(y), f(x, y) = f(y, x)"
+      basis: "probed, n=116"
     - step: "evidence"
       claim: "is_empty_safe(x)"
       basis: "probed, n=2"
@@ -634,18 +610,26 @@ arbital.measures.pearson:
       basis: "probed, n=2"
     - step: "evidence"
       claim: "missing(f, x) propagates"
-      basis: "probed, n=21"
+      basis: "probed, n=128"
     - step: "evidence"
       claim: "missing(f, y) propagates"
-      basis: "probed, n=21"
-    - step: "derivation"
+      basis: "probed, n=136"
+    - step: "gap"
       claim: ""
-      basis: "no direct function dependencies, vacuously current"
+      basis: "no verified record yet for: arbital.measures._unit_scaled"
   lineage:
     generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
     date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    commit: "b48f13536c0dc69b0fdb7b6323e9fb3e2df8223a"
+  dependencies:
+    - name: "_unit_scaled"
+      kind: "function"
+      key: "arbital.measures._unit_scaled"
+      file: "src/arbital/measures.py"
+      line: 139
+      form: "09024868a607"
+      freshness: "unverified"
   meta:
     mathema.concept_sources:
       keyword:

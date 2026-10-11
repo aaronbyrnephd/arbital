@@ -96,7 +96,7 @@ def _distance_from_strength(r: float,
     raise ValueError(f"unknown scale {scale!r}, use 'info' or 'linear'")
 
 
-def strength_to_distance(r, scale: Literal["info", "linear"] = "info"):
+def strength_to_distance(r: float | np.ndarray, scale: Literal["info", "linear"] = "info"):
     """Map association strength r in [0, 1] to distance from the centre.
 
     Accepts a scalar or an array and clamps it into [0, 1] before
@@ -153,10 +153,10 @@ def _eccentricity(r_peri: float, r_apo: float) -> UnitInterval:
         Recover the shape of an orbit from the two distances that
         define it, without needing the semi-major axis as well.
     """
-    a = 0.5 * (r_peri + r_apo)
-    if a == 0.0:
+    total = r_peri + r_apo
+    if total == 0.0:
         return 0.0
-    return (r_apo - r_peri) / (r_apo + r_peri)
+    return (r_apo - r_peri) / total
 
 
 def ellipse_path(theta: float, r_peri: float, r_apo: float, n: int = 120):

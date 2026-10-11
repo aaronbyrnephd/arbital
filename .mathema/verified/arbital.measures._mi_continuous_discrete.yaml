@@ -21,9 +21,9 @@ arbital.measures._mi_continuous_discrete:
         type: "numpy.ndarray"
         evidence: "annotation: numpy.ndarray"
         library: "numpy==2.5.4"
-    claims_fingerprint: "77ab0e7a6f2f"
+    claims_fingerprint: "e98e9c9fb3e9"
     pin: "none"
-    integrity: "v2:52224277b43ab6dc"
+    integrity: "v2:d26960411f9d22d6"
   math: null
   claims:
     - name: "dependencies_current"
@@ -36,9 +36,7 @@ arbital.measures._mi_continuous_discrete:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
-        mathema.previous_verdict: "proven"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
-        mathema.regressed_to: "falsified"
     - name: "is_library_safe"
       statement: "is_library_safe(numpy)"
       verdict: "holds"
@@ -47,6 +45,7 @@ arbital.measures._mi_continuous_discrete:
       route: "probe:algorithmic"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.accepted_spelling: "is_compendium_safe"
         mathema.routes_attempted: "routes attempted, derive: unsupported (the built-in claim is_library_safe could not decide it, and derive has no other way to read it); probe: holds"
@@ -76,13 +75,13 @@ arbital.measures._mi_continuous_discrete:
     generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
     date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    commit: "b48f13536c0dc69b0fdb7b6323e9fb3e2df8223a"
   dependencies:
     - name: "_digamma"
       kind: "function"
       key: "arbital.measures._digamma"
       file: "src/arbital/measures.py"
-      line: 197
+      line: 216
       form: "12433e691938"
       freshness: "invalidated"
   meta:

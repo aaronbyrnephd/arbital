@@ -14,10 +14,12 @@ arbital.measures.linfoot:
       statement: "f(0) == 0"
     - name: floors_negative_information
       statement: "for mi in [-50, 0], f(mi) == 0"
+    # mi = 0 is where the floor meets the curve, a kink with no
+    # derivative, so the derivative claims start just above it
     - name: rises_with_information
-      statement: "for mi in [0, 50], d(f(mi), mi) >= 0"
+      statement: "for mi in (0, 50], d(f(mi), mi) >= 0"
     - name: concave_in_information
-      statement: "for mi in [0, 50], d(f(mi), mi, mi) <= 0"
+      statement: "for mi in (0, 50], d(f(mi), mi, mi) <= 0"
     # strictly_below_one used to sit here, asserting the docstring's
     # "r_I in [0, 1)" over the whole range. True in exact arithmetic and
     # false in float64: exp(-2*mi) drops below the smallest
@@ -214,9 +216,10 @@ arbital.measures.association_matrix:
   claims:
     # The docstring's first line says "Symmetric matrix of r_info between
     # every pair of columns of X". Until mathema could synthesise matrices
-    # this contract had no evidence behind it at all.
+    # this contract had no evidence behind it at all. The kNN estimator
+    # needs more rows than k + 1, so the claim fixes a shape it accepts.
     - name: symmetric_by_construction
-      law: "is_symmetric(f(X))"
+      law: "for X in [-10, 10]^(30,3), is_symmetric(f(X, k=5))"
 
 arbital.measures._monotone_strength:
   claims:
@@ -249,12 +252,11 @@ arbital.measures.pearson:
     # Also recovered from fb26a05.
     - name: on_the_correlation_scale
       law: "assuming len(x) == len(y), |f(x, y)| <= 1"
-    # `2*x` on a synthesised list is list REPETITION, not elementwise
-    # scaling, so the plain spelling silently tested the wrong thing and
-    # survived only because most samples raised and were excluded (n=15).
-    # scale_seq is the construct for this: n=160, and it scales the axis.
+    # scale_seq doubles every entry of x. The shared length n pairs the two
+    # samples, and the bound keeps the doubled sample finite: at the float
+    # limit 2*x is inf, which is no longer a rescale of x.
     - name: blind_to_an_elementwise_rescale
-      law: "let s = mathema.f.scale_seq, assuming len(x) == len(y), f(s(x, 2), y) == f(x, y)"
+      law: "for x in [-1e300, 1e300]^n, y in [-1e300, 1e300]^n, let s = mathema.f.scale_seq, f(s(x, 2), y) == f(x, y)"
     - name: returns_in_range
       law: "assuming len(x) == len(y), -1 <= f(x, y) <= 1"
     # The paired-length premise states the precondition directly, where
@@ -281,11 +283,10 @@ arbital.measures.spearman:
 arbital.measures._digamma:
   claims:
     # psi(x) < x for x >= 2: the asymptotic series grows like log(x), so the
-    # function stays under its own argument. A bound rather than the
-    # recurrence itself, which needs array synthesis the probe route cannot
-    # reach on this signature.
+    # function stays under its own argument. _digamma works elementwise on
+    # an array, so the bound is stated over a whole array of arguments.
     - name: grows_more_slowly_than_its_argument
-      law: "for x in [2, 100], f(x) <= x"
+      law: "for x in [2, 100]^n, max(f(x) - x) <= 0"
 
 arbital.measures._mi_continuous_discrete:
   intent: "MI (nats) between a continuous variable and a discrete label."

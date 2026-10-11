@@ -21,9 +21,9 @@ arbital.measures._mi_discrete_discrete:
         type: "numpy.ndarray"
         evidence: "annotation: numpy.ndarray"
         library: "numpy==2.5.4"
-    claims_fingerprint: "9dba976259a1"
+    claims_fingerprint: "57fad101d825"
     pin: "none"
-    integrity: "v2:0c1dca14f3245861"
+    integrity: "v2:03dfed0ce3ad995e"
   math: null
   claims:
     - name: "dependencies_current"
@@ -150,11 +150,12 @@ arbital.measures._mi_discrete_discrete:
     - name: "is_library_safe"
       statement: "is_library_safe(numpy)"
       verdict: "holds"
-      n: 27
+      n: 28
       note: "derive could not decide it (the built-in claim is_library_safe could not decide it, and derive has no other way to read it), so the probe decided it by running the code; is_compendium_safe is an accepted spelling of is_library_safe"
       route: "probe:algorithmic"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.accepted_spelling: "is_compendium_safe"
         mathema.routes_attempted: "routes attempted, derive: unsupported (the built-in claim is_library_safe could not decide it, and derive has no other way to read it); probe: holds"
@@ -163,7 +164,7 @@ arbital.measures._mi_discrete_discrete:
     - name: "missing[x]"
       statement: "missing(f, x) propagates"
       verdict: "falsified"
-      n: 44
+      n: 41
       counterexample: "x = [nan, nan], y = [nan, nan]: f raised KeyError"
       note: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f raises instead: a nan slot in, KeyError. (i) if the raise is intended, state: missing(f, x) raises(KeyError)
 (ii) if not, make f skip or fill the nan slot
@@ -186,7 +187,7 @@ arbital.measures._mi_discrete_discrete:
     - name: "missing[y]"
       statement: "missing(f, y) propagates"
       verdict: "falsified"
-      n: 38
+      n: 37
       counterexample: "x = [nan, nan], y = [nan, nan]: f raised KeyError"
       note: "mathema's default word for a numpy.ndarray slot that may be nan, not a claim of yours; f raises instead: a nan slot in, KeyError. (i) if the raise is intended, state: missing(f, y) raises(KeyError)
 (ii) if not, make f skip or fill the nan slot
@@ -239,8 +240,8 @@ arbital.measures._mi_discrete_discrete:
               missing:
                 - "nan"
           inconclusive:
-            x: 32
-            y: 25
+            x: 36
+            y: 29
           executed:
             x:
               nan: "raised KeyError"
@@ -270,26 +271,26 @@ arbital.measures._mi_discrete_discrete:
           largest:
             - 8
             - 1
-          entries: 252
+          entries: 218
         mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: loop: multiple-loops (line 21), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "symmetric"
       statement: "assuming len(x) == len(y), f(x, y) = f(y, x)"
       verdict: "holds"
-      n: 165
-      note: "derive could not decide it (function body is not derivable, likely reason: loop: multiple-loops (line 21), the loop doesn't match a recognized fold/sum/dot shape), so the probe decided it by running the code; at x = [nan, nan, nan] f raised KeyError; at y = [nan, nan, nan] f raised KeyError"
+      n: 166
+      note: "derive could not decide it (function body is not derivable, likely reason: loop: multiple-loops (line 21), the loop doesn't match a recognized fold/sum/dot shape), so the probe decided it by running the code; at x = [nan, nan] f raised KeyError; at y = [nan, nan] f raised KeyError"
       route: "probe"
       authored:
         surface: "claims-file"
         route: "best"
       meta:
-        mathema.sampling: "x~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), seed=20260718, n=165"
+        mathema.sampling: "x~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), y~Seq(len∈[1,6]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), seed=20260718, n=166"
         mathema.confidence:
           score: 6.4
           stars: 3
           max_stars: 5
-          n: 165
+          n: 166
           factors:
             branches: 1
             loops: 2
@@ -318,9 +319,9 @@ arbital.measures._mi_discrete_discrete:
               nan: "raises"
           said:
             x:
-              nan: "at x = [nan, nan, nan] f raised KeyError"
+              nan: "at x = [nan, nan] f raised KeyError"
             y:
-              nan: "at y = [nan, nan, nan] f raised KeyError"
+              nan: "at y = [nan, nan] f raised KeyError"
           means: "missing for x (numpy.ndarray) means nan; missing for y (numpy.ndarray) means nan"
           origin:
             x:
@@ -335,7 +336,7 @@ arbital.measures._mi_discrete_discrete:
           largest:
             - 6
             - 1
-          entries: 1164
+          entries: 1144
         mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: loop: multiple-loops (line 21), the loop doesn't match a recognized fold/sum/dot shape); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
@@ -360,7 +361,7 @@ arbital.measures._mi_discrete_discrete:
       basis: "probed, n=1"
     - step: "evidence"
       claim: "assuming len(x) == len(y), f(x, y) = f(y, x)"
-      basis: "probed, n=165"
+      basis: "probed, n=166"
     - step: "evidence"
       claim: "is_empty_safe(x)"
       basis: "probed, n=2"
@@ -369,7 +370,7 @@ arbital.measures._mi_discrete_discrete:
       basis: "probed, n=2"
     - step: "evidence"
       claim: "is_library_safe(numpy)"
-      basis: "probed, n=27"
+      basis: "probed, n=28"
     - step: "refutation"
       claim: "NOT (missing(f, x) propagates)"
       basis: "counterexample x = [nan, nan], y = [nan, nan]: f raised KeyError"
@@ -386,7 +387,7 @@ arbital.measures._mi_discrete_discrete:
     generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
     date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    commit: "b48f13536c0dc69b0fdb7b6323e9fb3e2df8223a"
   raises:
     - "ValueError"
   meta:

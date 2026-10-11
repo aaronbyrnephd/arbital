@@ -98,5 +98,5 @@ numpy.eye:
     mathema.premise_state: {}
     mathema.definition_rows:
       numpy.eye:
-        - "definition: bundled (numpy 2.5.4)"
+        - "definition: holds (numpy 2.5.4)"
     mathema.intent_provenance: "declared"

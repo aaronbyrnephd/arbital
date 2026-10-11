@@ -12,9 +12,9 @@ arbital.datasets.load:
     tier: 3
     source_available: true
     pure: false
-    claims_fingerprint: "76fe4727795a"
+    claims_fingerprint: "bea471beeca5"
     pin: "none"
-    integrity: "v2:80da30e35b519f57"
+    integrity: "v2:4f065f1d94c25dc1"
   math: null
   claims:
     - name: "dependencies_current"
@@ -50,6 +50,7 @@ arbital.datasets.load:
       route: "probe:minimal_example"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.accepted_spelling: "is_arbitrary_input_safe"
         mathema.routes_attempted: "routes attempted, derive: unsupported (the built-in claim is_language_defined could not decide it, and derive has no other way to read it); probe: holds"
@@ -75,7 +76,7 @@ arbital.datasets.load:
     generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
     date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    commit: "b48f13536c0dc69b0fdb7b6323e9fb3e2df8223a"
   dependencies:
     - name: "_dataframe_to_table"
       kind: "function"

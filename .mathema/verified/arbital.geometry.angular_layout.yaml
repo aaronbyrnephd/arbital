@@ -12,9 +12,9 @@ arbital.geometry.angular_layout:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "debf92b6c51c"
+    claims_fingerprint: "4ae8e85a6cc1"
     pin: "none"
-    integrity: "v2:91a8a9f691154a8b"
+    integrity: "v2:8cf5e865f2fe2b84"
   math: null
   claims:
     - name: "dependencies_current"
@@ -34,6 +34,7 @@ arbital.geometry.angular_layout:
       route: "probe:minimal_example"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.accepted_spelling: "is_arbitrary_input_safe"
         mathema.routes_attempted: "routes attempted, derive: unsupported (the built-in claim is_language_defined could not decide it, and derive has no other way to read it); probe: holds"
@@ -63,7 +64,7 @@ arbital.geometry.angular_layout:
     generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
     date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    commit: "b48f13536c0dc69b0fdb7b6323e9fb3e2df8223a"
   dependencies:
     - name: "_classical_mds_2d"
       kind: "function"

@@ -12,9 +12,9 @@ arbital.measures.linfoot:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "60eb9ac1dd74"
+    claims_fingerprint: "f15ad24c30d1"
     pin: "none"
-    integrity: "v2:4b974a18cfa95d01"
+    integrity: "v2:ab1bf5223ef8b3f2"
   math:
     unicode: "sqrt(exp(2*max(0, mi)) - 1)*exp(-max(0, mi))"
     latex: "\\sqrt{e^{2 \\max\\left(0, mi\\right)} - 1} e^{- \\max\\left(0, mi\\right)}"
@@ -42,10 +42,12 @@ arbital.measures.linfoot:
                 - sentinel: "missing"
           excluded:
             - sentinel: "None"
-          explicit_type: false
+          explicit_type: true
           members:
             - "nan"
+          clause: true
       meta:
+        mathema.pending_supersession: "for mi in (0.0, 50.0] : float|absent|missing, d(f(mi), mi, mi) <= 0"
         mathema.derive_status: "undecided"
         mathema.routes_attempted: "routes attempted, derive: undecided (after substituting t = exp(x) for mi: interval refinement over 1 cells of the domain box certifies that (1 - 2*t_mi^2)/(t_mi*(t_mi^2 - 1)^(3/2)) has the required sign everywhere; not kept as a proof: f is not differentiable where Eq(-mi, 0), which the declared domain does not exclude); probe: skipped (unrecognized call 'd' in 'd(f(mi), mi, mi)', not a known math function, and no function of that name was found in f's module or the calling scope (bind one explicitly with funcs={'d': <function>}))"
         mathema.invalid_conjecture: true
@@ -58,7 +60,7 @@ arbital.measures.linfoot:
           means: "missing for mi (float) means nan"
           origin:
             mi:
-              missing: "type"
+              missing: "written"
         mathema.surface: "declared"
         mathema.last_supported_commit: "1361b4124ef03f36f091caaf9a6624f490d67e37"
         mathema.previous_verdict: "invalidated"
@@ -180,8 +182,8 @@ arbital.measures.linfoot:
               absent: false
               missing: []
         mathema.surface: "declared"
-        mathema.previous_verdict: "holds"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+        mathema.previous_verdict: "invalidated"
         mathema.regressed_to: "skipped:misspecified"
     - name: "is_library_safe"
       statement: "is_library_safe(numpy)"
@@ -191,6 +193,7 @@ arbital.measures.linfoot:
       route: "probe:algorithmic"
       authored:
         surface: "claims-file"
+        route: "best"
       meta:
         mathema.accepted_spelling: "is_compendium_safe"
         mathema.routes_attempted: "routes attempted, derive: unsupported (the built-in claim is_library_safe could not decide it, and derive has no other way to read it); probe: holds"
@@ -283,10 +286,12 @@ arbital.measures.linfoot:
                 - sentinel: "missing"
           excluded:
             - sentinel: "None"
-          explicit_type: false
+          explicit_type: true
           members:
             - "nan"
+          clause: true
       meta:
+        mathema.pending_supersession: "for mi in (0.0, 50.0] : float|absent|missing, d(f(mi), mi) >= 0"
         mathema.derive_status: "undecided"
         mathema.routes_attempted: "routes attempted, derive: undecided (after substituting t = exp(x) for mi: interval refinement over 1 cells of the domain box certifies that 1/(t_mi*sqrt(t_mi^2 - 1)) has the required sign everywhere; not kept as a proof: f is not differentiable where Eq(-mi, 0), which the declared domain does not exclude); probe: skipped (unrecognized call 'd' in 'd(f(mi), mi)', not a known math function, and no function of that name was found in f's module or the calling scope (bind one explicitly with funcs={'d': <function>}))"
         mathema.invalid_conjecture: true
@@ -299,7 +304,7 @@ arbital.measures.linfoot:
           means: "missing for mi (float) means nan"
           origin:
             mi:
-              missing: "type"
+              missing: "written"
         mathema.surface: "declared"
         mathema.last_supported_commit: "1361b4124ef03f36f091caaf9a6624f490d67e37"
         mathema.previous_verdict: "invalidated"
@@ -483,7 +488,7 @@ arbital.measures.linfoot:
     generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
     date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    commit: "b48f13536c0dc69b0fdb7b6323e9fb3e2df8223a"
   meta:
     mathema.concept_sources:
       mechanism:

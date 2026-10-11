@@ -1,28 +1,32 @@
-# machine record; binds to form cd60617ab776
+# machine record; binds to form 600d88f0614c
 arbital.geometry.strength_to_distance:
   schema_version: "0.2.0"
   name: "strength_to_distance"
-  signature: "(r, scale: \"Literal['info', 'linear']\" = 'info')"
+  signature: "(r: 'float | np.ndarray', scale: \"Literal['info', 'linear']\" = 'info')"
   intent: "Map association strength r in [0, 1] to distance from the centre. Accepts a scalar or an array and clamps it into [0, 1] before applying _distance_from_strength(), which is the mapping itself."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "cd60617ab776"
-    sig: "e8f6f9319e42"
+    form: "600d88f0614c"
+    sig: "9075e56cb30c"
     tier: 2
     source_available: true
     pure: true
+    runtime_types:
+      r:
+        type: "numpy.ndarray"
+        evidence: "annotation: numpy.ndarray"
+        library: "numpy==2.5.4"
     claims_fingerprint: "dcaf25b118e5"
     pin: "none"
-    integrity: "v2:1623224b0bcc0077"
+    integrity: "v2:f0eee9fbc9f01ca5"
   math: null
   claims:
     - name: "absent[r]"
-      statement: "absent(f, r) raises"
-      verdict: "falsified"
+      statement: "absent(f, r) converts"
+      verdict: "holds"
       n: 2
-      counterexample: "r = None, scale = \"linear\": f returned nan"
-      note: "default: r has no annotation, so it may be None; f converts instead: None in, nan out. (i) if that is intended, state: absent(f, r) converts (ii) if not, change f (iii) to accept it as a discovery, run: mathema accept arbital.geometry.strength_to_distance absent[r] --as discovery --corrected \"absent(f, r) converts\""
+      note: "observed: the claim admits None for r; f converts it (None in, nan out) on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
       route: "probe:counterfactual"
       authored:
         surface: "suggested"
@@ -31,16 +35,16 @@ arbital.geometry.strength_to_distance:
           kind: "absent"
           parameter: "r"
           evidence: "confirmed on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
-          behaviour: "raises"
-          source: "default"
-          reason: "default: r has no annotation, so it may be None; f converts instead: None in, nan out"
-          next: "(i) if that is intended, state: absent(f, r) converts (ii) if not, change f (iii) to accept it as a discovery, run: mathema accept arbital.geometry.strength_to_distance absent[r] --as discovery --corrected \"absent(f, r) converts\""
+          behaviour: "converts"
+          source: "observed"
+          reason: "observed: the claim admits None for r; f converts it (None in, nan out) on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
         mathema.surface: "mathema"
+        mathema.previous_verdict: "falsified"
     - name: "clamps_above_one_to_the_centre"
       statement: "for r in [1.0, 5.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
       verdict: "holds"
-      n: 105
-      note: "derive could not decide it (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals), so the probe decided it by running the code; at r = [nan, nan, nan, nan, nan, nan] f gave [nan, nan, nan, nan, nan, nan] back; at r = None f returned nan, so it converts the absence to a hole"
+      n: 111
+      note: "r = None is outside the type float | np.ndarray, and the claim adds it; derive could not decide it (the name 'float' is not a parameter, a local or a numeric module constant), so the probe decided it by running the code; at r = [nan, nan, nan, nan, nan, nan] f gave [nan, nan, nan, nan, nan, nan] back; at r = None f returned nan, so it converts the absence to a hole"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -56,10 +60,11 @@ arbital.geometry.strength_to_distance:
             - set:
                 - sentinel: "missing"
           excluded: []
-          explicit_type: false
+          explicit_type: true
           absent: true
           members:
             - "nan"
+          clause: true
         scale:
           base_type: "R"
           pieces:
@@ -69,12 +74,13 @@ arbital.geometry.strength_to_distance:
           excluded: []
           explicit_type: false
       meta:
-        mathema.sampling: "r~U(1,5)⊔{lo,hi,mid,±ε}[p=.3], scale~U{info, linear}, seed=20260718, n=105"
+        mathema.pending_supersession: "for r in [1.0, 5.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
+        mathema.sampling: "r~Seq(len∈[1,8]; elem~[1.0, 5.0]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), scale~U{info, linear}, seed=20260718, n=111"
         mathema.confidence:
-          score: 9.7
+          score: 9.8
           stars: 4
           max_stars: 5
-          n: 105
+          n: 111
           factors:
             branches: 0
             loops: 0
@@ -87,10 +93,6 @@ arbital.geometry.strength_to_distance:
               absent: true
               missing:
                 - "nan"
-          tried:
-            r:
-              - "None"
-              - "nan"
           executed:
             r:
               nan: "nan slot in, [nan, nan, nan, nan, nan, nan] out (propagates)"
@@ -103,11 +105,11 @@ arbital.geometry.strength_to_distance:
             r:
               nan: "at r = [nan, nan, nan, nan, nan, nan] f gave [nan, nan, nan, nan, nan, nan] back"
               None: "at r = None f returned nan, so it converts the absence to a hole"
-          means: "missing for r (unannotated) means nan"
+          means: "missing for r (numpy.ndarray) means nan"
           origin:
             r:
-              absent: "type"
-              missing: "type"
+              absent: "written"
+              missing: "written"
         mathema.drawn:
           form: "vec"
           smallest:
@@ -116,15 +118,15 @@ arbital.geometry.strength_to_distance:
           largest:
             - 8
             - 1
-          entries: 495
-        mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
+          entries: 537
+        mathema.routes_attempted: "routes attempted, derive: underivable (the name 'float' is not a parameter, a local or a numeric module constant); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "clamps_below_zero_to_the_rim"
       statement: "for r in [-5.0, 0.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 1"
       verdict: "holds"
-      n: 108
-      note: "derive could not decide it (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals), so the probe decided it by running the code; at r = [nan, nan, nan, nan] f gave [nan, nan, nan, nan] back; at r = None f returned nan, so it converts the absence to a hole"
+      n: 107
+      note: "r = None is outside the type float | np.ndarray, and the claim adds it; derive could not decide it (the name 'float' is not a parameter, a local or a numeric module constant), so the probe decided it by running the code; at r = [nan, nan, nan, nan, nan, nan, ...] f gave [nan, nan, nan, nan, nan, nan, ...] back; at r = None f returned nan, so it converts the absence to a hole"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -140,10 +142,11 @@ arbital.geometry.strength_to_distance:
             - set:
                 - sentinel: "missing"
           excluded: []
-          explicit_type: false
+          explicit_type: true
           absent: true
           members:
             - "nan"
+          clause: true
         scale:
           base_type: "R"
           pieces:
@@ -153,12 +156,13 @@ arbital.geometry.strength_to_distance:
           excluded: []
           explicit_type: false
       meta:
-        mathema.sampling: "r~U(-5,0)⊔{lo,hi,mid,±ε}[p=.3], scale~U{info, linear}, seed=20260718, n=108"
+        mathema.pending_supersession: "for r in [-5.0, 0.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 1"
+        mathema.sampling: "r~Seq(len∈[1,8]; elem~[-5.0, 0.0]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), scale~U{info, linear}, seed=20260718, n=107"
         mathema.confidence:
-          score: 9.8
+          score: 9.7
           stars: 4
           max_stars: 5
-          n: 108
+          n: 107
           factors:
             branches: 0
             loops: 0
@@ -171,13 +175,9 @@ arbital.geometry.strength_to_distance:
               absent: true
               missing:
                 - "nan"
-          tried:
-            r:
-              - "None"
-              - "nan"
           executed:
             r:
-              nan: "nan slot in, [nan, nan, nan, nan] out (propagates)"
+              nan: "nan slot in, [nan, nan, nan, nan, nan, nan, ...] out (propagates)"
               None: "None in, nan out (converts)"
           behaviour:
             r:
@@ -185,13 +185,13 @@ arbital.geometry.strength_to_distance:
               None: "converts"
           said:
             r:
-              nan: "at r = [nan, nan, nan, nan] f gave [nan, nan, nan, nan] back"
+              nan: "at r = [nan, nan, nan, nan, nan, nan, ...] f gave [nan, nan, nan, nan, nan, nan, ...] back"
               None: "at r = None f returned nan, so it converts the absence to a hole"
-          means: "missing for r (unannotated) means nan"
+          means: "missing for r (numpy.ndarray) means nan"
           origin:
             r:
-              absent: "type"
-              missing: "type"
+              absent: "written"
+              missing: "written"
         mathema.drawn:
           form: "vec"
           smallest:
@@ -200,8 +200,8 @@ arbital.geometry.strength_to_distance:
           largest:
             - 8
             - 1
-          entries: 480
-        mathema.routes_attempted: "routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
+          entries: 508
+        mathema.routes_attempted: "routes attempted, derive: underivable (the name 'float' is not a parameter, a local or a numeric module constant); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "dependencies_current"
@@ -214,9 +214,7 @@ arbital.geometry.strength_to_distance:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
-        mathema.previous_verdict: "proven"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
-        mathema.regressed_to: "falsified"
     - name: "is_empty_safe[r]"
       statement: "is_empty_safe(r)"
       verdict: "holds"
@@ -236,10 +234,11 @@ arbital.geometry.strength_to_distance:
             - set:
                 - sentinel: "missing"
           excluded: []
-          explicit_type: false
+          explicit_type: true
           absent: true
           members:
             - "nan"
+          clause: true
         scale:
           base_type: "R"
           pieces:
@@ -249,6 +248,7 @@ arbital.geometry.strength_to_distance:
           excluded: []
           explicit_type: false
       meta:
+        mathema.pending_supersession: "for r in [1.0, 5.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
         mathema.companion_of: "clamps_above_one_to_the_centre"
         mathema.family: "is_empty_safe"
         mathema.missing:
@@ -257,11 +257,11 @@ arbital.geometry.strength_to_distance:
               absent: true
               missing:
                 - "nan"
-          means: "missing for r (unannotated) means nan"
+          means: "missing for r (numpy.ndarray) means nan"
           origin:
             r:
-              absent: "type"
-              missing: "type"
+              absent: "written"
+              missing: "written"
         mathema.surface: "declared"
     - name: "is_empty_safe[r]"
       statement: "is_empty_safe(r)"
@@ -282,10 +282,11 @@ arbital.geometry.strength_to_distance:
             - set:
                 - sentinel: "missing"
           excluded: []
-          explicit_type: false
+          explicit_type: true
           absent: true
           members:
             - "nan"
+          clause: true
         scale:
           base_type: "R"
           pieces:
@@ -295,6 +296,7 @@ arbital.geometry.strength_to_distance:
           excluded: []
           explicit_type: false
       meta:
+        mathema.pending_supersession: "for r in [-5.0, 0.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 1"
         mathema.companion_of: "clamps_below_zero_to_the_rim"
         mathema.family: "is_empty_safe"
         mathema.missing:
@@ -303,17 +305,17 @@ arbital.geometry.strength_to_distance:
               absent: true
               missing:
                 - "nan"
-          means: "missing for r (unannotated) means nan"
+          means: "missing for r (numpy.ndarray) means nan"
           origin:
             r:
-              absent: "type"
-              missing: "type"
+              absent: "written"
+              missing: "written"
         mathema.surface: "declared"
     - name: "missing[r]"
       statement: "missing(f, r) propagates"
       verdict: "holds"
-      n: 41
-      note: "default: r has no annotation, so it may be nan; confirmed on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim. Annotate r as float to say so; to write this row, run: mathema claims arbital.geometry.strength_to_distance --write"
+      n: 36
+      note: "observed: the claim admits nan for r; f propagates it (a nan slot in, [nan, nan, nan, nan, nan, nan] out) on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
       route: "probe:counterfactual"
       authored:
         surface: "suggested"
@@ -323,8 +325,8 @@ arbital.geometry.strength_to_distance:
           parameter: "r"
           evidence: "confirmed on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
           behaviour: "propagates"
-          source: "default"
-          reason: "default: r has no annotation, so it may be nan; confirmed on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim. Annotate r as float to say so; to write this row, run: mathema claims arbital.geometry.strength_to_distance --write"
+          source: "observed"
+          reason: "observed: the claim admits nan for r; f propagates it (a nan slot in, [nan, nan, nan, nan, nan, nan] out) on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
         mathema.surface: "mathema"
     - name: "refuses_an_unknown_scale"
       statement: "raises(f(0.5, \"nope\"), ValueError)"
@@ -336,7 +338,7 @@ arbital.geometry.strength_to_distance:
         surface: "claims-file"
         route: "best"
       meta:
-        mathema.sampling: "r~U(0.5,0.5)⊔{lo,hi,mid,±ε}[p=.3], scale~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=129"
+        mathema.sampling: "r~Seq(len∈[1,8]; elem~U(0.5,0.5)⊔{lo,hi,mid,±ε}[p=.3]; as numpy.ndarray), scale~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=129"
         mathema.confidence:
           score: 10.0
           stars: 4
@@ -359,13 +361,13 @@ arbital.geometry.strength_to_distance:
       basis: "documented; the author's stated purpose"
     - step: "evidence"
       claim: "for r in [1.0, 5.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
-      basis: "probed, n=105"
+      basis: "probed, n=111"
     - step: "evidence"
       claim: "is_empty_safe(r)"
       basis: "probed, n=1"
     - step: "evidence"
       claim: "for r in [-5.0, 0.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 1"
-      basis: "probed, n=108"
+      basis: "probed, n=107"
     - step: "evidence"
       claim: "is_empty_safe(r)"
       basis: "probed, n=1"
@@ -374,10 +376,10 @@ arbital.geometry.strength_to_distance:
       basis: "probed, n=129"
     - step: "evidence"
       claim: "missing(f, r) propagates"
-      basis: "probed, n=41"
-    - step: "refutation"
-      claim: "NOT (absent(f, r) raises)"
-      basis: "counterexample r = None, scale = \"linear\": f returned nan"
+      basis: "probed, n=36"
+    - step: "evidence"
+      claim: "absent(f, r) converts"
+      basis: "probed, n=2"
     - step: "refutation"
       claim: "NOT ()"
       basis: "counterexample arbital.geometry._distance_from_strength is invalidated"
@@ -385,7 +387,7 @@ arbital.geometry.strength_to_distance:
     generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
     date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    commit: "b48f13536c0dc69b0fdb7b6323e9fb3e2df8223a"
   dependencies:
     - name: "_distance_from_strength"
       kind: "function"

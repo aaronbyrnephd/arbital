@@ -48,8 +48,10 @@ arbital._expected_tail_draws:
   claims:
     - name: some_draws_always_land_beyond_a_valid_quantile
       statement: "for n_shuffles in [1, 1000] subset Z, confidence in (0, 1), f(n_shuffles, confidence) > 0"
+    # below about 1e-16, 1 - confidence rounds to exactly 1 in float64 and
+    # the strict inequality becomes an equality, so the claim stops there
     - name: never_more_draws_than_were_taken
-      statement: "for n_shuffles in [1, 1000] subset Z, confidence in (0, 1), f(n_shuffles, confidence) < n_shuffles"
+      statement: "for n_shuffles in [1, 1000] subset Z, confidence in [1e-12, 1), f(n_shuffles, confidence) < n_shuffles"
     - name: falls_as_the_quantile_gets_stricter
       statement: "for n_shuffles in [1, 1000] subset Z, confidence in (0, 1), d(f(n_shuffles, confidence), confidence) <= 0"
     - name: the_default_quantile_keeps_a_twentieth
@@ -86,5 +88,6 @@ arbital._relative_gain:
       statement: "for gain in [-1, 0], top_gain in (0, 1], f(gain, top_gain) == 0"
     - name: no_positive_gain_anywhere_means_no_size
       statement: "for gain in [-1, 1], f(gain, 0) == 0"
+    # gain = 0 is where max(gain, 0) bends, so the derivative starts above it
     - name: rises_with_the_gain
-      statement: "for gain in [0, 1], top_gain in (0, 1], d(f(gain, top_gain), gain) >= 0"
+      statement: "for gain in (0, 1], top_gain in (0, 1], d(f(gain, top_gain), gain) >= 0"
