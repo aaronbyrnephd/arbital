@@ -408,6 +408,8 @@ def _chance_adjusted_mi(mi: float, chance: float) -> float:
         Give selection a relevance that is zero when there is nothing
         there, so estimator noise cannot win a pick.
     """
+    if np.isnan(mi) or np.isnan(chance):
+        raise ValueError(f"mi and chance must not be nan, got mi={mi!r}, chance={chance!r}")
     return max(0.0, mi - chance)
 
 
@@ -418,6 +420,8 @@ def _is_below_chance(mi: float, chance: float) -> bool:
         Mark an association that this estimator would report just as
         readily from independent data.
     """
+    if np.isnan(mi) or np.isnan(chance):
+        raise ValueError(f"mi and chance must not be nan, got mi={mi!r}, chance={chance!r}")
     return mi <= chance
 
 
