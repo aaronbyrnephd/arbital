@@ -12,9 +12,9 @@ arbital._is_significant:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "f9a08c3a8d9f"
+    claims_fingerprint: "194c8b7abcf5"
     pin: "none"
-    integrity: "v2:cc5fbd2836ba768d"
+    integrity: "v2:d09f6a83dbfd4473"
   math:
     unicode: "when chance < Abs(coefficient): 1; otherwise 0"
     latex: "\\begin{cases} 1 & \\text{for}\\: chance < \\left|{coefficient}\\right| \\\\0 & \\text{otherwise} \\end{cases}"
@@ -181,51 +181,41 @@ arbital._is_significant:
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "missing[chance]"
-      statement: "missing(f, chance) propagates"
-      verdict: "falsified"
+      statement: "missing(f, chance) drops"
+      verdict: "holds"
       n: 2
-      counterexample: "coefficient = 1.8e+308, chance = nan: f returned False"
-      note: "mathema's default word for a float, not a claim of yours; f drops instead: nan in, False out. (i) if False is the answer f should give for a missing chance, state: missing(f, chance) drops
-(ii) if not, make f raise or give nan back
-(iii) to accept it as a discovery, run: mathema accept arbital._is_significant missing[chance] --as discovery --corrected \"missing(f, chance) drops\""
+      note: "stated; confirmed on the 44 draws of blind_to_the_sign[float]"
       route: "probe:counterfactual"
       authored:
-        surface: "suggested"
+        surface: "claims-file"
+        route: "best"
       meta:
         mathema.policy:
           kind: "missing"
           parameter: "chance"
+          behaviour: "drops"
+          source: "stated"
           evidence: "confirmed on the 44 draws of blind_to_the_sign[float]"
-          behaviour: "propagates"
-          source: "default"
-          reason: "mathema's default word for a float, not a claim of yours; f drops instead: nan in, False out"
-          next: "(i) if False is the answer f should give for a missing chance, state: missing(f, chance) drops
-(ii) if not, make f raise or give nan back
-(iii) to accept it as a discovery, run: mathema accept arbital._is_significant missing[chance] --as discovery --corrected \"missing(f, chance) drops\""
-        mathema.surface: "mathema"
+          reason: "stated; confirmed on the 44 draws of blind_to_the_sign[float]"
+        mathema.surface: "declared"
     - name: "missing[coefficient]"
-      statement: "missing(f, coefficient) propagates"
-      verdict: "falsified"
+      statement: "missing(f, coefficient) drops"
+      verdict: "holds"
       n: 2
-      counterexample: "coefficient = nan, chance = -1.8e+308: f returned False"
-      note: "mathema's default word for a float, not a claim of yours; f drops instead: nan in, False out. (i) if False is the answer f should give for a missing coefficient, state: missing(f, coefficient) drops
-(ii) if not, make f raise or give nan back
-(iii) to accept it as a discovery, run: mathema accept arbital._is_significant missing[coefficient] --as discovery --corrected \"missing(f, coefficient) drops\""
+      note: "stated; confirmed on the 44 draws of blind_to_the_sign[float]"
       route: "probe:counterfactual"
       authored:
-        surface: "suggested"
+        surface: "claims-file"
+        route: "best"
       meta:
         mathema.policy:
           kind: "missing"
           parameter: "coefficient"
+          behaviour: "drops"
+          source: "stated"
           evidence: "confirmed on the 44 draws of blind_to_the_sign[float]"
-          behaviour: "propagates"
-          source: "default"
-          reason: "mathema's default word for a float, not a claim of yours; f drops instead: nan in, False out"
-          next: "(i) if False is the answer f should give for a missing coefficient, state: missing(f, coefficient) drops
-(ii) if not, make f raise or give nan back
-(iii) to accept it as a discovery, run: mathema accept arbital._is_significant missing[coefficient] --as discovery --corrected \"missing(f, coefficient) drops\""
-        mathema.surface: "mathema"
+          reason: "stated; confirmed on the 44 draws of blind_to_the_sign[float]"
+        mathema.surface: "declared"
     - name: "true_above_the_level"
       statement: "assuming coefficient > chance, for coefficient in [0.0, 1.0] : float|missing, chance in [0.0, 1.0] : float|missing, f(coefficient, chance) = True"
       verdict: "holds"
@@ -322,20 +312,20 @@ arbital._is_significant:
     - step: "evidence"
       claim: "assuming coefficient <= chance, for coefficient in [0.0, 1.0] : float|missing, chance in [0.0, 1.0] : float|missing, f(coefficient, chance) = False"
       basis: "probed, n=17"
-    - step: "refutation"
-      claim: "NOT (missing(f, coefficient) propagates)"
-      basis: "counterexample coefficient = nan, chance = -1.8e+308: f returned False"
-    - step: "refutation"
-      claim: "NOT (missing(f, chance) propagates)"
-      basis: "counterexample coefficient = 1.8e+308, chance = nan: f returned False"
+    - step: "evidence"
+      claim: "missing(f, coefficient) drops"
+      basis: "probed, n=2"
+    - step: "evidence"
+      claim: "missing(f, chance) drops"
+      basis: "probed, n=2"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
-    generated_by: "mathema 0.6.1"
+    generated_by: "mathema 0.6.2"
     CDD_spec_version: "0.2.0"
-    date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    date: "2026-10-14"
+    commit: "a80df6b3e3d172188cbe80cc5fd9f1192dc882ef"
   meta:
     mathema.effects:
       line: "no side effects"

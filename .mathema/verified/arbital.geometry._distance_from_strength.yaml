@@ -12,9 +12,9 @@ arbital.geometry._distance_from_strength:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "c0f50861f532"
+    claims_fingerprint: "ba4d3462a010"
     pin: "none"
-    integrity: "v2:3d49d89914b4e736"
+    integrity: "v2:ba7c53adbd985f56"
   math: null
   claims:
     - name: "dependencies_current"
@@ -30,19 +30,20 @@ arbital.geometry._distance_from_strength:
       statement: "missing(f, r) propagates"
       verdict: "holds"
       n: 2
-      note: "observed: the claim admits nan for r; f propagates it (nan in, nan out) on the draws of the_linear_scale_is_the_naive_mapping and the_info_scale_is_residual_uncertainty"
+      note: "stated; confirmed on the draws of the_linear_scale_is_the_naive_mapping and the_info_scale_is_residual_uncertainty"
       route: "probe:counterfactual"
       authored:
-        surface: "suggested"
+        surface: "claims-file"
+        route: "best"
       meta:
         mathema.policy:
           kind: "missing"
           parameter: "r"
-          evidence: "confirmed on the draws of the_linear_scale_is_the_naive_mapping and the_info_scale_is_residual_uncertainty"
           behaviour: "propagates"
-          source: "observed"
-          reason: "observed: the claim admits nan for r; f propagates it (nan in, nan out) on the draws of the_linear_scale_is_the_naive_mapping and the_info_scale_is_residual_uncertainty"
-        mathema.surface: "mathema"
+          source: "stated"
+          evidence: "confirmed on the draws of the_linear_scale_is_the_naive_mapping and the_info_scale_is_residual_uncertainty"
+          reason: "stated; confirmed on the draws of the_linear_scale_is_the_naive_mapping and the_info_scale_is_residual_uncertainty"
+        mathema.surface: "declared"
     - name: "no_association_sits_on_the_rim"
       statement: "for scale in {\"info\", \"linear\"}, f(0, scale) = 1"
       verdict: "proven"
@@ -451,8 +452,8 @@ arbital.geometry._distance_from_strength:
               absent: false
               missing: []
         mathema.surface: "declared"
-        mathema.previous_verdict: "holds"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+        mathema.previous_verdict: "invalidated"
         mathema.regressed_to: "skipped:misspecified"
   concepts:
     - "case-analysis"
@@ -505,10 +506,10 @@ arbital.geometry._distance_from_strength:
       claim: "instantiates: case-analysis, differentiation"
       basis: "deterministic concept tagging"
   lineage:
-    generated_by: "mathema 0.6.1"
+    generated_by: "mathema 0.6.2"
     CDD_spec_version: "0.2.0"
-    date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    date: "2026-10-14"
+    commit: "a80df6b3e3d172188cbe80cc5fd9f1192dc882ef"
   raises:
     - "ValueError"
   meta:
