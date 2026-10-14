@@ -12,9 +12,9 @@ arbital.measures._monotone_strength:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "4dc4003c1f31"
+    claims_fingerprint: "742c390de7af"
     pin: "none"
-    integrity: "v2:6a93e6909e64c666"
+    integrity: "v2:e5d3f5b6d76e6e86"
   math:
     unicode: "max(abs(r), abs(rho))"
     latex: "\\max\\left(\\left|{r}\\right|, \\left|{\\rho}\\right|\\right)"
@@ -31,16 +31,64 @@ arbital.measures._monotone_strength:
         route: "best"
       meta:
         mathema.float_companion: "blind_to_the_pearson_sign[float]"
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
     - name: "blind_to_the_pearson_sign[float]"
       statement: "f(-r, rho) = f(r, rho)"
       verdict: "holds"
       n: 44
-      note: "the implementation of blind_to_the_pearson_sign, executed in float at 44 points (every domain corner, then sampled interior points); unbounded directions (r, rho) run to magnitude 1e+308, sampled log-uniformly (no |inf| declared)"
+      note: "the float64 computation of blind_to_the_pearson_sign ran at 44 points: every corner and 40 interior points; unbounded directions (r, rho) run to magnitude 1.79769e+308, sampled log-uniformly (no |inf| declared)"
       route: "probe"
       authored:
         surface: "claims-file"
       meta:
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r:
+              - "nan"
+            rho:
+              - "nan"
+          indifferent:
+            rho: 2
+          executed:
+            r:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            r:
+              nan: "propagates"
+          said:
+            r:
+              nan: "at r = nan f gave nan back"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "blind_to_the_pearson_sign"
         mathema.family: "is_numerically_stable"
@@ -55,68 +103,201 @@ arbital.measures._monotone_strength:
         route: "best"
       meta:
         mathema.float_companion: "blind_to_the_spearman_sign[float]"
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
     - name: "blind_to_the_spearman_sign[float]"
       statement: "f(r, -rho) = f(r, rho)"
       verdict: "holds"
       n: 44
-      note: "the implementation of blind_to_the_spearman_sign, executed in float at 44 points (every domain corner, then sampled interior points); unbounded directions (r, rho) run to magnitude 1e+308, sampled log-uniformly (no |inf| declared)"
+      note: "the float64 computation of blind_to_the_spearman_sign ran at 44 points: every corner and 40 interior points; unbounded directions (r, rho) run to magnitude 1.79769e+308, sampled log-uniformly (no |inf| declared)"
       route: "probe"
       authored:
         surface: "claims-file"
       meta:
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r:
+              - "nan"
+            rho:
+              - "nan"
+          indifferent:
+            rho: 2
+          executed:
+            r:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            r:
+              nan: "propagates"
+          said:
+            r:
+              nan: "at r = nan f gave nan back"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "blind_to_the_spearman_sign"
         mathema.family: "is_numerically_stable"
     - name: "bounded_on_correlation_inputs"
-      statement: "for r in [-1.0, 1.0]:float|missing, rho in [-1.0, 1.0]:float|missing, 0 <= f(r, rho) <= 1"
+      statement: "for r in [-1.0, 1.0] : float|missing, rho in [-1.0, 1.0] : float|missing, 0 <= f(r, rho) <= 1"
       verdict: "proven"
-      note: "every link of the chained comparison proven"
-      condition: "for r in [-1.0, 1.0]:float|missing, rho in [-1.0, 1.0]:float|missing"
+      note: "every link of the chained comparison is proven"
+      sketch: "link 1: 0 <= f(r, rho): interval evaluation over the declared domain: Max(Abs(r), Abs(rho)) ∈ AccumBounds(0, 1), never negative; link 2: f(r, rho) <= 1: interval evaluation over the declared domain: 1 - Max(Abs(r), Abs(rho)) ∈ AccumBounds(0, 1), never negative"
+      condition: "where x=rho: ∀ r, x ∈ [-1.0, 1.0] ⊂ ℝ"
       route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         r:
-          lo: -1.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: -1.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         rho:
-          lo: -1.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: -1.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.float_companion: "bounded_on_correlation_inputs[float]"
         mathema.surface: "declared"
     - name: "bounded_on_correlation_inputs[float]"
-      statement: "for r in [-1.0, 1.0]:float|missing, rho in [-1.0, 1.0]:float|missing, 0 <= f(r, rho) <= 1"
+      statement: "for r in [-1.0, 1.0] : float|missing, rho in [-1.0, 1.0] : float|missing, 0 <= f(r, rho) <= 1"
       verdict: "holds"
-      n: 44
-      note: "the implementation of bounded_on_correlation_inputs, executed in float link by link; every link of the float companion holds"
+      n: 49
+      note: "the float64 computation of bounded_on_correlation_inputs ran link by link, and every link holds"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         r:
-          lo: -1.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: -1.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         rho:
-          lo: -1.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: -1.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r:
+              - "nan"
+            rho:
+              - "nan"
+          indifferent:
+            rho: 1
+          executed:
+            r:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            r:
+              nan: "propagates"
+          said:
+            r:
+              nan: "at r = nan f gave nan back"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "bounded_on_correlation_inputs"
         mathema.family: "is_numerically_stable"
     - name: "dependencies_current"
       verdict: "proven"
-      note: "generated by mathema verify; adjudicated against the verified store"
+      note: "generated by mathema verify; checked against the verified store"
       sketch: "no direct function dependencies, vacuously current"
       route: "derive"
       authored:
@@ -134,16 +315,64 @@ arbital.measures._monotone_strength:
         route: "best"
       meta:
         mathema.float_companion: "dominates_pearson[float]"
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
     - name: "dominates_pearson[float]"
       statement: "f(r, rho) >= |r|"
       verdict: "holds"
       n: 44
-      note: "the implementation of dominates_pearson, executed in float at 44 points (every domain corner, then sampled interior points); unbounded directions (r, rho) run to magnitude 1e+308, sampled log-uniformly (no |inf| declared)"
+      note: "the float64 computation of dominates_pearson ran at 44 points: every corner and 40 interior points; unbounded directions (r, rho) run to magnitude 1.79769e+308, sampled log-uniformly (no |inf| declared)"
       route: "probe"
       authored:
         surface: "claims-file"
       meta:
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r:
+              - "nan"
+            rho:
+              - "nan"
+          indifferent:
+            rho: 1
+          executed:
+            r:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            r:
+              nan: "propagates"
+          said:
+            r:
+              nan: "at r = nan f gave nan back"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "dominates_pearson"
         mathema.family: "is_numerically_stable"
@@ -158,62 +387,231 @@ arbital.measures._monotone_strength:
         route: "best"
       meta:
         mathema.float_companion: "dominates_spearman[float]"
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
     - name: "dominates_spearman[float]"
       statement: "f(r, rho) >= |rho|"
       verdict: "holds"
       n: 44
-      note: "the implementation of dominates_spearman, executed in float at 44 points (every domain corner, then sampled interior points); unbounded directions (r, rho) run to magnitude 1e+308, sampled log-uniformly (no |inf| declared)"
+      note: "the float64 computation of dominates_spearman ran at 44 points: every corner and 40 interior points; unbounded directions (r, rho) run to magnitude 1.79769e+308, sampled log-uniformly (no |inf| declared)"
       route: "probe"
       authored:
         surface: "claims-file"
       meta:
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r:
+              - "nan"
+            rho:
+              - "nan"
+          indifferent:
+            rho: 1
+          executed:
+            r:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            r:
+              nan: "propagates"
+          said:
+            r:
+              nan: "at r = nan f gave nan back"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "dominates_spearman"
         mathema.family: "is_numerically_stable"
+    - name: "missing[r]"
+      statement: "missing(f, r) propagates"
+      verdict: "holds"
+      n: 12
+      note: "default for a float, which may be nan; confirmed on the draws of blind_to_the_pearson_sign[float], blind_to_the_spearman_sign[float], symmetric_in_its_two_channels[float], dominates_pearson[float], dominates_spearman[float], stays_on_the_correlation_scale[float] and bounded_on_correlation_inputs[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.measures._monotone_strength --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "r"
+          evidence: "confirmed on the draws of blind_to_the_pearson_sign[float], blind_to_the_spearman_sign[float], symmetric_in_its_two_channels[float], dominates_pearson[float], dominates_spearman[float], stays_on_the_correlation_scale[float] and bounded_on_correlation_inputs[float]"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default for a float, which may be nan; confirmed on the draws of blind_to_the_pearson_sign[float], blind_to_the_spearman_sign[float], symmetric_in_its_two_channels[float], dominates_pearson[float], dominates_spearman[float], stays_on_the_correlation_scale[float] and bounded_on_correlation_inputs[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.measures._monotone_strength --write"
+        mathema.surface: "mathema"
+    - name: "missing[rho]"
+      statement: "missing(f, rho) propagates"
+      verdict: "falsified"
+      n: 12
+      counterexample: "r = 1.8e+308, rho = nan: f returned 1.8e+308"
+      note: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at r = 1.8e+308, rho = nan it returns 1.8e+308, and no fill of it changes that. give the calls that ignore rho a premise on another parameter that tells them apart, or make f treat a missing rho one way"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "rho"
+          evidence: "confirmed on the draws of blind_to_the_pearson_sign[float], blind_to_the_spearman_sign[float], symmetric_in_its_two_channels[float], dominates_pearson[float], dominates_spearman[float], stays_on_the_correlation_scale[float] and bounded_on_correlation_inputs[float]"
+          behaviour: "propagates"
+          source: "default"
+          reason: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at r = 1.8e+308, rho = nan it returns 1.8e+308, and no fill of it changes that"
+          next: "give the calls that ignore rho a premise on another parameter that tells them apart, or make f treat a missing rho one way"
+        mathema.surface: "mathema"
     - name: "stays_on_the_correlation_scale"
-      statement: "for r in [-1.0, 1.0]:float|missing, rho in [-1.0, 1.0]:float|missing, 0 <= f(r, rho) <= 1"
+      statement: "for r in [-1.0, 1.0] : float|missing, rho in [-1.0, 1.0] : float|missing, 0 <= f(r, rho) <= 1"
       verdict: "proven"
-      note: "every link of the chained comparison proven"
-      condition: "for r in [-1.0, 1.0]:float|missing, rho in [-1.0, 1.0]:float|missing"
+      note: "every link of the chained comparison is proven"
+      sketch: "link 1: 0 <= f(r, rho): interval evaluation over the declared domain: Max(Abs(r), Abs(rho)) ∈ AccumBounds(0, 1), never negative; link 2: f(r, rho) <= 1: interval evaluation over the declared domain: 1 - Max(Abs(r), Abs(rho)) ∈ AccumBounds(0, 1), never negative"
+      condition: "where x=rho: ∀ r, x ∈ [-1.0, 1.0] ⊂ ℝ"
       route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         r:
-          lo: -1.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: -1.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         rho:
-          lo: -1.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: -1.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.float_companion: "stays_on_the_correlation_scale[float]"
         mathema.surface: "declared"
     - name: "stays_on_the_correlation_scale[float]"
-      statement: "for r in [-1.0, 1.0]:float|missing, rho in [-1.0, 1.0]:float|missing, 0 <= f(r, rho) <= 1"
+      statement: "for r in [-1.0, 1.0] : float|missing, rho in [-1.0, 1.0] : float|missing, 0 <= f(r, rho) <= 1"
       verdict: "holds"
-      n: 44
-      note: "the implementation of stays_on_the_correlation_scale, executed in float link by link; every link of the float companion holds"
+      n: 49
+      note: "the float64 computation of stays_on_the_correlation_scale ran link by link, and every link holds"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         r:
-          lo: -1.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: -1.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         rho:
-          lo: -1.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: -1.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r:
+              - "nan"
+            rho:
+              - "nan"
+          indifferent:
+            rho: 1
+          executed:
+            r:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            r:
+              nan: "propagates"
+          said:
+            r:
+              nan: "at r = nan f gave nan back"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "stays_on_the_correlation_scale"
         mathema.family: "is_numerically_stable"
@@ -228,16 +626,64 @@ arbital.measures._monotone_strength:
         route: "best"
       meta:
         mathema.float_companion: "symmetric_in_its_two_channels[float]"
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
     - name: "symmetric_in_its_two_channels[float]"
       statement: "f(r, rho) = f(rho, r)"
       verdict: "holds"
       n: 44
-      note: "the implementation of symmetric_in_its_two_channels, executed in float at 44 points (every domain corner, then sampled interior points); unbounded directions (r, rho) run to magnitude 1e+308, sampled log-uniformly (no |inf| declared)"
+      note: "the float64 computation of symmetric_in_its_two_channels ran at 44 points: every corner and 40 interior points; unbounded directions (r, rho) run to magnitude 1.79769e+308, sampled log-uniformly (no |inf| declared)"
       route: "probe"
       authored:
         surface: "claims-file"
       meta:
+        mathema.missing:
+          admitted:
+            r:
+              absent: false
+              missing:
+                - "nan"
+            rho:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r:
+              - "nan"
+            rho:
+              - "nan"
+          indifferent:
+            rho: 2
+          executed:
+            r:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            r:
+              nan: "propagates"
+          said:
+            r:
+              nan: "at r = nan f gave nan back"
+          means: "missing for r (float) means nan; missing for rho (float) means nan"
+          origin:
+            r:
+              missing: "type"
+            rho:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "symmetric_in_its_two_channels"
         mathema.family: "is_numerically_stable"
@@ -281,25 +727,35 @@ arbital.measures._monotone_strength:
       claim: "f(r, rho) >= |rho|"
       basis: "probed, n=44"
     - step: "derivation"
-      claim: "for r in [-1.0, 1.0]:float|missing, rho in [-1.0, 1.0]:float|missing, 0 <= f(r, rho) <= 1"
-      basis: "symbolic derivation"
+      claim: "for r in [-1.0, 1.0] : float|missing, rho in [-1.0, 1.0] : float|missing, 0 <= f(r, rho) <= 1"
+      basis: "link 1: 0 <= f(r, rho): interval evaluation over the declared domain: Max(Abs(r), Abs(rho)) ∈ AccumBounds(0, 1), never negative; link 2: f(r, rho) <= 1: interval evaluation over the declared domain: 1 - Max(Abs(r), Abs(rho)) ∈ AccumBounds(0, 1), never negative"
     - step: "evidence"
-      claim: "for r in [-1.0, 1.0]:float|missing, rho in [-1.0, 1.0]:float|missing, 0 <= f(r, rho) <= 1"
-      basis: "probed, n=44"
+      claim: "for r in [-1.0, 1.0] : float|missing, rho in [-1.0, 1.0] : float|missing, 0 <= f(r, rho) <= 1"
+      basis: "probed, n=49"
     - step: "derivation"
-      claim: "for r in [-1.0, 1.0]:float|missing, rho in [-1.0, 1.0]:float|missing, 0 <= f(r, rho) <= 1"
-      basis: "symbolic derivation"
+      claim: "for r in [-1.0, 1.0] : float|missing, rho in [-1.0, 1.0] : float|missing, 0 <= f(r, rho) <= 1"
+      basis: "link 1: 0 <= f(r, rho): interval evaluation over the declared domain: Max(Abs(r), Abs(rho)) ∈ AccumBounds(0, 1), never negative; link 2: f(r, rho) <= 1: interval evaluation over the declared domain: 1 - Max(Abs(r), Abs(rho)) ∈ AccumBounds(0, 1), never negative"
     - step: "evidence"
-      claim: "for r in [-1.0, 1.0]:float|missing, rho in [-1.0, 1.0]:float|missing, 0 <= f(r, rho) <= 1"
-      basis: "probed, n=44"
+      claim: "for r in [-1.0, 1.0] : float|missing, rho in [-1.0, 1.0] : float|missing, 0 <= f(r, rho) <= 1"
+      basis: "probed, n=49"
+    - step: "evidence"
+      claim: "missing(f, r) propagates"
+      basis: "probed, n=12"
+    - step: "refutation"
+      claim: "NOT (missing(f, rho) propagates)"
+      basis: "counterexample r = 1.8e+308, rho = nan: f returned 1.8e+308"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
-    generated_by: "mathema 0.6.0"
+    generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-25"
-    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
   meta:
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"

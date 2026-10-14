@@ -46,7 +46,8 @@ References
 from __future__ import annotations
 
 import numpy as np
-from mathema.types import InRange, Mat, UnitInterval
+
+from ._markers import InRange, Mat, UnitInterval
 
 __all__ = [
     "association_matrix",
@@ -136,18 +137,37 @@ def _is_nominal(n_levels: int, is_discrete: bool) -> bool:
 # Classical correlations
 # ---------------------------------------------------------------------------
 
+def _unit_scaled(x: np.ndarray) -> np.ndarray:
+    """x divided by its largest magnitude, so every entry lies in [-1, 1].
+
+    An all-zero, empty or non-finite sample is returned unchanged.
+
+    Intent:
+        Bring a sample to unit scale before squaring it, where a
+        scale-invariant statistic would otherwise overflow.
+    """
+    if x.size == 0:
+        return x
+    peak = np.max(np.abs(x))
+    if peak == 0.0 or not np.isfinite(peak):
+        return x
+    return x / peak
+
+
 def pearson(x: np.ndarray, y: np.ndarray) -> InRange(-1.0, 1.0):
     """Plain Pearson correlation coefficient (signed, -1..1).
 
     A constant sample has no linear relationship with anything, so a zero
-    denominator reports 0.0 instead of dividing.
+    denominator reports 0.0 instead of dividing. r does not change when a
+    sample is rescaled, so each is first divided by its largest magnitude,
+    which keeps the sums of squares finite for values near the float limit.
 
     Intent:
         Answer how well a straight line describes the relationship
         between two samples, on the conventional -1..1 scale.
     """
-    x = np.asarray(x, dtype=float)
-    y = np.asarray(y, dtype=float)
+    x = _unit_scaled(np.asarray(x, dtype=float))
+    y = _unit_scaled(np.asarray(y, dtype=float))
     xc = x - x.mean()
     yc = y - y.mean()
     denom = np.sqrt((xc**2).sum() * (yc**2).sum())

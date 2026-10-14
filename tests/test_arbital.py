@@ -43,6 +43,14 @@ def test_pearson_matches_numpy():
     assert arbital.pearson(x, y) == pytest.approx(np.corrcoef(x, y)[0, 1], abs=1e-12)
 
 
+def test_pearson_survives_values_near_the_float_limit():
+    # r is scale-invariant, so a sample near 1e300 must give the same r as
+    # the same sample at unit scale, not the nan an overflowing sum gives
+    x, y = RNG.standard_normal(N), RNG.standard_normal(N)
+    assert arbital.pearson(1e300 * x, 1e300 * y) == pytest.approx(
+        arbital.pearson(x, y), abs=1e-12)
+
+
 def test_spearman_perfect_monotone():
     # y = exp(x) is nonlinear but perfectly monotone: rho == 1, r < 1
     x = RNG.standard_normal(N)
@@ -574,6 +582,15 @@ def test_eccentricity_equals_nonlinearity():
         assert orb["e"] == pytest.approx(max(0.0, nu))
 
 
+def test_eccentricity_of_the_smallest_orbit_from_the_centre_is_parabolic():
+    # r_peri = 0 is parabolic for any positive r_apo, however small: the
+    # mean of the apsides underflows to 0 at the smallest subnormal, the sum
+    # does not
+    from arbital.geometry import _eccentricity
+    assert _eccentricity(0.0, 5e-324) == 1.0
+    assert _eccentricity(0.0, 0.0) == 0.0
+
+
 def test_uncertainty_flag_populates_se():
     data = _demo_data()
     off = arbital.orbits(data, target=0)
@@ -627,3 +644,27 @@ def test_select_target_on_a_single_column():
     assert select_target(RNG.standard_normal((50, 1))) == 0
     with pytest.raises(ValueError, match="at least one column"):
         select_target(np.empty((50, 0)))
+
+
+# ---------------------------------------------------------------- dependencies
+
+def test_imports_and_runs_without_mathema():
+    # mathema is a development tool for arbital, not a dependency: with it
+    # unimportable, arbital still imports and computes
+    import subprocess
+    import sys
+    code = (
+        "import sys, importlib.abc\n"
+        "class Block(importlib.abc.MetaPathFinder):\n"
+        "    def find_spec(self, name, path=None, target=None):\n"
+        "        if name == 'mathema' or name.startswith('mathema.'):\n"
+        "            raise ModuleNotFoundError(name)\n"
+        "sys.meta_path.insert(0, Block())\n"
+        "import numpy as np, arbital\n"
+        "x = np.linspace(-1, 1, 200)\n"
+        "print(round(arbital.pearson(x, 2 * x), 6))\n"
+    )
+    out = subprocess.run([sys.executable, "-c", code], capture_output=True,
+                         text=True, check=False)
+    assert out.returncode == 0, out.stderr
+    assert out.stdout.strip() == "1.0"

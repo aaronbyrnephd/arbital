@@ -1,0 +1,283 @@
+# machine record; binds to form 328ce193f954
+numpy.ndarray.std:
+  schema_version: "0.2.0"
+  name: "method"
+  signature: "(a: numpy.ndarray, /, axis=None, dtype=None, out=None, ddof=0, **kwargs)"
+  intent: null
+  grammar: "mathema"
+  tolerance: 1.0e-09
+  identity:
+    form: "328ce193f954"
+    sig: "cdfaea9ceab3"
+    tier: 2
+    source_available: true
+    pure: true
+    runtime_types:
+      a:
+        type: "numpy.ndarray"
+        evidence: "annotation: numpy.ndarray"
+        library: "numpy==2.5.4"
+    claims_fingerprint: "dcc52002ad43"
+    pin: "none"
+    integrity: "v2:a697bb44ddbb1300"
+  math: null
+  claims:
+    - name: "definition"
+      statement: "for a in (R | {missing})^n, f(a) = std(a, ddof=0)"
+      verdict: "holds"
+      n: 111
+      note: "numpy.ndarray.std gives no value at a = [1e+300, -1e+300], a magnitude corner where the exact value is finite: a finding about its computation; the row stands; 1 draw passed only within the tolerance and could not be evaluated in exact arithmetic, so it is not counted; derive cannot read 'getattr(a, name)(*args, **kwargs)', a call that passes its arguments on unpacked, so the probe decided it by running the code; at a = [nan] f gave nan back; held at their defaults: axis=None, ddof=0, dtype=None, out=None"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: true
+          dims:
+            - "n"
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/definitions.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~Seq(len∈[1,8]; elem~U(-10,10); holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), seed=20260718, n=111"
+        mathema.confidence:
+          score: 9.8
+          stars: 4
+          max_stars: 5
+          n: 111
+          factors:
+            branches: 0
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.computation_finding: "numpy.ndarray.std gives no value at a = [1e+300, -1e+300], a magnitude corner where the exact value is finite: a finding about its computation; the row stands"
+        mathema.missing:
+          admitted:
+            a:
+              absent: false
+              missing:
+                - "nan"
+          executed:
+            a:
+              nan: "nan slot in, nan out (propagates)"
+          behaviour:
+            a:
+              nan: "propagates"
+          said:
+            a:
+              nan: "at a = [nan] f gave nan back"
+          means: "missing for a (numpy.ndarray) means nan"
+          origin:
+            a:
+              missing: "type"
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 1
+            - 1
+          largest:
+            - 8
+            - 1
+          entries: 536
+        mathema.routes_attempted: "routes attempted, derive: underivable (derive cannot read 'getattr(a, name)(*args, **kwargs)', a call that passes its arguments on unpacked); probe: holds"
+        mathema.derive_status: "unliftable"
+        mathema.defaults:
+          numpy.ndarray.std:
+            axis: "None"
+            ddof: "0"
+            dtype: "None"
+            out: "None"
+        mathema.surface: "compendium"
+    - name: "definition@ddof=1"
+      statement: "assuming dim(a) >= 2, for a in (R | {missing})^n, f(a, ddof=1) = std(a, ddof=1)"
+      verdict: "holds"
+      n: 103
+      note: "numpy.ndarray.std gives no value at a = [1e+300, -1e+300], a magnitude corner where the exact value is finite: a finding about its computation; the row stands; 3 draws passed only within the tolerance and could not be evaluated in exact arithmetic, so they are not counted; derive could not decide it (the derive route does not model the pinned parameter(s) ddof), so the probe decided it by running the code; at a = [nan, nan] f gave nan back; held at their defaults: axis=None, ddof=1 (pinned), dtype=None, out=None"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: true
+          dims:
+            - "n"
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/definitions.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~Seq(len∈[2,8]; elem~U(-10,10); holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), seed=20260718, n=103"
+        mathema.confidence:
+          score: 9.7
+          stars: 4
+          max_stars: 5
+          n: 103
+          factors:
+            branches: 0
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.computation_finding: "numpy.ndarray.std gives no value at a = [1e+300, -1e+300], a magnitude corner where the exact value is finite: a finding about its computation; the row stands"
+        mathema.missing:
+          admitted:
+            a:
+              absent: false
+              missing:
+                - "nan"
+          executed:
+            a:
+              nan: "nan slot in, nan out (propagates)"
+          behaviour:
+            a:
+              nan: "propagates"
+          said:
+            a:
+              nan: "at a = [nan, nan] f gave nan back"
+          means: "missing for a (numpy.ndarray) means nan"
+          origin:
+            a:
+              missing: "type"
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 2
+            - 1
+          largest:
+            - 8
+            - 1
+          entries: 475
+        mathema.routes_attempted: "routes attempted, derive: unsupported (the derive route does not model the pinned parameter(s) ddof); probe: holds"
+        mathema.derive_status: "unsupported"
+        mathema.defaults:
+          numpy.ndarray.std:
+            axis: "None"
+            ddof: "1 (pinned)"
+            dtype: "None"
+            out: "None"
+        mathema.surface: "compendium"
+    - name: "dependencies_current"
+      verdict: "proven"
+      note: "generated by mathema verify; checked against the verified store"
+      sketch: "no direct function dependencies, vacuously current"
+      route: "derive"
+      authored:
+        surface: "builtin"
+      meta:
+        mathema.surface: "builtin"
+    - name: "empty_is_missing"
+      statement: "f([]) in {missing}"
+      verdict: "holds"
+      n: 129
+      note: "derive cannot read membership in a language or a set, so `in` is decided by running the code; held at their defaults: axis=None, ddof=0, dtype=None, out=None"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/definitions.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~Seq(len=0; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]; as numpy.ndarray), seed=20260718, n=129"
+        mathema.confidence:
+          score: 10.0
+          stars: 4
+          max_stars: 5
+          n: 129
+          factors:
+            branches: 0
+            loops: 0
+            params: 0
+            wide_domain: 0
+            float_extremes: 0
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 0
+            - 1
+          largest:
+            - 0
+            - 1
+          entries: 0
+        mathema.routes_attempted: "routes attempted, derive: underivable (derive cannot read membership in a language or a set, so `in` is decided by running the code); probe: holds"
+        mathema.derive_status: "unliftable"
+        mathema.defaults:
+          numpy.ndarray.std:
+            axis: "None"
+            ddof: "0"
+            dtype: "None"
+            out: "None"
+        mathema.surface: "compendium"
+    - name: "missing[a]"
+      statement: "missing(f, a) propagates"
+      verdict: "holds"
+      n: 36
+      note: "default for a numpy.ndarray slot that may be nan; confirmed on the draws of definition and definition@ddof=1. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims numpy.ndarray.std --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "a"
+          evidence: "confirmed on the draws of definition and definition@ddof=1"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default for a numpy.ndarray slot that may be nan; confirmed on the draws of definition and definition@ddof=1. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims numpy.ndarray.std --write"
+        mathema.surface: "mathema"
+  concepts:
+    - "differentiation"
+  references: {}
+  reasoning:
+    - step: "evidence"
+      claim: "for a in (R | {missing})^n, f(a) = std(a, ddof=0)"
+      basis: "probed, n=111"
+    - step: "evidence"
+      claim: "assuming dim(a) >= 2, for a in (R | {missing})^n, f(a, ddof=1) = std(a, ddof=1)"
+      basis: "probed, n=103"
+    - step: "evidence"
+      claim: "f([]) in {missing}"
+      basis: "probed, n=129"
+    - step: "evidence"
+      claim: "missing(f, a) propagates"
+      basis: "probed, n=36"
+    - step: "derivation"
+      claim: ""
+      basis: "no direct function dependencies, vacuously current"
+    - step: "situating"
+      claim: "instantiates: differentiation"
+      basis: "deterministic concept tagging"
+  lineage:
+    generated_by: "mathema 0.6.1"
+    CDD_spec_version: "0.2.0"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+  meta:
+    mathema.concept_sources:
+      mechanism:
+        - "differentiation"
+    concepts:
+      - "differentiation"
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
+    mathema.premise_state: {}

@@ -2,11 +2,12 @@
  "algorithm": "sha256",
  "files": {
   "src/arbital/__init__.py": "045f971ec299c61728708e40e501a859a0b0ecce50d4730b63186b1ebd0d685f",
+  "src/arbital/_markers.py": "03c8ed430ee41ca74acd3249c948f09188c8be27c70a6b61094549f808fd1efe",
   "src/arbital/datasets.py": "bfd890e7587305080f3cd0eac749ef276d89df36df38bf1f97c041e7ca453c33",
-  "src/arbital/geometry.py": "343b2b90aae7289b8179de32e2ce299f56d97026bd22764e49da876815396e65",
-  "src/arbital/measures.py": "70f37fa514ceeddee67ac06e817e2605c028325ecb426b5e66cff3e672bf1227",
+  "src/arbital/geometry.py": "6ab95c63708629458800744debb418c3a3ed71fa75891c1de4fde40cae2bb5c9",
+  "src/arbital/measures.py": "6cf358dbee3d5d973db78f656c7cbe2e6970e7579596b72e5ca067daa85a00d1",
   "src/arbital/plot.py": "f43d92768d7a8e5ebf44c8393c5ab79fcebe9393e4cde88ad7c6477373714412"
  },
  "report": "coverage.json",
- "report_digest": "20925ef6230a5d7c3a58848423da13f790eb4bbe73816c49100c4e8516ae51e7"
+ "report_digest": "9a6a1b97d87e3513041f6d67b590a5ae3040099de2c5cf0f91cf8857d429e0f2"
 }

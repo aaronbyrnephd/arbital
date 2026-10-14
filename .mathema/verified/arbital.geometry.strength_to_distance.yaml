@@ -1,110 +1,344 @@
-# machine record; binds to form cd60617ab776
+# machine record; binds to form 600d88f0614c
 arbital.geometry.strength_to_distance:
   schema_version: "0.2.0"
   name: "strength_to_distance"
-  signature: "(r, scale: \"Literal['info', 'linear']\" = 'info')"
+  signature: "(r: 'float | np.ndarray', scale: \"Literal['info', 'linear']\" = 'info')"
   intent: "Map association strength r in [0, 1] to distance from the centre. Accepts a scalar or an array and clamps it into [0, 1] before applying _distance_from_strength(), which is the mapping itself."
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "cd60617ab776"
-    sig: "e8f6f9319e42"
+    form: "600d88f0614c"
+    sig: "9075e56cb30c"
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "da3f96eb112d"
+    runtime_types:
+      r:
+        type: "numpy.ndarray"
+        evidence: "annotation: numpy.ndarray"
+        library: "numpy==2.5.4"
+    claims_fingerprint: "dcaf25b118e5"
     pin: "none"
-    integrity: "v2:36a7da20d7c51fdd"
+    integrity: "v2:f0eee9fbc9f01ca5"
   math: null
   claims:
-    - name: "clamps_above_one_to_the_centre"
-      statement: "for r in [1.0, 5.0]:float|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
+    - name: "absent[r]"
+      statement: "absent(f, r) converts"
       verdict: "holds"
-      n: 128
-      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
+      n: 2
+      note: "observed: the claim admits None for r; f converts it (None in, nan out) on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "absent"
+          parameter: "r"
+          evidence: "confirmed on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
+          behaviour: "converts"
+          source: "observed"
+          reason: "observed: the claim admits None for r; f converts it (None in, nan out) on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
+        mathema.surface: "mathema"
+        mathema.previous_verdict: "falsified"
+    - name: "clamps_above_one_to_the_centre"
+      statement: "for r in [1.0, 5.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
+      verdict: "holds"
+      n: 111
+      note: "r = None is outside the type float | np.ndarray, and the claim adds it; derive could not decide it (the name 'float' is not a parameter, a local or a numeric module constant), so the probe decided it by running the code; at r = [nan, nan, nan, nan, nan, nan] f gave [nan, nan, nan, nan, nan, nan] back; at r = None f returned nan, so it converts the absence to a hole"
       route: "probe"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         r:
-          lo: 1.0
-          hi: 5.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 1.0
+              hi: 5.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+          clause: true
         scale:
-          set:
-            - "info"
-            - "linear"
+          base_type: "R"
+          pieces:
+            - set:
+                - "info"
+                - "linear"
+          excluded: []
+          explicit_type: false
       meta:
-        mathema.sampling: "r~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), scale~U{info, linear}, seed=20260718, n=128"
+        mathema.pending_supersession: "for r in [1.0, 5.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
+        mathema.sampling: "r~Seq(len∈[1,8]; elem~[1.0, 5.0]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), scale~U{info, linear}, seed=20260718, n=111"
         mathema.confidence:
-          score: 10.0
+          score: 9.8
           stars: 4
           max_stars: 5
-          n: 128
+          n: 111
           factors:
             branches: 0
             loops: 0
             params: 0
             wide_domain: 0
             float_extremes: 0
+        mathema.missing:
+          admitted:
+            r:
+              absent: true
+              missing:
+                - "nan"
+          executed:
+            r:
+              nan: "nan slot in, [nan, nan, nan, nan, nan, nan] out (propagates)"
+              None: "None in, nan out (converts)"
+          behaviour:
+            r:
+              nan: "propagates"
+              None: "converts"
+          said:
+            r:
+              nan: "at r = [nan, nan, nan, nan, nan, nan] f gave [nan, nan, nan, nan, nan, nan] back"
+              None: "at r = None f returned nan, so it converts the absence to a hole"
+          means: "missing for r (numpy.ndarray) means nan"
+          origin:
+            r:
+              absent: "written"
+              missing: "written"
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 1
+            - 1
+          largest:
+            - 8
+            - 1
+          entries: 537
+        mathema.routes_attempted: "routes attempted, derive: underivable (the name 'float' is not a parameter, a local or a numeric module constant); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "clamps_below_zero_to_the_rim"
-      statement: "for r in [-5.0, 0.0]:float|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 1"
+      statement: "for r in [-5.0, 0.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 1"
       verdict: "holds"
-      n: 128
-      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: non-scalar-parameters (line 1), a parameter isn't a scalar (or recognized sequence) of reals); probe: holds"
+      n: 107
+      note: "r = None is outside the type float | np.ndarray, and the claim adds it; derive could not decide it (the name 'float' is not a parameter, a local or a numeric module constant), so the probe decided it by running the code; at r = [nan, nan, nan, nan, nan, nan, ...] f gave [nan, nan, nan, nan, nan, nan, ...] back; at r = None f returned nan, so it converts the absence to a hole"
       route: "probe"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         r:
-          lo: -5.0
-          hi: 0.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: -5.0
+              hi: 0.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+          clause: true
         scale:
-          set:
-            - "info"
-            - "linear"
+          base_type: "R"
+          pieces:
+            - set:
+                - "info"
+                - "linear"
+          excluded: []
+          explicit_type: false
       meta:
-        mathema.sampling: "r~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), scale~U{info, linear}, seed=20260718, n=128"
+        mathema.pending_supersession: "for r in [-5.0, 0.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 1"
+        mathema.sampling: "r~Seq(len∈[1,8]; elem~[-5.0, 0.0]; holes {nan} at p=.15, degenerate lap first; as numpy.ndarray), scale~U{info, linear}, seed=20260718, n=107"
         mathema.confidence:
-          score: 10.0
+          score: 9.7
           stars: 4
           max_stars: 5
-          n: 128
+          n: 107
           factors:
             branches: 0
             loops: 0
             params: 0
             wide_domain: 0
             float_extremes: 0
+        mathema.missing:
+          admitted:
+            r:
+              absent: true
+              missing:
+                - "nan"
+          executed:
+            r:
+              nan: "nan slot in, [nan, nan, nan, nan, nan, nan, ...] out (propagates)"
+              None: "None in, nan out (converts)"
+          behaviour:
+            r:
+              nan: "propagates"
+              None: "converts"
+          said:
+            r:
+              nan: "at r = [nan, nan, nan, nan, nan, nan, ...] f gave [nan, nan, nan, nan, nan, nan, ...] back"
+              None: "at r = None f returned nan, so it converts the absence to a hole"
+          means: "missing for r (numpy.ndarray) means nan"
+          origin:
+            r:
+              absent: "written"
+              missing: "written"
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 1
+            - 1
+          largest:
+            - 8
+            - 1
+          entries: 508
+        mathema.routes_attempted: "routes attempted, derive: underivable (the name 'float' is not a parameter, a local or a numeric module constant); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "dependencies_current"
-      verdict: "proven"
-      note: "generated by mathema verify; adjudicated against the verified store"
-      sketch: "every direct function dependency's form matches its verified record"
+      verdict: "falsified"
+      counterexample: "arbital.geometry._distance_from_strength is invalidated"
+      note: "generated by mathema verify; checked against the verified store"
+      sketch: "a direct dependency's verified record no longer matches its live form"
       route: "derive"
       authored:
         surface: "builtin"
       meta:
         mathema.surface: "builtin"
+        mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+    - name: "is_empty_safe[r]"
+      statement: "is_empty_safe(r)"
+      verdict: "holds"
+      n: 1
+      note: "r = []: f(r, scale) returns []"
+      route: "probe:algorithmic"
+      authored:
+        surface: "claims-file"
+      domain:
+        r:
+          base_type: "R"
+          pieces:
+            - lo: 1.0
+              hi: 5.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+          clause: true
+        scale:
+          base_type: "R"
+          pieces:
+            - set:
+                - "info"
+                - "linear"
+          excluded: []
+          explicit_type: false
+      meta:
+        mathema.pending_supersession: "for r in [1.0, 5.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
+        mathema.companion_of: "clamps_above_one_to_the_centre"
+        mathema.family: "is_empty_safe"
+        mathema.missing:
+          admitted:
+            r:
+              absent: true
+              missing:
+                - "nan"
+          means: "missing for r (numpy.ndarray) means nan"
+          origin:
+            r:
+              absent: "written"
+              missing: "written"
+        mathema.surface: "declared"
+    - name: "is_empty_safe[r]"
+      statement: "is_empty_safe(r)"
+      verdict: "holds"
+      n: 1
+      note: "r = []: f(r, scale) returns []"
+      route: "probe:algorithmic"
+      authored:
+        surface: "claims-file"
+      domain:
+        r:
+          base_type: "R"
+          pieces:
+            - lo: -5.0
+              hi: 0.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+          clause: true
+        scale:
+          base_type: "R"
+          pieces:
+            - set:
+                - "info"
+                - "linear"
+          excluded: []
+          explicit_type: false
+      meta:
+        mathema.pending_supersession: "for r in [-5.0, 0.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 1"
+        mathema.companion_of: "clamps_below_zero_to_the_rim"
+        mathema.family: "is_empty_safe"
+        mathema.missing:
+          admitted:
+            r:
+              absent: true
+              missing:
+                - "nan"
+          means: "missing for r (numpy.ndarray) means nan"
+          origin:
+            r:
+              absent: "written"
+              missing: "written"
+        mathema.surface: "declared"
+    - name: "missing[r]"
+      statement: "missing(f, r) propagates"
+      verdict: "holds"
+      n: 36
+      note: "observed: the claim admits nan for r; f propagates it (a nan slot in, [nan, nan, nan, nan, nan, nan] out) on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "r"
+          evidence: "confirmed on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
+          behaviour: "propagates"
+          source: "observed"
+          reason: "observed: the claim admits nan for r; f propagates it (a nan slot in, [nan, nan, nan, nan, nan, nan] out) on the draws of clamps_above_one_to_the_centre and clamps_below_zero_to_the_rim"
+        mathema.surface: "mathema"
     - name: "refuses_an_unknown_scale"
-      statement: "raises(f(0.5, 'nope'), ValueError)"
+      statement: "raises(f(0.5, \"nope\"), ValueError)"
       verdict: "holds"
       n: 129
-      note: "inferred r=0.5 from the claim's own literal argument; routes attempted, derive: underivable (no explicit raise statement anywhere in this function, an exception implicit in an arithmetic operation (division, sqrt of a negative, ...) can't be proven this way; only an explicit `if cond: raise ...` guard can); probe: holds"
+      note: "inferred r=0.5 from the claim's own literal argument; derive could not decide it (no explicit raise statement anywhere in this function, an exception implicit in an arithmetic operation (division, sqrt of a negative, ...) can't be proven this way; only an explicit `if cond: raise ...` guard can), so the probe decided it by running the code"
       route: "probe"
       authored:
         surface: "claims-file"
         route: "best"
       meta:
-        mathema.sampling: "r~Seq(len∈[2,8]; shape∈{U,const,sorted,rev,+0,extreme}[p=.3]), scale~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=129"
+        mathema.sampling: "r~Seq(len∈[1,8]; elem~U(0.5,0.5)⊔{lo,hi,mid,±ε}[p=.3]; as numpy.ndarray), scale~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=129"
         mathema.confidence:
           score: 10.0
           stars: 4
@@ -116,6 +350,7 @@ arbital.geometry.strength_to_distance:
             params: 0
             wide_domain: 0
             float_extremes: 0
+        mathema.routes_attempted: "routes attempted, derive: underivable (no explicit raise statement anywhere in this function, an exception implicit in an arithmetic operation (division, sqrt of a negative, ...) can't be proven this way; only an explicit `if cond: raise ...` guard can); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
   concepts: []
@@ -125,22 +360,34 @@ arbital.geometry.strength_to_distance:
       claim: "Map association strength r in [0, 1] to distance from the centre. Accepts a scalar or an array and clamps it into [0, 1] before applying _distance_from_strength(), which is the mapping itself."
       basis: "documented; the author's stated purpose"
     - step: "evidence"
-      claim: "for r in [1.0, 5.0]:float|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
-      basis: "probed, n=128"
+      claim: "for r in [1.0, 5.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 0"
+      basis: "probed, n=111"
     - step: "evidence"
-      claim: "for r in [-5.0, 0.0]:float|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 1"
-      basis: "probed, n=128"
+      claim: "is_empty_safe(r)"
+      basis: "probed, n=1"
     - step: "evidence"
-      claim: "raises(f(0.5, 'nope'), ValueError)"
+      claim: "for r in [-5.0, 0.0] : float|absent|missing, scale in {\"info\", \"linear\"}, f(r, scale) = 1"
+      basis: "probed, n=107"
+    - step: "evidence"
+      claim: "is_empty_safe(r)"
+      basis: "probed, n=1"
+    - step: "evidence"
+      claim: "raises(f(0.5, \"nope\"), ValueError)"
       basis: "probed, n=129"
-    - step: "derivation"
-      claim: ""
-      basis: "every direct function dependency's form matches its verified record"
+    - step: "evidence"
+      claim: "missing(f, r) propagates"
+      basis: "probed, n=36"
+    - step: "evidence"
+      claim: "absent(f, r) converts"
+      basis: "probed, n=2"
+    - step: "refutation"
+      claim: "NOT ()"
+      basis: "counterexample arbital.geometry._distance_from_strength is invalidated"
   lineage:
-    generated_by: "mathema 0.6.0"
+    generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-25"
-    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+    date: "2026-10-11"
+    commit: "b48f13536c0dc69b0fdb7b6323e9fb3e2df8223a"
   dependencies:
     - name: "_distance_from_strength"
       kind: "function"
@@ -148,12 +395,19 @@ arbital.geometry.strength_to_distance:
       file: "src/arbital/geometry.py"
       line: 74
       form: "f94b92a035b4"
-      freshness: "current"
+      freshness: "invalidated"
   meta:
     mathema.concept_sources:
       keyword:
         - "metric-space"
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
     mathema.premise_state: {}
+    mathema.definition_rows:
+      numpy.clip:
+        - "definition: holds (numpy 2.5.4)"
     mathema.intent_provenance: "declared"
   discoveries:
     - name: "agrees_with_its_scalar_core"

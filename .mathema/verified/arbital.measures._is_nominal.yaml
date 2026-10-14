@@ -12,17 +12,17 @@ arbital.measures._is_nominal:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "18b69880afbb"
+    claims_fingerprint: "13ed0c88d768"
     pin: "none"
-    integrity: "v2:d0017d2a0afc75df"
+    integrity: "v2:cad46dc13fe1b4ea"
   math: null
   claims:
     - name: "a_binary_discrete_side_is_not_nominal"
-      statement: "for n_levels in [0, 2]:int|missing, f(n_levels, True) = False"
-      verdict: "holds"
-      n: 128
-      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 12), an expression form the derive vocabulary doesn't cover yet); probe: holds"
-      route: "probe"
+      statement: "for n_levels in [0, 2] : int, f(n_levels, True) = False"
+      verdict: "proven"
+      sketch: "the declared domain has 3 points, and the claim holds at every one"
+      condition: "∀ n_levels in the declared finite domain (3 points)"
+      route: "derive:brute_force"
       authored:
         surface: "claims-file"
         route: "best"
@@ -34,29 +34,21 @@ arbital.measures._is_nominal:
               hi: 2.0
               closed_lo: true
               closed_hi: true
-          excluded: []
+          excluded:
+            - sentinel: "None"
           explicit_type: true
+          clause: true
       meta:
-        mathema.sampling: "n_levels~[0, 2]:int, is_discrete~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=128"
-        mathema.confidence:
-          score: 10.0
-          stars: 4
-          max_stars: 5
-          n: 128
-          factors:
-            branches: 0
-            loops: 0
-            params: 0
-            wide_domain: 0
-            float_extremes: 0
-        mathema.derive_status: "unliftable"
+        mathema.derive_route: "brute_force"
         mathema.surface: "declared"
+        mathema.previous_verdict: "holds"
+        mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
     - name: "a_continuous_side_is_never_nominal"
-      statement: "for n_levels in [0, 50]:int|missing, f(n_levels, False) = False"
-      verdict: "holds"
-      n: 128
-      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 12), an expression form the derive vocabulary doesn't cover yet); probe: holds"
-      route: "probe"
+      statement: "for n_levels in [0, 50] : int, f(n_levels, False) = False"
+      verdict: "proven"
+      sketch: "the declared domain has 51 points, and the claim holds at every one"
+      condition: "∀ n_levels in the declared finite domain (51 points)"
+      route: "derive:brute_force"
       authored:
         surface: "claims-file"
         route: "best"
@@ -68,29 +60,21 @@ arbital.measures._is_nominal:
               hi: 50.0
               closed_lo: true
               closed_hi: true
-          excluded: []
+          excluded:
+            - sentinel: "None"
           explicit_type: true
+          clause: true
       meta:
-        mathema.sampling: "n_levels~[0, 50]:int, is_discrete~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=128"
-        mathema.confidence:
-          score: 10.0
-          stars: 4
-          max_stars: 5
-          n: 128
-          factors:
-            branches: 0
-            loops: 0
-            params: 0
-            wide_domain: 0
-            float_extremes: 0
-        mathema.derive_status: "unliftable"
+        mathema.derive_route: "brute_force"
         mathema.surface: "declared"
+        mathema.previous_verdict: "holds"
+        mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
     - name: "a_multi_level_discrete_side_is_nominal"
-      statement: "for n_levels in [3, 50]:int|missing, f(n_levels, True) = True"
-      verdict: "holds"
-      n: 128
-      note: "routes attempted, derive: underivable (function body is not derivable, likely reason: unsupported-construct: ternary (line 12), an expression form the derive vocabulary doesn't cover yet); probe: holds"
-      route: "probe"
+      statement: "for n_levels in [3, 50] : int, f(n_levels, True) = True"
+      verdict: "proven"
+      sketch: "the declared domain has 48 points, and the claim holds at every one"
+      condition: "∀ n_levels in the declared finite domain (48 points)"
+      route: "derive:brute_force"
       authored:
         surface: "claims-file"
         route: "best"
@@ -102,26 +86,18 @@ arbital.measures._is_nominal:
               hi: 50.0
               closed_lo: true
               closed_hi: true
-          excluded: []
+          excluded:
+            - sentinel: "None"
           explicit_type: true
+          clause: true
       meta:
-        mathema.sampling: "n_levels~[3, 50]:int, is_discrete~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=128"
-        mathema.confidence:
-          score: 10.0
-          stars: 4
-          max_stars: 5
-          n: 128
-          factors:
-            branches: 0
-            loops: 0
-            params: 0
-            wide_domain: 0
-            float_extremes: 0
-        mathema.derive_status: "unliftable"
+        mathema.derive_route: "brute_force"
         mathema.surface: "declared"
+        mathema.previous_verdict: "holds"
+        mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
     - name: "dependencies_current"
       verdict: "proven"
-      note: "generated by mathema verify; adjudicated against the verified store"
+      note: "generated by mathema verify; checked against the verified store"
       sketch: "no direct function dependencies, vacuously current"
       route: "derive"
       authored:
@@ -134,26 +110,30 @@ arbital.measures._is_nominal:
     - step: "intent"
       claim: "True when a side's integer codes are arbitrary labels. A discrete side with more than two levels has no meaningful sign or monotone baseline; a binary one still carries a point-biserial direction and is not nominal in this sense."
       basis: "documented; the author's stated purpose"
-    - step: "evidence"
-      claim: "for n_levels in [0, 50]:int|missing, f(n_levels, False) = False"
-      basis: "probed, n=128"
-    - step: "evidence"
-      claim: "for n_levels in [0, 2]:int|missing, f(n_levels, True) = False"
-      basis: "probed, n=128"
-    - step: "evidence"
-      claim: "for n_levels in [3, 50]:int|missing, f(n_levels, True) = True"
-      basis: "probed, n=128"
+    - step: "derivation"
+      claim: "for n_levels in [0, 50] : int, f(n_levels, False) = False"
+      basis: "the declared domain has 51 points, and the claim holds at every one"
+    - step: "derivation"
+      claim: "for n_levels in [0, 2] : int, f(n_levels, True) = False"
+      basis: "the declared domain has 3 points, and the claim holds at every one"
+    - step: "derivation"
+      claim: "for n_levels in [3, 50] : int, f(n_levels, True) = True"
+      basis: "the declared domain has 48 points, and the claim holds at every one"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
-    generated_by: "mathema 0.6.0"
+    generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-25"
-    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
   meta:
     mathema.concept_sources:
       keyword:
         - "weighted-average"
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"

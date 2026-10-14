@@ -12,63 +12,147 @@ arbital.geometry._widened_gap:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "3c3da84ced87"
+    claims_fingerprint: "02825c30ceaf"
     pin: "none"
-    integrity: "v2:fa844f0b42ad3e6f"
+    integrity: "v2:cbb83c1778128caf"
   math:
     unicode: "g_min + scale*max(0, -g_min + gap)"
     latex: "g_{min} + scale \\max\\left(0, - g_{min} + gap\\right)"
     srepr: "Add(Symbol('g_min', real=True), Mul(Symbol('scale', real=True), Max(Integer(0), Add(Mul(Integer(-1), Symbol('g_min', real=True)), Symbol('gap', real=True)))))"
   claims:
     - name: "a_gap_already_at_the_minimum_is_unchanged"
-      statement: "for g_min in [0.0, 1.0]:float|missing, scale in [0.0, 1.0]:float|missing, f(g_min, g_min, scale) = g_min"
+      statement: "for g_min in [0.0, 1.0] : float|missing, scale in [0.0, 1.0] : float|missing, f(g_min, g_min, scale) = g_min"
       verdict: "proven"
       sketch: "g_min and g_min simplify identically"
-      condition: "where x=g_min: ∀ x ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
+      condition: "where x=g_min: ∀ x ∈ [0.0, 1.0] ⊂ ℝ"
       route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         g_min:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         scale:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
         mathema.float_companion: "a_gap_already_at_the_minimum_is_unchanged[float]"
+        mathema.missing:
+          admitted:
+            g_min:
+              absent: false
+              missing:
+                - "nan"
+            scale:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for g_min (float) means nan; missing for scale (float) means nan"
+          origin:
+            g_min:
+              missing: "type"
+            scale:
+              missing: "type"
         mathema.surface: "declared"
     - name: "a_gap_already_at_the_minimum_is_unchanged[float]"
-      statement: "for g_min in [0.0, 1.0]:float|missing, scale in [0.0, 1.0]:float|missing, f(g_min, g_min, scale) = g_min"
+      statement: "for g_min in [0.0, 1.0] : float|missing, scale in [0.0, 1.0] : float|missing, f(g_min, g_min, scale) = g_min"
       verdict: "holds"
-      n: 48
-      note: "the implementation of a_gap_already_at_the_minimum_is_unchanged, executed in float at 48 points (every domain corner, then sampled interior points); unbounded directions (gap) run to magnitude 1e+308, sampled log-uniformly (no |inf| declared)"
+      n: 49
+      note: "the float64 computation of a_gap_already_at_the_minimum_is_unchanged ran at 49 points: every corner and 40 interior points"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         g_min:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         scale:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            g_min:
+              absent: false
+              missing:
+                - "nan"
+            scale:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            g_min:
+              - "nan"
+            scale:
+              - "nan"
+          inconclusive:
+            g_min: 1
+          executed:
+            scale:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            scale:
+              nan: "propagates"
+          said:
+            scale:
+              nan: "at scale = nan f gave nan back"
+          means: "missing for g_min (float) means nan; missing for scale (float) means nan"
+          origin:
+            g_min:
+              missing: "type"
+            scale:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "a_gap_already_at_the_minimum_is_unchanged"
         mathema.family: "is_numerically_stable"
     - name: "dependencies_current"
       verdict: "proven"
-      note: "generated by mathema verify; adjudicated against the verified store"
+      note: "generated by mathema verify; checked against the verified store"
       sketch: "no direct function dependencies, vacuously current"
       route: "derive"
       authored:
@@ -76,87 +160,314 @@ arbital.geometry._widened_gap:
       meta:
         mathema.surface: "builtin"
     - name: "keeps_the_order_of_the_gaps"
-      statement: "for gap in [0.0, 7.0]:float|missing, g_min in [0.0, 1.0]:float|missing, scale in [0.0, 1.0]:float|missing, d(f(gap, g_min, scale), gap) >= 0"
+      statement: "for gap in [0.0, 7.0] : float|missing, g_min in [0.0, 1.0] : float|missing, scale in [0.0, 1.0] : float|missing, d(f(gap, g_min, scale), gap) >= 0"
       verdict: "holds"
       n: 60
-      note: "numeric evidence on the LIFTED intermediate (60 samples of the resolved symbolic form, mathema's reconstruction, not the code; the symbolic comparison itself stayed undecided); routes attempted, derive: undecided (sympy could not settle the sign of scale*Heaviside(-g_min + gap); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry); probe: holds"
+      note: "numeric evidence on derive's own reading of the function (60 samples of that symbolic form, mathema's reconstruction, not a run of the code; derive itself could not decide it); derive could not decide it (sympy could not settle the sign of scale*Heaviside(-g_min + gap); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry; install mathema[smt] to attempt a proof), so the probe decided it by running the code"
       route: "probe:lifted_numeric"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         gap:
-          lo: 0.0
-          hi: 7.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 7.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         g_min:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         scale:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
         mathema.derive_status: "undecided"
         mathema.lifted_numeric_samples: 60
+        mathema.routes_attempted: "routes attempted, derive: undecided (sympy could not settle the sign of scale*Heaviside(-g_min + gap); extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry; install mathema[smt] to attempt a proof); probe: holds"
+        mathema.missing:
+          admitted:
+            gap:
+              absent: false
+              missing:
+                - "nan"
+            g_min:
+              absent: false
+              missing:
+                - "nan"
+            scale:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for gap (float) means nan; missing for g_min (float) means nan; missing for scale (float) means nan"
+          origin:
+            gap:
+              missing: "type"
+            g_min:
+              missing: "type"
+            scale:
+              missing: "type"
         mathema.surface: "declared"
+    - name: "missing[g_min]"
+      statement: "missing(f, g_min) propagates"
+      verdict: "holds"
+      n: 1
+      note: "default for a float, which may be nan; confirmed on the 67 draws of never_below_the_minimum[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.geometry._widened_gap --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "g_min"
+          evidence: "confirmed on the 67 draws of never_below_the_minimum[float]"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default for a float, which may be nan; confirmed on the 67 draws of never_below_the_minimum[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.geometry._widened_gap --write"
+        mathema.surface: "mathema"
+    - name: "missing[gap]"
+      statement: "missing(f, gap) propagates"
+      verdict: "holds"
+      n: 1
+      note: "default for a float, which may be nan; confirmed on the 67 draws of never_below_the_minimum[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.geometry._widened_gap --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "gap"
+          evidence: "confirmed on the 67 draws of never_below_the_minimum[float]"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default for a float, which may be nan; confirmed on the 67 draws of never_below_the_minimum[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.geometry._widened_gap --write"
+        mathema.surface: "mathema"
+    - name: "missing[scale]"
+      statement: "missing(f, scale) propagates"
+      verdict: "holds"
+      n: 2
+      note: "default for a float, which may be nan; confirmed on the draws of never_below_the_minimum[float] and a_gap_already_at_the_minimum_is_unchanged[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.geometry._widened_gap --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "scale"
+          evidence: "confirmed on the draws of never_below_the_minimum[float] and a_gap_already_at_the_minimum_is_unchanged[float]"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default for a float, which may be nan; confirmed on the draws of never_below_the_minimum[float] and a_gap_already_at_the_minimum_is_unchanged[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital.geometry._widened_gap --write"
+        mathema.surface: "mathema"
     - name: "never_below_the_minimum"
-      statement: "for gap in [0.0, 7.0]:float|missing, g_min in [0.0, 1.0]:float|missing, scale in [0.0, 1.0]:float|missing, f(gap, g_min, scale) >= g_min"
+      statement: "for gap in [0.0, 7.0] : float|missing, g_min in [0.0, 1.0] : float|missing, scale in [0.0, 1.0] : float|missing, f(gap, g_min, scale) >= g_min"
       verdict: "proven"
       sketch: "interval evaluation over the declared domain: scale*Max(0, -g_min + gap) ∈ AccumBounds(0, 7), never negative"
-      condition: "where x=gap, y=g_min, z=scale: ∀ x ∈ [0.0, 7.0] ⊂ ℝ ∪ {∅}, y, z ∈ [0.0, 1.0] ⊂ ℝ ∪ {∅}"
+      condition: "where x=gap, y=g_min, z=scale: ∀ x ∈ [0.0, 7.0] ⊂ ℝ, y, z ∈ [0.0, 1.0] ⊂ ℝ"
       route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         gap:
-          lo: 0.0
-          hi: 7.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 7.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         g_min:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         scale:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
         mathema.float_companion: "never_below_the_minimum[float]"
+        mathema.missing:
+          admitted:
+            gap:
+              absent: false
+              missing:
+                - "nan"
+            g_min:
+              absent: false
+              missing:
+                - "nan"
+            scale:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for gap (float) means nan; missing for g_min (float) means nan; missing for scale (float) means nan"
+          origin:
+            gap:
+              missing: "type"
+            g_min:
+              missing: "type"
+            scale:
+              missing: "type"
         mathema.surface: "declared"
     - name: "never_below_the_minimum[float]"
-      statement: "for gap in [0.0, 7.0]:float|missing, g_min in [0.0, 1.0]:float|missing, scale in [0.0, 1.0]:float|missing, f(gap, g_min, scale) >= g_min"
+      statement: "for gap in [0.0, 7.0] : float|missing, g_min in [0.0, 1.0] : float|missing, scale in [0.0, 1.0] : float|missing, f(gap, g_min, scale) >= g_min"
       verdict: "holds"
-      n: 48
-      note: "the implementation of never_below_the_minimum, executed in float at 48 points (every domain corner, then sampled interior points)"
+      n: 67
+      note: "the float64 computation of never_below_the_minimum ran at 67 points: every corner and 40 interior points"
       route: "probe"
       authored:
         surface: "claims-file"
       domain:
         gap:
-          lo: 0.0
-          hi: 7.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 7.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         g_min:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         scale:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            gap:
+              absent: false
+              missing:
+                - "nan"
+            g_min:
+              absent: false
+              missing:
+                - "nan"
+            scale:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            gap:
+              - "nan"
+            g_min:
+              - "nan"
+            scale:
+              - "nan"
+          executed:
+            gap:
+              nan: "nan in, nan out (propagates)"
+            g_min:
+              nan: "nan in, nan out (propagates)"
+            scale:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            gap:
+              nan: "propagates"
+            g_min:
+              nan: "propagates"
+            scale:
+              nan: "propagates"
+          said:
+            gap:
+              nan: "at gap = nan f gave nan back"
+            g_min:
+              nan: "at g_min = nan f gave nan back"
+            scale:
+              nan: "at scale = nan f gave nan back"
+          means: "missing for gap (float) means nan; missing for g_min (float) means nan; missing for scale (float) means nan"
+          origin:
+            gap:
+              missing: "type"
+            g_min:
+              missing: "type"
+            scale:
+              missing: "type"
         mathema.surface: "declared"
         mathema.companion_of: "never_below_the_minimum"
         mathema.family: "is_numerically_stable"
@@ -171,20 +482,29 @@ arbital.geometry._widened_gap:
       claim: "g_min + scale*max(0, -g_min + gap)"
       basis: "symbolic lift of the body"
     - step: "derivation"
-      claim: "for gap in [0.0, 7.0]:float|missing, g_min in [0.0, 1.0]:float|missing, scale in [0.0, 1.0]:float|missing, f(gap, g_min, scale) >= g_min"
+      claim: "for gap in [0.0, 7.0] : float|missing, g_min in [0.0, 1.0] : float|missing, scale in [0.0, 1.0] : float|missing, f(gap, g_min, scale) >= g_min"
       basis: "interval evaluation over the declared domain: scale*Max(0, -g_min + gap) ∈ AccumBounds(0, 7), never negative"
     - step: "evidence"
-      claim: "for gap in [0.0, 7.0]:float|missing, g_min in [0.0, 1.0]:float|missing, scale in [0.0, 1.0]:float|missing, f(gap, g_min, scale) >= g_min"
-      basis: "probed, n=48"
+      claim: "for gap in [0.0, 7.0] : float|missing, g_min in [0.0, 1.0] : float|missing, scale in [0.0, 1.0] : float|missing, f(gap, g_min, scale) >= g_min"
+      basis: "probed, n=67"
     - step: "evidence"
-      claim: "for gap in [0.0, 7.0]:float|missing, g_min in [0.0, 1.0]:float|missing, scale in [0.0, 1.0]:float|missing, d(f(gap, g_min, scale), gap) >= 0"
+      claim: "for gap in [0.0, 7.0] : float|missing, g_min in [0.0, 1.0] : float|missing, scale in [0.0, 1.0] : float|missing, d(f(gap, g_min, scale), gap) >= 0"
       basis: "probed, n=60"
     - step: "derivation"
-      claim: "for g_min in [0.0, 1.0]:float|missing, scale in [0.0, 1.0]:float|missing, f(g_min, g_min, scale) = g_min"
+      claim: "for g_min in [0.0, 1.0] : float|missing, scale in [0.0, 1.0] : float|missing, f(g_min, g_min, scale) = g_min"
       basis: "g_min and g_min simplify identically"
     - step: "evidence"
-      claim: "for g_min in [0.0, 1.0]:float|missing, scale in [0.0, 1.0]:float|missing, f(g_min, g_min, scale) = g_min"
-      basis: "probed, n=48"
+      claim: "for g_min in [0.0, 1.0] : float|missing, scale in [0.0, 1.0] : float|missing, f(g_min, g_min, scale) = g_min"
+      basis: "probed, n=49"
+    - step: "evidence"
+      claim: "missing(f, gap) propagates"
+      basis: "probed, n=1"
+    - step: "evidence"
+      claim: "missing(f, g_min) propagates"
+      basis: "probed, n=1"
+    - step: "evidence"
+      claim: "missing(f, scale) propagates"
+      basis: "probed, n=2"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
@@ -192,15 +512,19 @@ arbital.geometry._widened_gap:
       claim: "instantiates: differentiation"
       basis: "deterministic concept tagging"
   lineage:
-    generated_by: "mathema 0.6.0"
+    generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-25"
-    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
   meta:
     mathema.concept_sources:
       mechanism:
         - "differentiation"
     concepts:
       - "differentiation"
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"

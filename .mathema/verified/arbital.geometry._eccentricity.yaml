@@ -1,4 +1,4 @@
-# machine record; binds to form 661a4046212c
+# machine record; binds to form a0c2ba9491ca
 arbital.geometry._eccentricity:
   schema_version: "0.2.0"
   name: "_eccentricity"
@@ -7,14 +7,14 @@ arbital.geometry._eccentricity:
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "661a4046212c"
+    form: "a0c2ba9491ca"
     sig: "323aad2eece5"
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "447711fce87a"
+    claims_fingerprint: "1d4aa0e4556d"
     pin: "none"
-    integrity: "v2:f0331754c002ac23"
+    integrity: "v2:628aec8c93a6464a"
   math: null
   claims:
     - name: "a_degenerate_orbit_is_a_circle"
@@ -32,8 +32,8 @@ arbital.geometry._eccentricity:
     - name: "a_degenerate_orbit_is_a_circle[float]"
       statement: "f(0, 0) = 0"
       verdict: "holds"
-      n: 44
-      note: "the implementation of a_degenerate_orbit_is_a_circle, executed in float at 44 points (every domain corner, then sampled interior points)"
+      n: 1
+      note: "the float64 computation of a_degenerate_orbit_is_a_circle ran at the only listed point, "
       route: "probe"
       authored:
         surface: "claims-file"
@@ -42,38 +42,89 @@ arbital.geometry._eccentricity:
         mathema.companion_of: "a_degenerate_orbit_is_a_circle"
         mathema.family: "is_numerically_stable"
     - name: "circular_when_the_apsides_agree"
-      statement: "for r_peri in [0.0, 1.0]:float|missing, f(r_peri, r_peri) = 0"
-      verdict: "holds"
-      n: 163
-      note: "routes attempted, derive: undecided (a call's arguments may reach a raise guard inside the declared domain and neither a witness nor an exclusion could be established, narrow the domain to where every call returns, or state the raising region as its own raises(...) claim; line 12 ('a == 0.0') needs a domain specific enough for r_apo, r_peri); probe: holds"
-      route: "probe"
+      statement: "for r_peri in [0.0, 1.0] : float|missing, f(r_peri, r_peri) = 0"
+      verdict: "proven"
+      sketch: "0 and 0 simplify identically"
+      condition: "for r_peri in [0.0, 1.0] : float|missing"
+      route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         r_peri:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
-        mathema.sampling: "r_peri~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3], seed=20260718, n=163"
-        mathema.confidence:
-          score: 9.3
-          stars: 4
-          max_stars: 5
-          n: 163
-          factors:
-            branches: 1
-            loops: 0
-            params: 0
-            wide_domain: 0
-            float_extremes: 0
-        mathema.derive_status: "undecided"
+        mathema.float_companion: "circular_when_the_apsides_agree[float]"
+        mathema.missing:
+          admitted:
+            r_peri:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for r_peri (float) means nan"
+          origin:
+            r_peri:
+              missing: "type"
         mathema.surface: "declared"
+        mathema.previous_verdict: "holds"
+        mathema.last_supported_commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    - name: "circular_when_the_apsides_agree[float]"
+      statement: "for r_peri in [0.0, 1.0] : float|missing, f(r_peri, r_peri) = 0"
+      verdict: "holds"
+      n: 43
+      note: "the float64 computation of circular_when_the_apsides_agree ran at 43 points: every corner and 40 interior points"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+      domain:
+        r_peri:
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
+      meta:
+        mathema.missing:
+          admitted:
+            r_peri:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r_peri:
+              - "nan"
+          inconclusive:
+            r_peri: 1
+          means: "missing for r_peri (float) means nan"
+          origin:
+            r_peri:
+              missing: "type"
+        mathema.surface: "declared"
+        mathema.companion_of: "circular_when_the_apsides_agree"
+        mathema.family: "is_numerically_stable"
     - name: "dependencies_current"
       verdict: "proven"
-      note: "generated by mathema verify; adjudicated against the verified store"
+      note: "generated by mathema verify; checked against the verified store"
       sketch: "no direct function dependencies, vacuously current"
       route: "derive"
       authored:
@@ -81,9 +132,9 @@ arbital.geometry._eccentricity:
       meta:
         mathema.surface: "builtin"
     - name: "is_a_bounded_eccentricity"
-      statement: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
+      statement: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0] : float|missing, r_apo in [0.0, 1.0] : float|missing, 0 <= f(r_peri, r_apo) <= 1"
       verdict: "holds"
-      n: 86
+      n: 83
       note: "every link of the chained comparison holds"
       route: "probe"
       authored:
@@ -91,21 +142,60 @@ arbital.geometry._eccentricity:
         route: "best"
       domain:
         r_peri:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
         r_apo:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: true
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: true
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
+        mathema.missing:
+          admitted:
+            r_peri:
+              absent: false
+              missing:
+                - "nan"
+            r_apo:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r_peri:
+              - "nan"
+            r_apo:
+              - "nan"
+          means: "missing for r_peri (float) means nan; missing for r_apo (float) means nan"
+          origin:
+            r_peri:
+              missing: "type"
+            r_apo:
+              missing: "type"
         mathema.surface: "declared"
     - name: "is_a_proper_eccentricity_corrected"
-      statement: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
+      statement: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0] : float|missing, r_apo in [0.0, 1.0] : float|missing, 0 <= f(r_peri, r_apo) <= 1"
       verdict: "holds"
-      n: 81
+      n: 75
       note: "every link of the chained comparison holds"
       route: "probe"
       authored:
@@ -119,8 +209,14 @@ arbital.geometry._eccentricity:
               hi: 1.0
               closed_lo: true
               closed_hi: true
-          excluded: []
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
           explicit_type: true
+          members:
+            - "nan"
+          clause: true
         r_apo:
           base_type: "R"
           pieces:
@@ -128,41 +224,145 @@ arbital.geometry._eccentricity:
               hi: 1.0
               closed_lo: true
               closed_hi: true
-          excluded: []
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
           explicit_type: true
+          members:
+            - "nan"
+          clause: true
       meta:
         mathema.membership: "repopulated-from-verified"
+        mathema.missing:
+          admitted:
+            r_peri:
+              absent: false
+              missing:
+                - "nan"
+            r_apo:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r_peri:
+              - "nan"
+            r_apo:
+              - "nan"
+          means: "missing for r_peri (float) means nan; missing for r_apo (float) means nan"
+          origin:
+            r_peri:
+              missing: "written"
+            r_apo:
+              missing: "written"
         mathema.surface: "declared"
-    - name: "parabolic_only_from_the_centre"
-      statement: "for r_apo in (0.0, 1.0]:float|missing, f(0, r_apo) = 1"
+    - name: "missing[r_apo]"
+      statement: "missing(f, r_apo) propagates"
       verdict: "holds"
-      n: 161
-      note: "inferred r_peri=0 from the claim's own literal argument; routes attempted, derive: undecided (a call's arguments may reach a raise guard inside the declared domain and neither a witness nor an exclusion could be established, narrow the domain to where every call returns, or state the raising region as its own raises(...) claim; line 12 ('a == 0.0') needs a domain specific enough for r_apo, r_peri); probe: holds"
-      route: "probe"
+      n: 1
+      note: "observed: the claim admits nan for r_apo; f propagates it (nan in, nan out) on the 42 draws of parabolic_only_from_the_centre[float]"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "r_apo"
+          evidence: "confirmed on the 42 draws of parabolic_only_from_the_centre[float]"
+          behaviour: "propagates"
+          source: "observed"
+          reason: "observed: the claim admits nan for r_apo; f propagates it (nan in, nan out) on the 42 draws of parabolic_only_from_the_centre[float]"
+        mathema.surface: "mathema"
+    - name: "parabolic_only_from_the_centre"
+      statement: "for r_apo in (0.0, 1.0] : float|missing, f(0, r_apo) = 1"
+      verdict: "proven"
+      note: "inferred r_peri=0 from the claim's own literal argument"
+      sketch: "when r_apo = 0: 0; otherwise 1 and 1 simplify identically"
+      condition: "where x=r_apo: ∀ x ∈ (0.0, 1.0] ⊂ ℝ"
+      route: "derive"
       authored:
         surface: "claims-file"
         route: "best"
       domain:
         r_apo:
-          lo: 0.0
-          hi: 1.0
-          closed_lo: false
-          closed_hi: true
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: false
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
       meta:
-        mathema.sampling: "r_peri~U(0,0)⊔{lo,hi,mid,±ε}[p=.3], r_apo~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=161"
-        mathema.confidence:
-          score: 9.3
-          stars: 4
-          max_stars: 5
-          n: 161
-          factors:
-            branches: 1
-            loops: 0
-            params: 0
-            wide_domain: 0
-            float_extremes: 0
-        mathema.derive_status: "undecided"
+        mathema.float_companion: "parabolic_only_from_the_centre[float]"
+        mathema.missing:
+          admitted:
+            r_apo:
+              absent: false
+              missing:
+                - "nan"
+          means: "missing for r_apo (float) means nan"
+          origin:
+            r_apo:
+              missing: "type"
         mathema.surface: "declared"
+        mathema.previous_verdict: "holds"
+        mathema.last_supported_commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    - name: "parabolic_only_from_the_centre[float]"
+      statement: "for r_apo in (0.0, 1.0] : float|missing, f(0, r_apo) = 1"
+      verdict: "holds"
+      n: 42
+      note: "the float64 computation of parabolic_only_from_the_centre ran at 42 points: every corner and 40 interior points"
+      route: "probe"
+      authored:
+        surface: "claims-file"
+      domain:
+        r_apo:
+          base_type: "R"
+          pieces:
+            - lo: 0.0
+              hi: 1.0
+              closed_lo: false
+              closed_hi: true
+            - set:
+                - sentinel: "missing"
+          excluded:
+            - sentinel: "None"
+          explicit_type: false
+          members:
+            - "nan"
+      meta:
+        mathema.missing:
+          admitted:
+            r_apo:
+              absent: false
+              missing:
+                - "nan"
+          tried:
+            r_apo:
+              - "nan"
+          executed:
+            r_apo:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            r_apo:
+              nan: "propagates"
+          said:
+            r_apo:
+              nan: "at r_apo = nan f gave nan back"
+          means: "missing for r_apo (float) means nan"
+          origin:
+            r_apo:
+              missing: "type"
+        mathema.surface: "declared"
+        mathema.companion_of: "parabolic_only_from_the_centre"
+        mathema.family: "is_numerically_stable"
+        mathema.previous_verdict: "falsified"
   concepts: []
   references: {}
   reasoning:
@@ -170,35 +370,48 @@ arbital.geometry._eccentricity:
       claim: "Geometric eccentricity of an ellipse from its two apsides. e = (r_apo - r_peri) / (r_apo + r_peri), and 0 for the degenerate orbit whose apsides both sit at the origin."
       basis: "documented; the author's stated purpose"
     - step: "evidence"
-      claim: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
-      basis: "probed, n=86"
+      claim: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0] : float|missing, r_apo in [0.0, 1.0] : float|missing, 0 <= f(r_peri, r_apo) <= 1"
+      basis: "probed, n=83"
+    - step: "derivation"
+      claim: "for r_apo in (0.0, 1.0] : float|missing, f(0, r_apo) = 1"
+      basis: "when r_apo = 0: 0; otherwise 1 and 1 simplify identically"
     - step: "evidence"
-      claim: "for r_apo in (0.0, 1.0]:float|missing, f(0, r_apo) = 1"
-      basis: "probed, n=161"
+      claim: "for r_apo in (0.0, 1.0] : float|missing, f(0, r_apo) = 1"
+      basis: "probed, n=42"
+    - step: "derivation"
+      claim: "for r_peri in [0.0, 1.0] : float|missing, f(r_peri, r_peri) = 0"
+      basis: "0 and 0 simplify identically"
     - step: "evidence"
-      claim: "for r_peri in [0.0, 1.0]:float|missing, f(r_peri, r_peri) = 0"
-      basis: "probed, n=163"
+      claim: "for r_peri in [0.0, 1.0] : float|missing, f(r_peri, r_peri) = 0"
+      basis: "probed, n=43"
     - step: "derivation"
       claim: "f(0, 0) = 0"
       basis: "0 and 0 simplify identically"
     - step: "evidence"
       claim: "f(0, 0) = 0"
-      basis: "probed, n=44"
+      basis: "probed, n=1"
     - step: "evidence"
-      claim: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0]:float|missing, r_apo in [0.0, 1.0]:float|missing, 0 <= f(r_peri, r_apo) <= 1"
-      basis: "probed, n=81"
+      claim: "assuming r_peri <= r_apo, for r_peri in [0.0, 1.0] : float|missing, r_apo in [0.0, 1.0] : float|missing, 0 <= f(r_peri, r_apo) <= 1"
+      basis: "probed, n=75"
+    - step: "evidence"
+      claim: "missing(f, r_apo) propagates"
+      basis: "probed, n=1"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
-    generated_by: "mathema 0.6.0"
+    generated_by: "mathema 0.6.1"
     CDD_spec_version: "0.2.0"
-    date: "2026-09-25"
-    commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
+    date: "2026-10-11"
+    commit: "b48f13536c0dc69b0fdb7b6323e9fb3e2df8223a"
   meta:
     mathema.concept_sources:
       keyword:
         - "metric-space"
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"
   discoveries:

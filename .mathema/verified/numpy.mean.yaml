@@ -1,0 +1,436 @@
+# machine record; binds to form eefd763e2e3a
+numpy.mean:
+  schema_version: "0.2.0"
+  name: "mean"
+  signature: "(a, axis=None, dtype=None, out=None, keepdims=<no value>, *, where=<no value>)"
+  intent: "Compute the arithmetic mean along the specified axis. Returns the average of the array elements.  The average is taken over the flattened array by default, otherwise over the specified axis. `float64` intermediate and return values are used for integer inputs."
+  grammar: "mathema"
+  tolerance: 1.0e-09
+  identity:
+    form: "eefd763e2e3a"
+    sig: "1d2b459ab30e"
+    tier: 2
+    source_available: true
+    pure: true
+    claims_fingerprint: "0f407e8e51f4"
+    pin: "none"
+    integrity: "v2:9fe2f0768b52c8ee"
+  math: null
+  claims:
+    - name: "absent[a]"
+      statement: "absent(f, a) raises"
+      verdict: "holds"
+      n: 3
+      note: "default: a has no annotation, so it may be None, and f raises on it; confirmed on the draws of definition, definition@axis=0 and definition@axis=1. Annotate a as float to exclude None; to write this row, run: mathema claims numpy.mean --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "absent"
+          parameter: "a"
+          evidence: "confirmed on the draws of definition, definition@axis=0 and definition@axis=1"
+          behaviour: "raises"
+          source: "default"
+          reason: "default: a has no annotation, so it may be None, and f raises on it; confirmed on the draws of definition, definition@axis=0 and definition@axis=1. Annotate a as float to exclude None; to write this row, run: mathema claims numpy.mean --write"
+        mathema.surface: "mathema"
+    - name: "definition"
+      statement: "for a in (R | {missing})^n|absent, f(a) = mean(a)"
+      verdict: "holds"
+      n: 191
+      note: "derive could not decide the claim over the vector or matrix a, so the probe decided it by running the code; at a = [nan] f gave nan back; at a = None f raised TypeError; held at their defaults: axis=None, dtype=None, keepdims=<no value>, out=None, where=<no value>"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          dims:
+            - "n"
+          absent: true
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/reductions.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~R^n, seed=20260718, n=191"
+        mathema.confidence:
+          score: 5.6
+          stars: 2
+          max_stars: 5
+          n: 191
+          factors:
+            branches: 3
+            loops: 0
+            params: 4
+            wide_domain: 0
+            float_extremes: 0
+        mathema.missing:
+          admitted:
+            a:
+              absent: true
+              missing:
+                - "nan"
+          executed:
+            a:
+              nan: "nan slot in, nan out (propagates)"
+              None: "raised TypeError"
+          behaviour:
+            a:
+              nan: "propagates"
+              None: "raises"
+          said:
+            a:
+              nan: "at a = [nan] f gave nan back"
+              None: "at a = None f raised TypeError"
+          means: "missing for a (unannotated) means nan"
+          origin:
+            a:
+              absent: "type"
+              missing: "type"
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 1
+            - 1
+          largest:
+            - 8
+            - 1
+          entries: 867
+        mathema.routes_attempted: "routes attempted, derive: underivable (derive could not decide the claim over the vector or matrix a); probe: holds"
+        mathema.derive_status: "unliftable"
+        mathema.defaults:
+          numpy.mean:
+            axis: "None"
+            dtype: "None"
+            keepdims: "<no value>"
+            out: "None"
+            where: "<no value>"
+        mathema.surface: "compendium"
+    - name: "definition@axis=0"
+      statement: "for a in (R | {missing})^(m,n)|absent, f(a, axis=0) = mean(a, axis=0)"
+      verdict: "holds"
+      n: 191
+      note: "derive could not decide it (the derive route does not model the pinned parameter(s) axis), so the probe decided it by running the code; at a = [[nan], [-8.76], [8.87], [9.23], [-3.73], [-9.66]] f gave nan back; at a = None f raised AxisError; held at their defaults: axis=0 (pinned), dtype=None, keepdims=<no value>, out=None, where=<no value>"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          dims:
+            - "m"
+            - "n"
+          absent: true
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/reductions.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~R^(m,n), seed=20260718, n=191"
+        mathema.confidence:
+          score: 5.6
+          stars: 2
+          max_stars: 5
+          n: 191
+          factors:
+            branches: 3
+            loops: 0
+            params: 4
+            wide_domain: 0
+            float_extremes: 0
+        mathema.missing:
+          admitted:
+            a:
+              absent: true
+              missing:
+                - "nan"
+          executed:
+            a:
+              nan: "nan slot in, nan out (propagates)"
+              None: "raised AxisError"
+          behaviour:
+            a:
+              nan: "propagates"
+              None: "raises"
+          said:
+            a:
+              nan: "at a = [[nan], [-8.76], [8.87], [9.23], [-3.73], [-9.66]] f gave nan back"
+              None: "at a = None f raised AxisError"
+          means: "missing for a (unannotated) means nan"
+          origin:
+            a:
+              absent: "type"
+              missing: "type"
+        mathema.drawn:
+          form: "mat"
+          smallest:
+            - 1
+            - 1
+          largest:
+            - 8
+            - 8
+          entries: 3999
+        mathema.routes_attempted: "routes attempted, derive: unsupported (the derive route does not model the pinned parameter(s) axis); probe: holds"
+        mathema.derive_status: "unsupported"
+        mathema.defaults:
+          numpy.mean:
+            axis: "0 (pinned)"
+            dtype: "None"
+            keepdims: "<no value>"
+            out: "None"
+            where: "<no value>"
+        mathema.surface: "compendium"
+    - name: "definition@axis=1"
+      statement: "for a in (R | {missing})^(m,n)|absent, f(a, axis=1) = mean(a, axis=1)"
+      verdict: "holds"
+      n: 189
+      note: "derive could not decide it (the derive route does not model the pinned parameter(s) axis), so the probe decided it by running the code; at a = [[nan, 2.78, 0.366, 3.72, 8.44, 9.94, ...], [-0.382, 5.5, 1.73, 3.37, 2.17, -6.41, ...]] f gave [nan, 1.09] back; at a = None f raised AxisError; held at their defaults: axis=1 (pinned), dtype=None, keepdims=<no value>, out=None, where=<no value>"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          dims:
+            - "m"
+            - "n"
+          absent: true
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/reductions.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~R^(m,n), seed=20260718, n=189"
+        mathema.confidence:
+          score: 5.6
+          stars: 2
+          max_stars: 5
+          n: 189
+          factors:
+            branches: 3
+            loops: 0
+            params: 4
+            wide_domain: 0
+            float_extremes: 0
+        mathema.missing:
+          admitted:
+            a:
+              absent: true
+              missing:
+                - "nan"
+          executed:
+            a:
+              nan: "nan slot in, [nan, 1.09] out (propagates)"
+              None: "raised AxisError"
+          behaviour:
+            a:
+              nan: "propagates"
+              None: "raises"
+          said:
+            a:
+              nan: "at a = [[nan, 2.78, 0.366, 3.72, 8.44, 9.94, ...], [-0.382, 5.5, 1.73, 3.37, 2.17, -6.41, ...]] f gave [nan, 1.09] back"
+              None: "at a = None f raised AxisError"
+          means: "missing for a (unannotated) means nan"
+          origin:
+            a:
+              absent: "type"
+              missing: "type"
+        mathema.drawn:
+          form: "mat"
+          smallest:
+            - 1
+            - 1
+          largest:
+            - 8
+            - 8
+          entries: 3740
+        mathema.routes_attempted: "routes attempted, derive: unsupported (the derive route does not model the pinned parameter(s) axis); probe: holds"
+        mathema.derive_status: "unsupported"
+        mathema.defaults:
+          numpy.mean:
+            axis: "1 (pinned)"
+            dtype: "None"
+            keepdims: "<no value>"
+            out: "None"
+            where: "<no value>"
+        mathema.surface: "compendium"
+    - name: "dependencies_current"
+      verdict: "proven"
+      note: "generated by mathema verify; checked against the verified store"
+      sketch: "no direct function dependencies, vacuously current"
+      route: "derive"
+      authored:
+        surface: "builtin"
+      meta:
+        mathema.surface: "builtin"
+    - name: "empty_is_missing"
+      statement: "f([]) in {missing}"
+      verdict: "holds"
+      n: 225
+      note: "derive cannot read membership in a language or a set, so `in` is decided by running the code; held at their defaults: axis=None, dtype=None, keepdims=<no value>, out=None, where=<no value>"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/reductions.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3]⊔far(≤1.79769e+308)[p=.1], seed=20260718, n=225"
+        mathema.confidence:
+          score: 5.8
+          stars: 2
+          max_stars: 5
+          n: 225
+          factors:
+            branches: 3
+            loops: 0
+            params: 4
+            wide_domain: 0
+            float_extremes: 0
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 0
+            - 1
+          largest:
+            - 0
+            - 1
+          entries: 0
+        mathema.routes_attempted: "routes attempted, derive: underivable (derive cannot read membership in a language or a set, so `in` is decided by running the code); probe: holds"
+        mathema.derive_status: "unliftable"
+        mathema.defaults:
+          numpy.mean:
+            axis: "None"
+            dtype: "None"
+            keepdims: "<no value>"
+            out: "None"
+            where: "<no value>"
+        mathema.surface: "compendium"
+    - name: "is_defined"
+      statement: "dim(a) >= 1"
+      verdict: "holds"
+      n: 225
+      note: "224 executed points inside the stated region returned a finite value and 1 outside it returned no value; unbounded directions run to magnitude 1.79769e+308; derive could not decide it (is_defined: the stated region isn't expressible over the function's own parameters), so the probe decided it by running the code; held at their defaults: axis=None, dtype=None, keepdims=<no value>, out=None, where=<no value>"
+      route: "probe:algorithmic"
+      authored:
+        surface: "compendium"
+        route: "best"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/reductions.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampled: "224 executed points inside the stated region returned a finite value and 1 outside it returned no value; unbounded directions run to magnitude 1.79769e+308"
+        mathema.routes_attempted: "routes attempted, derive: undecided (is_defined: the stated region isn't expressible over the function's own parameters); probe: holds"
+        mathema.derive_status: "undecided"
+        mathema.defaults:
+          numpy.mean:
+            axis: "None"
+            dtype: "None"
+            keepdims: "<no value>"
+            out: "None"
+            where: "<no value>"
+        mathema.surface: "compendium"
+    - name: "missing_propagates"
+      statement: "missing(f, a) propagates"
+      verdict: "holds"
+      n: 100
+      note: "stated; confirmed on the draws of definition, definition@axis=0 and definition@axis=1"
+      route: "probe:counterfactual"
+      authored:
+        surface: "compendium"
+        route: "best"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "a"
+          behaviour: "propagates"
+          source: "stated"
+          evidence: "confirmed on the draws of definition, definition@axis=0 and definition@axis=1"
+          reason: "stated; confirmed on the draws of definition, definition@axis=0 and definition@axis=1"
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/reductions.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.surface: "compendium"
+        mathema.defaults:
+          numpy.mean:
+            axis: "None"
+            dtype: "None"
+            keepdims: "<no value>"
+            out: "None"
+            where: "<no value>"
+  concepts:
+    - "recursion"
+  references: {}
+  reasoning:
+    - step: "intent"
+      claim: "Compute the arithmetic mean along the specified axis. Returns the average of the array elements.  The average is taken over the flattened array by default, otherwise over the specified axis. `float64` intermediate and return values are used for integer inputs."
+      basis: "documented; the author's stated purpose"
+    - step: "evidence"
+      claim: "dim(a) >= 1"
+      basis: "probed, n=225"
+    - step: "evidence"
+      claim: "for a in (R | {missing})^n|absent, f(a) = mean(a)"
+      basis: "probed, n=191"
+    - step: "evidence"
+      claim: "for a in (R | {missing})^(m,n)|absent, f(a, axis=0) = mean(a, axis=0)"
+      basis: "probed, n=191"
+    - step: "evidence"
+      claim: "for a in (R | {missing})^(m,n)|absent, f(a, axis=1) = mean(a, axis=1)"
+      basis: "probed, n=189"
+    - step: "evidence"
+      claim: "f([]) in {missing}"
+      basis: "probed, n=225"
+    - step: "evidence"
+      claim: "missing(f, a) propagates"
+      basis: "probed, n=100"
+    - step: "evidence"
+      claim: "absent(f, a) raises"
+      basis: "probed, n=3"
+    - step: "derivation"
+      claim: ""
+      basis: "no direct function dependencies, vacuously current"
+    - step: "situating"
+      claim: "instantiates: recursion"
+      basis: "deterministic concept tagging"
+  lineage:
+    generated_by: "mathema 0.6.1"
+    CDD_spec_version: "0.2.0"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+  meta:
+    mathema.concept_sources:
+      mechanism:
+        - "recursion"
+      keyword:
+        - "weighted-average"
+    concepts:
+      - "recursion"
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
+    mathema.premise_state: {}
+    mathema.intent_provenance: "declared"

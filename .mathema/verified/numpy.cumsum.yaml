@@ -1,0 +1,261 @@
+# machine record; binds to form 16c0b8ec695f
+numpy.cumsum:
+  schema_version: "0.2.0"
+  name: "cumsum"
+  signature: "(a, axis=None, dtype=None, out=None)"
+  intent: "Return the cumulative sum of the elements along a given axis."
+  grammar: "mathema"
+  tolerance: 1.0e-09
+  identity:
+    form: "16c0b8ec695f"
+    sig: "2fc9a6de9d91"
+    tier: 2
+    source_available: true
+    pure: true
+    claims_fingerprint: "44fe9f080a30"
+    pin: "none"
+    integrity: "v2:7f957b0041727ed0"
+  math: null
+  claims:
+    - name: "absent[a]"
+      statement: "absent(f, a) raises"
+      verdict: "falsified"
+      n: 2
+      counterexample: "a = None: f returned [null]"
+      note: "default: a has no annotation, so it may be None; f converts instead: None in, [null] out. (i) if that is intended, state: absent(f, a) converts
+(ii) if not, change f
+(iii) to accept it as a discovery, run: mathema accept numpy.cumsum absent[a] --as discovery --corrected \"absent(f, a) converts\""
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "absent"
+          parameter: "a"
+          evidence: "confirmed on the draws of definition and definition@axis=0"
+          behaviour: "raises"
+          source: "default"
+          reason: "default: a has no annotation, so it may be None; f converts instead: None in, [null] out"
+          next: "(i) if that is intended, state: absent(f, a) converts
+(ii) if not, change f
+(iii) to accept it as a discovery, run: mathema accept numpy.cumsum absent[a] --as discovery --corrected \"absent(f, a) converts\""
+        mathema.surface: "mathema"
+    - name: "definition"
+      statement: "for a in (R | {missing})^n|absent, f(a) = cumsum(a)"
+      verdict: "holds"
+      n: 110
+      note: "derive could not decide it (the constant 'cumsum' is not a number), so the probe decided it by running the code; at a = [nan] f gave nan back; at a = None f returned [null], so it converts the absence to a hole; held at their defaults: axis=None, dtype=None, out=None"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          dims:
+            - "n"
+          absent: true
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/definitions.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~R^n, seed=20260718, n=110"
+        mathema.confidence:
+          score: 8.8
+          stars: 4
+          max_stars: 5
+          n: 110
+          factors:
+            branches: 0
+            loops: 0
+            params: 2
+            wide_domain: 0
+            float_extremes: 0
+        mathema.missing:
+          admitted:
+            a:
+              absent: true
+              missing:
+                - "nan"
+          executed:
+            a:
+              nan: "nan slot in, nan out (propagates)"
+              None: "None in, [null] out (converts)"
+          behaviour:
+            a:
+              nan: "propagates"
+              None: "converts"
+          said:
+            a:
+              nan: "at a = [nan] f gave nan back"
+              None: "at a = None f returned [null], so it converts the absence to a hole"
+          means: "missing for a (unannotated) means nan"
+          origin:
+            a:
+              absent: "type"
+              missing: "type"
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 1
+            - 1
+          largest:
+            - 8
+            - 1
+          entries: 544
+        mathema.routes_attempted: "routes attempted, derive: underivable (the constant 'cumsum' is not a number); probe: holds"
+        mathema.derive_status: "unliftable"
+        mathema.defaults:
+          numpy.cumsum:
+            axis: "None"
+            dtype: "None"
+            out: "None"
+        mathema.surface: "compendium"
+    - name: "definition@axis=0"
+      statement: "for a in (R | {missing})^(m,n)|absent, f(a, axis=0) = cumsum(a, axis=0)"
+      verdict: "holds"
+      n: 109
+      note: "derive could not decide it (the derive route does not model the pinned parameter(s) axis), so the probe decided it by running the code; at a = [[nan], [-9.36], [-6.12], [-0.492]] f gave [[nan], [nan], [nan], [nan]] back; at a = None f returned [null], so it converts the absence to a hole; held at their defaults: axis=0 (pinned), dtype=None, out=None"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          dims:
+            - "m"
+            - "n"
+          absent: true
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/definitions.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~R^(m,n), seed=20260718, n=109"
+        mathema.confidence:
+          score: 8.8
+          stars: 4
+          max_stars: 5
+          n: 109
+          factors:
+            branches: 0
+            loops: 0
+            params: 2
+            wide_domain: 0
+            float_extremes: 0
+        mathema.missing:
+          admitted:
+            a:
+              absent: true
+              missing:
+                - "nan"
+          executed:
+            a:
+              nan: "nan slot in, [[nan], [nan], [nan], [nan]] out (propagates)"
+              None: "None in, [null] out (converts)"
+          behaviour:
+            a:
+              nan: "propagates"
+              None: "converts"
+          said:
+            a:
+              nan: "at a = [[nan], [-9.36], [-6.12], [-0.492]] f gave [[nan], [nan], [nan], [nan]] back"
+              None: "at a = None f returned [null], so it converts the absence to a hole"
+          means: "missing for a (unannotated) means nan"
+          origin:
+            a:
+              absent: "type"
+              missing: "type"
+        mathema.drawn:
+          form: "mat"
+          smallest:
+            - 1
+            - 1
+          largest:
+            - 8
+            - 8
+          entries: 2020
+        mathema.routes_attempted: "routes attempted, derive: unsupported (the derive route does not model the pinned parameter(s) axis); probe: holds"
+        mathema.derive_status: "unsupported"
+        mathema.defaults:
+          numpy.cumsum:
+            axis: "0 (pinned)"
+            dtype: "None"
+            out: "None"
+        mathema.surface: "compendium"
+    - name: "dependencies_current"
+      verdict: "proven"
+      note: "generated by mathema verify; checked against the verified store"
+      sketch: "no direct function dependencies, vacuously current"
+      route: "derive"
+      authored:
+        surface: "builtin"
+      meta:
+        mathema.surface: "builtin"
+    - name: "missing[a]"
+      statement: "missing(f, a) propagates"
+      verdict: "holds"
+      n: 36
+      note: "default: a has no annotation, so it may be nan; confirmed on the draws of definition and definition@axis=0. Annotate a as float to say so; to write this row, run: mathema claims numpy.cumsum --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "a"
+          evidence: "confirmed on the draws of definition and definition@axis=0"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default: a has no annotation, so it may be nan; confirmed on the draws of definition and definition@axis=0. Annotate a as float to say so; to write this row, run: mathema claims numpy.cumsum --write"
+        mathema.surface: "mathema"
+  concepts: []
+  references: {}
+  reasoning:
+    - step: "intent"
+      claim: "Return the cumulative sum of the elements along a given axis."
+      basis: "documented; the author's stated purpose"
+    - step: "evidence"
+      claim: "for a in (R | {missing})^n|absent, f(a) = cumsum(a)"
+      basis: "probed, n=110"
+    - step: "evidence"
+      claim: "for a in (R | {missing})^(m,n)|absent, f(a, axis=0) = cumsum(a, axis=0)"
+      basis: "probed, n=109"
+    - step: "evidence"
+      claim: "missing(f, a) propagates"
+      basis: "probed, n=36"
+    - step: "refutation"
+      claim: "NOT (absent(f, a) raises)"
+      basis: "counterexample a = None: f returned [null]"
+    - step: "derivation"
+      claim: ""
+      basis: "no direct function dependencies, vacuously current"
+  lineage:
+    generated_by: "mathema 0.6.1"
+    CDD_spec_version: "0.2.0"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+  meta:
+    mathema.concept_sources:
+      keyword:
+        - "conservation"
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
+    mathema.premise_state: {}
+    mathema.intent_provenance: "declared"

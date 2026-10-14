@@ -1,0 +1,546 @@
+# machine record; binds to form 159084dbaa21
+numpy.clip:
+  schema_version: "0.2.0"
+  name: "clip"
+  signature: "(a, a_min=<no value>, a_max=<no value>, out=None, *, min=<no value>, max=<no value>, **kwargs)"
+  intent: "Clip (limit) the values in an array. Given an interval, values outside the interval are clipped to the interval edges.  For example, if an interval of ``[0, 1]`` is specified, values smaller than 0 become 0, and values larger than 1 become 1."
+  grammar: "mathema"
+  tolerance: 1.0e-09
+  identity:
+    form: "159084dbaa21"
+    sig: "7afce0f038b7"
+    tier: 2
+    source_available: true
+    pure: true
+    claims_fingerprint: "959ba07b9841"
+    pin: "none"
+    integrity: "v2:453add4571ab21da"
+  math: null
+  claims:
+    - name: "absent[a]"
+      statement: "absent(f, a) raises"
+      verdict: "holds"
+      n: 2
+      note: "default: a has no annotation, so it may be None, and f raises on it; confirmed on the draws of clip_lower and definition. Annotate a as float to exclude None; to write this row, run: mathema claims numpy.clip --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "absent"
+          parameter: "a"
+          evidence: "confirmed on the draws of clip_lower and definition"
+          behaviour: "raises"
+          source: "default"
+          reason: "default: a has no annotation, so it may be None, and f raises on it; confirmed on the draws of clip_lower and definition. Annotate a as float to exclude None; to write this row, run: mathema claims numpy.clip --write"
+        mathema.surface: "mathema"
+    - name: "absent[a_max]"
+      statement: "absent(f, a_max) raises"
+      verdict: "falsified"
+      n: 1
+      counterexample: "a = [-3.47], a_min = -4.63, a_max = None: f returned [-3.47]"
+      note: "default: a_max has no annotation, so it may be None; f drops instead: None in, [-3.47] out. (i) if [-3.47] is the answer f should give for a_max = None, state: absent(f, a_max) drops
+(ii) if not, make f raise
+(iii) to accept it as a discovery, run: mathema accept numpy.clip absent[a_max] --as discovery --corrected \"absent(f, a_max) drops\""
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "absent"
+          parameter: "a_max"
+          evidence: "confirmed on the 185 draws of definition"
+          behaviour: "raises"
+          source: "default"
+          reason: "default: a_max has no annotation, so it may be None; f drops instead: None in, [-3.47] out"
+          next: "(i) if [-3.47] is the answer f should give for a_max = None, state: absent(f, a_max) drops
+(ii) if not, make f raise
+(iii) to accept it as a discovery, run: mathema accept numpy.clip absent[a_max] --as discovery --corrected \"absent(f, a_max) drops\""
+        mathema.surface: "mathema"
+    - name: "absent[a_min]"
+      statement: "absent(f, a_min) raises"
+      verdict: "falsified"
+      n: 1
+      counterexample: "a = [0.0], a_min = None, a_max = 6.06: f returned [0.0]"
+      note: "default: a_min has no annotation, so it may be None; f drops instead: None in, [0.0] out. (i) if [0.0] is the answer f should give for a_min = None, state: absent(f, a_min) drops
+(ii) if not, make f raise
+(iii) to accept it as a discovery, run: mathema accept numpy.clip absent[a_min] --as discovery --corrected \"absent(f, a_min) drops\""
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "absent"
+          parameter: "a_min"
+          evidence: "confirmed on the 185 draws of definition"
+          behaviour: "raises"
+          source: "default"
+          reason: "default: a_min has no annotation, so it may be None; f drops instead: None in, [0.0] out"
+          next: "(i) if [0.0] is the answer f should give for a_min = None, state: absent(f, a_min) drops
+(ii) if not, make f raise
+(iii) to accept it as a discovery, run: mathema accept numpy.clip absent[a_min] --as discovery --corrected \"absent(f, a_min) drops\""
+        mathema.surface: "mathema"
+    - name: "clip_lower"
+      statement: "assuming a_min <= a_max, for a in R|absent|missing, a_min in R|absent|missing, a_max in R|absent|missing, a_min <= f(a, a_min, a_max)"
+      verdict: "holds"
+      n: 122
+      note: "derive could not decide the branch at line 77 (a_min is np._NoValue and a_max is np._NoValue), so the probe decided it by running the code; at a = None f raised TypeError; held at their defaults: max=<no value>, min=<no value>, out=None"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+        a_min:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+        a_max:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/bounds.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3]⊔far(≤1.79769e+308)[p=.1], a_min~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3]⊔far(≤1.79769e+308)[p=.1], a_max~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3]⊔far(≤1.79769e+308)[p=.1], seed=20260718, n=122"
+        mathema.confidence:
+          score: 4.9
+          stars: 2
+          max_stars: 5
+          n: 122
+          factors:
+            branches: 3
+            loops: 0
+            params: 4
+            wide_domain: 0
+            float_extremes: 0
+        mathema.missing:
+          admitted:
+            a:
+              absent: true
+              missing:
+                - "nan"
+            a_min:
+              absent: true
+              missing:
+                - "nan"
+            a_max:
+              absent: true
+              missing:
+                - "nan"
+          tried:
+            a:
+              - "None"
+              - "nan"
+            a_min:
+              - "None"
+              - "nan"
+            a_max:
+              - "None"
+              - "nan"
+          executed:
+            a:
+              None: "raised TypeError"
+          behaviour:
+            a:
+              None: "raises"
+          said:
+            a:
+              None: "at a = None f raised TypeError"
+          means: "missing for a (unannotated) means nan; missing for a_min (unannotated) means nan; missing for a_max (unannotated) means nan"
+          origin:
+            a:
+              absent: "type"
+              missing: "type"
+            a_min:
+              absent: "type"
+              missing: "type"
+            a_max:
+              absent: "type"
+              missing: "type"
+        mathema.routes_attempted: "routes attempted, derive: underivable (branch pruning couldn't settle this under the declared domain: line 77 ('a_min is np._NoValue and a_max is np._NoValue'): 'a_min' is a local variable not traceable to unmodified parameters via a straight-line chain of assignments before the first branch (or is itself a reassigned parameter) (branch pruning only resolves conditions over unmodified parameters or expressions built from them); 'a_max' is a local variable not traceable to unmodified parameters via a straight-line chain of assignments before the first branch (or is itself a reassigned parameter) (branch pruning only resolves conditions over unmodified parameters or expressions built from them); line 80 ('a_min is np._NoValue'): 'a_min' is a local variable not traceable to unmodified parameters via a straight-line chain of assignments before the first branch (or is itself a reassigned parameter) (branch pruning only resolves conditions over unmodified parameters or expressions built from them); line 83 ('a_max is np._NoValue'): 'a_max' is a local variable not traceable to unmodified parameters via a straight-line chain of assignments before the first branch (or is itself a reassigned parameter) (branch pruning only resolves conditions over unmodified parameters or expressions built from them); line 86 ('min is not np._NoValue or max is not np._NoValue'): the other side ('np._NoValue') isn't a literal value; the other side ('np._NoValue') isn't a literal value); probe: holds"
+        mathema.derive_status: "unliftable"
+        mathema.defaults:
+          numpy.clip:
+            max: "<no value>"
+            min: "<no value>"
+            out: "None"
+        mathema.surface: "compendium"
+    - name: "clip_upper"
+      statement: "assuming a_min <= a_max, for a in R|absent|missing, a_min in R|absent|missing, a_max in R|absent|missing, f(a, a_min, a_max) <= a_max"
+      verdict: "holds"
+      n: 117
+      note: "derive could not decide the branch at line 77 (a_min is np._NoValue and a_max is np._NoValue), so the probe decided it by running the code; at a = nan f gave nan back; held at their defaults: max=<no value>, min=<no value>, out=None"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+        a_min:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+        a_max:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/bounds.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3]⊔far(≤1.79769e+308)[p=.1], a_min~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3]⊔far(≤1.79769e+308)[p=.1], a_max~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3]⊔far(≤1.79769e+308)[p=.1], seed=20260718, n=117"
+        mathema.confidence:
+          score: 4.9
+          stars: 2
+          max_stars: 5
+          n: 117
+          factors:
+            branches: 3
+            loops: 0
+            params: 4
+            wide_domain: 0
+            float_extremes: 0
+        mathema.missing:
+          admitted:
+            a:
+              absent: true
+              missing:
+                - "nan"
+            a_min:
+              absent: true
+              missing:
+                - "nan"
+            a_max:
+              absent: true
+              missing:
+                - "nan"
+          tried:
+            a:
+              - "None"
+              - "nan"
+            a_min:
+              - "None"
+              - "nan"
+            a_max:
+              - "None"
+              - "nan"
+          executed:
+            a:
+              nan: "nan in, nan out (propagates)"
+          behaviour:
+            a:
+              nan: "propagates"
+          said:
+            a:
+              nan: "at a = nan f gave nan back"
+          means: "missing for a (unannotated) means nan; missing for a_min (unannotated) means nan; missing for a_max (unannotated) means nan"
+          origin:
+            a:
+              absent: "type"
+              missing: "type"
+            a_min:
+              absent: "type"
+              missing: "type"
+            a_max:
+              absent: "type"
+              missing: "type"
+        mathema.routes_attempted: "routes attempted, derive: underivable (branch pruning couldn't settle this under the declared domain: line 77 ('a_min is np._NoValue and a_max is np._NoValue'): 'a_min' is a local variable not traceable to unmodified parameters via a straight-line chain of assignments before the first branch (or is itself a reassigned parameter) (branch pruning only resolves conditions over unmodified parameters or expressions built from them); 'a_max' is a local variable not traceable to unmodified parameters via a straight-line chain of assignments before the first branch (or is itself a reassigned parameter) (branch pruning only resolves conditions over unmodified parameters or expressions built from them); line 80 ('a_min is np._NoValue'): 'a_min' is a local variable not traceable to unmodified parameters via a straight-line chain of assignments before the first branch (or is itself a reassigned parameter) (branch pruning only resolves conditions over unmodified parameters or expressions built from them); line 83 ('a_max is np._NoValue'): 'a_max' is a local variable not traceable to unmodified parameters via a straight-line chain of assignments before the first branch (or is itself a reassigned parameter) (branch pruning only resolves conditions over unmodified parameters or expressions built from them); line 86 ('min is not np._NoValue or max is not np._NoValue'): the other side ('np._NoValue') isn't a literal value; the other side ('np._NoValue') isn't a literal value); probe: holds"
+        mathema.derive_status: "unliftable"
+        mathema.defaults:
+          numpy.clip:
+            max: "<no value>"
+            min: "<no value>"
+            out: "None"
+        mathema.surface: "compendium"
+    - name: "definition"
+      statement: "for a in (R | {missing})^n|absent, a_min in R|absent|missing, a_max in R|absent|missing, f(a, a_min, a_max) = a/4 + a_max/2 + a_min/4 + abs(a - a_min)/4 - abs(a/2 - a_max + a_min/2 + abs(a - a_min)/2)/2"
+      verdict: "holds"
+      n: 185
+      note: "derive could not decide the claim over the vector or matrix a, so the probe decided it by running the code; at a_min = None f returned [0.0], so it drops the absence; at a_min = nan f gave [nan, nan] back; at a_max = None f returned [-3.47], so it drops the absence; at a_max = nan f gave nan back; at a = [nan] f gave nan back; at a = None f raised TypeError; held at their defaults: max=<no value>, min=<no value>, out=None"
+      route: "probe"
+      authored:
+        surface: "compendium"
+        route: "best"
+      domain:
+        a:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          dims:
+            - "n"
+          absent: true
+          members:
+            - "nan"
+        a_min:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+        a_max:
+          base_type: "R"
+          pieces:
+            - set:
+                - sentinel: "missing"
+          excluded: []
+          explicit_type: true
+          absent: true
+          members:
+            - "nan"
+      meta:
+        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium_source: "mathema/compendium/numpy/bounds.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.sampling: "a~R^n, a_min~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3]⊔far(≤1.79769e+308)[p=.1], a_max~U(-10,10)⊔{0,±1,±.5,2,±1e-9,±1e6}[p=.3]⊔far(≤1.79769e+308)[p=.1], seed=20260718, n=185"
+        mathema.confidence:
+          score: 5.5
+          stars: 2
+          max_stars: 5
+          n: 185
+          factors:
+            branches: 3
+            loops: 0
+            params: 4
+            wide_domain: 0
+            float_extremes: 0
+        mathema.missing:
+          admitted:
+            a:
+              absent: true
+              missing:
+                - "nan"
+            a_min:
+              absent: true
+              missing:
+                - "nan"
+            a_max:
+              absent: true
+              missing:
+                - "nan"
+          tried:
+            a_min:
+              - "None"
+              - "nan"
+            a_max:
+              - "None"
+              - "nan"
+          executed:
+            a_min:
+              None: "None in, [0.0] out (drops)"
+              nan: "nan in, [nan, nan] out (propagates)"
+            a_max:
+              None: "None in, [-3.47] out (drops)"
+              nan: "nan in, nan out (propagates)"
+            a:
+              nan: "nan slot in, nan out (propagates)"
+              None: "raised TypeError"
+          behaviour:
+            a_min:
+              None: "drops"
+              nan: "propagates"
+            a_max:
+              None: "drops"
+              nan: "propagates"
+            a:
+              nan: "propagates"
+              None: "raises"
+          said:
+            a_min:
+              None: "at a_min = None f returned [0.0], so it drops the absence"
+              nan: "at a_min = nan f gave [nan, nan] back"
+            a_max:
+              None: "at a_max = None f returned [-3.47], so it drops the absence"
+              nan: "at a_max = nan f gave nan back"
+            a:
+              nan: "at a = [nan] f gave nan back"
+              None: "at a = None f raised TypeError"
+          means: "missing for a (unannotated) means nan; missing for a_min (unannotated) means nan; missing for a_max (unannotated) means nan"
+          origin:
+            a:
+              absent: "type"
+              missing: "type"
+            a_min:
+              absent: "type"
+              missing: "type"
+            a_max:
+              absent: "type"
+              missing: "type"
+        mathema.drawn:
+          form: "vec"
+          smallest:
+            - 1
+            - 1
+          largest:
+            - 8
+            - 1
+          entries: 809
+        mathema.routes_attempted: "routes attempted, derive: underivable (derive could not decide the claim over the vector or matrix a); probe: holds"
+        mathema.derive_status: "unliftable"
+        mathema.defaults:
+          numpy.clip:
+            max: "<no value>"
+            min: "<no value>"
+            out: "None"
+        mathema.surface: "compendium"
+    - name: "dependencies_current"
+      verdict: "proven"
+      note: "generated by mathema verify; checked against the verified store"
+      sketch: "no direct function dependencies, vacuously current"
+      route: "derive"
+      authored:
+        surface: "builtin"
+      meta:
+        mathema.surface: "builtin"
+    - name: "missing[a]"
+      statement: "missing(f, a) propagates"
+      verdict: "holds"
+      n: 36
+      note: "default: a has no annotation, so it may be nan; confirmed on the draws of clip_upper and definition. Annotate a as float to say so; to write this row, run: mathema claims numpy.clip --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "a"
+          evidence: "confirmed on the draws of clip_upper and definition"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default: a has no annotation, so it may be nan; confirmed on the draws of clip_upper and definition. Annotate a as float to say so; to write this row, run: mathema claims numpy.clip --write"
+        mathema.surface: "mathema"
+    - name: "missing[a_max]"
+      statement: "missing(f, a_max) propagates"
+      verdict: "holds"
+      n: 1
+      note: "default: a_max has no annotation, so it may be nan; confirmed on the 185 draws of definition. Annotate a_max as float to say so; to write this row, run: mathema claims numpy.clip --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "a_max"
+          evidence: "confirmed on the 185 draws of definition"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default: a_max has no annotation, so it may be nan; confirmed on the 185 draws of definition. Annotate a_max as float to say so; to write this row, run: mathema claims numpy.clip --write"
+        mathema.surface: "mathema"
+    - name: "missing[a_min]"
+      statement: "missing(f, a_min) propagates"
+      verdict: "holds"
+      n: 1
+      note: "default: a_min has no annotation, so it may be nan; confirmed on the 185 draws of definition. Annotate a_min as float to say so; to write this row, run: mathema claims numpy.clip --write"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "missing"
+          parameter: "a_min"
+          evidence: "confirmed on the 185 draws of definition"
+          behaviour: "propagates"
+          source: "default"
+          reason: "default: a_min has no annotation, so it may be nan; confirmed on the 185 draws of definition. Annotate a_min as float to say so; to write this row, run: mathema claims numpy.clip --write"
+        mathema.surface: "mathema"
+  concepts: []
+  references: {}
+  reasoning:
+    - step: "intent"
+      claim: "Clip (limit) the values in an array. Given an interval, values outside the interval are clipped to the interval edges.  For example, if an interval of ``[0, 1]`` is specified, values smaller than 0 become 0, and values larger than 1 become 1."
+      basis: "documented; the author's stated purpose"
+    - step: "evidence"
+      claim: "assuming a_min <= a_max, for a in R|absent|missing, a_min in R|absent|missing, a_max in R|absent|missing, a_min <= f(a, a_min, a_max)"
+      basis: "probed, n=122"
+    - step: "evidence"
+      claim: "assuming a_min <= a_max, for a in R|absent|missing, a_min in R|absent|missing, a_max in R|absent|missing, f(a, a_min, a_max) <= a_max"
+      basis: "probed, n=117"
+    - step: "evidence"
+      claim: "for a in (R | {missing})^n|absent, a_min in R|absent|missing, a_max in R|absent|missing, f(a, a_min, a_max) = a/4 + a_max/2 + a_min/4 + abs(a - a_min)/4 - abs(a/2 - a_max + a_min/2 + abs(a - a_min)/2)/2"
+      basis: "probed, n=185"
+    - step: "evidence"
+      claim: "missing(f, a) propagates"
+      basis: "probed, n=36"
+    - step: "evidence"
+      claim: "absent(f, a) raises"
+      basis: "probed, n=2"
+    - step: "evidence"
+      claim: "missing(f, a_min) propagates"
+      basis: "probed, n=1"
+    - step: "refutation"
+      claim: "NOT (absent(f, a_min) raises)"
+      basis: "counterexample a = [0.0], a_min = None, a_max = 6.06: f returned [0.0]"
+    - step: "evidence"
+      claim: "missing(f, a_max) propagates"
+      basis: "probed, n=1"
+    - step: "refutation"
+      claim: "NOT (absent(f, a_max) raises)"
+      basis: "counterexample a = [-3.47], a_min = -4.63, a_max = None: f returned [-3.47]"
+    - step: "derivation"
+      claim: ""
+      basis: "no direct function dependencies, vacuously current"
+  lineage:
+    generated_by: "mathema 0.6.1"
+    CDD_spec_version: "0.2.0"
+    date: "2026-10-11"
+    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+  raises:
+    - "TypeError"
+    - "ValueError"
+  meta:
+    mathema.effects:
+      line: "no side effects"
+      sites: []
+      writes: []
+    mathema.premise_state: {}
+    mathema.intent_provenance: "declared"
