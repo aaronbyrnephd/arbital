@@ -12,9 +12,9 @@ arbital._expected_tail_draws:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "e1926849efe2"
+    claims_fingerprint: "3c5c89723c75"
     pin: "none"
-    integrity: "v2:aaf6a32a7e7d0a7b"
+    integrity: "v2:bab7cab88710a19b"
   math:
     unicode: "n_shuffles*(1 - confidence)"
     latex: "n_{shuffles} \\left(1 - confidence\\right)"
@@ -81,19 +81,20 @@ arbital._expected_tail_draws:
       statement: "missing(f, confidence) propagates"
       verdict: "holds"
       n: 4
-      note: "default for a float, which may be nan; confirmed on the draws of some_draws_always_land_beyond_a_valid_quantile, some_draws_always_land_beyond_a_valid_quantile[float], never_more_draws_than_were_taken and never_more_draws_than_were_taken[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital._expected_tail_draws --write"
+      note: "stated; confirmed on the draws of some_draws_always_land_beyond_a_valid_quantile, some_draws_always_land_beyond_a_valid_quantile[float], never_more_draws_than_were_taken and never_more_draws_than_were_taken[float]"
       route: "probe:counterfactual"
       authored:
-        surface: "suggested"
+        surface: "claims-file"
+        route: "best"
       meta:
         mathema.policy:
           kind: "missing"
           parameter: "confidence"
-          evidence: "confirmed on the draws of some_draws_always_land_beyond_a_valid_quantile, some_draws_always_land_beyond_a_valid_quantile[float], never_more_draws_than_were_taken and never_more_draws_than_were_taken[float]"
           behaviour: "propagates"
-          source: "default"
-          reason: "default for a float, which may be nan; confirmed on the draws of some_draws_always_land_beyond_a_valid_quantile, some_draws_always_land_beyond_a_valid_quantile[float], never_more_draws_than_were_taken and never_more_draws_than_were_taken[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital._expected_tail_draws --write"
-        mathema.surface: "mathema"
+          source: "stated"
+          evidence: "confirmed on the draws of some_draws_always_land_beyond_a_valid_quantile, some_draws_always_land_beyond_a_valid_quantile[float], never_more_draws_than_were_taken and never_more_draws_than_were_taken[float]"
+          reason: "stated; confirmed on the draws of some_draws_always_land_beyond_a_valid_quantile, some_draws_always_land_beyond_a_valid_quantile[float], never_more_draws_than_were_taken and never_more_draws_than_were_taken[float]"
+        mathema.surface: "declared"
     - name: "never_more_draws_than_were_taken"
       statement: "for n_shuffles in [1, 1000] : int, confidence in (0.0, 1.0) : float|missing, f(n_shuffles, confidence) < n_shuffles"
       verdict: "holds"
@@ -126,11 +127,13 @@ arbital._expected_tail_draws:
                 - sentinel: "missing"
           excluded:
             - sentinel: "None"
-          explicit_type: false
+          explicit_type: true
           members:
             - "nan"
+          clause: true
       meta:
-        mathema.sampling: "n_shuffles~U{1..1000}, confidence~U(0,1)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=127"
+        mathema.pending_supersession: "for n_shuffles in [1, 1000] : int, confidence in [1e-12, 1.0) : float|absent|missing, f(n_shuffles, confidence) < n_shuffles"
+        mathema.sampling: "n_shuffles~U{1..1000}, confidence~(0.0, 1.0), seed=20260718, n=127"
         mathema.confidence:
           score: 10.0
           stars: 4
@@ -163,7 +166,7 @@ arbital._expected_tail_draws:
           means: "missing for confidence (float) means nan"
           origin:
             confidence:
-              missing: "type"
+              missing: "written"
         mathema.routes_attempted: "routes attempted, derive: undecided (sympy could not settle strict positivity of confidence*n_shuffles; extensive attempts did not settle it either: exact real-root isolation, interval refinement, factor, cancel, together, expand, widened wall-clock retry; install mathema[smt] to attempt a proof); probe: holds"
         mathema.derive_status: "undecided"
         mathema.float_companion: "never_more_draws_than_were_taken[float]"
@@ -201,10 +204,12 @@ arbital._expected_tail_draws:
                 - sentinel: "missing"
           excluded:
             - sentinel: "None"
-          explicit_type: false
+          explicit_type: true
           members:
             - "nan"
+          clause: true
       meta:
+        mathema.pending_supersession: "for n_shuffles in [1, 1000] : int, confidence in [1e-12, 1.0) : float|absent|missing, f(n_shuffles, confidence) < n_shuffles"
         mathema.missing:
           admitted:
             confidence:
@@ -226,7 +231,7 @@ arbital._expected_tail_draws:
           means: "missing for confidence (float) means nan"
           origin:
             confidence:
-              missing: "type"
+              missing: "written"
         mathema.conditioning:
           kappa: 1.0
           how: "derivative"
@@ -404,10 +409,10 @@ arbital._expected_tail_draws:
       claim: "instantiates: differentiation"
       basis: "deterministic concept tagging"
   lineage:
-    generated_by: "mathema 0.6.1"
+    generated_by: "mathema 0.6.2"
     CDD_spec_version: "0.2.0"
-    date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    date: "2026-10-14"
+    commit: "a80df6b3e3d172188cbe80cc5fd9f1192dc882ef"
   meta:
     mathema.concept_sources:
       mechanism:

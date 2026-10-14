@@ -248,6 +248,18 @@ def test_calibrate_false_reproduces_uncalibrated_profile():
         assert "chance" not in r and "below_chance" not in r and "r_info_adj" not in r
 
 
+def test_missing_mi_or_chance_is_refused_by_both_conclusions():
+    # _chance_adjusted_mi and _is_below_chance draw two conclusions from
+    # the same (mi, chance) pair, so a missing value must not let them
+    # disagree: one may not report a feature as clearing chance while
+    # the other gives it zero relevance for the identical input.
+    for conclusion in (arbital._chance_adjusted_mi, arbital._is_below_chance):
+        with pytest.raises(ValueError):
+            conclusion(float("nan"), 0.1)
+        with pytest.raises(ValueError):
+            conclusion(0.1, float("nan"))
+
+
 def test_calibration_is_deterministic():
     a = arbital.orbits(_frame(_noisy_system()), target="y").table()
     b = arbital.orbits(_frame(_noisy_system()), target="y").table()

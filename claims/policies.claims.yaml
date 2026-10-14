@@ -1,0 +1,129 @@
+arbital.measures.pearson:
+  claims:
+  - name: missing[x]
+    statement: missing(f, x) propagates
+    note: 'written by mathema claims --write: mathema''s default for a numpy.ndarray
+      slot that may be nan'
+  - name: missing[y]
+    statement: missing(f, y) propagates
+    note: 'written by mathema claims --write: mathema''s default for a numpy.ndarray
+      slot that may be nan'
+arbital.measures.spearman:
+  claims:
+  - name: missing[x]
+    statement: missing(f, x) drops
+    note: 'written by mathema claims --write: mathema''s default word for a numpy.ndarray
+      slot that may be nan, not a claim of yours; contradicted by the code on 2026-10-14:
+      f drops, a nan slot in, 1.0 out'
+  - name: missing[y]
+    statement: missing(f, y) drops
+    note: 'written by mathema claims --write: mathema''s default word for a numpy.ndarray
+      slot that may be nan, not a claim of yours; contradicted by the code on 2026-10-14:
+      f drops, a nan slot in, 1.0 out'
+arbital._expected_tail_draws:
+  claims:
+  - name: missing[confidence]
+    statement: missing(f, confidence) propagates
+    note: 'written by mathema claims --write: mathema''s default for a float, which
+      may be nan'
+arbital.geometry._eccentricity:
+  claims:
+  - name: missing[r_apo]
+    statement: missing(f, r_apo) propagates
+    note: 'written by mathema claims --write: mathema''s default for a float, which
+      may be nan'
+arbital.geometry._distance_from_strength:
+  claims:
+  - name: missing[r]
+    statement: missing(f, r) propagates
+    note: 'written by mathema claims --write: mathema''s default for a float, which
+      may be nan'
+arbital.measures.linfoot:
+  claims:
+  - name: missing[mi]
+    statement: missing(f, mi) drops
+    note: 'written by mathema claims --write: mathema''s default word for a float,
+      not a claim of yours; contradicted by the code on 2026-10-14: f ignores the
+      hole, at mi = nan it returns 0.0, and no fill of it changes that'
+arbital.geometry.strength_to_distance:
+  claims:
+  - name: missing[r]
+    statement: missing(f, r) propagates
+    note: 'written by mathema claims --write: mathema''s default for a numpy.ndarray
+      slot that may be nan'
+arbital._relative_gain:
+  claims:
+  - name: missing[top_gain]
+    statement: missing(f, top_gain) propagates
+    note: 'written by mathema claims --write: mathema''s default for a float, which
+      may be nan'
+arbital.measures._nonlinear_share:
+  claims:
+  - name: missing[r_info]
+    statement: missing(f, r_info) drops
+    note: 'written by mathema claims --write: mathema''s default word for a float,
+      not a claim of yours; contradicted by the code on 2026-10-14: f drops, nan in,
+      0.0 out'
+  - name: missing[r_mono]
+    statement: missing(f, r_mono) drops
+    note: 'written by mathema claims --write: mathema''s default word for a float,
+      not a claim of yours; contradicted by the code on 2026-10-14: f ignores the
+      hole, at r_info = 0.364, r_mono = nan it returns 0.0, and no fill of it changes
+      that'
+arbital._is_significant:
+  claims:
+  - name: missing[coefficient]
+    statement: missing(f, coefficient) drops
+    note: 'written by mathema claims --write: mathema''s default word for a float,
+      not a claim of yours; contradicted by the code on 2026-10-14: f drops, nan in,
+      False out'
+  - name: missing[chance]
+    statement: missing(f, chance) drops
+    note: 'written by mathema claims --write: mathema''s default word for a float,
+      not a claim of yours; contradicted by the code on 2026-10-14: f drops, nan in,
+      False out'
+arbital.measures._floored_total:
+  claims:
+  - name: missing[r_info_raw]
+    statement: missing(f, r_info_raw) propagates
+    note: 'written by mathema claims --write: mathema''s default for a float, which
+      may be nan'
+  - name: missing[r_mono]
+    statement: missing(f, r_mono) drops
+    note: 'written by mathema claims --write: mathema''s default word for a float,
+      not a claim of yours; contradicted by the code on 2026-10-14: f drops, nan in,
+      -1.8e+308 out'
+arbital.measures._monotone_strength:
+  claims:
+  - name: missing[r]
+    statement: missing(f, r) propagates
+    note: 'written by mathema claims --write: mathema''s default for a float, which
+      may be nan'
+  - name: missing[rho]
+    statement: missing(f, rho) drops
+    note: 'written by mathema claims --write: mathema''s default word for a float,
+      not a claim of yours; contradicted by the code on 2026-10-14: f ignores the
+      hole, at r = 1.8e+308, rho = nan it returns 1.8e+308, and no fill of it changes
+      that'
+arbital._chance_adjusted_mi:
+  claims:
+  - name: missing[mi]
+    statement: missing(f, mi) raises(ValueError)
+    note: 'written by mathema claims --write: from the guard on line 11'
+  - name: missing[chance]
+    statement: missing(f, chance) raises(ValueError)
+    note: 'written by mathema claims --write: from the guard on line 11'
+arbital._is_below_chance:
+  claims:
+  - name: missing[mi]
+    statement: missing(f, mi) raises(ValueError)
+    note: 'written by mathema claims --write: from the guard on line 8'
+  - name: missing[chance]
+    statement: missing(f, chance) raises(ValueError)
+    note: 'written by mathema claims --write: from the guard on line 8'
+arbital.measures._digamma:
+  claims:
+  - name: missing[x]
+    statement: missing(f, x) propagates
+    note: 'written by mathema claims --write: mathema''s default for a numpy.ndarray
+      slot that may be nan'

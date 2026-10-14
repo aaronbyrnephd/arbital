@@ -646,6 +646,14 @@ def test_select_target_on_a_single_column():
         select_target(np.empty((50, 0)))
 
 
+def test_profile_on_an_empty_sample_raises():
+    x = RNG.standard_normal(5)
+    with pytest.raises(ValueError, match="empty"):
+        arbital.profile(np.array([]), x)
+    with pytest.raises(ValueError, match="empty"):
+        arbital.profile(x, np.array([]))
+
+
 # ---------------------------------------------------------------- dependencies
 
 def test_imports_and_runs_without_mathema():

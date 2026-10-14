@@ -12,9 +12,9 @@ arbital._relative_gain:
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "cc927fd86625"
+    claims_fingerprint: "fb1cd95002c6"
     pin: "none"
-    integrity: "v2:e3c1b483618bfdfc"
+    integrity: "v2:01a9b5bea62ad8ed"
   math: null
   claims:
     - name: "a_nonpositive_gain_is_invisible"
@@ -107,7 +107,6 @@ arbital._relative_gain:
         mathema.routes_attempted: "routes attempted, derive: undecided (a call's arguments may reach a raise guard inside the declared domain and neither a witness nor an exclusion could be established, narrow the domain to where every call returns, or state the raising region as its own raises(...) claim; line 8 ('top_gain <= 0.0') needs a domain specific enough for top_gain); probe: holds"
         mathema.derive_status: "undecided"
         mathema.surface: "declared"
-        mathema.previous_verdict: "proven"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
     - name: "dependencies_current"
       verdict: "proven"
@@ -179,13 +178,12 @@ arbital._relative_gain:
             top_gain:
               missing: "type"
         mathema.surface: "declared"
-        mathema.previous_verdict: "proven"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
     - name: "missing[gain]"
       statement: "missing(f, gain)"
       verdict: "falsified"
       n: 5
-      counterexample: "gain = nan, top_gain = nan: f returned nan"
+      counterexample: "f(gain=nan, top_gain=nan) returns nan"
       note: "f has no single policy for a missing gain. f gives a hole back at gain = nan, top_gain = nan; at gain = nan it returns a value no fill of the hole changes. give each case a premise on another parameter that tells them apart, or make f treat a missing gain one way"
       route: "probe:counterfactual"
       authored:
@@ -205,19 +203,20 @@ arbital._relative_gain:
       statement: "missing(f, top_gain) propagates"
       verdict: "holds"
       n: 3
-      note: "default for a float, which may be nan; confirmed on the draws of the_top_pick_is_full_size, a_nonpositive_gain_is_invisible and a_nonpositive_gain_is_invisible[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital._relative_gain --write"
+      note: "stated; confirmed on the draws of the_top_pick_is_full_size, a_nonpositive_gain_is_invisible and a_nonpositive_gain_is_invisible[float]"
       route: "probe:counterfactual"
       authored:
-        surface: "suggested"
+        surface: "claims-file"
+        route: "best"
       meta:
         mathema.policy:
           kind: "missing"
           parameter: "top_gain"
-          evidence: "confirmed on the draws of the_top_pick_is_full_size, a_nonpositive_gain_is_invisible and a_nonpositive_gain_is_invisible[float]"
           behaviour: "propagates"
-          source: "default"
-          reason: "default for a float, which may be nan; confirmed on the draws of the_top_pick_is_full_size, a_nonpositive_gain_is_invisible and a_nonpositive_gain_is_invisible[float]. Change the word to raises or drops if f should do otherwise; to keep it, run: mathema claims arbital._relative_gain --write"
-        mathema.surface: "mathema"
+          source: "stated"
+          evidence: "confirmed on the draws of the_top_pick_is_full_size, a_nonpositive_gain_is_invisible and a_nonpositive_gain_is_invisible[float]"
+          reason: "stated; confirmed on the draws of the_top_pick_is_full_size, a_nonpositive_gain_is_invisible and a_nonpositive_gain_is_invisible[float]"
+        mathema.surface: "declared"
     - name: "no_positive_gain_anywhere_means_no_size"
       statement: "for gain in [-1.0, 1.0] : float|missing, f(gain, 0) = 0"
       verdict: "proven"
@@ -320,9 +319,10 @@ arbital._relative_gain:
                 - sentinel: "missing"
           excluded:
             - sentinel: "None"
-          explicit_type: false
+          explicit_type: true
           members:
             - "nan"
+          clause: true
         top_gain:
           base_type: "R"
           pieces:
@@ -334,10 +334,12 @@ arbital._relative_gain:
                 - sentinel: "missing"
           excluded:
             - sentinel: "None"
-          explicit_type: false
+          explicit_type: true
           members:
             - "nan"
+          clause: true
       meta:
+        mathema.pending_supersession: "for gain in (0.0, 1.0] : float|absent|missing, top_gain in (0.0, 1.0] : float|absent|missing, d(f(gain, top_gain), gain) >= 0"
         mathema.derive_status: "undecided"
         mathema.routes_attempted: "routes attempted, derive: undecided (a call's arguments may reach a raise guard inside the declared domain and neither a witness nor an exclusion could be established, narrow the domain to where every call returns, or state the raising region as its own raises(...) claim; line 8 ('top_gain <= 0.0') needs a domain specific enough for top_gain); probe: skipped (unrecognized call 'd' in 'd(f(gain, top_gain), gain)', not a known math function, and no function of that name was found in f's module or the calling scope (bind one explicitly with funcs={'d': <function>}))"
         mathema.invalid_conjecture: true
@@ -354,9 +356,9 @@ arbital._relative_gain:
           means: "missing for gain (float) means nan; missing for top_gain (float) means nan"
           origin:
             gain:
-              missing: "type"
+              missing: "written"
             top_gain:
-              missing: "type"
+              missing: "written"
         mathema.surface: "declared"
         mathema.last_supported_commit: "fb26a059bdcc7f3db3365efdc4a157b57b72a4f3"
         mathema.previous_verdict: "invalidated"
@@ -429,7 +431,6 @@ arbital._relative_gain:
         mathema.routes_attempted: "routes attempted, derive: undecided (a call's arguments may reach a raise guard inside the declared domain and neither a witness nor an exclusion could be established, narrow the domain to where every call returns, or state the raising region as its own raises(...) claim; line 8 ('top_gain <= 0.0') needs a domain specific enough for top_gain); probe: holds"
         mathema.derive_status: "undecided"
         mathema.surface: "declared"
-        mathema.previous_verdict: "proven"
         mathema.last_supported_commit: "52a40a030d8c9056657d5c8dfc6b9b8e57d0789e"
   concepts:
     - "differentiation"
@@ -456,12 +457,12 @@ arbital._relative_gain:
     - step: "gap"
       claim: "for gain in [0.0, 1.0] : float|missing, top_gain in (0.0, 1.0] : float|missing, d(f(gain, top_gain), gain) >= 0"
       basis: "a call's arguments may reach a raise guard inside the declared domain and neither a witness nor an exclusion could be established, narrow the domain to where every call returns, or state the raising region as its own raises(...) claim; line 8 ('top_gain <= 0.0') needs a domain specific enough for top_gain"
-    - step: "refutation"
-      claim: "NOT (missing(f, gain))"
-      basis: "counterexample gain = nan, top_gain = nan: f returned nan"
     - step: "evidence"
       claim: "missing(f, top_gain) propagates"
       basis: "probed, n=3"
+    - step: "refutation"
+      claim: "NOT (missing(f, gain))"
+      basis: "counterexample f(gain=nan, top_gain=nan) returns nan"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
@@ -469,10 +470,10 @@ arbital._relative_gain:
       claim: "instantiates: differentiation"
       basis: "deterministic concept tagging"
   lineage:
-    generated_by: "mathema 0.6.1"
+    generated_by: "mathema 0.6.2"
     CDD_spec_version: "0.2.0"
-    date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    date: "2026-10-14"
+    commit: "a80df6b3e3d172188cbe80cc5fd9f1192dc882ef"
   meta:
     mathema.concept_sources:
       mechanism:

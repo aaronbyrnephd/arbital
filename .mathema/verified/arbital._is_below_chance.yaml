@@ -1,4 +1,4 @@
-# machine record; binds to form 4881d4edf4f5
+# machine record; binds to form c8c6e2239eab
 arbital._is_below_chance:
   schema_version: "0.2.0"
   name: "_is_below_chance"
@@ -7,18 +7,15 @@ arbital._is_below_chance:
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "4881d4edf4f5"
+    form: "c8c6e2239eab"
     sig: "6114a904a69d"
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "3c335f46f146"
+    claims_fingerprint: "ae3e1bc3d25b"
     pin: "none"
-    integrity: "v2:bef3c4e9b51b8dd0"
-  math:
-    unicode: "when chance >= mi: 1; otherwise 0"
-    latex: "\\begin{cases} 1 & \\text{for}\\: chance \\geq mi \\\\0 & \\text{otherwise} \\end{cases}"
-    srepr: "Piecewise(ExprCondPair(Integer(1), GreaterThan(Symbol('chance', real=True), Symbol('mi', real=True))), ExprCondPair(Integer(0), true))"
+    integrity: "v2:f5b4669e45e417cd"
+  math: null
   claims:
     - name: "dependencies_current"
       verdict: "proven"
@@ -32,8 +29,8 @@ arbital._is_below_chance:
     - name: "exactly_when_the_adjusted_estimate_is_zero"
       statement: "let g = arbital._chance_adjusted_mi, for mi in [0.0, 50.0] : float|missing, chance in [0.0, 5.0] : float|missing, f(mi, chance) = (g(mi, chance) == 0)"
       verdict: "holds"
-      n: 34
-      note: "derive could not decide it (sympy could not settle when chance >= mi: 1; otherwise 0 == when Max(0, -chance + mi) = 0: 1; otherwise 0 within the wall-clock cap; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry; install mathema[smt] to attempt a proof), so the probe decided it by running the code"
+      n: 162
+      note: "derive could not decide it (bound function g (_chance_adjusted_mi) is not derivable, likely reason: branch: if np.isnan(mi) or np.isnan(chance) (line 11), a branch couldn't be resolved from the declared domain), so the probe decided it by running the code; at mi = nan f raised ValueError; at chance = nan f raised ValueError"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -68,14 +65,14 @@ arbital._is_below_chance:
           members:
             - "nan"
       meta:
-        mathema.sampling: "mi~U(0,50)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=34"
+        mathema.sampling: "mi~U(0,50)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=162"
         mathema.confidence:
-          score: 8.1
-          stars: 3
+          score: 9.3
+          stars: 4
           max_stars: 5
-          n: 34
+          n: 162
           factors:
-            branches: 0
+            branches: 1
             loops: 0
             params: 0
             wide_domain: 0
@@ -95,24 +92,35 @@ arbital._is_below_chance:
               - "nan"
             chance:
               - "nan"
-          indifferent:
-            mi: 1
-            chance: 1
+          executed:
+            mi:
+              nan: "raised ValueError"
+            chance:
+              nan: "raised ValueError"
+          behaviour:
+            mi:
+              nan: "raises"
+            chance:
+              nan: "raises"
+          said:
+            mi:
+              nan: "at mi = nan f raised ValueError"
+            chance:
+              nan: "at chance = nan f raised ValueError"
           means: "missing for mi (float) means nan; missing for chance (float) means nan"
           origin:
             mi:
               missing: "type"
             chance:
               missing: "type"
-        mathema.routes_attempted: "routes attempted, derive: undecided (sympy could not settle when chance >= mi: 1; otherwise 0 == when Max(0, -chance + mi) = 0: 1; otherwise 0 within the wall-clock cap; extensive attempts did not settle it either: exact real-root isolation, interval refinement, widened wall-clock retry; install mathema[smt] to attempt a proof); probe: holds"
-        mathema.derive_status: "undecided"
-        mathema.timeout: "fast"
+        mathema.routes_attempted: "routes attempted, derive: underivable (bound function g (_chance_adjusted_mi) is not derivable, likely reason: branch: if np.isnan(mi) or np.isnan(chance) (line 11), a branch couldn't be resolved from the declared domain); probe: holds"
+        mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "false_above_chance"
       statement: "assuming mi > chance, for mi in [0.0, 50.0] : float|missing, chance in [0.0, 5.0] : float|missing, f(mi, chance) = False"
       verdict: "holds"
-      n: 27
-      note: "derive could not decide it (claim statement not derivable: non-numeric constant False), so the probe decided it by running the code"
+      n: 134
+      note: "derive could not decide the branch at line 8 (np.isnan(mi) or np.isnan(chance)), so the probe decided it by running the code"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -147,14 +155,14 @@ arbital._is_below_chance:
           members:
             - "nan"
       meta:
-        mathema.sampling: "mi~U(0,50)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=27"
+        mathema.sampling: "mi~U(0,50)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=134"
         mathema.confidence:
-          score: 7.8
-          stars: 3
+          score: 9.1
+          stars: 4
           max_stars: 5
-          n: 27
+          n: 134
           factors:
-            branches: 0
+            branches: 1
             loops: 0
             params: 0
             wide_domain: 0
@@ -180,52 +188,52 @@ arbital._is_below_chance:
               missing: "type"
             chance:
               missing: "type"
-        mathema.routes_attempted: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant False); probe: holds"
+        mathema.routes_attempted: "routes attempted, derive: underivable (branch pruning couldn't settle this under the declared domain: line 8 ('np.isnan(mi) or np.isnan(chance)'): condition shape 'np.isnan(mi)' isn't recognized (only and/or/not, a bare name, or a single 'param <op> literal' comparison are); condition shape 'np.isnan(chance)' isn't recognized (only and/or/not, a bare name, or a single 'param <op> literal' comparison are)); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
     - name: "missing[chance]"
-      statement: "missing(f, chance) propagates"
-      verdict: "falsified"
-      n: 2
-      counterexample: "mi = 18.2, chance = nan: f returned False"
-      note: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at mi = 18.2, chance = nan it returns False, and no fill of it changes that. give the calls that ignore chance a premise on another parameter that tells them apart, or make f treat a missing chance one way"
-      route: "probe:counterfactual"
+      statement: "missing(f, chance) raises(ValueError)"
+      verdict: "proven"
+      n: 1
+      note: "stated; from the guard on line 8; confirmed on the 162 draws of exactly_when_the_adjusted_estimate_is_zero"
+      route: "examine"
       authored:
-        surface: "suggested"
+        surface: "claims-file"
+        route: "best"
       meta:
         mathema.policy:
           kind: "missing"
           parameter: "chance"
-          evidence: "confirmed on the 34 draws of exactly_when_the_adjusted_estimate_is_zero"
-          behaviour: "propagates"
-          source: "default"
-          reason: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at mi = 18.2, chance = nan it returns False, and no fill of it changes that"
-          next: "give the calls that ignore chance a premise on another parameter that tells them apart, or make f treat a missing chance one way"
-        mathema.surface: "mathema"
+          behaviour: "raises"
+          exception: "ValueError"
+          source: "stated"
+          evidence: "confirmed on the 162 draws of exactly_when_the_adjusted_estimate_is_zero"
+          reason: "stated; from the guard on line 8; confirmed on the 162 draws of exactly_when_the_adjusted_estimate_is_zero"
+        mathema.surface: "declared"
     - name: "missing[mi]"
-      statement: "missing(f, mi) propagates"
-      verdict: "falsified"
-      n: 2
-      counterexample: "mi = nan, chance = 0.308: f returned False"
-      note: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at mi = nan, chance = 0.308 it returns False, and no fill of it changes that. give the calls that ignore mi a premise on another parameter that tells them apart, or make f treat a missing mi one way"
-      route: "probe:counterfactual"
+      statement: "missing(f, mi) raises(ValueError)"
+      verdict: "proven"
+      n: 1
+      note: "stated; from the guard on line 8; confirmed on the 162 draws of exactly_when_the_adjusted_estimate_is_zero"
+      route: "examine"
       authored:
-        surface: "suggested"
+        surface: "claims-file"
+        route: "best"
       meta:
         mathema.policy:
           kind: "missing"
           parameter: "mi"
-          evidence: "confirmed on the 34 draws of exactly_when_the_adjusted_estimate_is_zero"
-          behaviour: "propagates"
-          source: "default"
-          reason: "mathema's default word for a float, not a claim of yours; f ignores the hole instead: at mi = nan, chance = 0.308 it returns False, and no fill of it changes that"
-          next: "give the calls that ignore mi a premise on another parameter that tells them apart, or make f treat a missing mi one way"
-        mathema.surface: "mathema"
+          behaviour: "raises"
+          exception: "ValueError"
+          source: "stated"
+          evidence: "confirmed on the 162 draws of exactly_when_the_adjusted_estimate_is_zero"
+          reason: "stated; from the guard on line 8; confirmed on the 162 draws of exactly_when_the_adjusted_estimate_is_zero"
+        mathema.surface: "declared"
     - name: "true_at_or_below_chance"
       statement: "assuming mi <= chance, for mi in [0.0, 5.0] : float|missing, chance in [0.0, 5.0] : float|missing, f(mi, chance) = True"
       verdict: "holds"
-      n: 19
-      note: "derive could not decide it (claim statement not derivable: non-numeric constant True), so the probe decided it by running the code"
+      n: 83
+      note: "derive could not decide the branch at line 8 (np.isnan(mi) or np.isnan(chance)), so the probe decided it by running the code"
       route: "probe"
       authored:
         surface: "claims-file"
@@ -260,14 +268,14 @@ arbital._is_below_chance:
           members:
             - "nan"
       meta:
-        mathema.sampling: "mi~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=19"
+        mathema.sampling: "mi~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], chance~U(0,5)⊔{lo,hi,mid,±ε}[p=.3], seed=20260718, n=83"
         mathema.confidence:
-          score: 7.2
+          score: 8.4
           stars: 3
           max_stars: 5
-          n: 19
+          n: 83
           factors:
-            branches: 0
+            branches: 1
             loops: 0
             params: 0
             wide_domain: 0
@@ -293,7 +301,7 @@ arbital._is_below_chance:
               missing: "type"
             chance:
               missing: "type"
-        mathema.routes_attempted: "routes attempted, derive: underivable (claim statement not derivable: non-numeric constant True); probe: holds"
+        mathema.routes_attempted: "routes attempted, derive: underivable (branch pruning couldn't settle this under the declared domain: line 8 ('np.isnan(mi) or np.isnan(chance)'): condition shape 'np.isnan(mi)' isn't recognized (only and/or/not, a bare name, or a single 'param <op> literal' comparison are); condition shape 'np.isnan(chance)' isn't recognized (only and/or/not, a bare name, or a single 'param <op> literal' comparison are)); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.surface: "declared"
   concepts: []
@@ -302,32 +310,31 @@ arbital._is_below_chance:
     - step: "intent"
       claim: "Whether a measured MI fails to clear its own chance level."
       basis: "documented; the author's stated purpose"
-    - step: "formalization"
-      claim: "when chance >= mi: 1; otherwise 0"
-      basis: "symbolic lift of the body"
     - step: "evidence"
       claim: "let g = arbital._chance_adjusted_mi, for mi in [0.0, 50.0] : float|missing, chance in [0.0, 5.0] : float|missing, f(mi, chance) = (g(mi, chance) == 0)"
-      basis: "probed, n=34"
+      basis: "probed, n=162"
     - step: "evidence"
       claim: "assuming mi <= chance, for mi in [0.0, 5.0] : float|missing, chance in [0.0, 5.0] : float|missing, f(mi, chance) = True"
-      basis: "probed, n=19"
+      basis: "probed, n=83"
     - step: "evidence"
       claim: "assuming mi > chance, for mi in [0.0, 50.0] : float|missing, chance in [0.0, 5.0] : float|missing, f(mi, chance) = False"
-      basis: "probed, n=27"
-    - step: "refutation"
-      claim: "NOT (missing(f, mi) propagates)"
-      basis: "counterexample mi = nan, chance = 0.308: f returned False"
-    - step: "refutation"
-      claim: "NOT (missing(f, chance) propagates)"
-      basis: "counterexample mi = 18.2, chance = nan: f returned False"
+      basis: "probed, n=134"
+    - step: "derivation"
+      claim: "missing(f, mi) raises(ValueError)"
+      basis: "symbolic derivation"
+    - step: "derivation"
+      claim: "missing(f, chance) raises(ValueError)"
+      basis: "symbolic derivation"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
-    generated_by: "mathema 0.6.1"
+    generated_by: "mathema 0.6.2"
     CDD_spec_version: "0.2.0"
-    date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    date: "2026-10-14"
+    commit: "a80df6b3e3d172188cbe80cc5fd9f1192dc882ef"
+  raises:
+    - "ValueError"
   meta:
     mathema.effects:
       line: "no side effects"
