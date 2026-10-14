@@ -502,6 +502,9 @@ def profile(x, y, k: int = 5, x_discrete: bool = False,
     """
     x = np.asarray(x)
     y = np.asarray(y)
+    if x.size == 0 or y.size == 0:
+        empty = "x" if x.size == 0 else "y"
+        raise ValueError(f"{empty} must not be empty")
     mi = mutual_information_mixed(x, y, x_discrete, y_discrete, k=k)
     r_info_raw = linfoot(mi)
     xf = x.astype(float)
