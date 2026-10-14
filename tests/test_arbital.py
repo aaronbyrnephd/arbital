@@ -644,3 +644,27 @@ def test_select_target_on_a_single_column():
     assert select_target(RNG.standard_normal((50, 1))) == 0
     with pytest.raises(ValueError, match="at least one column"):
         select_target(np.empty((50, 0)))
+
+
+# ---------------------------------------------------------------- dependencies
+
+def test_imports_and_runs_without_mathema():
+    # mathema is a development tool for arbital, not a dependency: with it
+    # unimportable, arbital still imports and computes
+    import subprocess
+    import sys
+    code = (
+        "import sys, importlib.abc\n"
+        "class Block(importlib.abc.MetaPathFinder):\n"
+        "    def find_spec(self, name, path=None, target=None):\n"
+        "        if name == 'mathema' or name.startswith('mathema.'):\n"
+        "            raise ModuleNotFoundError(name)\n"
+        "sys.meta_path.insert(0, Block())\n"
+        "import numpy as np, arbital\n"
+        "x = np.linspace(-1, 1, 200)\n"
+        "print(round(arbital.pearson(x, 2 * x), 6))\n"
+    )
+    out = subprocess.run([sys.executable, "-c", code], capture_output=True,
+                         text=True, check=False)
+    assert out.returncode == 0, out.stderr
+    assert out.stdout.strip() == "1.0"

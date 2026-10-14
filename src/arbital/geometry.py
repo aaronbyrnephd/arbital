@@ -58,8 +58,8 @@ from __future__ import annotations
 from typing import Literal
 
 import numpy as np
-from mathema.types import Mat, UnitInterval, Vec
 
+from ._markers import Mat, UnitInterval, Vec
 from .measures import _nonlinear_share, association_matrix
 
 __all__ = [
