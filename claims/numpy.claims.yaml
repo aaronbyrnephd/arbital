@@ -1,0 +1,14 @@
+compendium: numpy
+versions: ">=1.24,<3"
+
+numpy.cumsum:
+  claims:
+    - name: absent[a]_corrected
+      statement: "absent(f, a) converts"
+      route: probe
+
+numpy.nansum:
+  claims:
+    - name: absent[a]_corrected
+      statement: "absent(f, a) propagates"
+      route: probe
