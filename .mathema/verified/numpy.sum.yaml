@@ -1,4 +1,4 @@
-# machine record; binds to form 0c390ae24b15
+# machine record; binds to form py:4cb4d72aaca4
 numpy.sum:
   schema_version: "0.2.0"
   name: "sum"
@@ -7,41 +7,21 @@ numpy.sum:
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "0c390ae24b15"
+    form: "py:4cb4d72aaca4"
     sig: "01a5d65bc61e"
     tier: 2
     source_available: true
     pure: true
     claims_fingerprint: "c5fa2cb063f0"
     pin: "none"
-    integrity: "v2:384900645f05ae07"
+    integrity: "v2:5349a4e06d14d09a"
   math: null
   claims:
-    - name: "absent[a]"
-      statement: "absent(f, a)"
-      verdict: "falsified"
-      n: 3
-      counterexample: "a = None: f returned None"
-      note: "f has no single policy for a = None. f gives a hole back at a = None; at a = None, axis = 1 it raises AxisError instead. give each case a premise on another parameter that tells them apart, or make f treat a = None one way"
-      route: "probe:counterfactual"
-      authored:
-        surface: "suggested"
-      meta:
-        mathema.policy:
-          kind: "absent"
-          parameter: "a"
-          evidence: "confirmed on the draws of definition, definition@axis=0 and definition@axis=1"
-          source: "observed"
-          reason: "f has no single policy for a = None"
-          next: "give each case a premise on another parameter that tells them apart, or make f treat a = None one way"
-          sentence: "f has no single policy for a = None"
-          said: "f gives a hole back at a = None; at a = None, axis = 1 it raises AxisError instead"
-        mathema.surface: "mathema"
     - name: "definition"
       statement: "for a in (R | {missing})^n|absent, f(a) = sum(a)"
       verdict: "holds"
       n: 138
-      note: "derive could not decide the claim over the vector or matrix a, so the probe decided it by running the code; at a = [nan] f gave nan back; at a = None f gave None back; held at their defaults: axis=None, dtype=None, initial=<no value>, keepdims=<no value>, out=None, where=<no value>"
+      note: "numpy.sum gives no value at a = [1.7976931348623157e+308, 1.7976931348623157e+308], a magnitude corner where the exact value is finite: a finding about its computation; the row stands; derive could not decide the claim over the vector or matrix a, so the probe decided it by running the code; at a = [nan] f gave nan back; at a = None f gave None back; held at their defaults: axis=None, dtype=None, initial=<no value>, keepdims=<no value>, out=None, where=<no value>"
       route: "probe"
       authored:
         surface: "compendium"
@@ -60,7 +40,7 @@ numpy.sum:
           members:
             - "nan"
       meta:
-        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium: "compendium:numpy-2.4"
         mathema.compendium_source: "mathema/compendium/numpy/definitions.claims.yaml"
         mathema.compendium_versions: ">=1.24,<3"
         mathema.sampling: "a~R^n, seed=20260718, n=138"
@@ -75,6 +55,7 @@ numpy.sum:
             params: 5
             wide_domain: 0
             float_extremes: 0
+        mathema.computation_finding: "numpy.sum gives no value at a = [1.7976931348623157e+308, 1.7976931348623157e+308], a magnitude corner where the exact value is finite: a finding about its computation; the row stands"
         mathema.missing:
           admitted:
             a:
@@ -106,7 +87,7 @@ numpy.sum:
           largest:
             - 8
             - 1
-          entries: 673
+          entries: 648
         mathema.routes_attempted: "routes attempted, derive: underivable (derive could not decide the claim over the vector or matrix a); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.defaults:
@@ -121,8 +102,8 @@ numpy.sum:
     - name: "definition@axis=0"
       statement: "for a in (R | {missing})^(m,n)|absent, f(a, axis=0) = sum(a, axis=0)"
       verdict: "holds"
-      n: 138
-      note: "derive could not decide it (the derive route does not model the pinned parameter(s) axis), so the probe decided it by running the code; at a = [[nan, -4.21, 5.88, -8.94, 2.94, -1.7, ...], [5.07, 5.58, -1.46, 3.58, 8.41, 2.9, ...]] f gave [nan, 1.37, 4.41, -5.37, 11.3, 1.2, ...] back; at a = None f gave None back; held at their defaults: axis=0 (pinned), dtype=None, initial=<no value>, keepdims=<no value>, out=None, where=<no value>"
+      n: 136
+      note: "derive could not decide it (the derive route does not model the pinned parameter(s) axis), so the probe decided it by running the code; at a = [[nan, -4.1, 6.46, 8.35, 6.95, 9.89], [-0.902, -8.7, 8.42, 6.93, -8.99, -0.405], [7.55, 8.02, 6.72, -4.99, 1.79, -7.99], [5.97, -9.31, -0.35, 9.35, -8.58, -6.29], [-6.69, -7.16, -6.09, 9.96, 2.81, -9.76]] f gave [nan, -21.2, 15.2, 29.6, -6.02, -14.6] back; at a = None f gave None back; held at their defaults: axis=0 (pinned), dtype=None, initial=<no value>, keepdims=<no value>, out=None, where=<no value>"
       route: "probe"
       authored:
         surface: "compendium"
@@ -142,15 +123,15 @@ numpy.sum:
           members:
             - "nan"
       meta:
-        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium: "compendium:numpy-2.4"
         mathema.compendium_source: "mathema/compendium/numpy/definitions.claims.yaml"
         mathema.compendium_versions: ">=1.24,<3"
-        mathema.sampling: "a~R^(m,n), seed=20260718, n=138"
+        mathema.sampling: "a~R^(m,n), seed=20260718, n=136"
         mathema.confidence:
           score: 6.6
           stars: 3
           max_stars: 5
-          n: 138
+          n: 136
           factors:
             branches: 1
             loops: 0
@@ -165,7 +146,7 @@ numpy.sum:
                 - "nan"
           executed:
             a:
-              nan: "nan slot in, [nan, 1.37, 4.41, -5.37, 11.3, 1.2, ...] out (propagates)"
+              nan: "nan slot in, [nan, -21.2, 15.2, 29.6, -6.02, -14.6] out (propagates)"
               None: "None in, None out (propagates)"
           behaviour:
             a:
@@ -173,7 +154,7 @@ numpy.sum:
               None: "propagates"
           said:
             a:
-              nan: "at a = [[nan, -4.21, 5.88, -8.94, 2.94, -1.7, ...], [5.07, 5.58, -1.46, 3.58, 8.41, 2.9, ...]] f gave [nan, 1.37, 4.41, -5.37, 11.3, 1.2, ...] back"
+              nan: "at a = [[nan, -4.1, 6.46, 8.35, 6.95, 9.89], [-0.902, -8.7, 8.42, 6.93, -8.99, -0.405], [7.55, 8.02, 6.72, -4.99, 1.79, -7.99], [5.97, -9.31, -0.35, 9.35, -8.58, -6.29], [-6.69, -7.16, -6.09, 9.96, 2.81, -9.76]] f gave [nan, -21.2, 15.2, 29.6, -6.02, -14.6] back"
               None: "at a = None f gave None back"
           means: "missing for a (unannotated) means nan"
           origin:
@@ -188,7 +169,7 @@ numpy.sum:
           largest:
             - 8
             - 8
-          entries: 2679
+          entries: 2844
         mathema.routes_attempted: "routes attempted, derive: unsupported (the derive route does not model the pinned parameter(s) axis); probe: holds"
         mathema.derive_status: "unsupported"
         mathema.defaults:
@@ -203,8 +184,8 @@ numpy.sum:
     - name: "definition@axis=1"
       statement: "for a in (R | {missing})^(m,n)|absent, f(a, axis=1) = sum(a, axis=1)"
       verdict: "holds"
-      n: 134
-      note: "derive could not decide it (the derive route does not model the pinned parameter(s) axis), so the probe decided it by running the code; at a = [[nan, 9.71, 4.42, -5.87, 2.12, -9.97], [3.25, 7.21, 5.96, -1.43, 2.29, -3.99], [-3.35, -6.51, -2.29, 1.92, -1.44, -9.82], [-2.04, -4.6, -6.37, -1.93, -4.87, -7.74], [7.61, 1.92, -8.21, 6.99, -5.96, -6.3], [-3.31, -9.23, 1.06, 5.94, 8.28, 8.73]] f gave [nan, 13.3, -21.5, -27.6, -3.96, 11.5] back; at a = None f raised AxisError; held at their defaults: axis=1 (pinned), dtype=None, initial=<no value>, keepdims=<no value>, out=None, where=<no value>"
+      n: 137
+      note: "derive could not decide it (the derive route does not model the pinned parameter(s) axis), so the probe decided it by running the code; at a = [[nan], [-6.21], [4.31], [2.83], [4.75], [-8.24], ...] f gave [nan, -6.21, 4.31, 2.83, 4.75, -8.24, ...] back; at a = None f raised AxisError; held at their defaults: axis=1 (pinned), dtype=None, initial=<no value>, keepdims=<no value>, out=None, where=<no value>"
       route: "probe"
       authored:
         surface: "compendium"
@@ -224,15 +205,15 @@ numpy.sum:
           members:
             - "nan"
       meta:
-        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium: "compendium:numpy-2.4"
         mathema.compendium_source: "mathema/compendium/numpy/definitions.claims.yaml"
         mathema.compendium_versions: ">=1.24,<3"
-        mathema.sampling: "a~R^(m,n), seed=20260718, n=134"
+        mathema.sampling: "a~R^(m,n), seed=20260718, n=137"
         mathema.confidence:
           score: 6.6
           stars: 3
           max_stars: 5
-          n: 134
+          n: 137
           factors:
             branches: 1
             loops: 0
@@ -247,7 +228,7 @@ numpy.sum:
                 - "nan"
           executed:
             a:
-              nan: "nan slot in, [nan, 13.3, -21.5, -27.6, -3.96, 11.5] out (propagates)"
+              nan: "nan slot in, [nan, -6.21, 4.31, 2.83, 4.75, -8.24, ...] out (propagates)"
               None: "raised AxisError"
           behaviour:
             a:
@@ -255,7 +236,7 @@ numpy.sum:
               None: "raises"
           said:
             a:
-              nan: "at a = [[nan, 9.71, 4.42, -5.87, 2.12, -9.97], [3.25, 7.21, 5.96, -1.43, 2.29, -3.99], [-3.35, -6.51, -2.29, 1.92, -1.44, -9.82], [-2.04, -4.6, -6.37, -1.93, -4.87, -7.74], [7.61, 1.92, -8.21, 6.99, -5.96, -6.3], [-3.31, -9.23, 1.06, 5.94, 8.28, 8.73]] f gave [nan, 13.3, -21.5, -27.6, -3.96, 11.5] back"
+              nan: "at a = [[nan], [-6.21], [4.31], [2.83], [4.75], [-8.24], ...] f gave [nan, -6.21, 4.31, 2.83, 4.75, -8.24, ...] back"
               None: "at a = None f raised AxisError"
           means: "missing for a (unannotated) means nan"
           origin:
@@ -270,7 +251,7 @@ numpy.sum:
           largest:
             - 8
             - 8
-          entries: 2662
+          entries: 2669
         mathema.routes_attempted: "routes attempted, derive: unsupported (the derive route does not model the pinned parameter(s) axis); probe: holds"
         mathema.derive_status: "unsupported"
         mathema.defaults:
@@ -294,7 +275,7 @@ numpy.sum:
     - name: "missing[a]"
       statement: "missing(f, a) propagates"
       verdict: "holds"
-      n: 69
+      n: 68
       note: "default: a has no annotation, so it may be nan; confirmed on the draws of definition, definition@axis=0 and definition@axis=1. Annotate a as float to say so; to write this row, run: mathema claims numpy.sum --write"
       route: "probe:counterfactual"
       authored:
@@ -319,24 +300,21 @@ numpy.sum:
       basis: "probed, n=138"
     - step: "evidence"
       claim: "for a in (R | {missing})^(m,n)|absent, f(a, axis=0) = sum(a, axis=0)"
-      basis: "probed, n=138"
+      basis: "probed, n=136"
     - step: "evidence"
       claim: "for a in (R | {missing})^(m,n)|absent, f(a, axis=1) = sum(a, axis=1)"
-      basis: "probed, n=134"
+      basis: "probed, n=137"
     - step: "evidence"
       claim: "missing(f, a) propagates"
-      basis: "probed, n=69"
-    - step: "refutation"
-      claim: "NOT (absent(f, a))"
-      basis: "counterexample a = None: f returned None"
+      basis: "probed, n=68"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
-    generated_by: "mathema 0.6.1"
+    generated_by: "mathema 0.6.3"
     CDD_spec_version: "0.2.0"
-    date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    date: "2026-11-04"
+    commit: "6310e5486e3b60d247b1e871df49dd2f54702c5d"
   raises:
     - "TypeError"
   meta:
@@ -346,3 +324,36 @@ numpy.sum:
       writes: []
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"
+  discoveries:
+    - name: "absent[a]"
+      statement: "absent(f, a)"
+      verdict: "falsified"
+      n: 3
+      counterexample: "a = None: f returned None"
+      note: "f has no single policy for a = None. f gives a hole back at a = None; at a = None, axis = 1 it raises AxisError instead. give each case a premise on another parameter that tells them apart, or make f treat a = None one way"
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "absent"
+          parameter: "a"
+          evidence: "confirmed on the draws of definition, definition@axis=0 and definition@axis=1"
+          source: "observed"
+          reason: "f has no single policy for a = None"
+          next: "give each case a premise on another parameter that tells them apart, or make f treat a = None one way"
+          sentence: "f has no single policy for a = None"
+          said: "f gives a hole back at a = None; at a = None, axis = 1 it raises AxisError instead"
+        mathema.surface: "mathema"
+      acceptance_history:
+        - at: "2026-11-04"
+          as: "discovery"
+          verdict: "falsified"
+          by: "Aaron Byrne"
+          note: "None gives None at the default axis and raises AxisError with axis=1: no single policy, and a policy row cannot be pinned to an axis"
+      accepted:
+        as: "discovery"
+        at: "2026-11-04"
+        form: "0c390ae24b15"
+        by: "Aaron Byrne"
+        note: "None gives None at the default axis and raises AxisError with axis=1: no single policy, and a policy row cannot be pinned to an axis"

@@ -1,4 +1,4 @@
-# machine record; binds to form e2c2cca36955
+# machine record; binds to form py:e2c2cca36955
 numpy.nansum:
   schema_version: "0.2.0"
   name: "nansum"
@@ -7,44 +7,50 @@ numpy.nansum:
   grammar: "mathema"
   tolerance: 1.0e-09
   identity:
-    form: "e2c2cca36955"
+    form: "py:e2c2cca36955"
     sig: "01a5d65bc61e"
     tier: 2
     source_available: true
     pure: true
-    claims_fingerprint: "59ea0d3c6d9e"
+    claims_fingerprint: "985107cc62e6"
     pin: "none"
-    integrity: "v2:05158da06da276e9"
+    integrity: "v2:90806ba3b8b28ef5"
   math: null
   claims:
-    - name: "absent[a]"
-      statement: "absent(f, a) raises"
-      verdict: "falsified"
+    - name: "absent[a]_corrected"
+      statement: "absent(f, a) propagates"
+      verdict: "holds"
       n: 1
-      counterexample: "a = None: f returned None"
-      note: "default: a has no annotation, so it may be None; f propagates instead: None in, None out. (i) if giving None back is intended, state: absent(f, a) propagates
-(ii) if not, make f raise
-(iii) to accept it as a discovery, run: mathema accept numpy.nansum absent[a] --as discovery --corrected \"absent(f, a) propagates\""
+      note: "stated; confirmed on the 110 draws of definition"
       route: "probe:counterfactual"
       authored:
-        surface: "suggested"
+        surface: "compendium"
+        route: "probe"
       meta:
         mathema.policy:
           kind: "absent"
           parameter: "a"
+          behaviour: "propagates"
+          source: "stated"
           evidence: "confirmed on the 110 draws of definition"
-          behaviour: "raises"
-          source: "default"
-          reason: "default: a has no annotation, so it may be None; f propagates instead: None in, None out"
-          next: "(i) if giving None back is intended, state: absent(f, a) propagates
-(ii) if not, make f raise
-(iii) to accept it as a discovery, run: mathema accept numpy.nansum absent[a] --as discovery --corrected \"absent(f, a) propagates\""
-        mathema.surface: "mathema"
+          reason: "stated; confirmed on the 110 draws of definition"
+        mathema.compendium: "compendium:numpy-2.4"
+        mathema.compendium_source: "claims/numpy.claims.yaml"
+        mathema.compendium_versions: ">=1.24,<3"
+        mathema.surface: "compendium"
+        mathema.defaults:
+          numpy.nansum:
+            axis: "None"
+            dtype: "None"
+            initial: "<no value>"
+            keepdims: "<no value>"
+            out: "None"
+            where: "<no value>"
     - name: "definition"
       statement: "for a in (R | {missing})^n|absent, f(a) = sum(a)"
       verdict: "holds"
       n: 110
-      note: "derive could not decide it (line 92: derive reads only straight-line assignments and one return here, not a Assign statement), so the probe decided it by running the code; at a = [nan] f returned 0.0, so it drops the nan slot; at a = None f gave None back; held at their defaults: axis=None, dtype=None, initial=<no value>, keepdims=<no value>, out=None, where=<no value>"
+      note: "numpy.nansum gives no value at a = [1.7976931348623157e+308, 1.7976931348623157e+308], a magnitude corner where the exact value is finite: a finding about its computation; the row stands; derive could not decide it (line 92: derive reads only straight-line assignments and one return here, not a Assign statement), so the probe decided it by running the code; at a = [nan] f returned 0.0, so it drops the nan slot; at a = None f gave None back; held at their defaults: axis=None, dtype=None, initial=<no value>, keepdims=<no value>, out=None, where=<no value>"
       route: "probe"
       authored:
         surface: "compendium"
@@ -63,7 +69,7 @@ numpy.nansum:
           members:
             - "nan"
       meta:
-        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium: "compendium:numpy-2.4"
         mathema.compendium_source: "mathema/compendium/numpy/statistics.claims.yaml"
         mathema.compendium_versions: ">=1.24,<3"
         mathema.sampling: "a~R^n, seed=20260718, n=110"
@@ -78,6 +84,7 @@ numpy.nansum:
             params: 5
             wide_domain: 0
             float_extremes: 0
+        mathema.computation_finding: "numpy.nansum gives no value at a = [1.7976931348623157e+308, 1.7976931348623157e+308], a magnitude corner where the exact value is finite: a finding about its computation; the row stands"
         mathema.missing:
           admitted:
             a:
@@ -109,7 +116,7 @@ numpy.nansum:
           largest:
             - 8
             - 1
-          entries: 544
+          entries: 524
         mathema.routes_attempted: "routes attempted, derive: underivable (line 92: derive reads only straight-line assignments and one return here, not a Assign statement); probe: holds"
         mathema.derive_status: "unliftable"
         mathema.defaults:
@@ -147,7 +154,7 @@ numpy.nansum:
           source: "stated"
           evidence: "confirmed on the 110 draws of definition"
           reason: "stated; confirmed on the 110 draws of definition"
-        mathema.compendium: "compendium:numpy-2.5"
+        mathema.compendium: "compendium:numpy-2.4"
         mathema.compendium_source: "mathema/compendium/numpy/statistics.claims.yaml"
         mathema.compendium_versions: ">=1.24,<3"
         mathema.surface: "compendium"
@@ -171,17 +178,17 @@ numpy.nansum:
     - step: "evidence"
       claim: "missing(f, a) drops"
       basis: "probed, n=17"
-    - step: "refutation"
-      claim: "NOT (absent(f, a) raises)"
-      basis: "counterexample a = None: f returned None"
+    - step: "evidence"
+      claim: "absent(f, a) propagates"
+      basis: "probed, n=1"
     - step: "derivation"
       claim: ""
       basis: "no direct function dependencies, vacuously current"
   lineage:
-    generated_by: "mathema 0.6.1"
+    generated_by: "mathema 0.6.3"
     CDD_spec_version: "0.2.0"
-    date: "2026-10-11"
-    commit: "8eb167eb9d564abd8fd1f06c5df04ced3e7716d2"
+    date: "2026-11-04"
+    commit: "1d86eb3fae19b83ab3fcad8475a104c1291dc561"
   meta:
     mathema.effects:
       line: "no side effects"
@@ -189,3 +196,36 @@ numpy.nansum:
       writes: []
     mathema.premise_state: {}
     mathema.intent_provenance: "declared"
+  discoveries:
+    - name: "absent[a]"
+      statement: "absent(f, a) raises"
+      verdict: "falsified"
+      n: 1
+      counterexample: "a = None: f returned None"
+      note: "default: a has no annotation, so it may be None; f propagates instead: None in, None out. (i) if giving None back is intended, state: absent(f, a) propagates (ii) if not, make f raise (iii) to accept it as a discovery, run: mathema accept numpy.nansum absent[a] --as discovery --corrected \"absent(f, a) propagates\""
+      route: "probe:counterfactual"
+      authored:
+        surface: "suggested"
+      meta:
+        mathema.policy:
+          kind: "absent"
+          parameter: "a"
+          evidence: "confirmed on the 110 draws of definition"
+          behaviour: "raises"
+          source: "default"
+          reason: "default: a has no annotation, so it may be None; f propagates instead: None in, None out"
+          next: "(i) if giving None back is intended, state: absent(f, a) propagates (ii) if not, make f raise (iii) to accept it as a discovery, run: mathema accept numpy.nansum absent[a] --as discovery --corrected \"absent(f, a) propagates\""
+        mathema.surface: "mathema"
+      acceptance_history:
+        - at: "2026-11-04"
+          as: "discovery"
+          verdict: "falsified"
+          by: "Aaron Byrne"
+          note: "state the library's real None policy instead of the default"
+      accepted:
+        as: "discovery"
+        at: "2026-11-04"
+        form: "e2c2cca36955"
+        by: "Aaron Byrne"
+        note: "state the library's real None policy instead of the default"
+      superseded_by: "absent[a]_corrected"
